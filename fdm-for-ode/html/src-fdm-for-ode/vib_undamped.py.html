@@ -1,0 +1,383 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+  <title></title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <style type="text/css">
+td.linenos { background-color: #f0f0f0; padding-right: 10px; }
+span.lineno { background-color: #f0f0f0; padding: 0 5px 0 5px; }
+pre { line-height: 125%; }
+body .hll { background-color: #ffffcc }
+body  { background: #f8f8f8; }
+body .c { color: #008800; font-style: italic } /* Comment */
+body .err { border: 1px solid #FF0000 } /* Error */
+body .k { color: #AA22FF; font-weight: bold } /* Keyword */
+body .o { color: #666666 } /* Operator */
+body .ch { color: #008800; font-style: italic } /* Comment.Hashbang */
+body .cm { color: #008800; font-style: italic } /* Comment.Multiline */
+body .cp { color: #008800 } /* Comment.Preproc */
+body .cpf { color: #008800; font-style: italic } /* Comment.PreprocFile */
+body .c1 { color: #008800; font-style: italic } /* Comment.Single */
+body .cs { color: #008800; font-weight: bold } /* Comment.Special */
+body .gd { color: #A00000 } /* Generic.Deleted */
+body .ge { font-style: italic } /* Generic.Emph */
+body .gr { color: #FF0000 } /* Generic.Error */
+body .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+body .gi { color: #00A000 } /* Generic.Inserted */
+body .go { color: #888888 } /* Generic.Output */
+body .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+body .gs { font-weight: bold } /* Generic.Strong */
+body .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+body .gt { color: #0044DD } /* Generic.Traceback */
+body .kc { color: #AA22FF; font-weight: bold } /* Keyword.Constant */
+body .kd { color: #AA22FF; font-weight: bold } /* Keyword.Declaration */
+body .kn { color: #AA22FF; font-weight: bold } /* Keyword.Namespace */
+body .kp { color: #AA22FF } /* Keyword.Pseudo */
+body .kr { color: #AA22FF; font-weight: bold } /* Keyword.Reserved */
+body .kt { color: #00BB00; font-weight: bold } /* Keyword.Type */
+body .m { color: #666666 } /* Literal.Number */
+body .s { color: #BB4444 } /* Literal.String */
+body .na { color: #BB4444 } /* Name.Attribute */
+body .nb { color: #AA22FF } /* Name.Builtin */
+body .nc { color: #0000FF } /* Name.Class */
+body .no { color: #880000 } /* Name.Constant */
+body .nd { color: #AA22FF } /* Name.Decorator */
+body .ni { color: #999999; font-weight: bold } /* Name.Entity */
+body .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+body .nf { color: #00A000 } /* Name.Function */
+body .nl { color: #A0A000 } /* Name.Label */
+body .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+body .nt { color: #008000; font-weight: bold } /* Name.Tag */
+body .nv { color: #B8860B } /* Name.Variable */
+body .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+body .w { color: #bbbbbb } /* Text.Whitespace */
+body .mb { color: #666666 } /* Literal.Number.Bin */
+body .mf { color: #666666 } /* Literal.Number.Float */
+body .mh { color: #666666 } /* Literal.Number.Hex */
+body .mi { color: #666666 } /* Literal.Number.Integer */
+body .mo { color: #666666 } /* Literal.Number.Oct */
+body .sb { color: #BB4444 } /* Literal.String.Backtick */
+body .sc { color: #BB4444 } /* Literal.String.Char */
+body .sd { color: #BB4444; font-style: italic } /* Literal.String.Doc */
+body .s2 { color: #BB4444 } /* Literal.String.Double */
+body .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+body .sh { color: #BB4444 } /* Literal.String.Heredoc */
+body .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+body .sx { color: #008000 } /* Literal.String.Other */
+body .sr { color: #BB6688 } /* Literal.String.Regex */
+body .s1 { color: #BB4444 } /* Literal.String.Single */
+body .ss { color: #B8860B } /* Literal.String.Symbol */
+body .bp { color: #AA22FF } /* Name.Builtin.Pseudo */
+body .vc { color: #B8860B } /* Name.Variable.Class */
+body .vg { color: #B8860B } /* Name.Variable.Global */
+body .vi { color: #B8860B } /* Name.Variable.Instance */
+body .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+  </style>
+</head>
+<body>
+<h2></h2>
+
+<div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">solver</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Решается задача</span>
+<span class="sd">    u&#39;&#39; + omega**2*u = 0 для t из (0,T], u(0)=U и u&#39;(0)=0,</span>
+<span class="sd">    конечно-разностным методом с постоянным шагом tau</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">Nt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">tau</span><span class="p">))</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Nt</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Nt</span><span class="o">*</span><span class="n">tau</span><span class="p">,</span> <span class="n">Nt</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">U</span>
+    <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">tau</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Nt</span><span class="p">):</span>
+        <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">tau</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">u</span><span class="p">,</span> <span class="n">t</span>
+
+<span class="k">def</span> <span class="nf">u_exact</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">U</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">visualize</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="s1">&#39;r--o&#39;</span><span class="p">)</span>
+    <span class="n">t_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1001</span><span class="p">)</span>  <span class="c1"># мелкая сетка для точного решения</span>
+    <span class="n">u_e</span> <span class="o">=</span> <span class="n">u_exact</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="s1">&#39;on&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">u_e</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">u&#39;приближенное&#39;</span><span class="p">,</span> <span class="s1">u&#39;точное&#39;</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$t$&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$u$&#39;</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">tau = $ </span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">tau</span><span class="p">)</span>
+    <span class="n">umin</span> <span class="o">=</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">min</span><span class="p">();</span>  <span class="n">umax</span> <span class="o">=</span> <span class="o">-</span><span class="n">umin</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">umin</span><span class="p">,</span> <span class="n">umax</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;tmp1.png&#39;</span><span class="p">);</span>  <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;tmp1.pdf&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_three_steps</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="n">omega</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">;</span>  <span class="n">tau</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>  <span class="n">T</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">u_by_hand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+	    <span class="mf">1.000000000000000</span><span class="p">,</span>
+	    <span class="mf">0.802607911978213</span><span class="p">,</span>
+	    <span class="mf">0.288358920740053</span><span class="p">])</span>
+    <span class="n">u</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">u_by_hand</span> <span class="o">-</span> <span class="n">u</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">tol</span> <span class="o">=</span> <span class="mf">1E-14</span>
+    <span class="k">assert</span> <span class="n">diff</span> <span class="o">&lt;</span> <span class="n">tol</span>
+
+<span class="k">def</span> <span class="nf">convergence_rates</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver_function</span><span class="p">,</span> <span class="n">num_periods</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Возвращает m-1 эмпирическую оценку скорости сходимости, </span>
+<span class="sd">    полученную на основе m расчетов, для каждого из которых </span>
+<span class="sd">    шаг по времени уменьшается в два раза.</span>
+<span class="sd">    solver_function(U, omega, tau, T) решает каждую задачу, </span>
+<span class="sd">    для которой T, получается на основе вычислений для </span>
+<span class="sd">    num_periods периодов.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="mf">0.35</span><span class="p">;</span> <span class="n">U</span> <span class="o">=</span> <span class="mf">0.3</span>       <span class="c1"># просто заданные значения</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span>              <span class="c1"># период</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">P</span><span class="o">/</span><span class="mi">30</span>                  <span class="c1"># 30 шагов на период 2*pi/omega</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">P</span><span class="o">*</span><span class="n">num_periods</span>
+
+    <span class="n">tau_values</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">E_values</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">u</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">solver_function</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+        <span class="n">u_e</span> <span class="o">=</span> <span class="n">u_exact</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">)</span>
+        <span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tau</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">u_e</span><span class="o">-</span><span class="n">u</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">tau_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+        <span class="n">E_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+        <span class="n">tau</span> <span class="o">=</span> <span class="n">tau</span><span class="o">/</span><span class="mi">2</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">E_values</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">E_values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span>
+         <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">tau_values</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">tau_values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">r</span>
+
+<span class="k">def</span> <span class="nf">test_convergence_rates</span><span class="p">():</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">convergence_rates</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">solver_function</span><span class="o">=</span><span class="n">solver</span><span class="p">,</span> <span class="n">num_periods</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">tol</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">solver_function</span><span class="o">=</span><span class="n">solver</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">argparse</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--U&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--omega&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--tau&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--num_periods&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--savefig&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">)</span>
+    <span class="c1"># Хак для использования параметров --SCITOOLS (считываются, когда импортируется scitools.std)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--SCITOOLS_easyviz_backend&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">num_periods</span><span class="p">,</span> <span class="n">savefig</span> <span class="o">=</span> \
+       <span class="n">a</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">num_periods</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">savefig</span>
+
+    <span class="n">P</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span>  <span class="c1"># один период</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">P</span><span class="o">*</span><span class="n">num_periods</span>
+    <span class="n">u</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">solver_function</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">num_periods</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="n">visualize</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">visualize_front</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">savefig</span><span class="p">)</span>
+        <span class="c1">#visualize_front_ascii(u, t, U, omega)</span>
+    <span class="c1">#plot_empirical_freq_and_amplitude(u, t, U, omega)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">plot_empirical_freq_and_amplitude</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Находит эмпирически угловую частоту и амплитуду при вычислениях,</span>
+<span class="sd">    зависящую от u и t. u и t могут быть массивами или (в случае </span>
+<span class="sd">    нескольких расчетов) многомерными массивами.</span>
+<span class="sd">    Одно построение графика выполняется для амплитуды и одно для </span>
+<span class="sd">    угловой частоты (на легендах названа просто частотой).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">vib_empirical_analysis</span> <span class="kn">import</span> <span class="n">minmax</span><span class="p">,</span> <span class="n">periods</span><span class="p">,</span> <span class="n">amplitudes</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)):</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span><span class="p">]</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">]</span>
+    <span class="n">legends1</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">legends2</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)):</span>
+        <span class="n">minima</span><span class="p">,</span> <span class="n">maxima</span> <span class="o">=</span> <span class="n">minmax</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">periods</span><span class="p">(</span><span class="n">maxima</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">amplitudes</span><span class="p">(</span><span class="n">minima</span><span class="p">,</span> <span class="n">maxima</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)),</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">legends1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">u&#39;Частота, case</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="s1">&#39;on&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span> <span class="n">a</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="s1">&#39;on&#39;</span><span class="p">)</span>
+        <span class="n">legends2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">u&#39;Амплитуда, case</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)),</span> <span class="p">[</span><span class="n">omega</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;k--&#39;</span><span class="p">)</span>
+    <span class="n">legends1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">u&#39;Точная частота&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">legends1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.8</span><span class="o">*</span><span class="n">omega</span><span class="p">,</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">omega</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;tmp1.png&#39;</span><span class="p">);</span>  <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;tmp1.pdf&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span> <span class="p">[</span><span class="n">U</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="s1">&#39;k--&#39;</span><span class="p">)</span>
+    <span class="n">legends2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">u&#39;Точная амплитуда&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">legends2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.8</span><span class="o">*</span><span class="n">U</span><span class="p">,</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">U</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;tmp2.png&#39;</span><span class="p">);</span>  <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;tmp2.pdf&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">visualize_front</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">savefig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">skip_frames</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Стороится зависимость приближенного и точного решений</span>
+<span class="sd">    от t с использованием анимированного изображения и непрерывного</span>
+<span class="sd">    отображения кривых, изменяющихся со временем.</span>
+<span class="sd">    Графики сохраняются в файлы, если параметр savefig=True.</span>
+<span class="sd">    Только каждый skip_frames-й график сохраняется (например, если </span>
+<span class="sd">    skip_frame=10, только каждый десятый график сохраняется в файл;</span>
+<span class="sd">    это удобно, если нужно сравнивать графики для различных моментов</span>
+<span class="sd">    времени).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">scitools.std</span> <span class="kn">as</span> <span class="nn">st</span>
+    <span class="kn">from</span> <span class="nn">scitools.MovingPlotWindow</span> <span class="kn">import</span> <span class="n">MovingPlotWindow</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+
+    <span class="c1"># Удаляем все старые графики tmp_*.png</span>
+    <span class="kn">import</span> <span class="nn">glob</span><span class="o">,</span> <span class="nn">os</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;tmp_*.png&#39;</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="n">P</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span>  <span class="c1"># один период</span>
+    <span class="n">umin</span> <span class="o">=</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">min</span><span class="p">();</span>  <span class="n">umax</span> <span class="o">=</span> <span class="o">-</span><span class="n">umin</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">plot_manager</span> <span class="o">=</span> <span class="n">MovingPlotWindow</span><span class="p">(</span>
+        <span class="n">window_width</span><span class="o">=</span><span class="mi">8</span><span class="o">*</span><span class="n">P</span><span class="p">,</span>
+        <span class="n">dt</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span>
+        <span class="n">yaxis</span><span class="o">=</span><span class="p">[</span><span class="n">umin</span><span class="p">,</span> <span class="n">umax</span><span class="p">],</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;continuous drawing&#39;</span><span class="p">)</span>
+    <span class="n">frame_counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">plot_manager</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">plot_manager</span><span class="o">.</span><span class="n">first_index_in_plot</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r-1&#39;</span><span class="p">,</span>
+                    <span class="n">t</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">U</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">)[</span><span class="n">s</span><span class="p">:</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;b-1&#39;</span><span class="p">,</span>
+                    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;t=</span><span class="si">%6.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">],</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="n">plot_manager</span><span class="o">.</span><span class="n">axis</span><span class="p">(),</span>
+                    <span class="n">show</span><span class="o">=</span><span class="ow">not</span> <span class="n">savefig</span><span class="p">)</span> <span class="c1"># пропускаем окно, если savefig</span>
+            <span class="k">if</span> <span class="n">savefig</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">%</span> <span class="n">skip_frames</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;tmp_</span><span class="si">%04d</span><span class="s1">.png&#39;</span> <span class="o">%</span> <span class="n">frame_counter</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+                <span class="k">print</span> <span class="s1">u&#39;Создаем графический файл&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;t=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+                <span class="n">frame_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">plot_manager</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">visualize_front_ascii</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Строится график зависимостей приближенного и точного решений</span>
+<span class="sd">	от t построчно в окне терминала (используются только символы ascii).</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="kn">from</span> <span class="nn">scitools.avplotter</span> <span class="kn">import</span> <span class="n">Plotter</span>
+	<span class="kn">import</span> <span class="nn">time</span>
+	<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+	<span class="n">P</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span>
+	<span class="n">umin</span> <span class="o">=</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">min</span><span class="p">();</span>  <span class="n">umax</span> <span class="o">=</span> <span class="o">-</span><span class="n">umin</span>
+
+	<span class="n">p</span> <span class="o">=</span> <span class="n">Plotter</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">umin</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">umax</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">symbols</span><span class="o">=</span><span class="s1">&#39;+o&#39;</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)):</span>
+		<span class="k">print</span> <span class="n">p</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">U</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">])),</span> \
+			<span class="s1">&#39;</span><span class="si">%.1f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">/</span><span class="n">P</span><span class="p">)</span>
+		<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">fps</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">bokeh_plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">legends</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">t_range</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Строится график зависимости приближенного решения от t с </span>
+<span class="sd">	использованием библиотеки Bokeh.</span>
+<span class="sd">	u и t - списки (несколько экспериментов могут сравниваться).</span>
+<span class="sd">	легенды содержат строки для различных пар u,t.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+	<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)):</span>
+		<span class="n">u</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span><span class="p">]</span>  
+	<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)):</span>
+		<span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">]</span>  
+	<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">legends</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)):</span>
+		<span class="n">legends</span> <span class="o">=</span> <span class="p">[</span><span class="n">legends</span><span class="p">]</span> 
+
+	<span class="kn">import</span> <span class="nn">bokeh.plotting</span> <span class="kn">as</span> <span class="nn">plt</span>
+	<span class="n">plt</span><span class="o">.</span><span class="n">output_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;cdn&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Comparison&#39;</span><span class="p">)</span>
+	<span class="c1"># Предполагаем, что все массивы t имеют одинаковые размеры</span>
+	<span class="n">t_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1001</span><span class="p">)</span>  <span class="c1"># мелкая сетка для точного решения</span>
+	<span class="n">tools</span> <span class="o">=</span> <span class="s1">&#39;pan,wheel_zoom,box_zoom,reset,&#39;</span>\
+	        <span class="s1">&#39;save,box_select,lasso_select&#39;</span>
+	<span class="n">u_range</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.2</span><span class="o">*</span><span class="n">U</span><span class="p">,</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">U</span><span class="p">]</span>
+	<span class="n">font_size</span> <span class="o">=</span> <span class="s1">&#39;8pt&#39;</span>
+	<span class="n">p</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># список графических объектов</span>
+	<span class="c1"># Создаем первую фигуру</span>
+	<span class="n">p_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span>
+		<span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">legends</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+		<span class="n">x_axis_label</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">y_axis_label</span><span class="o">=</span><span class="s1">&#39;u&#39;</span><span class="p">,</span>
+		<span class="n">x_range</span><span class="o">=</span><span class="n">t_range</span><span class="p">,</span> <span class="n">y_range</span><span class="o">=</span><span class="n">u_range</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span>
+		<span class="n">title_text_font_size</span><span class="o">=</span><span class="n">font_size</span><span class="p">)</span>
+	<span class="n">p_</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">axis_label_text_font_size</span><span class="o">=</span><span class="n">font_size</span>
+	<span class="n">p_</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">axis_label_text_font_size</span><span class="o">=</span><span class="n">font_size</span>
+	<span class="n">p_</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+	<span class="c1"># Добавляем точное решение</span>
+	<span class="n">u_e</span> <span class="o">=</span> <span class="n">u_exact</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">)</span>
+	<span class="n">p_</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">u_e</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">line_dash</span><span class="o">=</span><span class="s1">&#39;4 4&#39;</span><span class="p">)</span>
+	<span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_</span><span class="p">)</span>
+	<span class="c1"># Создаем оставшиеся фигуры и добавляем их оси к осям первой фигуры</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)):</span>
+		<span class="n">p_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span>
+			<span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">legends</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+			<span class="n">x_axis_label</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">y_axis_label</span><span class="o">=</span><span class="s1">&#39;u&#39;</span><span class="p">,</span>
+			<span class="n">x_range</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">y_range</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span>
+			<span class="n">title_text_font_size</span><span class="o">=</span><span class="n">font_size</span><span class="p">)</span>
+		<span class="n">p_</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">axis_label_text_font_size</span> <span class="o">=</span> <span class="n">font_size</span>
+		<span class="n">p_</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">axis_label_text_font_size</span> <span class="o">=</span> <span class="n">font_size</span>
+		<span class="n">p_</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+		<span class="n">p_</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">u_e</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">line_dash</span><span class="o">=</span><span class="s1">&#39;4 4&#39;</span><span class="p">)</span>
+		<span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_</span><span class="p">)</span>
+		
+	<span class="c1"># Располагаем все графики на сетке с 3 графиками в строке</span>
+	<span class="n">grid</span> <span class="o">=</span> <span class="p">[[]]</span>
+	<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+		<span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_</span><span class="p">)</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="c1"># Новая строка</span>
+			<span class="n">grid</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+	<span class="n">plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gridplot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">toolbar_location</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+	<span class="n">plt</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>
+	<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>
+	
+<span class="k">def</span> <span class="nf">demo_bokeh</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Решаем обезразмеренное ОДУ u&#39;&#39; + u = 0.&quot;&quot;&quot;</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="mf">1.0</span>        <span class="c1"># обезразмеренная задача (частота)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span>  <span class="c1"># период</span>
+    <span class="n">num_steps_per_period</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">80</span><span class="p">]</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="mi">40</span><span class="o">*</span><span class="n">P</span>       <span class="c1"># Время моделирования: 40 периодов</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="p">[]</span>         <span class="c1"># список с приближенными решениями</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>         <span class="c1"># список с соответствующими сетками</span>
+    <span class="n">legends</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">num_steps_per_period</span><span class="p">:</span>
+        <span class="n">tau</span> <span class="o">=</span> <span class="n">P</span><span class="o">/</span><span class="n">n</span>
+        <span class="n">u_</span><span class="p">,</span> <span class="n">t_</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span><span class="n">U</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">u</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u_</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t_</span><span class="p">)</span>
+        <span class="n">legends</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">u&#39;Количество шагов на период: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">bokeh_plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">legends</span><span class="p">,</span> <span class="n">U</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">,</span> <span class="n">t_range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="o">*</span><span class="n">P</span><span class="p">],</span>
+               <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;tmp.html&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+    <span class="c1">#demo_bokeh()</span>
+<span class="c1">#    raw_input()</span>
+</pre></div>
+</body>
+</html>

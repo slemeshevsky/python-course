@@ -1,0 +1,313 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="description" content="Разностные схемы для ОДУ колебаний">
+<meta name="keywords" content="Разностная схема,Разностная производная,Разностная производная левая,Разностная производная  правая,Разностная производная вторая,Разностная производная центральная,ArgumentParser">
+
+<title>Разностные схемы для ОДУ колебаний</title>
+
+<!-- Bootstrap style: bootstrap_FlatUI -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.rawgit.com/hplgit/doconce/master/bundled/html_styles/style_bootstrap/css/bootstrap_FlatUI.css" rel="stylesheet">
+<!-- not necessary
+<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+/* Let inline verbatim have the same color as the surroundings */
+code { color: inherit; background-color: transparent; }
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:50px;      /* fixed header height for style bootstrap_FlatUI */
+  margin:-50px 0 0; /* negative fixed header height */
+}
+</style>
+
+
+</head>
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [('Содержание',
+               1,
+               'table_of_contents',
+               'table_of_contents'),
+              (u'\u041a\u043e\u043d\u0435\u0447\u043d\u043e-\u0440\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u0430\u044f \u0434\u0438\u0441\u043a\u0440\u0435\u0442\u0438\u0437\u0430\u0446\u0438\u044f',
+               1,
+               u'fdm-for-ode:fdd',
+               u'fdm-for-ode:fdd'),
+              (u'\u0411\u0430\u0437\u043e\u0432\u0430\u044f \u043c\u043e\u0434\u0435\u043b\u044c \u043a\u043e\u043b\u0435\u0431\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u0430',
+               2,
+               u'fdm-for-ode:fdd:basic_model',
+               u'fdm-for-ode:fdd:basic_model'),
+              (u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u0430\u044f \u0441\u0445\u0435\u043c\u0430',
+               2,
+               u'fdm-for-ode:fdd:fdd',
+               u'fdm-for-ode:fdd:fdd'),
+              (u'\u0412\u044b\u0447\u0438\u0441\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0430\u043b\u0433\u043e\u0440\u0438\u0442\u043c',
+               2,
+               u'fdm-for-ode:fdd:alg',
+               u'fdm-for-ode:fdd:alg'),
+              (u'\u0411\u0435\u0437\u044b\u043d\u0434\u0435\u043a\u0441\u043d\u044b\u0435 \u043e\u0431\u043e\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f',
+               2,
+               u'fdm-for-ode:fdd:index_free',
+               u'fdm-for-ode:fdd:index_free'),
+              (u'\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u0430\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f',
+               1,
+               u'fdm-for-ode:impl',
+               u'fdm-for-ode:impl'),
+              (u'\u0424\u0443\u043d\u043a\u0446\u0438\u044f-\u0440\u0435\u0448\u0430\u0442\u0435\u043b\u044c (\u0421\u043e\u043b\u0432\u0435\u0440)',
+               2,
+               u'fdm-for-ode:impl:solver',
+               u'fdm-for-ode:impl:solver'),
+              (u"\u0412\u044b\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u0435 \u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u043d\u043e\u0439 $u'(t)$",
+               2,
+               u'fdm-for-ode:impl:comp_diff',
+               u'fdm-for-ode:impl:comp_diff'),
+              (u'\u0412\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438 \u0430\u043b\u0433\u043e\u0440\u0438\u0442\u043c\u0430',
+               1,
+               u'fdm-for-ode:verif',
+               u'fdm-for-ode:verif'),
+              (u'\u0412\u044b\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u044f \u0432 \u0440\u0443\u0447\u043d\u0443\u044e',
+               2,
+               u'fdm-for-ode:verif:hand',
+               u'fdm-for-ode:verif:hand'),
+              (u'\u0422\u0435\u0441\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u043d\u0430 \u043f\u0440\u043e\u0441\u0442\u0435\u0439\u0448\u0438\u0445 \u0440\u0435\u0448\u0435\u043d\u0438\u044f\u0445',
+               2,
+               u'fdm-for-ode:verif:',
+               u'fdm-for-ode:verif:'),
+              (u'\u0410\u043d\u0430\u043b\u0438\u0437 \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0438 \u0441\u0445\u043e\u0434\u0438\u043c\u043e\u0441\u0442\u0438',
+               2,
+               u'fdm-for-ode:verif:conv',
+               u'fdm-for-ode:verif:conv'),
+              (u'\u041e\u0446\u0435\u043d\u043a\u0430 \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0438 \u0441\u0445\u043e\u0434\u0438\u043c\u043e\u0441\u0442\u0438',
+               3,
+               u'fdm-for-ode:verif:conv:est',
+               u'fdm-for-ode:verif:conv:est'),
+              (u'\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u0430\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f',
+               3,
+               u'fdm-for-ode:verif:conv:impl',
+               u'fdm-for-ode:verif:conv:impl'),
+              (u'\u0411\u0435\u0437\u0440\u0430\u0437\u043c\u0435\u0440\u043d\u0430\u044f \u043c\u043e\u0434\u0435\u043b\u044c',
+               1,
+               u'fdm-for-ode:scaled',
+               u'fdm-for-ode:scaled'),
+              (u'\u041f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u0438\u0435 \u0432\u044b\u0447\u0438\u0441\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u0430',
+               1,
+               u'fdm-for-ode:long_time',
+               u'fdm-for-ode:long_time'),
+              (u'\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0438\u0437\u043c\u0435\u043d\u044f\u044e\u0449\u0438\u0445\u0441\u044f \u0433\u0440\u0430\u0444\u0438\u043a\u043e\u0432',
+               2,
+               u'fdm-for-ode:long_time:mov_figs',
+               u'fdm-for-ode:long_time:mov_figs'),
+              (u'\u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u0438',
+               2,
+               u'fdm-for-ode:long_time:anim',
+               u'fdm-for-ode:long_time:anim'),
+              (u'\u0421\u0442\u0430\u043d\u0434\u0430\u0440\u0442\u043d\u044b\u0435 \u0432\u0438\u0434\u0435\u043e \u0444\u043e\u0440\u043c\u0430\u0442\u044b',
+               3,
+               u'fdm-for-ode:long_time:anim:std',
+               u'fdm-for-ode:long_time:anim:std'),
+              (u'\u041f\u0440\u043e\u0438\u0433\u0440\u044b\u0432\u0430\u0442\u0435\u043b\u044c \u043d\u0430\u0431\u043e\u0440\u0430 PNG \u0444\u0430\u0439\u043b\u043e\u0432 \u0432 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0435',
+               3,
+               u'fdm-for-ode:long_time:anim:png_play',
+               u'fdm-for-ode:long_time:anim:png_play'),
+              (u'\u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u0430\u043d\u0438\u043c\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0445 GIF \u0444\u0430\u0439\u043b\u043e\u0432',
+               3,
+               u'fdm-for-ode:long_time:anim:gif',
+               u'fdm-for-ode:long_time:anim:gif'),
+              (u'\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 Bokeh \u0434\u043b\u044f \u0441\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u044f \u0433\u0440\u0430\u0444\u0438\u043a\u043e\u0432',
+               2,
+               u'fdm-for-ode:long_time:bokeh',
+               u'fdm-for-ode:long_time:bokeh'),
+              (u'\u0423\u043f\u0440\u0430\u0436\u043d\u0435\u043d\u0438\u044f \u0438 \u0437\u0430\u0434\u0430\u0447\u0438',
+               1,
+               u'fdm-for-ode:exercises',
+               u'fdm-for-ode:exercises'),
+              (u'Упражнение 1: \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0440\u044f\u0434\u0430 \u0422\u0435\u0439\u043b\u043e\u0440\u0430 \u0434\u043b\u044f \u0432\u044b\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u044f $y^1$',
+               2,
+               u'fdm-for-ode:exercises:1',
+               u'fdm-for-ode:exercises:1'),
+              (u'Задача 2: \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u043b\u0438\u043d\u0435\u0439\u043d\u043e\u0439 \u0438 \u043a\u0432\u0430\u0434\u0440\u0430\u0442\u0438\u0447\u043d\u043e\u0439 \u0444\u0443\u043d\u043a\u0446\u0438\u0439 \u0434\u043b\u044f \u0442\u0435\u0441\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f',
+               2,
+               u'fdm-for-ode:exercises:pr:1',
+               u'fdm-for-ode:exercises:pr:1')]}
+end of tocinfo -->
+
+<body>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "none"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+    
+<!-- Bootstrap navigation bar -->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="fdm-for-ode-bootstrap.html">Разностные схемы для ОДУ колебаний</a>
+  </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+     <!-- navigation toc: --> <li><a href="#table_of_contents" style="font-size: 80%;"><b>Содержание</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:fdd" style="font-size: 80%;"><b>Конечно-разностная дискретизация</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:fdd:basic_model" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Базовая модель колебательного процесса</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:fdd:fdd" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Разностная схема</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:fdd:alg" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Вычислительный алгоритм</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:fdd:index_free" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Безындексные обозначения</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:impl" style="font-size: 80%;"><b>Программная реализация</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:impl:solver" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Функция-решатель (Солвер)</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:impl:comp_diff" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Вычисление производной \( u'(t) \)</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:verif" style="font-size: 80%;"><b>Верификация реализации алгоритма</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:verif:hand" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Вычисления в ручную</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:verif:" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Тестирование на простейших решениях</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:verif:conv" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Анализ скорости сходимости</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:verif:conv:est" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Оценка скорости сходимости</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:verif:conv:impl" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Программная реализация</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:scaled" style="font-size: 80%;"><b>Безразмерная модель</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:long_time" style="font-size: 80%;"><b>Проведение вычислительного эксперимента</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:long_time:mov_figs" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Использование изменяющихся графиков</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:long_time:anim" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Создание анимации</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:long_time:anim:std" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Стандартные видео форматы</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:long_time:anim:png_play" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Проигрыватель набора PNG файлов в браузере</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:long_time:anim:gif" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Создание анимированных GIF файлов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:long_time:bokeh" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Использование Bokeh для сравнения графиков</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap002.html#fdm-for-ode:exercises" style="font-size: 80%;"><b>Упражнения и задачи</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap002.html#fdm-for-ode:exercises:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 1: Использование ряда Тейлора для вычисления \( y^1 \)</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-bootstrap002.html#fdm-for-ode:exercises:pr:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Задача 2: Использование линейной и квадратичной функций для тестирования</a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</div> <!-- end of navigation bar -->
+
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<a name="part0000"></a>
+<!-- ------------------- main content ---------------------- -->
+
+
+
+<div class="jumbotron">
+<center><h1>Разностные схемы для ОДУ колебаний</h1></center>  <!-- document title -->
+
+<p>
+<!-- author(s): С. Лемешевский -->
+
+<center>
+<b>С. Лемешевский</b>  (<tt>sergey.lemeshevsky at gmail.com</tt>)
+</center>
+
+<p>
+<!-- institution -->
+
+<center><b>Институт математики НАН Беларуси</b></center>
+<br>
+<p>
+<center><h4>Mar 10, 2017</h4></center> <!-- date -->
+<br>
+<b>Аннотация.</b> Колебательные процессы описываются дифференциальными уравнениями,
+решения которых представляют собой изменяющуюся со временем
+синусоиду. Такие решения предъявляют некоторые дополнительные (по
+сравнению с монотонными и очень гладкими решениями) требования к 
+вычислительному алгоритму. Как частота, так и амплитуда колебаний
+должны достаточно точно воспроизводится численным методом
+решения. Большинство представленных в данном разделе подходов могут
+использоваться для построения численных методов решения уравнений в
+частных производных с решениями колебательного типа в многомерном
+случае.
+
+<p>
+</div> <!-- end jumbotron -->
+
+<h1 id="table_of_contents">
+Содержание</h2>
+
+<p>
+<a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:fdd"> Конечно-разностная дискретизация </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:fdd:basic_model"> Базовая модель колебательного процесса </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:fdd:fdd"> Разностная схема </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:fdd:alg"> Вычислительный алгоритм </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:fdd:index_free"> Безындексные обозначения </a><br>
+<a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:impl"> Программная реализация </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:impl:solver"> Функция-решатель (Солвер) </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:impl:comp_diff"> Вычисление производной \( u'(t) \) </a><br>
+<a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:verif"> Верификация реализации алгоритма </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:verif:hand"> Вычисления в ручную </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:verif:"> Тестирование на простейших решениях </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:verif:conv"> Анализ скорости сходимости </a><br>
+<a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:scaled"> Безразмерная модель </a><br>
+<a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:long_time"> Проведение вычислительного эксперимента </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:long_time:mov_figs"> Использование изменяющихся графиков </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:long_time:anim"> Создание анимации </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-bootstrap001.html#fdm-for-ode:long_time:bokeh"> Использование Bokeh для сравнения графиков </a><br>
+<a href="._fdm-for-ode-bootstrap002.html#fdm-for-ode:exercises"> Упражнения и задачи </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-bootstrap002.html#fdm-for-ode:exercises:1"> Упражнение 1: Использование ряда Тейлора для вычисления \( y^1 \) </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-bootstrap002.html#fdm-for-ode:exercises:pr:1"> Задача 2: Использование линейной и квадратичной функций для тестирования </a><br>
+</p>
+<p>
+<p>
+<!-- navigation buttons at the bottom of the page -->
+<ul class="pager">
+  <li class="next">
+    <a href="._fdm-for-ode-bootstrap001.html">Next &rarr;</a>
+  </li>
+</ul>
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+

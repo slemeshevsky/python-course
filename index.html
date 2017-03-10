@@ -1,0 +1,154 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="description" content="Численное решение уравнений в частных производных">
+
+<title>Численное решение уравнений в частных производных</title>
+
+<!-- Bootstrap style: bootstrap_FlatUI -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.rawgit.com/hplgit/doconce/master/bundled/html_styles/style_bootstrap/css/bootstrap_FlatUI.css" rel="stylesheet">
+<!-- not necessary
+<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:50px;      /* fixed header height for style bootstrap_FlatUI */
+  margin:-50px 0 0; /* negative fixed header height */
+}
+</style>
+
+
+</head>
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [(u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u044b\u0435 \u0441\u0445\u0435\u043c\u044b \u0434\u043b\u044f \u041e\u0414\u0423 \u043a\u043e\u043b\u0435\u0431\u0430\u043d\u0438\u0439',
+               2,
+               None,
+               '___sec0'),
+              (u'\u041c\u0435\u0442\u043e\u0434\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u043f\u043e\u0441\u043e\u0431\u0438\u044f (\u0441\u043b\u0430\u0439\u0434\u044b \u0434\u043b\u044f \u043b\u0435\u043a\u0446\u0438\u0439)',
+               1,
+               None,
+               '___sec1'),
+              (u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u044b\u0435 \u0441\u0445\u0435\u043c\u044b \u0434\u043b\u044f \u041e\u0414\u0423 \u043a\u043e\u043b\u0435\u0431\u0430\u043d\u0438\u0439',
+               2,
+               None,
+               '___sec2')]}
+end of tocinfo -->
+
+<body>
+
+    
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<!-- ------------------- main content ---------------------- -->
+
+<p>
+<!-- -<em>- coding: utf-8 -</em>- -->
+
+<p>
+
+
+<div class="jumbotron">
+<center><h1>Численное решение уравнений в частных производных</h1></center>  <!-- document title -->
+
+<p>
+<!-- author(s): С. Лемешевский -->
+
+<center>
+<b>С. Лемешевский</b>  (<tt>sergey.lemeshevsky at gmail.com</tt>)
+</center>
+
+<p>
+<!-- institution -->
+
+<center><b>Институт математики НАН Беларуси</b></center>
+<br>
+<p>
+<center><h4>Mar 10, 2017</h4></center> <!-- date -->
+<br>
+<p>
+<!-- potential-jumbotron-button -->
+</div> <!-- end jumbotron -->
+
+<!-- !split -->
+
+<h2 id="___sec0" class="anchor">Разностные схемы для ОДУ колебаний </h2>
+
+<ul>
+ <li> LaTeX PDF:
+   <a href="./fdm-for-ode/pdf/fdm-for-ode-4print.pdf" target="_blank">Для печати на A4</a>,
+   <a href="./fdm-for-ode/pdf/fdm-for-ode.pdf" target="_blank">Для чтения на экране</a></li>
+ <li> HTML:
+   <a href="./fdm-for-ode/html/fdm-for-ode-bootstrap.html" target="_blank">Стиль bootstrap</a>,
+   <a href="./fdm-for-ode/html/fdm-for-ode-readable.html" target="_blank">Стиль readable</a>,</li>
+</ul>
+
+<h1 id="___sec1" class="anchor">Методические пособия (слайды для лекций) </h1>
+
+<p>
+В методических материалах кратко отражены основные моменты курса. Они
+могут использоваться качестве слайдов для чтения лекций.
+
+<h2 id="___sec2" class="anchor">Разностные схемы для ОДУ колебаний </h2>
+
+<ul>
+ <li> HTML5:
+   <a href="./fdm-for-ode/html/slides_fdm-for-ode-reveal.html" target="_blank">Темная тема reveal.js</a>,
+   <a href="./fdm-for-ode/html/slides_fdm-for-ode-remark.html" target="_blank">remark</a>,</li>
+ <li> LaTeX Beamer:
+   <a href="./fdm-for-ode/pdf/slides_fdm-for-ode-beamer.pdf" target="_blank">Cлайд для чтения на экране</a>,
+   <a href="./fdm-for-ode/pdf/slides_fdm-for-ode-beamer-handouts2x3.pdf" target="_blank">Раздаточный материал</a></li>
+</ul>
+
+<div class="alert alert-block alert-danger alert-text-normal"><b>Предупреждение.</b>
+Файлы в формате PDF получены с помощью LaTeX и практически не имееют
+технических ошибок при отображении формул. Однако HTML файлы
+используют MathJax для отрисовки математических LaTeX-формул, и иногда
+эта технология вызывает неожиданные сбои (например, неправильное
+отображение на веб-странице, несмотря на правильность синтаксиса LaTeX
+в формулах). Обратитесь к соответствующему файлу PDF, если вы
+обнаружите, что в HTML отсутствуют или неправильно отображены
+формулы.
+</div>
+
+
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+
