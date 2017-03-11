@@ -39,7 +39,28 @@ code { color: inherit; background-color: transparent; }
 </style>
 
 
+<!-- Tools for embedded Bokeh plots -->
+<link rel=stylesheet 
+      href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
+      type=text/css />
+<script type=text/javascript 
+        src=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js>
+</script>
+<script type=text/javascript>
+  Bokeh.set_log_level("info");
+</script>
+
+<style>
+.bk-embeded {
+    width: 100%;
+    margin: auto;
+    height: 500px;
+}
+</style>
+
+
 </head>
+
 
 <!-- tocinfo
 {'highest level': 1,
@@ -135,6 +156,10 @@ code { color: inherit; background-color: transparent; }
                2,
                u'fdm-for-ode:long_time:bokeh',
                u'fdm-for-ode:long_time:bokeh'),
+              (u'\u041f\u0440\u0430\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u0430\u043d\u0430\u043b\u0438\u0437 \u0440\u0435\u0448\u0435\u043d\u0438\u044f',
+               2,
+               u'fdm-for-ode:long_time:empirical',
+               u'fdm-for-ode:long_time:empirical'),
               (u'\u0423\u043f\u0440\u0430\u0436\u043d\u0435\u043d\u0438\u044f \u0438 \u0437\u0430\u0434\u0430\u0447\u0438',
                1,
                u'fdm-for-ode:exercises',
@@ -207,6 +232,7 @@ MathJax.Hub.Config({
      <!-- navigation toc: --> <li><a href="._fdm-for-ode-readable001.html#fdm-for-ode:long_time:anim:png_play" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Проигрыватель набора PNG файлов в браузере</a></li>
      <!-- navigation toc: --> <li><a href="._fdm-for-ode-readable001.html#fdm-for-ode:long_time:anim:gif" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Создание анимированных GIF файлов</a></li>
      <!-- navigation toc: --> <li><a href="._fdm-for-ode-readable001.html#fdm-for-ode:long_time:bokeh" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Использование Bokeh для сравнения графиков</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-readable001.html#fdm-for-ode:long_time:empirical" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Практический анализ решения</a></li>
      <!-- navigation toc: --> <li><a href="._fdm-for-ode-readable002.html#fdm-for-ode:exercises" style="font-size: 80%;"><b>Упражнения и задачи</b></a></li>
      <!-- navigation toc: --> <li><a href="._fdm-for-ode-readable002.html#fdm-for-ode:exercises:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 1: Использование ряда Тейлора для вычисления \( y^1 \)</a></li>
      <!-- navigation toc: --> <li><a href="._fdm-for-ode-readable002.html#fdm-for-ode:exercises:pr:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Задача 2: Использование линейной и квадратичной функций для тестирования</a></li>
@@ -243,7 +269,7 @@ MathJax.Hub.Config({
 <center><b>Институт математики НАН Беларуси</b></center>
 <br>
 <p>
-<center><h4>Mar 10, 2017</h4></center> <!-- date -->
+<center><h4>Mar 11, 2017</h4></center> <!-- date -->
 <br>
 <b>Аннотация.</b> Колебательные процессы описываются дифференциальными уравнениями,
 решения которых представляют собой изменяющуюся со временем
@@ -280,6 +306,7 @@ MathJax.Hub.Config({
 &nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-readable001.html#fdm-for-ode:long_time:mov_figs"> Использование изменяющихся графиков </a><br>
 &nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-readable001.html#fdm-for-ode:long_time:anim"> Создание анимации </a><br>
 &nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-readable001.html#fdm-for-ode:long_time:bokeh"> Использование Bokeh для сравнения графиков </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-readable001.html#fdm-for-ode:long_time:empirical"> Практический анализ решения </a><br>
 <a href="._fdm-for-ode-readable002.html#fdm-for-ode:exercises"> Упражнения и задачи </a><br>
 &nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-readable002.html#fdm-for-ode:exercises:1"> Упражнение 1: Использование ряда Тейлора для вычисления \( y^1 \) </a><br>
 &nbsp; &nbsp; &nbsp; <a href="._fdm-for-ode-readable002.html#fdm-for-ode:exercises:pr:1"> Задача 2: Использование линейной и квадратичной функций для тестирования </a><br>

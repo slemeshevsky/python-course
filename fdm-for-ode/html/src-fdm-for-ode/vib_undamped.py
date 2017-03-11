@@ -197,23 +197,6 @@ def visualize_front(u, t, U, omega, savefig=False, skip_frames=1):
                 frame_counter += 1
         plot_manager.update(n)
 
-def visualize_front_ascii(u, t, U, omega, fps=10):
-	"""
-	Строится график зависимостей приближенного и точного решений
-	от t построчно в окне терминала (используются только символы ascii).
-	"""
-	from scitools.avplotter import Plotter
-	import time
-	from math import pi
-	P = 2*pi/omega
-	umin = 1.2*u.min();  umax = -umin
-
-	p = Plotter(ymin=umin, ymax=umax, width=60, symbols='+o')
-	for n in range(len(u)):
-		print p.plot(t[n], u[n], U*np.cos(omega*t[n])), \
-			'%.1f' % (t[n]/P)
-		time.sleep(1/float(fps))
-
 def bokeh_plot(u, t, legends, U, omega, t_range, filename):
 	"""
 	Строится график зависимости приближенного решения от t с 
@@ -229,7 +212,7 @@ def bokeh_plot(u, t, legends, U, omega, t_range, filename):
 		legends = [legends] 
 
 	import bokeh.plotting as plt
-	plt.output_file(filename, mode='cdn', title='Comparison')
+	plt.output_file(filename, mode='cdn', title=u'Сравнение с помощью Bokeh')
 	# Предполагаем, что все массивы t имеют одинаковые размеры
 	t_fine = np.linspace(0, t[0][-1], 1001)  # мелкая сетка для точного решения
 	tools = 'pan,wheel_zoom,box_zoom,reset,'\
@@ -273,6 +256,7 @@ def bokeh_plot(u, t, legends, U, omega, t_range, filename):
 	plot = plt.gridplot(grid, toolbar_location='left')
 	plt.save(plot)
 	plt.show(plot)
+
 	
 def demo_bokeh():
     """Решаем обезразмеренное ОДУ u'' + u = 0."""
@@ -288,11 +272,11 @@ def demo_bokeh():
         u_, t_ = solver(U=1, omega=omega, tau=tau, T=T)
         u.append(u_)
         t.append(t_)
-        legends.append(u'Количество шагов на период: %d' % n)
+        legends.append(u'Шагов на период: %d' % n)
     bokeh_plot(u, t, legends, U=1, omega=omega, t_range=[0, 4*P],
-               filename='tmp.html')
+               filename='bokeh.html')
 
 if __name__ == '__main__':
-    main()
-    #demo_bokeh()
+    #main()
+    demo_bokeh()
 #    raw_input()

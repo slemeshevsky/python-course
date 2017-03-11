@@ -11,8 +11,9 @@ Automatically generated HTML file from DocOnce source
 
 <title>Разностные схемы для ОДУ колебаний</title>
 
-<!-- Bootstrap style: bootswatch_readable -->
-<link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/readable/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap style: bootstrap_FlatUI -->
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.rawgit.com/hplgit/doconce/master/bundled/html_styles/style_bootstrap/css/bootstrap_FlatUI.css" rel="stylesheet">
 <!-- not necessary
 <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 -->
@@ -33,8 +34,8 @@ code { color: inherit; background-color: transparent; }
 .anchor::before {
   content:"";
   display:block;
-  height:64px;      /* fixed header height for style bootswatch_readable */
-  margin:-64px 0 0; /* negative fixed header height */
+  height:50px;      /* fixed header height for style bootstrap_FlatUI */
+  margin:-50px 0 0; /* negative fixed header height */
 }
 </style>
 
@@ -201,7 +202,7 @@ MathJax.Hub.Config({
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="fdm-for-ode-readable.html">Разностные схемы для ОДУ колебаний</a>
+    <a class="navbar-brand" href="fdm-for-ode-FlatUI.html">Разностные схемы для ОДУ колебаний</a>
   </div>
 
   <div class="navbar-collapse collapse navbar-responsive-collapse">
@@ -209,7 +210,7 @@ MathJax.Hub.Config({
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
         <ul class="dropdown-menu">
-     <!-- navigation toc: --> <li><a href="._fdm-for-ode-readable000.html#table_of_contents" style="font-size: 80%;"><b>Содержание</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-FlatUI000.html#table_of_contents" style="font-size: 80%;"><b>Содержание</b></a></li>
      <!-- navigation toc: --> <li><a href="#fdm-for-ode:fdd" style="font-size: 80%;"><b>Конечно-разностная дискретизация</b></a></li>
      <!-- navigation toc: --> <li><a href="#fdm-for-ode:fdd:basic_model" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Базовая модель колебательного процесса</a></li>
      <!-- navigation toc: --> <li><a href="#fdm-for-ode:fdd:fdd" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Разностная схема</a></li>
@@ -233,9 +234,9 @@ MathJax.Hub.Config({
      <!-- navigation toc: --> <li><a href="#fdm-for-ode:long_time:anim:gif" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Создание анимированных GIF файлов</a></li>
      <!-- navigation toc: --> <li><a href="#fdm-for-ode:long_time:bokeh" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Использование Bokeh для сравнения графиков</a></li>
      <!-- navigation toc: --> <li><a href="#fdm-for-ode:long_time:empirical" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Практический анализ решения</a></li>
-     <!-- navigation toc: --> <li><a href="._fdm-for-ode-readable002.html#fdm-for-ode:exercises" style="font-size: 80%;"><b>Упражнения и задачи</b></a></li>
-     <!-- navigation toc: --> <li><a href="._fdm-for-ode-readable002.html#fdm-for-ode:exercises:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 1: Использование ряда Тейлора для вычисления \( y^1 \)</a></li>
-     <!-- navigation toc: --> <li><a href="._fdm-for-ode-readable002.html#fdm-for-ode:exercises:pr:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Задача 2: Использование линейной и квадратичной функций для тестирования</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-FlatUI002.html#fdm-for-ode:exercises" style="font-size: 80%;"><b>Упражнения и задачи</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-FlatUI002.html#fdm-for-ode:exercises:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 1: Использование ряда Тейлора для вычисления \( y^1 \)</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-ode-FlatUI002.html#fdm-for-ode:exercises:pr:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Задача 2: Использование линейной и квадратичной функций для тестирования</a></li>
 
         </ul>
       </li>
@@ -385,7 +386,7 @@ $$
 $$
 
 <p>
-В <a href="._fdm-for-ode-readable002.html#fdm-for-ode:exercises:1">Упражнение 1: Использование ряда Тейлора для вычисления \( y^1 \)</a> требуется использовать
+В <a href="._fdm-for-ode-FlatUI002.html#fdm-for-ode:exercises:1">Упражнение 1: Использование ряда Тейлора для вычисления \( y^1 \)</a> требуется использовать
 альтернативный способ вывода <a href="#mjx-eqn-7">(7)</a>, а также построить
 аппроксимацию начального условия \( u'(0) = V \ne 0 \).
 
@@ -657,7 +658,7 @@ v[<span style="color: #666666">-1</span>] <span style="color: #666666">=</span> 
 \( u(t) = t^2 \) при \( f(t) = (\omega t)^2 \). Простой
 подстановкой убеждаемся, что сеточная функция \( y^n = t_n^2 \)
 является решением разностной схемы. Выполните
-<a href="._fdm-for-ode-readable002.html#fdm-for-ode:exercises:pr:1">Задача 2: Использование линейной и квадратичной функций для тестирования</a>.
+<a href="._fdm-for-ode-FlatUI002.html#fdm-for-ode:exercises:pr:1">Задача 2: Использование линейной и квадратичной функций для тестирования</a>.
 
 <h2 id="fdm-for-ode:verif:conv" class="anchor">Анализ скорости сходимости</h2>
 
@@ -1480,10 +1481,10 @@ plot_empirical_freq_and_amplitude(u_cases, t_cases, U <span style="color: #66666
 <!-- navigation buttons at the bottom of the page -->
 <ul class="pager">
   <li class="previous">
-    <a href="._fdm-for-ode-readable000.html">&larr; Prev</a>
+    <a href="._fdm-for-ode-FlatUI000.html">&larr; Prev</a>
   </li>
   <li class="next">
-    <a href="._fdm-for-ode-readable002.html">Next &rarr;</a>
+    <a href="._fdm-for-ode-FlatUI002.html">Next &rarr;</a>
   </li>
 </ul>
 <!-- ------------------- end of main content --------------- -->
