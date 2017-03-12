@@ -197,7 +197,7 @@ def main():
     else:
         visualize_front(u, t, window_width, savefig)
         visualize_front_ascii(u, t)
-    show()
+    plt.show()
 
 def plot_empirical_freq_and_amplitude(u, t):
     minima, maxima = minmax(t, u)

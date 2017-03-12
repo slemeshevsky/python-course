@@ -277,6 +277,6 @@ def demo_bokeh():
                filename='bokeh.html')
 
 if __name__ == '__main__':
-    #main()
-    demo_bokeh()
+	main()
+#    demo_bokeh()
 #    raw_input()
