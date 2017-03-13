@@ -1,0 +1,417 @@
+.. !split
+
+.. _fdm-for-ode:gen:
+
+Обобщения: затухание, нелинейные струны и внешние воздействия
+=============================================================
+
+Рассмотрим обобщение задачи, рассмотренной в разделе
+:ref:`fdm-for-ode:fdd`, учитывающее возможные затухания :math:`f(u')`,
+нелинейную пружину (или сопротивление) :math:`s(u)` и некоторое внешнее
+воздействие :math:`F(t)`: 
+
+.. _Eq:fdm-for-ode:gen:eq:gen:
+
+.. math::
+
+    \tag{17}
+    m u'' + f(u') + s(u) = F(t), \quad t \in (0, T], 
+        
+
+.. _Eq:fdm-for-ode:gen:eq:gen_init:
+
+.. math::
+
+    \tag{18}
+    u(0) = U,  \quad u'(0) = V. 
+        
+
+Здесь :math:`m`, :math:`f(u')`, :math:`s(u)`, :math:`F(t)`, :math:`U`, :math:`V` и :math:`T` --- входные 
+параметры.
+
+Будем рассматривать два основных типа затуханий (силы трения):
+линейное :math:`f(u') = b u'` и квадратичное :math:`f(u') = bu'|u'|`. Пружинные
+системы часто характеризуются линейным затуханием, 
+при этом сопротивление воздуха описывается квадратичным
+затуханием. Сила сжатие пружины часто линейны: :math:`s(u) = cu`,
+однако бывают и нелинейными, наиболее известный пример --- силы
+тяжести, действующие на маятник, которые описываются нелинейным
+слагаемым :math:`s(u) \sim \sin(u)`.
+
+.. _fdm-for-ode:gen:lin_damp:
+
+Разностная схема для линейного затухания
+----------------------------------------
+
+Для приближенного решения уравнения
+:ref:`(17) <Eq:fdm-for-ode:gen:eq:gen>`--:ref:`(18) <Eq:fdm-for-ode:gen:eq:gen_init>` в
+случае линейного затухания будем использовать следующую разностную
+схему: 
+
+.. _Eq:fdm-for-ode:gen:eq:lin_damp:fd:
+
+.. math::
+
+    \tag{19}
+    m y_{\bar{t}t}^n + b y_{\mathring{t}}^n + s(y^n) = F^n, \quad
+           n = 1, 2, \ldots, N-1, 
+        
+
+.. _Eq:fdm-for-ode:gen:eq:lin_damp:fd_init:
+
+.. math::
+
+    \tag{20}
+    y^0 = U, \quad y_{\mathring{t}}^0 =
+           \frac{y^1 - y^{-1}}{2\tau} = V.
+        
+
+Перепишем задачу :ref:`(19) <Eq:fdm-for-ode:gen:eq:lin_damp:fd>` -
+:ref:`(20) <Eq:fdm-for-ode:gen:eq:lin_damp:fd_init>`в индексной форме: 
+
+.. _Eq:fdm-for-ode:gen:eq:lin_damp:fd_idx:
+
+.. math::
+
+    \tag{21}
+    m\frac{y^{n+1} - 2y^n +y^{n-1}}{\tau^2} + b\frac{y^{n+1} -
+           y^{n-1}}{2\tau} + s(y^n) = F^n, \quad
+           n = 1, 2, \ldots, N - 1, 
+        
+
+.. _Eq:fdm-for-ode:gen:eq:lin_damp:fd_idx_init:
+
+.. math::
+
+    \tag{22}
+    y^0 = U, \quad \frac{y^1 - y^{-1}}{2\tau} = V.
+        
+
+Решая разностное уравнение :ref:`(21) <Eq:fdm-for-ode:gen:eq:lin_damp:fd_idx>`
+относительно неизвестной :math:`y^{n+1}`, получим следующую рекуррентную
+формулу: 
+
+.. _Eq:fdm-for-ode:gen:eq:lin_damp:fd_rec:
+
+.. math::
+
+    \tag{23}
+    y^{n+1} = \frac{2m y^n + (0.5\tau - m)y^{n-1} + \tau^2(F^n -
+           s(y^n))}{m + 0.5b\tau}, \quad n = 1, 2, \ldots, N-1.
+        
+
+При :math:`n=0` с учетом второго начального условия имеем
+
+.. _Eq:fdm-for-ode:gen:eq:lin_damp:fd_y1:
+
+.. math::
+
+    \tag{24}
+    y^1 = y^0 + \tau V + \frac{\tau^2}{2m} (F^0 - s(y^0) - b V).
+        
+
+.. _fdm-for-ode:gen:quad_damp:
+
+Разностная схема для квадратичного затухания
+--------------------------------------------
+
+Пусть :math:`f(u') = b u'|u'|`. Аппроксимацию :math:`f(u')` выполним,
+основываясь на использовании геометрического среднего:
+
+.. math::
+        
+           (w^2)^n \approx w^{n-1/2}w^{n+1/2},
+        
+
+где :math:`w` --- некоторая сеточная функция. Погрешность при
+использовании геометрического среднего имеет порядок
+:math:`O(\tau^2)`, такой же как и при аппроксимации второй
+производной. При :math:`w = u'` имеем
+
+.. math::
+        
+           (u'|u'|)^n \approx u'(t_{n+1/2}) |u'(t_{n-1/2})|.
+        
+
+Для аппроксимации :math:`u'` в точках :math:`t_{n\pm 1}` воспользуемся
+направленными разностями, которые имеют второй порядок аппроксимации
+относительно полуцелых точек:
+
+.. math::
+        
+           u'(t_{n+1/2}) \approx \frac{y^{n+1} - y^{n}}{\tau} = y_t^n, \quad
+           u'(t_{n-1/2}) \approx \frac{y^{n} - y^{n-1}}{\tau} = y_{\bar{t}}^n.
+        
+
+Таким образом, получим разностное уравнение
+
+.. _Eq:fdm-for-ode:gen:eq:quad_damp:fd:
+
+.. math::
+
+    \tag{25}
+    m y_{\bar{t}t}^n + by_t^n y_{\bar{t}}^n + s(y^n) = F^n, \quad n =
+           1, 2, \ldots, N - 1,
+        
+
+которая является линейной относительно :math:`y^{n+1}`:
+
+.. _Eq:fdm-for-ode:gen:eq:quad_damp:fd_rec:
+
+.. math::
+
+    \tag{26}
+    y^{n+1} = \frac{2m y^n - m y^{n-1} + by^n |y^n - y^{n-1}| +
+           \tau^2(F^n - s(y^n))}{m + b|y^{n} - y^{n-1}|}.
+        
+
+При использовании аппроксимации второго начального условия из
+:ref:`(20) <Eq:fdm-for-ode:gen:eq:lin_damp:fd_init>` мы получим сложное
+нелинейное выражение для :math:`y^1`. Однако, можно построить аппроксимацию,
+линейную относительно :math:`y^1`. Для :math:`t = 0` имеем
+:math:`u'(0)|u'(0)| = b V|V|`. Используя это выражение в уравнении
+:ref:`(25) <Eq:fdm-for-ode:gen:eq:quad_damp:fd>` и значение :math:`u(0) = U` при аппроксимации
+уравнения :ref:`(17) <Eq:fdm-for-ode:gen:eq:gen>`, записанного при :math:`t = 0`, получим 
+
+.. math::
+        
+           m y_{\bar{t}t}^1 + b V|V| + s(U) = F^0.
+        
+
+Отсюда, учитывая второе начальное условие из
+:ref:`(20) <Eq:fdm-for-ode:gen:eq:lin_damp:fd_init>`, получим выражение для
+вычисления :math:`y^1` 
+
+.. _Eq:fdm-for-ode:gen:eq:quad_damp:fd_y1:
+
+.. math::
+
+    \tag{27}
+    y^1 = y^0 + \tau V + \frac{\tau^2}{2m} (F^0 - m V|V| - s(U)).
+        
+
+.. _fdm-for-ode:gen:impl:
+
+Программная реализация          (3)
+-----------------------------------
+
+Алгоритмы для линейного и квадратичного затуханий, построенные в
+предыдущих разделах, аналогичны алгоритму для незатухающей
+модели. Отличие только в формулах для :math:`y^1` и :math:`y^{n+1}`.
+
+Таким образом, для приближенного решения задачи необходимо выполнить
+следующие шаги:
+
+1. :math:`y^0 = U`;
+
+2. вычисляем :math:`y^1`, используя :ref:`(24) <Eq:fdm-for-ode:gen:eq:lin_damp:fd_y1>` для линейного затухания или :ref:`(27) <Eq:fdm-for-ode:gen:eq:quad_damp:fd_y1>` для квадратичного затухания;
+
+3. для :math:`n = 1, 2, \ldots, N-1`:
+
+  a. вычисляем :math:`y^{n+1}`, используя :ref:`(23) <Eq:fdm-for-ode:gen:eq:lin_damp:fd_rec>` для линейного затухания или :ref:`(26) <Eq:fdm-for-ode:gen:eq:quad_damp:fd_rec>` для квадратичного затухания. 
+
+Соответствующая функция ``solver`` представлена ниже:
+
+.. code-block:: python
+
+    def solver(U, V, m, b, s, F, tau, T, damping='linear'):
+        """
+        Решает задачу m*u'' + f(u') + s(u) = F(t) for t in (0,T],
+        u(0)=U и u'(0)=V,
+        конечно-разностной схемой с шагом tau.
+        Если затухание 'liniear', то f(u')=b*u, если затухание 'quadratic', 
+        то f(u')=b*u'*abs(u').
+        F(t) и s(u) --- функции Python.
+        """
+        tau = float(tau); b = float(b); m = float(m) # avoid integer div.
+        N = int(round(T/tau))
+        u = np.zeros(N+1)
+        t = np.linspace(0, N*tau, N+1)
+    
+        u[0] = U
+        if damping == 'linear':
+            u[1] = u[0] + tau*V + tau**2/(2*m)*(-b*V - s(u[0]) + F(t[0]))
+        elif damping == 'quadratic':
+            u[1] = u[0] + tau*V + \ 
+                   tau**2/(2*m)*(-b*V*abs(V) - s(u[0]) + F(t[0]))
+    
+        for n in range(1, N):
+            if damping == 'linear':
+                u[n+1] = (2*m*u[n] + (b*tau/2 - m)*u[n-1] +
+                          tau**2*(F(t[n]) - s(u[n])))/(m + b*tau/2)
+            elif damping == 'quadratic':
+                u[n+1] = (2*m*u[n] - m*u[n-1] + b*u[n]*abs(u[n] - u[n-1])
+                          + tau**2*(F(t[n]) - s(u[n])))/\ 
+                          (m + b*abs(u[n] - u[n-1]))
+        return u, t
+
+.. _fdm-for-ode:gen:verif:
+
+Верификация реализации алгоритма          (2)
+---------------------------------------------
+
+.. _fdm-for-ode:gen:verif:const_sol:
+
+Постоянное решение
+~~~~~~~~~~~~~~~~~~
+
+Для отладки и начальной верификации часто полезно использовать
+постоянное решение. Выбор :math:`u_e(t) = U` дает
+:math:`V=0`. Подставляя в уравнение, получим :math:`F(t) = s(U)` при
+любом выборе функции :math:`f`. Так как разностная производная от
+константы равна нулю, то постоянное решение удовлетворяет также
+разностному уравнению. Следовательно, константа должна
+воспроизводиться с машинной точностью. Этот тест реализован в функции
+
+.. code-block:: python
+
+    def test_constant():
+        """Тестирование постоянного решения."""
+        u_exact = lambda t: U
+        U = 1.2; V = 0; m = 2; b = 0.9
+        omega = 1.5
+        s = lambda u: omega**2*u
+        F = lambda t: omega**2*u_exact(t)
+        tau = 0.2
+        T = 2
+        u, t = solver(U, V, m, b, s, F, tau, T, 'linear')
+        difference = np.abs(u_exact(t) - u).max()
+        tol = 1E-13
+        assert difference < tol
+    
+        u, t = solver(U, V, m, b, s, F, tau, T, 'quadratic')
+        difference = np.abs(u_exact(t) - u).max()
+        assert difference < tol
+
+.. _fdm-for-ode:gen:verif:lin_sol:
+
+Линейная функция как решение
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Теперь в качестве тестового решения выберем линейную функцию:
+:math:`u_e(t) = ct + d`. Начальное условие :math:`u(0) = U` дает
+:math:`d = U`, а из второго начального условия :math:`u'(0) = V`
+получим, что :math:`c = V`. Подставляя :math:`u_e(t) = Vt + U` в
+уравнение с линейным затуханием, имеем
+
+.. math::
+        
+           0 + bV + s(Vt + U) = F(t),
+        
+
+а для квадратичного затухания:
+
+.. math::
+        
+           0 + bV|V| + s(Vt + U) = F(t).
+        
+
+Так как все разностные аппроксимации используемые для :math:`u'` точны
+для линейных функций, то линейная функция :math:`u_e` также является
+решением разностной задачи.
+
+.. _fdm-for-ode:gen:verif:quad_sol:
+
+Квадратичная функция как решение
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Функция :math:`u_e(t) = bt^2 + Vt + U` с произвольной постоянной
+:math:`b` удовлетворяет начальным данным и уравнению с соответствующим
+выбором :math:`F(t)`. Такая функция является также решением
+разностного уравнения с линейным затуханием. Однако, полином второй
+степени от :math:`t` не удовлетворяет разностному уравнению в случае
+квадратичного затухания.
+
+Выполните упражнение :ref:`fdm-for-ode:exercises:3`.
+
+.. _fdm-for-ode:gen:vis:
+
+Визуализация
+------------
+
+Функции для визуализации будут существенно отличаться от случая
+незатухающего решения, так как мы не знаем точного решения. Кроме
+того, у нас нет тех параметров, которые мы могли оценить в случае
+затухающих колебаний (периода колебаний, угловой частоты и
+т.п.). Поэтому пользователь должен задавать значение :math:`T` и
+ширину окна.
+
+Сценарий `vib.py <src-fdm-for-ode/vib.py>`__ содержит несколько функций для
+визуализации решения.
+
+.. _fdm-for-ode:gen:user_int:
+
+Интерфейс командной строки
+--------------------------
+
+Функция ``main`` также существенно отличается от сценария,
+используемого для незатухающих колебаний, так как мы должны задавать
+дополнительные данные :math:`s(u)` и :math:`F(t)`. Кроме того, нужно
+задавать :math:`T` и ширину окна (вместо количества периодов). Для
+того чтобы понять можем мы строить один график для всего
+временного интервала или отображать только некоторую последнюю часть
+временного интервала, можно воспользоваться функцией
+``plot_empricial_freq_and_amplitude`` для оценки количества локальных
+максимумов. Это количество сейчас возвращается функцией и используется
+в функции ``main``.
+
+.. code-block:: python
+
+    def main():
+        import argparse
+        parser = argparse.ArgumentParser()
+        parser.add_argument('--U', type=float, default=1.0)
+        parser.add_argument('--V', type=float, default=0.0)
+        parser.add_argument('--m', type=float, default=1.0)
+        parser.add_argument('--b', type=float, default=0.0)
+        parser.add_argument('--s', type=str, default='u')
+        parser.add_argument('--F', type=str, default='0')
+        parser.add_argument('--tau', type=float, default=0.05)
+        parser.add_argument('--T', type=float, default=10)
+        parser.add_argument('--window_width', type=float, default=30.,
+                            help='Number of periods in a window')
+        parser.add_argument('--damping', type=str, default='linear')
+        parser.add_argument('--savefig', action='store_true')
+        parser.add_argument('--SCITOOLS_easyviz_backend', default='matplotlib')
+        a = parser.parse_args()
+        from scitools.std import StringFunction
+        s = StringFunction(a.s, independent_variable='u')
+        F = StringFunction(a.F, independent_variable='t')
+        U, V, m, b, tau, T, window_width, savefig, damping = \ 
+           a.U, a.V, a.m, a.b, a.tau, a.T, a.window_width, a.savefig, \ 
+           a.damping
+    
+        u, t = solver(U, V, m, b, s, F, tau, T, damping)
+        num_periods = plot_empirical_freq_and_amplitude(u, t)
+        num_periods = 4
+        tit = 'tau = %g' % tau
+        if num_periods <= 40:
+            plt.figure()
+            visualize(u, t, title=tit)
+        else:
+            visualize_front(u, t, window_width, savefig)
+            visualize_front_ascii(u, t)
+        plt.show()
+
+Сценарий `vib.py <src-fdm-for-ode/vib.py>`__ содержит представленный
+выше фрагмент кода и решает модельную задачу
+:ref:`(17) <Eq:fdm-for-ode:gen:eq:gen>`--:ref:`(18) <Eq:fdm-for-ode:gen:eq:gen_init>`. качестве
+примера использования 
+`vib.py <src-fdm-for-ode/vib.py>`__ 
+рассмотрим случай, когда :math:`I = 1`, :math:`V = 0`, :math:`m = 1`,
+:math:`s(u) = \sin(u)`, :math:`F(t) = 3\cos(4t)`, :math:`\tau=0.05` и
+:math:`T = 140`. Соответствующий вызов сценария будет выглядеть
+следующим образом:
+
+.. code-block:: bash
+
+    Terminal> python vib.py --s 'sin(u)' --F '3*cos(4*t)' --T 140
+
+.. Local Variables:
+
+.. doconce-chapter-nickname: "fdm-for-ode"
+
+.. doconce-section-nickname: "gen"
+
+.. End:
+

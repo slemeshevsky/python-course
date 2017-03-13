@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Разностные схемы для ОДУ колебаний</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+
+        <script src="http://sagecell.sagemath.org/static/jquery.min.js"></script>
+        <script src="http://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+
+        <script>sagecell.makeSagecell({inputLocation: ".sage"});</script>
+
+        <style type="text/css">
+                .sagecell .CodeMirror-scroll {
+                        overflow-y: hidden;
+                        overflow-x: auto;
+                }
+                .sagecell .CodeMirror {
+                        height: auto;
+                }
+        </style>
+
+    
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Разностные схемы для ОДУ колебаний" href="#"/>
+        <link rel="next" title="Разностные схемы для ОДУ колебаний" href="._main_fdm-for-ode000.html"/>
+ 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+
+       <style type="text/css">
+         div.admonition {
+           background-color: whiteSmoke;
+           border: 1px solid #bababa;
+         }
+       </style>
+      </head>
+    
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> Разностные схемы для ОДУ колебаний
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode000.html">Разностные схемы для ОДУ колебаний</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode001.html">Конечно-разностная дискретизация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-impl">Программная реализация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-verif">Верификация реализации алгоритма</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-scaled">Безразмерная модель</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-long-time">Проведение вычислительного эксперимента</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-analysis">Анализ конечно-разностной схемы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode002.html">Обобщения: затухание, нелинейные струны и внешние воздействия</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode003.html">Упражнения и задачи</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Разностные схемы для ОДУ колебаний</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>Разностные схемы для ОДУ колебаний</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>Разностные схемы для ОДУ колебаний<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode000.html">Разностные схемы для ОДУ колебаний</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode001.html">Конечно-разностная дискретизация</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-fdd-basic-model">Базовая модель колебательного процесса</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-fdd-fdd">Разностная схема</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-fdd-alg">Вычислительный алгоритм</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-fdd-index-free">Безындексные обозначения</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-impl">Программная реализация</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-impl-solver">Функция-решатель (Солвер)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-impl-comp-diff">Вычисление производной <span class="math">\(u'(t)\)</span></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-verif">Верификация реализации алгоритма</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-verif-hand">Вычисления в ручную</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#id11">Тестирование на простейших решениях</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-verif-conv">Анализ скорости сходимости</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-scaled">Безразмерная модель</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-long-time">Проведение вычислительного эксперимента</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-long-time-mov-figs">Использование изменяющихся графиков</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-long-time-anim">Создание анимации</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#bokeh">Использование Bokeh для сравнения графиков</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-long-time-empirical">Практический анализ решения</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-analysis">Анализ конечно-разностной схемы</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-analysis-deriv">Вывод решения конечно-разностной схемы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-analysis-ex-disc">Точное дискретное решение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-analysis-conv">Сходимость</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-analysis-glob-error">Глобальная погрешность</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-analysis-stab">Устойчивость</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode001.html#fdm-for-ode-analysis-stan-bound">О точности при границе устойчивости</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode002.html">Обобщения: затухание, нелинейные струны и внешние воздействия</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode002.html#fdm-for-ode-gen-lin-damp">Разностная схема для линейного затухания</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode002.html#fdm-for-ode-gen-quad-damp">Разностная схема для квадратичного затухания</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode002.html#fdm-for-ode-gen-impl">Программная реализация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode002.html#fdm-for-ode-gen-verif">Верификация реализации алгоритма</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode002.html#fdm-for-ode-gen-vis">Визуализация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode002.html#fdm-for-ode-gen-user-int">Интерфейс командной строки</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode003.html">Упражнения и задачи</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode003.html#exercise-1">Exercise 1: Использование ряда Тейлора для вычисления <span class="math">\(y^1\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode003.html#exercise-2">Exercise 2: Использование точного дискретного решения для тестирования</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode003.html#exercise-3">Exercise 3: Использование линейной и квадратичной функций для тестирования</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode003.html#exercise-4">Exercise 4: Показать линейный рост фазы со временем</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode003.html#exercise-5">Exercise 5: Улучшить точность регуляризацией частоты</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode003.html#exercise-6">Exercise 6: Визуализация аппроксимации разностных производных для косинуса</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode003.html#exercise-7">Exercise 7: Минимизация использования памяти</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-ode003.html#problem-8">Problem 8: Использование линейной и квадратичной функций для тестирования</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="index">
+<h1>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+</ul>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="._main_fdm-for-ode000.html" class="btn btn-neutral float-right" title="Разностные схемы для ОДУ колебаний" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, С. Лемешевский.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

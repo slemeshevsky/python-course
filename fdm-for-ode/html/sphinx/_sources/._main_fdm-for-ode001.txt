@@ -1,0 +1,1602 @@
+.. !split
+
+.. _fdm-for-ode:fdd:
+
+Конечно-разностная дискретизация
+================================
+
+Многие вычислительные проблемы, возникающие при вычислении
+осциллирующих решений обыкновенных дифференциальных уравнений и
+уравнений в частных производных могут быть проиллюстрированы на
+простейшем ОДУ второго порядка :math:`u'' + \omega^2 u = 0`.
+
+.. _fdm-for-ode:fdd:basic_model:
+
+Базовая модель колебательного процесса
+--------------------------------------
+
+Колебательная система без затуханий и внешних сил может быть описана
+начальной задачей для ОДУ второго порядка
+
+.. _Eq:fdm-for-ode:fdd:basic_model:eq:vibr:
+
+.. math::
+
+    \tag{1}
+    u'' + \omega^2 u = 0, \quad t \in (0, T],
+        
+
+.. _Eq:fdm-for-ode:fdd:basic_model:eq:vibr:init:
+
+.. math::
+
+    \tag{2}
+    u(0) = U,\quad  u'(0) = 0.
+        
+
+Здесь :math:`\omega` и :math:`U` --- заданные постоянные. Точное
+решение задачи :ref:`(1) <Eq:fdm-for-ode:fdd:basic_model:eq:vibr>` -
+:ref:`(2) <Eq:fdm-for-ode:fdd:basic_model:eq:vibr:init>` имеет вид 
+
+.. _Eq:fdm-for-ode:fdd:basic_model:eq:vibr:sol:
+
+.. math::
+
+    \tag{3}
+    u(t) = U\cos{\omega t},
+        
+
+т.е. :math:`u` описывает колебания с постоянной амплитудой :math:`U` и
+угловой частотой :math:`\omega`. Соответствующий период колебаний равен
+:math:`P = 2\pi/\omega`. Число периодов в секунду --- это
+:math:`f = \omega/2\pi`. Оно измеряется в герцах (Гц). Как :math:`f`,
+так и :math:`\omega` описываются частоту колебаний, но :math:`\omega`
+более точно называется *угловой частотой* и измеряется в радиан/с.
+
+В колебательных механических системах, описываемых задачей
+:ref:`(1) <Eq:fdm-for-ode:fdd:basic_model:eq:vibr>` -
+:ref:`(2) <Eq:fdm-for-ode:fdd:basic_model:eq:vibr:init>` :math:`u` часто представляет собой
+
+координату или смещение точки в системе. Производная :math:`u'(t)`, таким
+образом, интерпретируется как скорость, а :math:`u''(t)` ---
+ускорение. Задача :ref:`(1) <Eq:fdm-for-ode:fdd:basic_model:eq:vibr>` - 
+:ref:`(2) <Eq:fdm-for-ode:fdd:basic_model:eq:vibr:init>` описывает не только
+механические колебания, но и колебания в электрических цепях.
+
+.. _fdm-for-ode:fdd:fdd:
+
+Разностная схема
+----------------
+
+При численном решении задачи :ref:`(1) <Eq:fdm-for-ode:fdd:basic_model:eq:vibr>` -
+:ref:`(2) <Eq:fdm-for-ode:fdd:basic_model:eq:vibr:init>` будем
+использовать равномерную сетку по переменной :math:`t` с шагом
+:math:`\tau`:
+
+.. math::
+        
+           \omega_\tau = \{ t_n = n\tau, \ n = 0, 1, \ldots N \}.
+        
+
+Приближенное решение задачи :ref:`(1) <Eq:fdm-for-ode:fdd:basic_model:eq:vibr>` -
+:ref:`(2) <Eq:fdm-for-ode:fdd:basic_model:eq:vibr:init>` в точке
+:math:`t_n` обозначим :math:`y^n`.
+
+Простейшая разностная схема для приближенного решения задачи :ref:`(1) <Eq:fdm-for-ode:fdd:basic_model:eq:vibr>` -
+:ref:`(2) <Eq:fdm-for-ode:fdd:basic_model:eq:vibr:init>` есть
+
+.. index:: Разностная схема
+
+.. _Eq:fdm-for-ode:fdd:eq:vibr:efds:
+
+.. math::
+
+    \tag{4}
+    \frac{y^{n+1} - 2 y^{n} + y^{n-1}}{\tau^2} = -\omega^2 y^n.
+        
+
+Кроме того необходимо аппроксимировать производную во втором начальном
+условии. Будем аппроксимировать ее центральную разностную производную:
+
+.. _Eq:fdm-for-ode:fdd:eq:vibr:efds:init:
+
+.. math::
+
+    \tag{5}
+    \frac{y^1 - y^{-1}}{2\tau} = 0.
+        
+
+Для формулировки вычислительного алгоритма, предположим, что мы уже
+знаем значение :math:`y^{n-1}` и :math:`y^{n}`. Тогда из
+:ref:`(4) <Eq:fdm-for-ode:fdd:eq:vibr:efds>` мы можем выразить неизвестное значение
+:math:`y^{n+1}`:
+
+.. _Eq:fdm-for-ode:fdd:eq:vibr:efds:rec:
+
+.. math::
+
+    \tag{6}
+    y^{n+1} = 2y^n - y^{n-1} - \tau^2 \omega^2 y^n.
+        
+
+Вычислительный алгоритм заключается в последовательном применении
+для :math:`n = 1, 2, \ldots`.
+
+Очевидно, что :ref:`(6) <Eq:fdm-for-ode:fdd:eq:vibr:efds:rec>`  нельзя
+использовать при :math:`n = 0`, так как для вычисления :math:`y^1` необходимо знать неопределенное
+значение :math:`y^{-1}` при :math:`t = -\tau`. Однако, из :ref:`(5) <Eq:fdm-for-ode:fdd:eq:vibr:efds:init>`
+имеем :math:`y^{-1} = y^{1}`. Подставляя последнее в :ref:`(6) <Eq:fdm-for-ode:fdd:eq:vibr:efds:rec>`
+при :math:`n=0`, получим
+
+.. math::
+        
+           y^1 = 2 y^0 - y^1 - \tau^2 \omega^2 y^0,
+        
+
+откуда
+
+.. _Eq:fdm-for-ode:fdd:eq:vibr:efds:init:1:
+
+.. math::
+
+    \tag{7}
+    y^1 = y^0 - \frac{1}{2} \tau^2\omega^2 y^0.
+        
+
+В :ref:`fdm-for-ode:exercises:1` требуется использовать
+альтернативный способ вывода :ref:`(7) <Eq:fdm-for-ode:fdd:eq:vibr:efds:init:1>`, а также построить
+аппроксимацию начального условия :math:`u'(0) = V \ne 0`.
+
+.. _fdm-for-ode:fdd:alg:
+
+Вычислительный алгоритм
+-----------------------
+
+Для решения задачи :ref:`(1) <Eq:fdm-for-ode:fdd:basic_model:eq:vibr>` -
+:ref:`(2) <Eq:fdm-for-ode:fdd:basic_model:eq:vibr:init>` следует выполнить
+следующие шаги:
+
+1. :math:`y^0 = U`
+
+2. вычисляем :math:`y^1`, используя :ref:`(7) <Eq:fdm-for-ode:fdd:eq:vibr:efds:init:1>`
+
+3. для :math:`n = 1, 2, \ldots`,
+
+   a. вычисляем :math:`y^n`, используя :ref:`(6) <Eq:fdm-for-ode:fdd:eq:vibr:efds:rec>`
+
+Более строго вычислительный алгоритм напишем на Python:
+
+.. code-block:: python
+
+    t = linspace(0, T, N+1)  # сетка по времени
+    tau = t[1] - t[0]        # постоянный временной шаг
+    u = zeros(N+1)           # решение
+       
+    u[0] = U
+    u[1] = u[0] - 0.5*tau**2*omega**2*u[0]
+    for n in range(1, N):
+        u[n+1] = 2*u[n] - u[n-1] - tau**2*omega**2*u[n]
+
+.. _fdm-for-ode:fdd:index_free:
+
+Безындексные обозначения
+------------------------
+
+.. index:: Разностная производная
+
+.. index::
+   single: Разностная производная; левая
+
+.. index::
+   single: Разностная производная;  правая
+
+Разностную схему можно записать, используя безындексные
+обозначения. Для *левой* и *правой разностных производных* соответственно
+имеем 
+
+.. math::
+        
+           y_{\bar{t}} \equiv \frac{y^{n} - y^{n-1}}{\tau}, \quad
+           y_{t} \equiv \frac{y^{n+1} - y^{n}}{\tau}.
+        
+
+.. index::
+   single: Разностная производная; вторая
+
+Для *второй разностной производной* получим
+
+.. math::
+        
+           y_{\bar{t}t} = \frac{y_t - y_{\bar{t}}}{\tau} = \frac{y^{n+1} - 2y^{n} + y^{n-1}}{\tau^2}.
+        
+
+.. index::
+   single: Разностная производная; центральная
+
+Для аппроксимации второго начального условия использовалась
+*центральная разностная производная*:
+
+.. math::
+        
+           y_{\mathring{t}} = \frac{y^{n+1} - y^{n-1}}{2\tau}.
+        
+
+.. Local Variables:
+
+.. doconce-chapter-nickname: "fdm-for-ode"
+
+.. doconce-section-nickname: "fdd"
+
+.. End:
+
+.. _fdm-for-ode:impl:
+
+Программная реализация          (1)
+===================================
+
+.. _fdm-for-ode:impl:solver:
+
+Функция-решатель (Солвер)
+-------------------------
+
+Алгоритм построенный в предыдущем разделе легко записать как
+функцию Python, вычисляющую :math:`y^0, y^1, \ldots, y^{N}` по
+заданным входным параметрам :math:`U, \omega, \tau` и :math:`T`:
+
+.. code-block:: python
+
+    def solver(U, omega, tau, T):
+        """
+        Решается задача
+        u'' + omega**2*u = 0 для t из (0,T], u(0)=U и u'(0)=0,
+        конечно-разностным методом с постоянным шагом tau
+        """
+        tau = float(tau)
+        Nt = int(round(T/tau))
+        u = np.zeros(Nt+1)
+        t = np.linspace(0, Nt*tau, Nt+1)
+    
+        u[0] = U
+        u[1] = u[0] - 0.5*tau**2*omega**2*u[0]
+        for n in range(1, Nt):
+            u[n+1] = 2*u[n] - u[n-1] - tau**2*omega**2*u[n]
+        return u, t
+
+Также будет удобно реализовать функцию для построения графиков точного
+и приближенного решений:
+
+.. code-block:: python
+
+    def visualize(u, t, U, omega):
+        plt.plot(t, u, 'r--o')
+        t_fine = np.linspace(0, t[-1], 1001)  # мелкая сетка для точного решения
+        u_e = u_exact(t_fine, U, omega)
+        plt.hold('on')
+        plt.plot(t_fine, u_e, 'b-')
+        plt.legend([u'приближенное', u'точное'], loc='upper left')
+        plt.xlabel('$t$')
+        plt.ylabel('$u$')
+        tau = t[1] - t[0]
+        plt.title('$\\tau = $ %g' % tau)
+        umin = 1.2*u.min();  umax = -umin
+        plt.axis([t[0], t[-1], umin, umax])
+        plt.savefig('tmp1.png');  plt.savefig('tmp1.pdf')
+
+Соответствующая основная программа вызывающая эти функции для
+моделирования заданного числа периодов (``num_periods``) может иметь
+вид
+
+.. code-block:: python
+
+    U = 1
+    omega = 2*pi
+    tau = 0.05
+    num_periods = 5
+    P = 2*np.pi/tau    #  один период
+    T = P*num_periods
+    u, t = solver(U, omega, tau, T)
+    visualize(u, t, U, omega, tau)
+
+.. index:: ArgumentParser
+
+Задание некоторых входных параметров удобно осуществлять через
+командную строку. Ниже представлен фрагмент кода, использующий
+инструмент ``ArgumentParser`` из модуля ``argparse`` для определения 
+пар "параметр значение" (``--option value``) в командной строке:
+
+.. code-block:: python
+
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--U', type=float, default=1.0)
+    parser.add_argument('--omega', type=float, default=2*np.pi)
+    parser.add_argument('--tau', type=float, default=0.05)
+    parser.add_argument('--num_periods', type=int, default=5)
+    a = parser.parse_args()
+    U, omega, tau, num_periods = a.U, a.omega, a.tau, a.num_periods
+
+Стандартный вызов основной программы выглядит следующим образом:
+
+.. code-block:: bash
+
+    Terminal> python vib_undamped.py --num_periods 20 --tau 0.1
+
+.. _fdm-for-ode:impl:comp_diff:
+
+Вычисление производной :math:`u'(t)`
+------------------------------------
+
+В приложениях часто необходимо анализировать поведение скорости
+:math:`u'(t)`. Приближенно найти ее по полученным в 
+узлах сетки :math:`\omega_\tau` значениям :math:`y` можно, например,
+используя центральную разностную производную:
+
+.. _Eq:fdm-for-ode:impl:eq::vel:
+
+.. math::
+
+    \tag{8}
+    u'(t_n) \approx v^n = \frac{y^{n+1} - y^n}{2\tau} =
+           y_{\mathring{t}}^n.
+        
+
+Эта формула используется во внутренних узлах сетки :math:`\omega_\tau`
+при :math:`n = 1, 2, \ldots, N-1`. Для :math:`n = 0` скорость
+:math:`v^0` задана начальным условием, а для :math:`n = N` мы можем использовать
+направленную (левую) разностную производную :math:`v^N = y_{\bar{t}}^N`.
+
+Для вычисления производной можно использовать следующий (скалярный)
+код:
+
+.. code-block:: python
+
+    v = np.zeros_like(u)  # or v = np.zeros(len(u))
+    # Используем центральную разностную производную во внутренних узлах
+    for i in range(1, len(u)-1):
+    v[i] = (u[i+1] - u[i-1])/(2*tau)
+    # Используем начальное условие для u'(0)
+    v[0] = 0
+    # Используем левую разностную производную
+    v[-1] = (u[-1] - u[-2])/tau
+
+Мы можем избавиться от цикла (медленного для больших :math:`N`),
+векторизовав вычисление разностной производной. Фрагмент кода,
+приведенного выше, можно заменить следующей векторизованной формой:
+
+.. code-block:: python
+
+    v = np.zeros_like(u)
+    v[1:-1] = (u[2:] - u[:-2])/(2*tau)  # центральная разностная производная
+    v[0] = 0                            # начальное условие u'(0)
+    v[-1] = (u[-1] - u[-2])/tau         # левая разностная производная
+
+.. Local Variables:
+
+.. doconce-chapter-nickname: "fdm-for-ode"
+
+.. doconce-section-nickname: "impl"
+
+.. End:
+
+.. _fdm-for-ode:verif:
+
+Верификация реализации алгоритма          (1)
+=============================================
+
+.. _fdm-for-ode:verif:hand:
+
+Вычисления в ручную
+-------------------
+
+Простейший способ проверки правильности реализации алгоритма
+заключается в вычислении значений :math:`y^1, y^2` и :math:`y^3`,
+например с помощью калькулятора и в написании функции, сравнивающей
+эти результаты с соответствующими результатами вычисленными с помощью
+функции ``solver``. Представленная ниже функция ``test_three_steps``
+демонстрирует, как можно использовать "ручные" вычисления для
+тестирования кода:
+
+.. code-block:: python
+
+    def test_three_steps():
+        from math import pi
+        U = 1;  omega = 2*pi;  tau = 0.1;  T = 1
+        u_by_hand = np.array([
+    	    1.000000000000000,
+    	    0.802607911978213,
+    	    0.288358920740053])
+        u, t = solver(U, omega, tau, T)
+        diff = np.abs(u_by_hand - u[:3]).max()
+        tol = 1E-14
+        assert diff < tol
+
+.. _fdm-for-ode:verif::
+
+Тестирование на простейших решениях
+-----------------------------------
+
+Построение тестовой задачи, решением которой является постоянная
+величина или линейная функция, помогает выполнять начальную отладку и
+проверку реализации алгоритма, так как соответствующие вычислительные
+алгоритмы воспроизводят такие решения с машинной точностью. Например,
+методы второго порядка точности часто являются точными на полиномах
+второй степени. Возьмем точное значение второй разностной производной
+:math:`(t^2)_{\bar{t}t}^n = 2`. Решение :math:`u(t) = t^2` дает
+:math:`u'' + \omega^2 u = 2 + (\omega t)^2 \ne 0`. Следовательно,
+необходимо добавить функцию источника в уравнение:
+:math:`u'' + \omega^2 u = f`. Такое уравнение имеет решение
+:math:`u(t) = t^2` при :math:`f(t) = (\omega t)^2`. Простой
+подстановкой убеждаемся, что сеточная функция :math:`y^n = t_n^2`
+является решением разностной схемы. Выполните
+:ref:`fdm-for-ode:exercises:pr:1`.
+
+.. _fdm-for-ode:verif:conv:
+
+Анализ скорости сходимости
+--------------------------
+
+Естественно ожидать, что погрешность метода :math:`\varepsilon` должна
+уменьшаться с уменьшением шага :math:`\tau`. Многие вычислительные
+методы (в том числе и конечно-разностные) имеют степенную зависимость
+погрешности :math:`\varepsilon` от :math:`\tau`:
+
+.. _Eq:fdm-for-ode:verif:eq:conv_rate:
+
+.. math::
+
+    \tag{9}
+    \varepsilon = M \tau^r,
+        
+
+где :math:`C` и :math:`r` --- постоянные (обычно неизвестные), не
+зависящие от :math:`\tau`. Формула :ref:`(9) <Eq:fdm-for-ode:verif:eq:conv_rate>`
+является асимптотическим законом, верным при достаточно малом
+параметре :math:`\tau`. Насколько малом оценить сложно без численной оценки
+параметра :math:`r`.
+
+Параметр :math:`r` называется *скоростью сходимости*.
+
+.. _fdm-for-ode:verif:conv:est:
+
+Оценка скорости сходимости
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Чтобы оценить скорость сходимости для рассматриваемой задачи, нужно
+выполнить
+
+* провести :math:`m` расчетов, уменьшая на каждом из них шаг в два раза:
+  :math:`\tau_k = 2^{-k}\tau_0`, :math:`k = 0, 1, \ldots, m-1`, 
+
+* вычислить :math:`L_2` -норму погрешности для каждого расчета
+  :math:`\varepsilon_k = \sqrt{\sum_{n=0}^{N-1} (y^n -u_e(t_n)) \tau_k}`,
+
+* оценить скорость сходимости на основе двух последовательных
+  экспериментов :math:`(\tau_{k-1}, \varepsilon_{k-1})` и
+  :math:`(\tau_{k}, \varepsilon_{k})`, в предположении, что погрешность подчинена закону
+  :ref:`(9) <Eq:fdm-for-ode:verif:eq:conv_rate>`. Разделив :math:`\varepsilon_{k-1} = M\tau_{k-1}^r`
+  на :math:`\varepsilon_{k} = M\tau_{k}^r` и решая получившееся
+  уравнение относительно :math:`r`, получим
+
+.. math::
+        
+        	r_{k-1} =
+        	\frac{\ln(\varepsilon_{k-1}/\varepsilon_k)}{\ln(\tau_{k-1}/\tau_k)},
+        	\quad k = 0, 1, \ldots, m-1.
+        
+
+Будем надеяться, что полученные значения :math:`r_0, r_1, \ldots,  r_{m-2}`
+сходятся к некоторому числу (в нашем случае к 2).
+
+.. _fdm-for-ode:verif:conv:impl:
+
+Программная реализация          (2)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Ниже приведена функция для вычисления последовательности :math:`r_0,
+r_1, \ldots, r_{m-2}`.
+
+.. code-block:: python
+
+    def convergence_rates(m, solver_function, num_periods=8):
+        """
+        Возвращает m-1 эмпирическую оценку скорости сходимости, 
+        полученную на основе m расчетов, для каждого из которых 
+        шаг по времени уменьшается в два раза.
+        solver_function(U, omega, tau, T) решает каждую задачу, 
+        для которой T, получается на основе вычислений для 
+        num_periods периодов.
+        """
+        from math import pi
+        omega = 0.35; U = 0.3       # просто заданные значения
+        P = 2*pi/omega              # период
+        tau = P/30                  # 30 шагов на период 2*pi/omega
+        T = P*num_periods
+    
+        tau_values = []
+        E_values = []
+        for i in range(m):
+            u, t = solver_function(U, omega, tau, T)
+            u_e = u_exact(t, U, omega)
+            E = np.sqrt(tau*np.sum((u_e-u)**2))
+            tau_values.append(tau)
+            E_values.append(E)
+            tau = tau/2
+    
+        r = [np.log(E_values[i-1]/E_values[i])/
+             np.log(tau_values[i-1]/tau_values[i])
+             for i in range(1, m, 1)]
+        return r
+
+Ожидаемая скорость сходимости --- 2, так как мы используем
+конечно-разностную аппроксимации второго порядка для второй
+производной в уравнении и для первого начального
+условия. Теоретический анализ погрешности аппроксимации дает
+:math:`r=2`.
+
+Для рассматриваемой задачи, когда :math:`\tau_0` соответствует 30
+временным шагам на период, возвращаемый список ``r`` содержит элементы
+равные ``2.00``. Это означает, что все значения :math:`\tau_k`
+удовлетворяют ассимтотическому режиму, при котором выполнено
+соотношение :ref:`(9) <Eq:fdm-for-ode:verif:eq:conv_rate>`
+
+Теперь мы можем написать тестовую функцию, которая вычисляет скорости
+сходимости и проверяет, что последняя оценка достаточно близка
+к 2. Здесь достаточна граница допуска 0.1.
+
+.. code-block:: python
+
+    def test_convergence_rates():
+        r = convergence_rates(m=5, solver_function=solver, num_periods=8)
+        tol = 0.1
+        assert abs(r[-1] - 2.0) < tol
+
+.. _fdm-for-ode:scaled:
+
+Безразмерная модель
+===================
+
+При моделировании полезно использовать безразмерные переменные, так
+как в этом случае нужно задавать меньше параметров. Рассматриваемая
+нами задача обезразмеривается заданием переменных :math:`\bar{t} = t/t_c` и
+:math:`\bar{u} = u/u_c`, где :math:`t_c` и :math:`u_c`
+характерные масштабы для :math:`t` и :math:`u`,
+соответственно. Задача для ОДУ принимает вид
+
+.. math::
+        
+           \frac{u_c}{t_c} \frac{d^2 \bar{u}}{d \bar{t}^2} + u_c \bar{u} = 0,
+           \quad u_c \bar{u}(0) = U, \quad  \frac{u_c}{t_c} \frac{d \bar{u}}{d
+           \bar{t}}(0) = 0.
+        
+
+Обычно в качестве :math:`t_c` выбирается один период колебаний,
+т.е. :math:`t_c = 2\pi/\omega` и :math:`u_c = U`. Отсюда получаем
+безразмерную модель
+
+.. _Eq:fdm-for-ode:scaled:eq:scaled:
+
+.. math::
+
+    \tag{10}
+    \frac{d^2 \bar{u}}{d \bar{t}^2} + 4\pi^2 \bar{u} = 0, \quad
+           \bar{u}(0) = 1, \quad \bar{u}'(0) = 0.
+        
+
+Заметьте, что в :ref:`(10) <Eq:fdm-for-ode:scaled:eq:scaled>` отсутствуют физические
+параметры. Таким образом мы можем выполнить одно вычисление
+:math:`\bar{u}(\bar{t})` и затем восстановить любое :math:`u(t; \omega,U)`
+следующим образом
+
+.. math::
+        
+           u(t; \omega, U) = u_c \bar{u}(t/t_c) = U \bar{u}(\omega t/(2\pi)).
+        
+
+Расчет для безразмерной модели можно выполнить вызвав функцию
+``solver(U = 1, omega = 2*np.pi, tau, T)``. В этом случае период равен
+1 и ``T`` задает количество периодов. Выбор ``tau = 1./N`` дает
+:math:`N` шагов на период.
+
+Сценарий  `vib_undamped.py <src-fdm-for-ode/vib_undamped.py>`__ содержит представленные в данном разделе примеры. 
+
+.. Local Variables:
+
+.. doconce-chapter-nickname: "fdm-for-ode"
+
+.. doconce-section-nickname: "verif"
+
+.. End:
+
+.. _fdm-for-ode:long_time:
+
+Проведение вычислительного эксперимента
+=======================================
+
+На рисунке :ref:`fdm-for-ode:long_time:fig:1` представлено сравнение
+точного и приближенного решений безразмерной модели
+:ref:`(10) <Eq:fdm-for-ode:scaled:eq:scaled>` с шагами :math:`\tau=0.1` и
+:math:`0.5`. Проанализировав графики, мы можем 
+сделать следующие предположения:
+
+* Похоже, что численное решение корректно передает амплитуду колебаний
+
+* Наблюдается погрешность при расчете угловой частоты, которая
+  уменьшается при уменьшении шага.
+
+* Суммарная погрешность угловой частоты увеличивается со временем.
+
+.. _fdm-for-ode:long_time:fig:1:
+
+.. figure:: vib-fig-1.png
+   :width: 800
+
+   *Эффект от уменьшения шага вдвое*
+
+.. _fdm-for-ode:long_time:mov_figs:
+
+Использование изменяющихся графиков
+-----------------------------------
+
+В рассматриваемой нами задаче о колебаниях следует анализировать
+поведение системы на больших временных интервалах. Как видно из
+предыдущих наблюдений погрешность угловой частоты накапливается и
+становится более различимой со временем. Мы можем провести анализ на
+большом интервале времени, построив подвижные графики, которые могут
+изменяться в течение :math:`p` новых вычисленных периодах
+решения. Пакет `SciTools <https://github.com/hplgit/scitools>`__
+содержит удобный инструмент для этого: ``MovingPlotWindow``. Ниже
+приведена функция, использующая данный инструмент:
+
+.. code-block:: python
+
+    def visualize_front(u, t, U, omega, savefig=False, skip_frames=1):
+        """
+        Стороится зависимость приближенного и точного решений
+        от t с использованием анимированного изображения и непрерывного
+        отображения кривых, изменяющихся со временем.
+        Графики сохраняются в файлы, если параметр savefig=True.
+        Только каждый skip_frames-й график сохраняется (например, если 
+        skip_frame=10, только каждый десятый график сохраняется в файл;
+        это удобно, если нужно сравнивать графики для различных моментов
+        времени).
+        """
+        import scitools.std as st
+        from scitools.MovingPlotWindow import MovingPlotWindow
+        from math import pi
+    
+        # Удаляем все старые графики tmp_*.png
+        import glob, os
+        for filename in glob.glob('tmp_*.png'):
+            os.remove(filename)
+    
+        P = 2*pi/omega  # один период
+        umin = 1.2*u.min();  umax = -umin
+        tau = t[1] - t[0]
+        plot_manager = MovingPlotWindow(
+            window_width=8*P,
+            dt=tau,
+            yaxis=[umin, umax],
+            mode='continuous drawing')
+        frame_counter = 0
+        for n in range(1,len(u)):
+            if plot_manager.plot(n):
+                s = plot_manager.first_index_in_plot
+                st.plot(t[s:n+1], u[s:n+1], 'r-1',
+                        t[s:n+1], U*np.cos(omega*t)[s:n+1], 'b-1',
+                        title='t=%6.3f' % t[n],
+                        axis=plot_manager.axis(),
+                        show=not savefig) # пропускаем окно, если savefig
+                if savefig and n % skip_frames == 0:
+                    filename = 'tmp_%04d.png' % frame_counter
+                    st.savefig(filename)
+                    print u'Создаем графический файл', filename, 't=%g' % t[n]
+                    frame_counter += 1
+            plot_manager.update(n)
+    
+    def bokeh_plot(u, t, legends, U, omega, t_range, filename):
+    	"""
+    	Строится график зависимости приближенного решения от t с 
+    	использованием библиотеки Bokeh.
+    	u и t - списки (несколько экспериментов могут сравниваться).
+    	легенды содержат строки для различных пар u,t.
+        """
+    	if not isinstance(u, (list,tuple)):
+    		u = [u]  
+    	if not isinstance(t, (list,tuple)):
+    		t = [t]  
+    	if not isinstance(legends, (list,tuple)):
+    		legends = [legends] 
+    
+    	import bokeh.plotting as plt
+    	plt.output_file(filename, mode='cdn', title=u'Сравнение с помощью Bokeh')
+    	# Предполагаем, что все массивы t имеют одинаковые размеры
+    	t_fine = np.linspace(0, t[0][-1], 1001)  # мелкая сетка для точного решения
+    	tools = 'pan,wheel_zoom,box_zoom,reset,'\ 
+    	        'save,box_select,lasso_select'
+    	u_range = [-1.2*U, 1.2*U]
+    	font_size = '8pt'
+    	p = []  # список графических объектов
+    	# Создаем первую фигуру
+    	p_ = plt.figure(
+    		width=300, plot_height=250, title=legends[0],
+    		x_axis_label='t', y_axis_label='u',
+    		x_range=t_range, y_range=u_range, tools=tools,
+    		title_text_font_size=font_size)
+    	p_.xaxis.axis_label_text_font_size=font_size
+    	p_.yaxis.axis_label_text_font_size=font_size
+    	p_.line(t[0], u[0], line_color='blue')
+    	# Добавляем точное решение
+    	u_e = u_exact(t_fine, U, omega)
+    	p_.line(t_fine, u_e, line_color='red', line_dash='4 4')
+    	p.append(p_)
+    	# Создаем оставшиеся фигуры и добавляем их оси к осям первой фигуры
+    	for i in range(1, len(t)):
+    		p_ = plt.figure(
+    			width=300, plot_height=250, title=legends[i],
+    			x_axis_label='t', y_axis_label='u',
+    			x_range=p[0].x_range, y_range=p[0].y_range, tools=tools,
+    			title_text_font_size=font_size)
+    		p_.xaxis.axis_label_text_font_size = font_size
+    		p_.yaxis.axis_label_text_font_size = font_size
+    		p_.line(t[i], u[i], line_color='blue')
+    		p_.line(t_fine, u_e, line_color='red', line_dash='4 4')
+    		p.append(p_)
+    		
+    	# Располагаем все графики на сетке с 3 графиками в строке
+    	grid = [[]]
+    	for i, p_ in enumerate(p):
+    		grid[-1].append(p_)
+    		if (i+1) % 3 == 0:
+    			# Новая строка
+    			grid.append([])
+    	plot = plt.gridplot(grid, toolbar_location='left')
+    	plt.save(plot)
+    	plt.show(plot)
+    
+    	
+    def demo_bokeh():
+        """Решаем обезразмеренное ОДУ u'' + u = 0."""
+        omega = 1.0        # обезразмеренная задача (частота)
+        P = 2*np.pi/omega  # период
+        num_steps_per_period = [5, 10, 20, 40, 80]
+        T = 40*P       # Время моделирования: 40 периодов
+        u = []         # список с приближенными решениями
+        t = []         # список с соответствующими сетками
+        legends = []
+        for n in num_steps_per_period:
+            tau = P/n
+            u_, t_ = solver(U=1, omega=omega, tau=tau, T=T)
+            u.append(u_)
+            t.append(t_)
+            legends.append(u'Шагов на период: %d' % n)
+        bokeh_plot(u, t, legends, U=1, omega=omega, t_range=[0, 4*P],
+                   filename='bokeh.html')
+    
+    if __name__ == '__main__':
+    	main()
+    #    demo_bokeh()
+    #    raw_input()
+
+Можно вызывать эту функцию в функции ``main``, если число периодов при
+моделировании больше 10. Запуск вычислений для безразмерной
+модели (значения, заданные по умолчанию, для аргументов командной
+строки ``--U`` и ``--omega`` соответствуют безразмерной модели) для 40
+периодов с 20 шагами на период выглядит следующим образом
+
+.. code-block:: bash
+
+    Terminal> python vib_undamped.py --dt 0.05 --num_periods 40
+
+Появится окно с движущимся графиком, на котором мы можем видеть
+изменение точного и приближенного решений со временем. На этих
+графиках мы видим, что погрешность угловой частоты мала в начале
+расчета, но становится более заметной со временем.
+
+.. _fdm-for-ode:long_time:anim:
+
+Создание анимации
+-----------------
+
+.. _fdm-for-ode:long_time:anim:std:
+
+Стандартные видео форматы
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Функция ``visualize_front`` сохраняет все графики в файлы с именами:
+``tmp_0000.png``, ``tmp_0001.png``, ``tmp_0002.png`` и т.д. Из этих
+файлов мы можем создать видео файл, например, в формате ``mpeg4``:
+
+.. code-block:: bash
+
+    Terminal> ffmpeg -r 12 -i tmp_%04d.png -c:v libx264 movie.mp4
+
+Программа ``ffmpeg`` имеется в репозитариях Ubuntu. Можно использовать
+другие программы для создания видео из набора отдельных графических
+файлов. Для генерации других видео форматов с помощью ``ffmpeg`` можно
+использовать  соответствующие кодеки и расширения для выходных файлов:
+
+======  ============================  
+Формат       Кодек и имя файла        
+======  ============================  
+Flash   ``-c:v flv movie.flv``        
+MP4     ``-c:v libx264 movie.mp4``    
+WebM    ``-c:v libx264 movie.mp4``    
+Ogg     ``-c:v libtheora movie.ogg``  
+======  ============================  
+
+Видео файл можно проиграть каким-либо видео плейером.
+
+Также можно использовать веб-браузер, создав веб-страницу, содержащую HTML5-тег
+``video``:
+
+.. code-block:: html
+
+    <video autoplay loop controls width='640' height='365' preload='none'>
+       <source src='movie.webm'  type='video/webm; codecs="vp8, vorbis"'>
+    </video>
+
+Современные браузеры поддерживают не все видео форматы. MP4 необходим
+для просмотра на устройствах Apple, которые используют браузер
+Safari. WebM --- предпочтительный формат для Chrome, Opera, Firefox и
+IE v9+. Flash был популярен раньше, но старые браузеры, которые
+использовали Flash могут проигрывать MP4. Все браузеры, которые
+работают с форматом Ogg, могут также воспроизводить WebM. Это
+означает, что для того, чтобы видео можно было просмотреть в любом
+браузере, это видео должно быть доступно в форматах MP4 и
+WebM. Соответствующий HTML код представлен ниже:
+
+.. code-block:: html
+
+    <video autoplay loop controls width='640' height='365' preload='none'>
+       <source src='movie.mp4'   type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'> 
+       <source src='movie.webm'  type='video/webm; codecs="vp8, vorbis"'>
+    </video>
+
+Формат MP4 должен идти первым для того, чтобы устройства Apple могли
+корректно загружать видео.
+
+
+.. warning::
+    Для того, чтобы быть уверенным в том, что отдельные графические
+    кадры в итоге показывались в правильном порядке, необходимо
+    нумеровать файлы используя нули вначале номера (0000, 0001, 0002 и
+    т.д.). Формат ``%04d`` задает отображение целого числа в поле из 4
+    символов, заполненном слева нулями.
+
+
+
+
+.. _fdm-for-ode:long_time:anim:png_play:
+
+Проигрыватель набора PNG файлов в браузере
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Команда ``scitools movie`` может создать видео
+проигрыватель для набора PNG так, что можно будет использовать браузер
+для просмотра "видео". Преимущество такой реализации в том, что
+пользователь может контролировать скорость изменения графиков. Команда
+для генерации HTML с проигрывателем набора PNG файлов ``tmp_*.png``
+выглядит следующим образом:
+
+.. code-block:: bash
+
+    Terminal> scitools movie output_file=vib.html fps=4 tmp_*.png
+
+Параметр ``fps`` управляет скоростью проигрывания видео (*количество фреймов в секунду*).
+
+Для просмотра видео достаточно загрузить страницу ``vib.html`` в какой-либо браузер.
+
+.. _fdm-for-ode:long_time:anim:gif:
+
+Создание анимированных GIF файлов
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Из набора PNG файлов можно также создать анимированный GIF, используя
+программу ``convert`` программного пакета `ImageMagick <http://www.imagemagick.org>`__:
+
+.. code-block:: bash
+
+    Terminal> convert -delay 25 tmp_*.png tmp_vib.gif
+
+Параметр ``delay`` устанавливает задержку между фреймами, измеряемую в
+1/100 с, таким образом 4 фрейма в секунду здесь задается задержкой
+25/100 с. Отметим, что в нашем случае расчета 40 периодов с шагом
+:math:`\tau = 0.05`, процесс создания GIF из большого набора PNG
+файлов является ресурсоемким, поэтому такой подход не стоит
+использовать. Анимированный GIF может быть подходящим, когда
+используется небольшое количество фреймов, нужно анализировать
+каждый фрейм и проигрывать видео медленно.
+
+.. _fdm-for-ode:long_time:bokeh:
+
+Использование Bokeh для сравнения графиков
+------------------------------------------
+
+Вместо динамического изменения графиков, можно использовать средства
+для расположения графиков на сетке с помощью мыши. Например, мы можем
+расположить четыре периода на графиках, а затем с помощью мыши
+прокручивать остальные временные отрезки. Графическая библиотека
+`Bokeh <http://bokeh.pydata.org>`__ предоставляет такой инструментарий,
+но графики должны просматриваться в 
+браузере. Библиотека имеет отличную документацию, поэтому здесь мы
+покажем, как она может использоваться при сравнении набора графиков
+функции :math:`u(t)`, соответствующих длительному моделированию.
+
+Допустим, что мы хотим выполнить эксперименты для серии значений
+:math:`\tau`. Нам нужно построить совместные графики приближенного и
+точного решения для каждого шага :math:`\tau` и расположить их на
+сетке:
+
+.. figure:: bokeh.png
+   :width: 800
+
+Далее мы можем перемещать мышью кривую в одном графике, в других
+кривые будут смещаться автоматически.
+
+Функция, генерирующая html страницу с графиками с использованием
+библиотеки Bokeh по заданным спискам массивов ``u`` и соответствующих
+массивов ``t`` для различных вариантов расчета, представлена ниже:
+
+.. code-block:: python
+
+    def bokeh_plot(u, t, legends, U, omega, t_range, filename):
+    	"""
+    	Строится график зависимости приближенного решения от t с 
+    	использованием библиотеки Bokeh.
+    	u и t - списки (несколько экспериментов могут сравниваться).
+    	легенды содержат строки для различных пар u,t.
+        """
+    	if not isinstance(u, (list,tuple)):
+    		u = [u]  
+    	if not isinstance(t, (list,tuple)):
+    		t = [t]  
+    	if not isinstance(legends, (list,tuple)):
+    		legends = [legends] 
+    
+    	import bokeh.plotting as plt
+    	plt.output_file(filename, mode='cdn', title=u'Сравнение с помощью Bokeh')
+    	# Предполагаем, что все массивы t имеют одинаковые размеры
+    	t_fine = np.linspace(0, t[0][-1], 1001)  # мелкая сетка для точного решения
+    	tools = 'pan,wheel_zoom,box_zoom,reset,'\ 
+    	        'save,box_select,lasso_select'
+    	u_range = [-1.2*U, 1.2*U]
+    	font_size = '8pt'
+    	p = []  # список графических объектов
+    	# Создаем первую фигуру
+    	p_ = plt.figure(
+    		width=300, plot_height=250, title=legends[0],
+    		x_axis_label='t', y_axis_label='u',
+    		x_range=t_range, y_range=u_range, tools=tools,
+    		title_text_font_size=font_size)
+    	p_.xaxis.axis_label_text_font_size=font_size
+    	p_.yaxis.axis_label_text_font_size=font_size
+    	p_.line(t[0], u[0], line_color='blue')
+    	# Добавляем точное решение
+    	u_e = u_exact(t_fine, U, omega)
+    	p_.line(t_fine, u_e, line_color='red', line_dash='4 4')
+    	p.append(p_)
+    	# Создаем оставшиеся фигуры и добавляем их оси к осям первой фигуры
+    	for i in range(1, len(t)):
+    		p_ = plt.figure(
+    			width=300, plot_height=250, title=legends[i],
+    			x_axis_label='t', y_axis_label='u',
+    			x_range=p[0].x_range, y_range=p[0].y_range, tools=tools,
+    			title_text_font_size=font_size)
+    		p_.xaxis.axis_label_text_font_size = font_size
+    		p_.yaxis.axis_label_text_font_size = font_size
+    		p_.line(t[i], u[i], line_color='blue')
+    		p_.line(t_fine, u_e, line_color='red', line_dash='4 4')
+    		p.append(p_)
+    		
+    	# Располагаем все графики на сетке с 3 графиками в строке
+    	grid = [[]]
+    	for i, p_ in enumerate(p):
+    		grid[-1].append(p_)
+    		if (i+1) % 3 == 0:
+    			# Новая строка
+    			grid.append([])
+    	plot = plt.gridplot(grid, toolbar_location='left')
+    	plt.save(plot)
+    	plt.show(plot)
+
+Приведем также пример использования функции ``bokeh_plot``:
+
+.. code-block:: python
+
+    def demo_bokeh():
+        """Решаем обезразмеренное ОДУ u'' + u = 0."""
+        omega = 1.0        # обезразмеренная задача (частота)
+        P = 2*np.pi/omega  # период
+        num_steps_per_period = [5, 10, 20, 40, 80]
+        T = 40*P       # Время моделирования: 40 периодов
+        u = []         # список с приближенными решениями
+        t = []         # список с соответствующими сетками
+        legends = []
+        for n in num_steps_per_period:
+            tau = P/n
+            u_, t_ = solver(U=1, omega=omega, tau=tau, T=T)
+            u.append(u_)
+            t.append(t_)
+            legends.append(u'Шагов на период: %d' % n)
+        bokeh_plot(u, t, legends, U=1, omega=omega, t_range=[0, 4*P],
+                   filename='bokeh.html')
+
+.. _fdm-for-ode:long_time:empirical:
+
+Практический анализ решения
+---------------------------
+
+Для колебательной функции, аналогичной представленной на
+:ref:`fdm-for-ode:long_time:fig:1`, мы можем вычислить амплитуду и частоту
+(или период) на основе моделирования. Мы пробегаем дискретное
+множество точек решения :math:`(t_n, y^n)` и находим все точки
+экстремумов. Расстояние между двумя последовательными точками максимума (или
+минимума) можно использовать для оценки локального периода, при этом
+половина разницы между максимальным и ближайшим к нему минимальным
+значениями :math:`y` дают оценку локальной амплитуды.
+
+Локальный максимум --- это точки, где выполнено условие
+
+.. math::
+        
+           y^{n-1} < y^n > y^{n+1}, \quad n = 1, 2, \ldots, N.
+        
+
+Аналогично определяются точки локального минимума
+
+.. math::
+        
+           y^{n-1} > y^n < y^{n+1}, \quad n = 1, 2, \ldots, N.
+        
+
+Ниже приведена функция определения локальных максимумов и минимумов
+
+.. code-block:: python
+
+    def minmax(t, u):
+        """
+        Вычисляются все локальные минимумы и максимумы сеточной функции 
+        u(t_n), представленной массивами u и t. Возвращается список минимумов
+        и максимумов вида (t[i],u[i]).
+        """
+        minima = []; maxima = []
+        for n in range(1, len(u)-1, 1):
+            if u[n-1] > u[n] < u[n+1]:
+                minima.append((t[n], u[n]))
+            if u[n-1] < u[n] > u[n+1]:
+                maxima.append((t[n], u[n]))
+        return minima, maxima
+
+Два возвращаемых объекта --- списки кортежей.
+
+Пусть :math:`(t_k, e^k)`, :math:`k = 0, 1, \ldots, M-1` ---
+последовательность всех :math:`M` точек максимума, где :math:`t_k` ---
+момент времени и :math:`e^k` --- соответствующее значение сеточной
+функции :math:`y`. Локальный период можно определить как :math:`p_k = t_{k+1} -
+t_k`, что на языке Python можно реализовать следующим образом:
+
+.. code-block:: python
+
+    def periods(extrema):
+        """
+        По заданному списку (t,u) точек минимума или максимума возвращается
+        массив соотвествующих локальных периодов.
+        """
+        p = [extrema[n][0] - extrema[n-1][0]
+             for n in range(1, len(extrema))]
+        return np.array(p)
+
+Зная минимумы и максимумы, мы можем определить локальные амплитуды
+через разницы между соседними точками максимумов и минимумов:
+
+.. code-block:: python
+
+    def amplitudes(minima, maxima):
+        """
+        По заданным спискам точек локальных минимумов и максимумов
+        возвращается массив соответсвующих локальных амплитуд.
+        """
+        # Сравнивается первый максимум с первым минимумом и т.д.
+        a = [(abs(maxima[n][1] - minima[n][1]))/2.0
+             for n in range(min(len(minima),len(maxima)))]
+        return np.array(a)
+
+Так как ``a[k]`` и ``p[k]`` соответствуют :math:`k` -тым оценкам
+амплитуды и периода, соответственно, удобно отобразить графически
+зависимость значений ``a`` и ``p`` от индекса ``k``.
+
+При анализе больших временных рядов выгодно вычислять и
+визуализировать ``p`` и ``a`` вместо ``y`` для того, чтобы получить
+представление о распространении колебаний. Покажем как это сделать для
+безразмерной задачи при :math:`\tau = 0.1, 0.5, 0.01`. Пусть заготовлена
+следующая функция:
+
+.. code-block:: python
+
+    def plot_empirical_freq_and_amplitude(u, t, U, omega):
+        """
+        Находит эмпирически угловую частоту и амплитуду при вычислениях,
+        зависящую от u и t. u и t могут быть массивами или (в случае 
+        нескольких расчетов) многомерными массивами.
+        Одно построение графика выполняется для амплитуды и одно для 
+        угловой частоты (на легендах названа просто частотой).
+        """
+        from vib_empirical_analysis import minmax, periods, amplitudes
+        from math import pi
+        if not isinstance(u, (list,tuple)):
+            u = [u]
+            t = [t]
+        legends1 = []
+        legends2 = []
+        for i in range(len(u)):
+            minima, maxima = minmax(t[i], u[i])
+            p = periods(maxima)
+            a = amplitudes(minima, maxima)
+            plt.figure(1)
+            plt.plot(range(len(p)), 2*pi/p)
+            legends1.append(u'Частота, case%d' % (i+1))
+            plt.hold('on')
+            plt.figure(2)
+            plt.plot(range(len(a)), a)
+            plt.hold('on')
+            legends2.append(u'Амплитуда, case%d' % (i+1))
+        plt.figure(1)
+        plt.plot(range(len(p)), [omega]*len(p), 'k--')
+        legends1.append(u'Точная частота')
+        plt.legend(legends1, loc='lower left')
+        plt.axis([0, len(a)-1, 0.8*omega, 1.2*omega])
+        plt.savefig('tmp1.png');  plt.savefig('tmp1.pdf')
+        plt.figure(2)
+        plt.plot(range(len(a)), [U]*len(a), 'k--')
+        legends2.append(u'Точная амплитуда')
+        plt.legend(legends2, loc='lower left')
+        plt.axis([0, len(a)-1, 0.8*U, 1.2*U])
+        plt.savefig('tmp2.png');  plt.savefig('tmp2.pdf')
+        plt.show()
+
+Мы можем написать небольшую программу для создания графиков:
+
+.. code-block:: python
+
+    # -*- coding: utf-8 -*-
+    
+    from vib_undamped import solver, plot_empirical_freq_and_amplitude
+    from math import pi
+    
+    tau_values = [0.1, 0.5, 0.01]
+    u_cases = []
+    t_cases = []
+    
+    for tau in tau_values:
+    	# Расчитываем безразмерную модель для 40 периодов
+    	u, t = solver(U = 1, omega = 2*pi, tau = tau, T = 40)
+    	u_cases.append(u)
+    	t_cases.append(t)
+    
+    plot_empirical_freq_and_amplitude(u_cases, t_cases, U = 1, omega = 2*pi)
+
+На рис. :ref:`fdm-for-ode:long_time:fig:3` представлен результат работы программы:
+очевидно, что уменьшение шага расчета :math:`\tau` существенно
+улучшает угловую частоту, при этом амплитуда тоже становиться более
+точной. Линии для :math:`\tau = 0.01`, соответствующие 100 шагам на
+период, сложно отличить от точных значений.
+
+.. _fdm-for-ode:long_time:fig:3:
+
+.. figure:: vib-fig-2.png
+   :width: 800
+
+   *Эмпирические амплитуды и угловые частоты для трех значений временного шага*
+
+.. Local Variables:
+
+.. doconce-chapter-nickname: "fdm-for-ode"
+
+.. doconce-section-nickname: "long_time"
+
+.. End:
+
+.. _fdm-for-ode:analysis:
+
+Анализ конечно-разностной схемы
+===============================
+
+.. _fdm-for-ode:analysis:deriv:
+
+Вывод решения конечно-разностной схемы
+--------------------------------------
+
+Как мы видели в предыдущем разделе погрешность частоты растет со
+временем. Оценим эту погрешность теоретически. Проведем анализ на
+основе точного решения дискретной задачи. Разностное уравнение
+:ref:`(4) <Eq:fdm-for-ode:fdd:eq:vibr:efds>` --- однородное с постоянными
+коэффициентами. Известно, что такие уравнения имеют решения вида
+:math:`y^n = c q^n`, где :math:`q` --- некоторое число, определяемое
+из разностного уравнения, а постоянная :math:`c` определяется из
+начального условия (:math:`c = U`). Здесь верхний индекс :math:`n` в
+:math:`y^n` обозначает временной слой, а в :math:`q^n` --- степень.
+
+Будем искать :math:`q` в виде
+
+.. math::
+        
+           q = e^{i\tilde{\omega} t},
+        
+
+и решим задачу относительно :math:`\tilde{\omega}`. Напомним, что
+:math:`i = \sqrt{-1}`. Имеем
+
+.. math::
+        
+           q^n = e^{\tilde{\omega}\tau n} = e^{i\tilde\omega t} =
+           \cos(\tilde\omega t) + i \sin(\tilde\omega t) .
+        
+
+В качестве физически обоснованного численного решения возьмем
+действительную часть этого комплексного выражения.
+
+Вычисления дают
+
+.. math::
+        \begin{align*}
+           y_{\bar{t}t}^n &= \frac{y^{n+1} - 2 y^n + y^{n-1}}{\tau^2}\\
+           &= U \frac{q^{n+1} - 2q^{n} + q^{n-1}}{\tau^2} \\
+           & = \frac{U}{\tau^2} \left( e^{i(\tilde{\omega}t+\tau)}
+           -2e^{i(\tilde{\omega}t)} + e^{i(\tilde{\omega}t-\tau)}\right) \\
+           &= U e^{i(\tilde{\omega}t)} \frac{1}{\tau^2}
+           \left( e^{i\tau} + e^{-i\tau} - 2 \right) \\
+           &= U e^{i(\tilde{\omega}t)} \frac{2}{\tau^2}
+           \left( \cos(\tilde{\omega}\tau) - 1 \right) \\
+           &= - U e^{i(\tilde{\omega}t)} \frac{4}{\tau^2}
+           \sin^2\left( \frac{\tilde{\omega}\tau}{2} \right)
+        \end{align*}
+
+Подставляя :math:`y^n = U e^{\tilde{\omega}\tau n}` в
+:ref:`(4) <Eq:fdm-for-ode:fdd:eq:vibr:efds>` и учитывая последнее выражение, получим
+
+.. math::
+        
+           - U e^{i(\tilde{\omega}t)} \frac{4}{\tau^2}
+           \sin^2\left( \frac{\tilde{\omega}\tau}{2} \right) + \omega^2 U
+           e^{i(\tilde{\omega}t)} = 0.
+        
+
+Разделив последнее выражение на :math:`U e^{i(\tilde{\omega}t)}`,
+получим
+
+.. math::
+        
+           \frac{4}{\tau^2} \sin^2\left( \frac{\tilde{\omega}\tau}{2} \right)
+           = \omega^2.
+        
+
+Отсюда
+
+.. math::
+        
+           \sin^2\left( \frac{\tilde{\omega}\tau}{2} \right) =
+           \left( \frac{\omega\tau}{2} \right)^2
+        
+
+и, следовательно, имеем
+
+.. _Eq:fdm-for-ode:analysis:eq:tomega:
+
+.. math::
+
+    \tag{11}
+    \tilde{\omega} = \pm \frac{2}{\tau}
+           \arcsin\left(\frac{\omega\tau}{2}\right).
+        
+
+Из :ref:`(11) <Eq:fdm-for-ode:analysis:eq:tomega>` видно, что численная частота
+:math:`\tilde\omega` никогда не равна точной :math:`\omega`. Для того,
+чтобы понять насколько хороша аппроксимация :ref:`(11) <Eq:fdm-for-ode:analysis:eq:tomega>`,
+используем разложение в ряд Тейлора для малых :math:`\tau`:
+
+.. code-block:: python
+
+    >>> from sympy import *
+    >>> tau, omega = symbols('tau omega')
+    >>> omega_tilde_e = 2/tau*asin(omega*tau/2)
+    >>> omega_tilde_series = w_tilde_e.series(tau, 0, 4)
+    >>> print omega_tilde_series
+    >>> omega + tau**2*omega**3/24 + O(tau**4)
+
+Таким образом, имеем
+
+.. _Eq:fdm-for-ode:analysis:eq:omega:exp:
+
+.. math::
+
+    \tag{12}
+    \tilde{\omega} = \omega \left( 1 + \frac{1}{24} \omega^2\tau^2
+           \right) + \mathcal{O}(\tau^4).
+        
+
+Погрешность численного значения частоты имеет второй порядок по
+:math:`\tau` и стремится к нулю при :math:`\tau\to 0`. Из
+:ref:`(12) <Eq:fdm-for-ode:analysis:eq:omega:exp>` видно, что :math:`\tilde\omega >
+\omega`, так как :math:`\omega^3\tau/24 > 0`. Это слагаемое вносит наибольший
+вклад в погрешность. Слишком большая численная частота дает слишком
+быстро колеблющийся профиль и, таким образом, решение как бы
+запаздывает, это хорошо видно в левой
+рис. :ref:`fdm-for-ode:long_time:fig:1`.
+
+На :ref:`fdm-for-ode:analysis:fig:1` представлены графики дискретной частоты
+вычисленной по :ref:`(11) <Eq:fdm-for-ode:analysis:eq:tomega>` и ее приближения
+:ref:`(12) <Eq:fdm-for-ode:analysis:eq:omega:exp>` для :math:`\omega = 1`.
+
+.. _fdm-for-ode:analysis:fig:1:
+
+.. figure:: discrete_freq.png
+   :width: 600
+
+   *Точная дискретная частота и ее разложение в ряд второго порядка*
+
+.. _fdm-for-ode:analysis:ex:disc:
+
+Точное дискретное решение
+-------------------------
+
+Возможно, более важный результат (чем то, что :math:`\tilde\omega = \omega +
+\mathcal{O}(\tau^2)`) заключается в том, что мы нашли точное
+дискретное решение задачи:
+
+.. _Eq:fdm-for-ode:analysis:eq:ex:discr:
+
+.. math::
+
+    \tag{13}
+    y^n = U \cos(\tilde\omega \tau n), \quad \tilde\omega =
+           \frac{2}{\tau} \arcsin \left(\frac{\omega\tau}{2} \right).
+        
+
+Теперь мы можем вычислить сеточную функцию погрешности:
+
+.. _Eq:fdm-for-ode:analysis:eq:error:
+
+.. math::
+
+    \tag{14}
+    e^n = u_e(t_n) - u^n = U \cos(\omega\tau n) - U
+           \cos(\tilde\omega\tau n) \nonumber
+        
+
+.. _Eq:_auto1:
+
+.. math::
+
+    \tag{15}
+    = -2 U \sin\left( \frac{t}{2} (\omega -
+           \tilde\omega) \right) \sin\left( \frac{t}{2} (\omega +
+           \tilde\omega) \right).
+        
+        
+
+Построенная сеточная функция погрешности идеальна для целей
+тестирования поэтому необходимо реализовать тест на основе
+:ref:`(13) <Eq:fdm-for-ode:analysis:eq:ex:discr>`, выполнив
+:ref:`fdm-for-ode:exercises:2`.
+
+.. _fdm-for-ode:analysis:conv:
+
+Сходимость
+----------
+
+Для того, чтобы показать, что приближенное решение сходится к точному,
+т.е. :math:`e^n \to 0` при :math:`\tau \to 0`, воспользуемся 
+:ref:`(11) <Eq:fdm-for-ode:analysis:eq:tomega>`:
+
+.. math::
+        
+           \lim_{\tau \to 0} = \lim_{\tau\to 0} \frac{2}{\tau} \arcsin \left(
+           \frac{\omega \tau}{2} \right) = \omega.
+        
+
+Это можно проверить, например, с помощью ``sympy``:
+
+.. code-block:: python
+
+    >>> import sympy as sym
+    >>> tau, omega = sym.symbols('tau omega')
+    >>> sym.limit((2/tau)*sym.asin(omega*tau/2),tau,0,dir='+')
+    omega
+
+.. _fdm-for-ode:analysis:glob_error:
+
+Глобальная погрешность
+----------------------
+
+Проведем анализ глобальной погрешности. Разложим сеточную функцию
+погрешности :ref:`(14) <Eq:fdm-for-ode:analysis:eq:error>`. Воспользуемся для
+этого пакетом ``sympy``:
+
+.. code-block:: python
+
+    >>> from sympy import *
+    >>> omega_tilde_e = 2/tau*asin(omega*tau/2)
+    >>> omega_tilde_series = omega_tilde_e.series(tau, 0, 4)
+    >>> omega_tilde_series
+    omega + omega**3*tau**2/24 + O(tau**4)
+
+Можно использовать команду ``removeO()``, чтобы избавиться от
+слагаемого ``O()``:
+
+.. code-block:: python
+
+    >>> omega_tilde_series = omega_tilde_series.removeO()
+    >>> omega_tilde_series
+    omega**3*tau**2/24 + omega
+
+Используя выражение для :math:`\tilde\omega` и разлагая погрешность в
+ряд, получим
+
+.. code-block:: python
+
+    >>> error = cos(omega*t) - cos(omega_tilde_series*t)
+    >>> error.series(tau, 0, 6)
+    omega**3*t*tau**2*sin(omega*t)/24 + omega**6*t**2*tau**4*cos(omega*t)/1152 + O(tau**6)
+
+Так как нас интересует главное слагаемое в разложении (слагаемое с
+наименьшей степенью :math:`\tau`), воспользуемся методом
+``.as_leading_term(tau)``, чтобы выделить это слагаемое:
+
+.. code-block:: python
+
+    >>> error.series(tau, 0, 6).as_leading_term(tau)
+    omega**3*t*tau**2*sin(omega*t)/24
+
+Последний результат означает, что глобальная погрешность в точке
+:math:`t` пропорциональна :math:`\omega^3 t \tau`. Учитывая, что
+:math:`t = n\tau` и :math:`\sin(\omega t) \leq 1`, получим
+
+.. math::
+        
+           e^n = \frac{1}{24} n \omega^3 \tau^3.
+        
+
+Это главный член погрешности *в точке*.
+
+Нас интересует накапливаемая глобальная оценка погрешности, которую
+можно вычислить как :math:`\ell^2` норму погрешности :math:`e^n`:
+
+.. math::
+        
+           \| e^n \|_2^2 = \tau \sum_{n=0}^{N} \frac{1}{24^2} n^2 \omega^6
+           \tau^6 = \frac{1}{24^2} \tau^7 \sum_{n=0}^{N} n^2.
+        
+
+Сумма :math:`\sum_{n=0}^{N} n^2` примерно равен :math:`\frac{1}{3} N^3`. Заменяя
+:math:`N` на :math:`T/\tau`, получим 
+
+.. math::
+        
+           \| e^n \|_2 = \frac{1}{24} \sqrt{\frac{T^3}{3}} \omega^3 \tau^2.
+        
+
+Таким образом, мы получили, что глобальная (интегральная) погрешность
+также пропорциональна :math:`\tau^2`.
+
+.. _fdm-for-ode:analysis:stab:
+
+Устойчивость
+------------
+
+Как мы помним численное решение имело правильную постоянную амплитуду,
+но ошибку в частоте. Однако, постоянная амплитуда бывает не
+всегда. Отметим, что если :math:`\tau` достаточно большая величина,
+величина аргумента функции :math:`\arcsin` в :ref:`(12) <Eq:fdm-for-ode:analysis:eq:omega:exp>`
+может быть больше 1, т.е. :math:`\omega\tau/2 > 1`. В этом случае
+:math:`\arcsin(\omega\tau/2)` и, следовательно, :math:`\tilde\omega`
+являются комплексными:
+
+.. code-block:: python
+
+    >>> omega = 1.
+    >>> tau = 3
+    >>> asin(omega*tau/2)
+    1.5707963267949 - 0.962423650119207*I
+
+Пусть :math:`\tilde\omega = \tilde\omega_r + i\tilde\omega_i`. Так как
+:math:`\arcsin(x)` имеет отрицательную мнимую часть при :math:`x > 1`,
+:math:`\tilde\omega_i < 0`, то :math:`e^{i\tilde\omega t} = e^{-\tilde\omega t} e^{i\tilde\omega t}`,
+что означает экспоненциальный рост со временем, так как
+:math:`e^{-\tilde\omega t}` при :math:`\tilde\omega < 0` имеет
+положительную степень.
+
+.. index:: Условие устойчивости
+
+
+.. admonition:: Условие устойчивости
+
+   Мы должны исключить рост амплитуды, потому что такой рост
+   отсутствует в точном решении. Таким образом, мы должны наложить
+   *условие устойчивости*: аргумент арксинуса должен давать
+   действительное значение :math:`\tilde\omega`. Условие устойчивости
+   выглядит следующим образом:
+   
+   .. _Eq:fdm-for-ode:analysis:eq:stab_cond:
+
+.. math::
+
+    \tag{16}
+    \frac{\omega\tau}{2} \leq 1 \rightarrow \tau \leq  \frac{2}{\omega}.
+
+
+
+
+Возьмем :math:`\omega = 2\pi` и выберем :math:`\tau > \pi^{-1} = 0.3183098861837907`. 
+На рис. :ref:`fdm-for-ode:analysis:fig:2` представлен результат расчета при
+:math:`\tau = 0.3184`, которое незначительно отличается от
+критического значения: :math:`\tau = \pi^{-1} + 9.01\cdot 10^{-5}`.
+
+.. _fdm-for-ode:analysis:fig:2:
+
+.. figure:: unstability.png
+   :width: 600
+
+   *Неустойчивое решение*
+
+.. _fdm-for-ode:analysis:stan_bound:
+
+О точности при границе устойчивости
+-----------------------------------
+
+Ограничение на временной шаг :math:`\tau < 2/\omega` кажется
+неудачным. Хотелось бы использовать больший шаг для расчета, чтобы
+ускорить его. При граничном значении шага из условия устойчивости
+имеем :math:`\arcsin(\omega\tau/2) = \arcsin(1) = \pi/2` и,
+следовательно, :math:`\tilde\omega = \pi/\tau`. Соответствующий период
+численного решения :math:`\tilde{P} = 2\pi/\tilde{\omega} = 2/\tau`,
+которое означает, что экстремумы численного решения находятся на
+расстоянии одного временного шага. Это самая короткая волна, которую
+можно воспроизвести на сетке. Другими словами, нет необходимости
+использовать больший, чем задан ограничением, шаг по времени при
+счете.
+
+Кроме того, мы видим при счете, что ошибка угловой частоты
+существенна: на рис. :ref:`fdm-for-ode:analysis:fig:5` показаны приближенное и
+точное решения при :math:`\omega=2\pi` и
+:math:`\tau=2/\omega=\pi^{-1}`. Уже после одного периода у численного
+решения наблюдается минимум там, где у точного максимум. Погрешность в
+частоте при :math:`\tau` выбирается на границе устойчивости равна:
+:math:`\omega - \tilde\omega = \omega(1 - \pi/2)
+\approx-0.57\omega`. Соответствующая  погрешность периода:
+:math:`P - \tilde{P} \approx 0.36P`. После :math:`m` периодов
+погрешность становиться уже :math:`0.36 m P`. Эта ошибка достигает
+половины периода при :math:`m = 1/(2\cdot 0.36) \approx 1.38`, что
+теоретически объясняет результаты расчета, представленные на
+рис. :ref:`fdm-for-ode:analysis:fig:5`. Следовательно, временной шаг :math:`\tau`
+следует выбирать как можно меньшим, чтобы добиться поддающихся
+интерпретации результатов. 
+
+.. _fdm-for-ode:analysis:fig:5:
+
+.. figure:: exact_tau.png
+   :width: 600
+
+   Численное решение при :math:`\tau = 2/\omega`
+
+
+.. admonition:: Summary
+
+   Из анализа точности и устойчивости можно сделать некоторые выводы:
+   
+   1. Ключевой параметр в формулах :math:`p=\omega\tau`. Пусть период колебаний :math:`P=2\pi/\omega`, количество временных шагов на период :math:`N_P = P/\tau`. Тогда :math:`p = \omega\tau = 2\pi N_P`, т.е. основным параметром является количество временных шагов на период. Наименьшее возможное :math:`N_P = 2`, т.е. :math:`p \in (0, \pi]`. 
+   
+   2. Если :math:`p \leq 2`, то амплитуда численного решения постоянна.
+   
+   3. Отношение численной угловой частоты к точной есть :math:`\tilde{\omega}/\omega \approx 1 + \frac{p^2}{24}`. Погрешность :math:`\frac{p^2}{24}` приводит к смещенным пикам численного решения, и это погрешность расположения пиков растет линейно со временем.
+
+
+
+
+.. Local Variables:
+
+.. doconce-chapter-nickname: "fdm-for-ode"
+
+.. doconce-section-nickname: "analysis"
+
+.. End:
+

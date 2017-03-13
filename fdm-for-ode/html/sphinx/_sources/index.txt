@@ -1,0 +1,22 @@
+
+.. Master file automatically created by doconce sphinx_dir
+
+
+Разностные схемы для ОДУ колебаний
+================================================================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   ._main_fdm-for-ode000
+   ._main_fdm-for-ode001
+   ._main_fdm-for-ode002
+   ._main_fdm-for-ode003
+
+
+Index
+=====
+
+* :ref:`genindex`

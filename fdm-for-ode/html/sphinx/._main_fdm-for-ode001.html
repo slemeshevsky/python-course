@@ -1,0 +1,1464 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Конечно-разностная дискретизация</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+
+        <script src="http://sagecell.sagemath.org/static/jquery.min.js"></script>
+        <script src="http://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+
+        <script>sagecell.makeSagecell({inputLocation: ".sage"});</script>
+
+        <style type="text/css">
+                .sagecell .CodeMirror-scroll {
+                        overflow-y: hidden;
+                        overflow-x: auto;
+                }
+                .sagecell .CodeMirror {
+                        height: auto;
+                }
+        </style>
+
+    
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Разностные схемы для ОДУ колебаний" href="index.html"/>
+        <link rel="next" title="Обобщения: затухание, нелинейные струны и внешние воздействия" href="._main_fdm-for-ode002.html"/>
+        <link rel="prev" title="Разностные схемы для ОДУ колебаний" href="._main_fdm-for-ode000.html"/>
+ 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+
+       <style type="text/css">
+         div.admonition {
+           background-color: whiteSmoke;
+           border: 1px solid #bababa;
+         }
+       </style>
+      </head>
+    
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Разностные схемы для ОДУ колебаний
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode000.html">Разностные схемы для ОДУ колебаний</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Конечно-разностная дискретизация</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-fdd-basic-model">Базовая модель колебательного процесса</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-fdd-fdd">Разностная схема</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-fdd-alg">Вычислительный алгоритм</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-fdd-index-free">Безындексные обозначения</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#fdm-for-ode-impl">Программная реализация</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-impl-solver">Функция-решатель (Солвер)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-impl-comp-diff">Вычисление производной <span class="math">\(u'(t)\)</span></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#fdm-for-ode-verif">Верификация реализации алгоритма</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-verif-hand">Вычисления в ручную</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">Тестирование на простейших решениях</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-verif-conv">Анализ скорости сходимости</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fdm-for-ode-verif-conv-est">Оценка скорости сходимости</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fdm-for-ode-verif-conv-impl">Программная реализация</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#fdm-for-ode-scaled">Безразмерная модель</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#fdm-for-ode-long-time">Проведение вычислительного эксперимента</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-long-time-mov-figs">Использование изменяющихся графиков</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-long-time-anim">Создание анимации</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fdm-for-ode-long-time-anim-std">Стандартные видео форматы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#png">Проигрыватель набора PNG файлов в браузере</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gif">Создание анимированных GIF файлов</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bokeh">Использование Bokeh для сравнения графиков</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-long-time-empirical">Практический анализ решения</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#fdm-for-ode-analysis">Анализ конечно-разностной схемы</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-analysis-deriv">Вывод решения конечно-разностной схемы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-analysis-ex-disc">Точное дискретное решение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-analysis-conv">Сходимость</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-analysis-glob-error">Глобальная погрешность</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-analysis-stab">Устойчивость</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-ode-analysis-stan-bound">О точности при границе устойчивости</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode002.html">Обобщения: затухание, нелинейные струны и внешние воздействия</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-ode003.html">Упражнения и задачи</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Разностные схемы для ОДУ колебаний</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Конечно-разностная дискретизация</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/._main_fdm-for-ode001.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fdm-for-ode-fdd">
+<span id="id1"></span><h1>Конечно-разностная дискретизация<a class="headerlink" href="#fdm-for-ode-fdd" title="Permalink to this headline">¶</a></h1>
+<p>Многие вычислительные проблемы, возникающие при вычислении
+осциллирующих решений обыкновенных дифференциальных уравнений и
+уравнений в частных производных могут быть проиллюстрированы на
+простейшем ОДУ второго порядка <span class="math">\(u'' + \omega^2 u = 0\)</span>.</p>
+<div class="section" id="fdm-for-ode-fdd-basic-model">
+<span id="id2"></span><h2>Базовая модель колебательного процесса<a class="headerlink" href="#fdm-for-ode-fdd-basic-model" title="Permalink to this headline">¶</a></h2>
+<p>Колебательная система без затуханий и внешних сил может быть описана
+начальной задачей для ОДУ второго порядка</p>
+<div class="math" id="eq-fdm-for-ode-fdd-basic-model-eq-vibr">
+\[\tag{1}
+u'' + \omega^2 u = 0, \quad t \in (0, T],\]</div>
+<div class="math" id="eq-fdm-for-ode-fdd-basic-model-eq-vibr-init">
+\[\tag{2}
+u(0) = U,\quad  u'(0) = 0.\]</div>
+<p>Здесь <span class="math">\(\omega\)</span> и <span class="math">\(U\)</span> &#8212; заданные постоянные. Точное
+решение задачи <a class="reference internal" href="#eq-fdm-for-ode-fdd-basic-model-eq-vibr"><span class="std std-ref">(1)</span></a> -
+<a class="reference internal" href="#eq-fdm-for-ode-fdd-basic-model-eq-vibr-init"><span class="std std-ref">(2)</span></a> имеет вид</p>
+<div class="math" id="eq-fdm-for-ode-fdd-basic-model-eq-vibr-sol">
+\[\tag{3}
+u(t) = U\cos{\omega t},\]</div>
+<p>т.е. <span class="math">\(u\)</span> описывает колебания с постоянной амплитудой <span class="math">\(U\)</span> и
+угловой частотой <span class="math">\(\omega\)</span>. Соответствующий период колебаний равен
+<span class="math">\(P = 2\pi/\omega\)</span>. Число периодов в секунду &#8212; это
+<span class="math">\(f = \omega/2\pi\)</span>. Оно измеряется в герцах (Гц). Как <span class="math">\(f\)</span>,
+так и <span class="math">\(\omega\)</span> описываются частоту колебаний, но <span class="math">\(\omega\)</span>
+более точно называется <em>угловой частотой</em> и измеряется в радиан/с.</p>
+<p>В колебательных механических системах, описываемых задачей
+<a class="reference internal" href="#eq-fdm-for-ode-fdd-basic-model-eq-vibr"><span class="std std-ref">(1)</span></a> -
+<a class="reference internal" href="#eq-fdm-for-ode-fdd-basic-model-eq-vibr-init"><span class="std std-ref">(2)</span></a> <span class="math">\(u\)</span> часто представляет собой</p>
+<p>координату или смещение точки в системе. Производная <span class="math">\(u'(t)\)</span>, таким
+образом, интерпретируется как скорость, а <span class="math">\(u''(t)\)</span> &#8212;
+ускорение. Задача <a class="reference internal" href="#eq-fdm-for-ode-fdd-basic-model-eq-vibr"><span class="std std-ref">(1)</span></a> -
+<a class="reference internal" href="#eq-fdm-for-ode-fdd-basic-model-eq-vibr-init"><span class="std std-ref">(2)</span></a> описывает не только
+механические колебания, но и колебания в электрических цепях.</p>
+</div>
+<div class="section" id="fdm-for-ode-fdd-fdd">
+<span id="id3"></span><h2>Разностная схема<a class="headerlink" href="#fdm-for-ode-fdd-fdd" title="Permalink to this headline">¶</a></h2>
+<p>При численном решении задачи <a class="reference internal" href="#eq-fdm-for-ode-fdd-basic-model-eq-vibr"><span class="std std-ref">(1)</span></a> -
+<a class="reference internal" href="#eq-fdm-for-ode-fdd-basic-model-eq-vibr-init"><span class="std std-ref">(2)</span></a> будем
+использовать равномерную сетку по переменной <span class="math">\(t\)</span> с шагом
+<span class="math">\(\tau\)</span>:</p>
+<div class="math">
+\[\omega_\tau = \{ t_n = n\tau, \ n = 0, 1, \ldots N \}.\]</div>
+<p>Приближенное решение задачи <a class="reference internal" href="#eq-fdm-for-ode-fdd-basic-model-eq-vibr"><span class="std std-ref">(1)</span></a> -
+<a class="reference internal" href="#eq-fdm-for-ode-fdd-basic-model-eq-vibr-init"><span class="std std-ref">(2)</span></a> в точке
+<span class="math">\(t_n\)</span> обозначим <span class="math">\(y^n\)</span>.</p>
+<p>Простейшая разностная схема для приближенного решения задачи <a class="reference internal" href="#eq-fdm-for-ode-fdd-basic-model-eq-vibr"><span class="std std-ref">(1)</span></a> -
+<a class="reference internal" href="#eq-fdm-for-ode-fdd-basic-model-eq-vibr-init"><span class="std std-ref">(2)</span></a> есть</p>
+<div class="math" id="eq-fdm-for-ode-fdd-eq-vibr-efds">
+<span id="index-0"></span>\[\tag{4}
+\frac{y^{n+1} - 2 y^{n} + y^{n-1}}{\tau^2} = -\omega^2 y^n.\]</div>
+<p>Кроме того необходимо аппроксимировать производную во втором начальном
+условии. Будем аппроксимировать ее центральную разностную производную:</p>
+<div class="math" id="eq-fdm-for-ode-fdd-eq-vibr-efds-init">
+\[\tag{5}
+\frac{y^1 - y^{-1}}{2\tau} = 0.\]</div>
+<p>Для формулировки вычислительного алгоритма, предположим, что мы уже
+знаем значение <span class="math">\(y^{n-1}\)</span> и <span class="math">\(y^{n}\)</span>. Тогда из
+<a class="reference internal" href="#eq-fdm-for-ode-fdd-eq-vibr-efds"><span class="std std-ref">(4)</span></a> мы можем выразить неизвестное значение
+<span class="math">\(y^{n+1}\)</span>:</p>
+<div class="math" id="eq-fdm-for-ode-fdd-eq-vibr-efds-rec">
+\[\tag{6}
+y^{n+1} = 2y^n - y^{n-1} - \tau^2 \omega^2 y^n.\]</div>
+<p>Вычислительный алгоритм заключается в последовательном применении
+для <span class="math">\(n = 1, 2, \ldots\)</span>.</p>
+<p>Очевидно, что <a class="reference internal" href="#eq-fdm-for-ode-fdd-eq-vibr-efds-rec"><span class="std std-ref">(6)</span></a>  нельзя
+использовать при <span class="math">\(n = 0\)</span>, так как для вычисления <span class="math">\(y^1\)</span> необходимо знать неопределенное
+значение <span class="math">\(y^{-1}\)</span> при <span class="math">\(t = -\tau\)</span>. Однако, из <a class="reference internal" href="#eq-fdm-for-ode-fdd-eq-vibr-efds-init"><span class="std std-ref">(5)</span></a>
+имеем <span class="math">\(y^{-1} = y^{1}\)</span>. Подставляя последнее в <a class="reference internal" href="#eq-fdm-for-ode-fdd-eq-vibr-efds-rec"><span class="std std-ref">(6)</span></a>
+при <span class="math">\(n=0\)</span>, получим</p>
+<div class="math">
+\[y^1 = 2 y^0 - y^1 - \tau^2 \omega^2 y^0,\]</div>
+<p>откуда</p>
+<div class="math" id="eq-fdm-for-ode-fdd-eq-vibr-efds-init-1">
+\[\tag{7}
+y^1 = y^0 - \frac{1}{2} \tau^2\omega^2 y^0.\]</div>
+<p>В <a class="reference internal" href="._main_fdm-for-ode003.html#fdm-for-ode-exercises-1"><span class="std std-ref">Exercise 1: Использование ряда Тейлора для вычисления </span></a> требуется использовать
+альтернативный способ вывода <a class="reference internal" href="#eq-fdm-for-ode-fdd-eq-vibr-efds-init-1"><span class="std std-ref">(7)</span></a>, а также построить
+аппроксимацию начального условия <span class="math">\(u'(0) = V \ne 0\)</span>.</p>
+</div>
+<div class="section" id="fdm-for-ode-fdd-alg">
+<span id="id4"></span><h2>Вычислительный алгоритм<a class="headerlink" href="#fdm-for-ode-fdd-alg" title="Permalink to this headline">¶</a></h2>
+<p>Для решения задачи <a class="reference internal" href="#eq-fdm-for-ode-fdd-basic-model-eq-vibr"><span class="std std-ref">(1)</span></a> -
+<a class="reference internal" href="#eq-fdm-for-ode-fdd-basic-model-eq-vibr-init"><span class="std std-ref">(2)</span></a> следует выполнить
+следующие шаги:</p>
+<ol class="arabic simple">
+<li><span class="math">\(y^0 = U\)</span></li>
+<li>вычисляем <span class="math">\(y^1\)</span>, используя <a class="reference internal" href="#eq-fdm-for-ode-fdd-eq-vibr-efds-init-1"><span class="std std-ref">(7)</span></a></li>
+<li>для <span class="math">\(n = 1, 2, \ldots\)</span>,<ol class="loweralpha">
+<li>вычисляем <span class="math">\(y^n\)</span>, используя <a class="reference internal" href="#eq-fdm-for-ode-fdd-eq-vibr-efds-rec"><span class="std std-ref">(6)</span></a></li>
+</ol>
+</li>
+</ol>
+<p>Более строго вычислительный алгоритм напишем на Python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># сетка по времени</span>
+<span class="n">tau</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>        <span class="c1"># постоянный временной шаг</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>           <span class="c1"># решение</span>
+
+<span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">U</span>
+<span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">tau</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">tau</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fdm-for-ode-fdd-index-free">
+<span id="id5"></span><h2>Безындексные обозначения<a class="headerlink" href="#fdm-for-ode-fdd-index-free" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="index-1"></span><span class="target" id="index-2"></span><p id="index-3">Разностную схему можно записать, используя безындексные
+обозначения. Для <em>левой</em> и <em>правой разностных производных</em> соответственно
+имеем</p>
+<div class="math">
+\[y_{\bar{t}} \equiv \frac{y^{n} - y^{n-1}}{\tau}, \quad
+y_{t} \equiv \frac{y^{n+1} - y^{n}}{\tau}.\]</div>
+<p id="index-4">Для <em>второй разностной производной</em> получим</p>
+<div class="math">
+\[y_{\bar{t}t} = \frac{y_t - y_{\bar{t}}}{\tau} = \frac{y^{n+1} - 2y^{n} + y^{n-1}}{\tau^2}.\]</div>
+<p id="index-5">Для аппроксимации второго начального условия использовалась
+<em>центральная разностная производная</em>:</p>
+<div class="math">
+\[y_{\mathring{t}} = \frac{y^{n+1} - y^{n-1}}{2\tau}.\]</div>
+</div>
+</div>
+<div class="section" id="fdm-for-ode-impl">
+<span id="id6"></span><h1>Программная реализация<a class="headerlink" href="#fdm-for-ode-impl" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="fdm-for-ode-impl-solver">
+<span id="id7"></span><h2>Функция-решатель (Солвер)<a class="headerlink" href="#fdm-for-ode-impl-solver" title="Permalink to this headline">¶</a></h2>
+<p>Алгоритм построенный в предыдущем разделе легко записать как
+функцию Python, вычисляющую <span class="math">\(y^0, y^1, \ldots, y^{N}\)</span> по
+заданным входным параметрам <span class="math">\(U, \omega, \tau\)</span> и <span class="math">\(T\)</span>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">solver</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Решается задача</span>
+<span class="sd">    u&#39;&#39; + omega**2*u = 0 для t из (0,T], u(0)=U и u&#39;(0)=0,</span>
+<span class="sd">    конечно-разностным методом с постоянным шагом tau</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">Nt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">tau</span><span class="p">))</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Nt</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Nt</span><span class="o">*</span><span class="n">tau</span><span class="p">,</span> <span class="n">Nt</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">U</span>
+    <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">tau</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Nt</span><span class="p">):</span>
+        <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">tau</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">u</span><span class="p">,</span> <span class="n">t</span>
+</pre></div>
+</div>
+<p>Также будет удобно реализовать функцию для построения графиков точного
+и приближенного решений:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">visualize</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="s1">&#39;r--o&#39;</span><span class="p">)</span>
+    <span class="n">t_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1001</span><span class="p">)</span>  <span class="c1"># мелкая сетка для точного решения</span>
+    <span class="n">u_e</span> <span class="o">=</span> <span class="n">u_exact</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="s1">&#39;on&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">u_e</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">u&#39;приближенное&#39;</span><span class="p">,</span> <span class="s1">u&#39;точное&#39;</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$t$&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$u$&#39;</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">tau = $ </span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">tau</span><span class="p">)</span>
+    <span class="n">umin</span> <span class="o">=</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">min</span><span class="p">();</span>  <span class="n">umax</span> <span class="o">=</span> <span class="o">-</span><span class="n">umin</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">umin</span><span class="p">,</span> <span class="n">umax</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;tmp1.png&#39;</span><span class="p">);</span>  <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;tmp1.pdf&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Соответствующая основная программа вызывающая эти функции для
+моделирования заданного числа периодов (<code class="docutils literal"><span class="pre">num_periods</span></code>) может иметь
+вид</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">U</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">omega</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span>
+<span class="n">tau</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">num_periods</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">P</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">tau</span>    <span class="c1">#  один период</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">P</span><span class="o">*</span><span class="n">num_periods</span>
+<span class="n">u</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+<span class="n">visualize</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span>
+</pre></div>
+</div>
+<p id="index-6">Задание некоторых входных параметров удобно осуществлять через
+командную строку. Ниже представлен фрагмент кода, использующий
+инструмент <code class="docutils literal"><span class="pre">ArgumentParser</span></code> из модуля <code class="docutils literal"><span class="pre">argparse</span></code> для определения
+пар &#8220;параметр значение&#8221; (<code class="docutils literal"><span class="pre">--option</span> <span class="pre">value</span></code>) в командной строке:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--U&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--omega&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--tau&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--num_periods&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">num_periods</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">num_periods</span>
+</pre></div>
+</div>
+<p>Стандартный вызов основной программы выглядит следующим образом:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Terminal&gt; python vib_undamped.py --num_periods <span class="m">20</span> --tau 0.1
+</pre></div>
+</div>
+</div>
+<div class="section" id="fdm-for-ode-impl-comp-diff">
+<span id="id8"></span><h2>Вычисление производной <span class="math">\(u'(t)\)</span><a class="headerlink" href="#fdm-for-ode-impl-comp-diff" title="Permalink to this headline">¶</a></h2>
+<p>В приложениях часто необходимо анализировать поведение скорости
+<span class="math">\(u'(t)\)</span>. Приближенно найти ее по полученным в
+узлах сетки <span class="math">\(\omega_\tau\)</span> значениям <span class="math">\(y\)</span> можно, например,
+используя центральную разностную производную:</p>
+<div class="math" id="eq-fdm-for-ode-impl-eq-vel">
+\[\tag{8}
+u'(t_n) \approx v^n = \frac{y^{n+1} - y^n}{2\tau} =
+       y_{\mathring{t}}^n.\]</div>
+<p>Эта формула используется во внутренних узлах сетки <span class="math">\(\omega_\tau\)</span>
+при <span class="math">\(n = 1, 2, \ldots, N-1\)</span>. Для <span class="math">\(n = 0\)</span> скорость
+<span class="math">\(v^0\)</span> задана начальным условием, а для <span class="math">\(n = N\)</span> мы можем использовать
+направленную (левую) разностную производную <span class="math">\(v^N = y_{\bar{t}}^N\)</span>.</p>
+<p>Для вычисления производной можно использовать следующий (скалярный)
+код:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>  <span class="c1"># or v = np.zeros(len(u))</span>
+<span class="c1"># Используем центральную разностную производную во внутренних узлах</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+<span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">tau</span><span class="p">)</span>
+<span class="c1"># Используем начальное условие для u&#39;(0)</span>
+<span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1"># Используем левую разностную производную</span>
+<span class="n">v</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="n">tau</span>
+</pre></div>
+</div>
+<p>Мы можем избавиться от цикла (медленного для больших <span class="math">\(N\)</span>),
+векторизовав вычисление разностной производной. Фрагмент кода,
+приведенного выше, можно заменить следующей векторизованной формой:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="o">-</span> <span class="n">u</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">tau</span><span class="p">)</span>  <span class="c1"># центральная разностная производная</span>
+<span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>                            <span class="c1"># начальное условие u&#39;(0)</span>
+<span class="n">v</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="n">tau</span>         <span class="c1"># левая разностная производная</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="fdm-for-ode-verif">
+<span id="id9"></span><h1>Верификация реализации алгоритма<a class="headerlink" href="#fdm-for-ode-verif" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="fdm-for-ode-verif-hand">
+<span id="id10"></span><h2>Вычисления в ручную<a class="headerlink" href="#fdm-for-ode-verif-hand" title="Permalink to this headline">¶</a></h2>
+<p>Простейший способ проверки правильности реализации алгоритма
+заключается в вычислении значений <span class="math">\(y^1, y^2\)</span> и <span class="math">\(y^3\)</span>,
+например с помощью калькулятора и в написании функции, сравнивающей
+эти результаты с соответствующими результатами вычисленными с помощью
+функции <code class="docutils literal"><span class="pre">solver</span></code>. Представленная ниже функция <code class="docutils literal"><span class="pre">test_three_steps</span></code>
+демонстрирует, как можно использовать &#8220;ручные&#8221; вычисления для
+тестирования кода:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_three_steps</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="n">omega</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">;</span>  <span class="n">tau</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>  <span class="n">T</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">u_by_hand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+        <span class="mf">1.000000000000000</span><span class="p">,</span>
+        <span class="mf">0.802607911978213</span><span class="p">,</span>
+        <span class="mf">0.288358920740053</span><span class="p">])</span>
+    <span class="n">u</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">u_by_hand</span> <span class="o">-</span> <span class="n">u</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">tol</span> <span class="o">=</span> <span class="mf">1E-14</span>
+    <span class="k">assert</span> <span class="n">diff</span> <span class="o">&lt;</span> <span class="n">tol</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id11">
+<h2>Тестирование на простейших решениях<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p>Построение тестовой задачи, решением которой является постоянная
+величина или линейная функция, помогает выполнять начальную отладку и
+проверку реализации алгоритма, так как соответствующие вычислительные
+алгоритмы воспроизводят такие решения с машинной точностью. Например,
+методы второго порядка точности часто являются точными на полиномах
+второй степени. Возьмем точное значение второй разностной производной
+<span class="math">\((t^2)_{\bar{t}t}^n = 2\)</span>. Решение <span class="math">\(u(t) = t^2\)</span> дает
+<span class="math">\(u'' + \omega^2 u = 2 + (\omega t)^2 \ne 0\)</span>. Следовательно,
+необходимо добавить функцию источника в уравнение:
+<span class="math">\(u'' + \omega^2 u = f\)</span>. Такое уравнение имеет решение
+<span class="math">\(u(t) = t^2\)</span> при <span class="math">\(f(t) = (\omega t)^2\)</span>. Простой
+подстановкой убеждаемся, что сеточная функция <span class="math">\(y^n = t_n^2\)</span>
+является решением разностной схемы. Выполните
+<a class="reference internal" href="._main_fdm-for-ode003.html#fdm-for-ode-exercises-pr-1"><span class="std std-ref">Problem 8: Использование линейной и квадратичной функций для тестирования</span></a>.</p>
+</div>
+<div class="section" id="fdm-for-ode-verif-conv">
+<span id="id12"></span><h2>Анализ скорости сходимости<a class="headerlink" href="#fdm-for-ode-verif-conv" title="Permalink to this headline">¶</a></h2>
+<p>Естественно ожидать, что погрешность метода <span class="math">\(\varepsilon\)</span> должна
+уменьшаться с уменьшением шага <span class="math">\(\tau\)</span>. Многие вычислительные
+методы (в том числе и конечно-разностные) имеют степенную зависимость
+погрешности <span class="math">\(\varepsilon\)</span> от <span class="math">\(\tau\)</span>:</p>
+<div class="math" id="eq-fdm-for-ode-verif-eq-conv-rate">
+\[\tag{9}
+\varepsilon = M \tau^r,\]</div>
+<p>где <span class="math">\(C\)</span> и <span class="math">\(r\)</span> &#8212; постоянные (обычно неизвестные), не
+зависящие от <span class="math">\(\tau\)</span>. Формула <a class="reference internal" href="#eq-fdm-for-ode-verif-eq-conv-rate"><span class="std std-ref">(9)</span></a>
+является асимптотическим законом, верным при достаточно малом
+параметре <span class="math">\(\tau\)</span>. Насколько малом оценить сложно без численной оценки
+параметра <span class="math">\(r\)</span>.</p>
+<p>Параметр <span class="math">\(r\)</span> называется <em>скоростью сходимости</em>.</p>
+<div class="section" id="fdm-for-ode-verif-conv-est">
+<span id="id13"></span><h3>Оценка скорости сходимости<a class="headerlink" href="#fdm-for-ode-verif-conv-est" title="Permalink to this headline">¶</a></h3>
+<p>Чтобы оценить скорость сходимости для рассматриваемой задачи, нужно
+выполнить</p>
+<ul class="simple">
+<li>провести <span class="math">\(m\)</span> расчетов, уменьшая на каждом из них шаг в два раза:
+<span class="math">\(\tau_k = 2^{-k}\tau_0\)</span>, <span class="math">\(k = 0, 1, \ldots, m-1\)</span>,</li>
+<li>вычислить <span class="math">\(L_2\)</span> -норму погрешности для каждого расчета
+<span class="math">\(\varepsilon_k = \sqrt{\sum_{n=0}^{N-1} (y^n -u_e(t_n)) \tau_k}\)</span>,</li>
+<li>оценить скорость сходимости на основе двух последовательных
+экспериментов <span class="math">\((\tau_{k-1}, \varepsilon_{k-1})\)</span> и
+<span class="math">\((\tau_{k}, \varepsilon_{k})\)</span>, в предположении, что погрешность подчинена закону
+<a class="reference internal" href="#eq-fdm-for-ode-verif-eq-conv-rate"><span class="std std-ref">(9)</span></a>. Разделив <span class="math">\(\varepsilon_{k-1} = M\tau_{k-1}^r\)</span>
+на <span class="math">\(\varepsilon_{k} = M\tau_{k}^r\)</span> и решая получившееся
+уравнение относительно <span class="math">\(r\)</span>, получим</li>
+</ul>
+<div class="math">
+\[r_{k-1} =
+\frac{\ln(\varepsilon_{k-1}/\varepsilon_k)}{\ln(\tau_{k-1}/\tau_k)},
+\quad k = 0, 1, \ldots, m-1.\]</div>
+<p>Будем надеяться, что полученные значения <span class="math">\(r_0, r_1, \ldots,  r_{m-2}\)</span>
+сходятся к некоторому числу (в нашем случае к 2).</p>
+</div>
+<div class="section" id="fdm-for-ode-verif-conv-impl">
+<span id="id14"></span><h3>Программная реализация<a class="headerlink" href="#fdm-for-ode-verif-conv-impl" title="Permalink to this headline">¶</a></h3>
+<p>Ниже приведена функция для вычисления последовательности <span class="math">\(r_0,
+r_1, \ldots, r_{m-2}\)</span>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">convergence_rates</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver_function</span><span class="p">,</span> <span class="n">num_periods</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Возвращает m-1 эмпирическую оценку скорости сходимости,</span>
+<span class="sd">    полученную на основе m расчетов, для каждого из которых</span>
+<span class="sd">    шаг по времени уменьшается в два раза.</span>
+<span class="sd">    solver_function(U, omega, tau, T) решает каждую задачу,</span>
+<span class="sd">    для которой T, получается на основе вычислений для</span>
+<span class="sd">    num_periods периодов.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="mf">0.35</span><span class="p">;</span> <span class="n">U</span> <span class="o">=</span> <span class="mf">0.3</span>       <span class="c1"># просто заданные значения</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span>              <span class="c1"># период</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">P</span><span class="o">/</span><span class="mi">30</span>                  <span class="c1"># 30 шагов на период 2*pi/omega</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">P</span><span class="o">*</span><span class="n">num_periods</span>
+
+    <span class="n">tau_values</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">E_values</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">u</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">solver_function</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+        <span class="n">u_e</span> <span class="o">=</span> <span class="n">u_exact</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">)</span>
+        <span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tau</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">u_e</span><span class="o">-</span><span class="n">u</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">tau_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+        <span class="n">E_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+        <span class="n">tau</span> <span class="o">=</span> <span class="n">tau</span><span class="o">/</span><span class="mi">2</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">E_values</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">E_values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span>
+         <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">tau_values</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">tau_values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">r</span>
+</pre></div>
+</div>
+<p>Ожидаемая скорость сходимости &#8212; 2, так как мы используем
+конечно-разностную аппроксимации второго порядка для второй
+производной в уравнении и для первого начального
+условия. Теоретический анализ погрешности аппроксимации дает
+<span class="math">\(r=2\)</span>.</p>
+<p>Для рассматриваемой задачи, когда <span class="math">\(\tau_0\)</span> соответствует 30
+временным шагам на период, возвращаемый список <code class="docutils literal"><span class="pre">r</span></code> содержит элементы
+равные <code class="docutils literal"><span class="pre">2.00</span></code>. Это означает, что все значения <span class="math">\(\tau_k\)</span>
+удовлетворяют ассимтотическому режиму, при котором выполнено
+соотношение <a class="reference internal" href="#eq-fdm-for-ode-verif-eq-conv-rate"><span class="std std-ref">(9)</span></a></p>
+<p>Теперь мы можем написать тестовую функцию, которая вычисляет скорости
+сходимости и проверяет, что последняя оценка достаточно близка
+к 2. Здесь достаточна граница допуска 0.1.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_convergence_rates</span><span class="p">():</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">convergence_rates</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">solver_function</span><span class="o">=</span><span class="n">solver</span><span class="p">,</span> <span class="n">num_periods</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">tol</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="fdm-for-ode-scaled">
+<span id="id15"></span><h1>Безразмерная модель<a class="headerlink" href="#fdm-for-ode-scaled" title="Permalink to this headline">¶</a></h1>
+<p>При моделировании полезно использовать безразмерные переменные, так
+как в этом случае нужно задавать меньше параметров. Рассматриваемая
+нами задача обезразмеривается заданием переменных <span class="math">\(\bar{t} = t/t_c\)</span> и
+<span class="math">\(\bar{u} = u/u_c\)</span>, где <span class="math">\(t_c\)</span> и <span class="math">\(u_c\)</span>
+характерные масштабы для <span class="math">\(t\)</span> и <span class="math">\(u\)</span>,
+соответственно. Задача для ОДУ принимает вид</p>
+<div class="math">
+\[\frac{u_c}{t_c} \frac{d^2 \bar{u}}{d \bar{t}^2} + u_c \bar{u} = 0,
+\quad u_c \bar{u}(0) = U, \quad  \frac{u_c}{t_c} \frac{d \bar{u}}{d
+\bar{t}}(0) = 0.\]</div>
+<p>Обычно в качестве <span class="math">\(t_c\)</span> выбирается один период колебаний,
+т.е. <span class="math">\(t_c = 2\pi/\omega\)</span> и <span class="math">\(u_c = U\)</span>. Отсюда получаем
+безразмерную модель</p>
+<div class="math" id="eq-fdm-for-ode-scaled-eq-scaled">
+\[\tag{10}
+\frac{d^2 \bar{u}}{d \bar{t}^2} + 4\pi^2 \bar{u} = 0, \quad
+       \bar{u}(0) = 1, \quad \bar{u}'(0) = 0.\]</div>
+<p>Заметьте, что в <a class="reference internal" href="#eq-fdm-for-ode-scaled-eq-scaled"><span class="std std-ref">(10)</span></a> отсутствуют физические
+параметры. Таким образом мы можем выполнить одно вычисление
+<span class="math">\(\bar{u}(\bar{t})\)</span> и затем восстановить любое <span class="math">\(u(t; \omega,U)\)</span>
+следующим образом</p>
+<div class="math">
+\[u(t; \omega, U) = u_c \bar{u}(t/t_c) = U \bar{u}(\omega t/(2\pi)).\]</div>
+<p>Расчет для безразмерной модели можно выполнить вызвав функцию
+<code class="docutils literal"><span class="pre">solver(U</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">omega</span> <span class="pre">=</span> <span class="pre">2*np.pi,</span> <span class="pre">tau,</span> <span class="pre">T)</span></code>. В этом случае период равен
+1 и <code class="docutils literal"><span class="pre">T</span></code> задает количество периодов. Выбор <code class="docutils literal"><span class="pre">tau</span> <span class="pre">=</span> <span class="pre">1./N</span></code> дает
+<span class="math">\(N\)</span> шагов на период.</p>
+<p>Сценарий  <a class="reference external" href="src-fdm-for-ode/vib_undamped.py">vib_undamped.py</a> содержит представленные в данном разделе примеры.</p>
+</div>
+<div class="section" id="fdm-for-ode-long-time">
+<span id="id16"></span><h1>Проведение вычислительного эксперимента<a class="headerlink" href="#fdm-for-ode-long-time" title="Permalink to this headline">¶</a></h1>
+<p>На рисунке <a class="reference internal" href="#fdm-for-ode-long-time-fig-1"><span class="std std-ref">Эффект от уменьшения шага вдвое</span></a> представлено сравнение
+точного и приближенного решений безразмерной модели
+<a class="reference internal" href="#eq-fdm-for-ode-scaled-eq-scaled"><span class="std std-ref">(10)</span></a> с шагами <span class="math">\(\tau=0.1\)</span> и
+<span class="math">\(0.5\)</span>. Проанализировав графики, мы можем
+сделать следующие предположения:</p>
+<ul class="simple">
+<li>Похоже, что численное решение корректно передает амплитуду колебаний</li>
+<li>Наблюдается погрешность при расчете угловой частоты, которая
+уменьшается при уменьшении шага.</li>
+<li>Суммарная погрешность угловой частоты увеличивается со временем.</li>
+</ul>
+<div class="figure" id="id28">
+<span id="fdm-for-ode-long-time-fig-1"></span><a class="reference internal image-reference" href="_images/vib-fig-1.png"><img alt="_images/vib-fig-1.png" src="_images/vib-fig-1.png" style="width: 800px;" /></a>
+<p class="caption"><span class="caption-text"><em>Эффект от уменьшения шага вдвое</em></span></p>
+</div>
+<div class="section" id="fdm-for-ode-long-time-mov-figs">
+<span id="id17"></span><h2>Использование изменяющихся графиков<a class="headerlink" href="#fdm-for-ode-long-time-mov-figs" title="Permalink to this headline">¶</a></h2>
+<p>В рассматриваемой нами задаче о колебаниях следует анализировать
+поведение системы на больших временных интервалах. Как видно из
+предыдущих наблюдений погрешность угловой частоты накапливается и
+становится более различимой со временем. Мы можем провести анализ на
+большом интервале времени, построив подвижные графики, которые могут
+изменяться в течение <span class="math">\(p\)</span> новых вычисленных периодах
+решения. Пакет <a class="reference external" href="https://github.com/hplgit/scitools">SciTools</a>
+содержит удобный инструмент для этого: <code class="docutils literal"><span class="pre">MovingPlotWindow</span></code>. Ниже
+приведена функция, использующая данный инструмент:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">visualize_front</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">savefig</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">skip_frames</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Стороится зависимость приближенного и точного решений</span>
+<span class="sd">    от t с использованием анимированного изображения и непрерывного</span>
+<span class="sd">    отображения кривых, изменяющихся со временем.</span>
+<span class="sd">    Графики сохраняются в файлы, если параметр savefig=True.</span>
+<span class="sd">    Только каждый skip_frames-й график сохраняется (например, если</span>
+<span class="sd">    skip_frame=10, только каждый десятый график сохраняется в файл;</span>
+<span class="sd">    это удобно, если нужно сравнивать графики для различных моментов</span>
+<span class="sd">    времени).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">scitools.std</span> <span class="kn">as</span> <span class="nn">st</span>
+    <span class="kn">from</span> <span class="nn">scitools.MovingPlotWindow</span> <span class="kn">import</span> <span class="n">MovingPlotWindow</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+
+    <span class="c1"># Удаляем все старые графики tmp_*.png</span>
+    <span class="kn">import</span> <span class="nn">glob</span><span class="o">,</span> <span class="nn">os</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;tmp_*.png&#39;</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="n">P</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span>  <span class="c1"># один период</span>
+    <span class="n">umin</span> <span class="o">=</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">min</span><span class="p">();</span>  <span class="n">umax</span> <span class="o">=</span> <span class="o">-</span><span class="n">umin</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">plot_manager</span> <span class="o">=</span> <span class="n">MovingPlotWindow</span><span class="p">(</span>
+        <span class="n">window_width</span><span class="o">=</span><span class="mi">8</span><span class="o">*</span><span class="n">P</span><span class="p">,</span>
+        <span class="n">dt</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span>
+        <span class="n">yaxis</span><span class="o">=</span><span class="p">[</span><span class="n">umin</span><span class="p">,</span> <span class="n">umax</span><span class="p">],</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;continuous drawing&#39;</span><span class="p">)</span>
+    <span class="n">frame_counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">plot_manager</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">plot_manager</span><span class="o">.</span><span class="n">first_index_in_plot</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r-1&#39;</span><span class="p">,</span>
+                    <span class="n">t</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">U</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">)[</span><span class="n">s</span><span class="p">:</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;b-1&#39;</span><span class="p">,</span>
+                    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;t=</span><span class="si">%6.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">],</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="n">plot_manager</span><span class="o">.</span><span class="n">axis</span><span class="p">(),</span>
+                    <span class="n">show</span><span class="o">=</span><span class="ow">not</span> <span class="n">savefig</span><span class="p">)</span> <span class="c1"># пропускаем окно, если savefig</span>
+            <span class="k">if</span> <span class="n">savefig</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">%</span> <span class="n">skip_frames</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;tmp_</span><span class="si">%04d</span><span class="s1">.png&#39;</span> <span class="o">%</span> <span class="n">frame_counter</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+                <span class="k">print</span> <span class="s1">u&#39;Создаем графический файл&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;t=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+                <span class="n">frame_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">plot_manager</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">bokeh_plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">legends</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">t_range</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Строится график зависимости приближенного решения от t с</span>
+<span class="sd">    использованием библиотеки Bokeh.</span>
+<span class="sd">    u и t - списки (несколько экспериментов могут сравниваться).</span>
+<span class="sd">    легенды содержат строки для различных пар u,t.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">legends</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">legends</span> <span class="o">=</span> <span class="p">[</span><span class="n">legends</span><span class="p">]</span>
+
+    <span class="kn">import</span> <span class="nn">bokeh.plotting</span> <span class="kn">as</span> <span class="nn">plt</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">output_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;cdn&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">u&#39;Сравнение с помощью Bokeh&#39;</span><span class="p">)</span>
+    <span class="c1"># Предполагаем, что все массивы t имеют одинаковые размеры</span>
+    <span class="n">t_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1001</span><span class="p">)</span>  <span class="c1"># мелкая сетка для точного решения</span>
+    <span class="n">tools</span> <span class="o">=</span> <span class="s1">&#39;pan,wheel_zoom,box_zoom,reset,&#39;</span>\
+            <span class="s1">&#39;save,box_select,lasso_select&#39;</span>
+    <span class="n">u_range</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.2</span><span class="o">*</span><span class="n">U</span><span class="p">,</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">U</span><span class="p">]</span>
+    <span class="n">font_size</span> <span class="o">=</span> <span class="s1">&#39;8pt&#39;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># список графических объектов</span>
+    <span class="c1"># Создаем первую фигуру</span>
+    <span class="n">p_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">legends</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">x_axis_label</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">y_axis_label</span><span class="o">=</span><span class="s1">&#39;u&#39;</span><span class="p">,</span>
+            <span class="n">x_range</span><span class="o">=</span><span class="n">t_range</span><span class="p">,</span> <span class="n">y_range</span><span class="o">=</span><span class="n">u_range</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span>
+            <span class="n">title_text_font_size</span><span class="o">=</span><span class="n">font_size</span><span class="p">)</span>
+    <span class="n">p_</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">axis_label_text_font_size</span><span class="o">=</span><span class="n">font_size</span>
+    <span class="n">p_</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">axis_label_text_font_size</span><span class="o">=</span><span class="n">font_size</span>
+    <span class="n">p_</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+    <span class="c1"># Добавляем точное решение</span>
+    <span class="n">u_e</span> <span class="o">=</span> <span class="n">u_exact</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">)</span>
+    <span class="n">p_</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">u_e</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">line_dash</span><span class="o">=</span><span class="s1">&#39;4 4&#39;</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_</span><span class="p">)</span>
+    <span class="c1"># Создаем оставшиеся фигуры и добавляем их оси к осям первой фигуры</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)):</span>
+            <span class="n">p_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span>
+                    <span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">legends</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">x_axis_label</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">y_axis_label</span><span class="o">=</span><span class="s1">&#39;u&#39;</span><span class="p">,</span>
+                    <span class="n">x_range</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">y_range</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span>
+                    <span class="n">title_text_font_size</span><span class="o">=</span><span class="n">font_size</span><span class="p">)</span>
+            <span class="n">p_</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">axis_label_text_font_size</span> <span class="o">=</span> <span class="n">font_size</span>
+            <span class="n">p_</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">axis_label_text_font_size</span> <span class="o">=</span> <span class="n">font_size</span>
+            <span class="n">p_</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+            <span class="n">p_</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">u_e</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">line_dash</span><span class="o">=</span><span class="s1">&#39;4 4&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_</span><span class="p">)</span>
+
+    <span class="c1"># Располагаем все графики на сетке с 3 графиками в строке</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="p">[[]]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+            <span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># Новая строка</span>
+                    <span class="n">grid</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+    <span class="n">plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gridplot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">toolbar_location</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">demo_bokeh</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Решаем обезразмеренное ОДУ u&#39;&#39; + u = 0.&quot;&quot;&quot;</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="mf">1.0</span>        <span class="c1"># обезразмеренная задача (частота)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span>  <span class="c1"># период</span>
+    <span class="n">num_steps_per_period</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">80</span><span class="p">]</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="mi">40</span><span class="o">*</span><span class="n">P</span>       <span class="c1"># Время моделирования: 40 периодов</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="p">[]</span>         <span class="c1"># список с приближенными решениями</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>         <span class="c1"># список с соответствующими сетками</span>
+    <span class="n">legends</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">num_steps_per_period</span><span class="p">:</span>
+        <span class="n">tau</span> <span class="o">=</span> <span class="n">P</span><span class="o">/</span><span class="n">n</span>
+        <span class="n">u_</span><span class="p">,</span> <span class="n">t_</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span><span class="n">U</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">u</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u_</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t_</span><span class="p">)</span>
+        <span class="n">legends</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">u&#39;Шагов на период: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">bokeh_plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">legends</span><span class="p">,</span> <span class="n">U</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">,</span> <span class="n">t_range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="o">*</span><span class="n">P</span><span class="p">],</span>
+               <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;bokeh.html&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+<span class="c1">#    demo_bokeh()</span>
+<span class="c1">#    raw_input()</span>
+</pre></div>
+</div>
+<p>Можно вызывать эту функцию в функции <code class="docutils literal"><span class="pre">main</span></code>, если число периодов при
+моделировании больше 10. Запуск вычислений для безразмерной
+модели (значения, заданные по умолчанию, для аргументов командной
+строки <code class="docutils literal"><span class="pre">--U</span></code> и <code class="docutils literal"><span class="pre">--omega</span></code> соответствуют безразмерной модели) для 40
+периодов с 20 шагами на период выглядит следующим образом</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Terminal&gt; python vib_undamped.py --dt 0.05 --num_periods 40
+</pre></div>
+</div>
+<p>Появится окно с движущимся графиком, на котором мы можем видеть
+изменение точного и приближенного решений со временем. На этих
+графиках мы видим, что погрешность угловой частоты мала в начале
+расчета, но становится более заметной со временем.</p>
+</div>
+<div class="section" id="fdm-for-ode-long-time-anim">
+<span id="id18"></span><h2>Создание анимации<a class="headerlink" href="#fdm-for-ode-long-time-anim" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="fdm-for-ode-long-time-anim-std">
+<span id="id19"></span><h3>Стандартные видео форматы<a class="headerlink" href="#fdm-for-ode-long-time-anim-std" title="Permalink to this headline">¶</a></h3>
+<p>Функция <code class="docutils literal"><span class="pre">visualize_front</span></code> сохраняет все графики в файлы с именами:
+<code class="docutils literal"><span class="pre">tmp_0000.png</span></code>, <code class="docutils literal"><span class="pre">tmp_0001.png</span></code>, <code class="docutils literal"><span class="pre">tmp_0002.png</span></code> и т.д. Из этих
+файлов мы можем создать видео файл, например, в формате <code class="docutils literal"><span class="pre">mpeg4</span></code>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Terminal&gt; ffmpeg -r <span class="m">12</span> -i tmp_%04d.png -c:v libx264 movie.mp4
+</pre></div>
+</div>
+<p>Программа <code class="docutils literal"><span class="pre">ffmpeg</span></code> имеется в репозитариях Ubuntu. Можно использовать
+другие программы для создания видео из набора отдельных графических
+файлов. Для генерации других видео форматов с помощью <code class="docutils literal"><span class="pre">ffmpeg</span></code> можно
+использовать  соответствующие кодеки и расширения для выходных файлов:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Формат</th>
+<th class="head">Кодек и имя файла</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Flash</td>
+<td><code class="docutils literal"><span class="pre">-c:v</span> <span class="pre">flv</span> <span class="pre">movie.flv</span></code></td>
+</tr>
+<tr class="row-odd"><td>MP4</td>
+<td><code class="docutils literal"><span class="pre">-c:v</span> <span class="pre">libx264</span> <span class="pre">movie.mp4</span></code></td>
+</tr>
+<tr class="row-even"><td>WebM</td>
+<td><code class="docutils literal"><span class="pre">-c:v</span> <span class="pre">libx264</span> <span class="pre">movie.mp4</span></code></td>
+</tr>
+<tr class="row-odd"><td>Ogg</td>
+<td><code class="docutils literal"><span class="pre">-c:v</span> <span class="pre">libtheora</span> <span class="pre">movie.ogg</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>Видео файл можно проиграть каким-либо видео плейером.</p>
+<p>Также можно использовать веб-браузер, создав веб-страницу, содержащую HTML5-тег
+<code class="docutils literal"><span class="pre">video</span></code>:</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">video</span> <span class="na">autoplay</span> <span class="na">loop</span> <span class="na">controls</span> <span class="na">width</span><span class="o">=</span><span class="s">&#39;640&#39;</span> <span class="na">height</span><span class="o">=</span><span class="s">&#39;365&#39;</span> <span class="na">preload</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">&gt;</span>
+   <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&#39;movie.webm&#39;</span>  <span class="na">type</span><span class="o">=</span><span class="s">&#39;video/webm; codecs=&quot;vp8, vorbis&quot;&#39;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>Современные браузеры поддерживают не все видео форматы. MP4 необходим
+для просмотра на устройствах Apple, которые используют браузер
+Safari. WebM &#8212; предпочтительный формат для Chrome, Opera, Firefox и
+IE v9+. Flash был популярен раньше, но старые браузеры, которые
+использовали Flash могут проигрывать MP4. Все браузеры, которые
+работают с форматом Ogg, могут также воспроизводить WebM. Это
+означает, что для того, чтобы видео можно было просмотреть в любом
+браузере, это видео должно быть доступно в форматах MP4 и
+WebM. Соответствующий HTML код представлен ниже:</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">video</span> <span class="na">autoplay</span> <span class="na">loop</span> <span class="na">controls</span> <span class="na">width</span><span class="o">=</span><span class="s">&#39;640&#39;</span> <span class="na">height</span><span class="o">=</span><span class="s">&#39;365&#39;</span> <span class="na">preload</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">&gt;</span>
+   <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&#39;movie.mp4&#39;</span>   <span class="na">type</span><span class="o">=</span><span class="s">&#39;video/mp4; codecs=&quot;avc1.42E01E, mp4a.40.2&quot;&#39;</span><span class="p">&gt;</span>
+   <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&#39;movie.webm&#39;</span>  <span class="na">type</span><span class="o">=</span><span class="s">&#39;video/webm; codecs=&quot;vp8, vorbis&quot;&#39;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>Формат MP4 должен идти первым для того, чтобы устройства Apple могли
+корректно загружать видео.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Для того, чтобы быть уверенным в том, что отдельные графические
+кадры в итоге показывались в правильном порядке, необходимо
+нумеровать файлы используя нули вначале номера (0000, 0001, 0002 и
+т.д.). Формат <code class="docutils literal"><span class="pre">%04d</span></code> задает отображение целого числа в поле из 4
+символов, заполненном слева нулями.</p>
+</div>
+</div>
+<div class="section" id="png">
+<span id="fdm-for-ode-long-time-anim-png-play"></span><h3>Проигрыватель набора PNG файлов в браузере<a class="headerlink" href="#png" title="Permalink to this headline">¶</a></h3>
+<p>Команда <code class="docutils literal"><span class="pre">scitools</span> <span class="pre">movie</span></code> может создать видео
+проигрыватель для набора PNG так, что можно будет использовать браузер
+для просмотра &#8220;видео&#8221;. Преимущество такой реализации в том, что
+пользователь может контролировать скорость изменения графиков. Команда
+для генерации HTML с проигрывателем набора PNG файлов <code class="docutils literal"><span class="pre">tmp_*.png</span></code>
+выглядит следующим образом:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Terminal&gt; scitools movie <span class="nv">output_file</span><span class="o">=</span>vib.html <span class="nv">fps</span><span class="o">=</span><span class="m">4</span> tmp_*.png
+</pre></div>
+</div>
+<p>Параметр <code class="docutils literal"><span class="pre">fps</span></code> управляет скоростью проигрывания видео (<em>количество фреймов в секунду</em>).</p>
+<p>Для просмотра видео достаточно загрузить страницу <code class="docutils literal"><span class="pre">vib.html</span></code> в какой-либо браузер.</p>
+</div>
+<div class="section" id="gif">
+<span id="fdm-for-ode-long-time-anim-gif"></span><h3>Создание анимированных GIF файлов<a class="headerlink" href="#gif" title="Permalink to this headline">¶</a></h3>
+<p>Из набора PNG файлов можно также создать анимированный GIF, используя
+программу <code class="docutils literal"><span class="pre">convert</span></code> программного пакета <a class="reference external" href="http://www.imagemagick.org">ImageMagick</a>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Terminal&gt; convert -delay <span class="m">25</span> tmp_*.png tmp_vib.gif
+</pre></div>
+</div>
+<p>Параметр <code class="docutils literal"><span class="pre">delay</span></code> устанавливает задержку между фреймами, измеряемую в
+1/100 с, таким образом 4 фрейма в секунду здесь задается задержкой
+25/100 с. Отметим, что в нашем случае расчета 40 периодов с шагом
+<span class="math">\(\tau = 0.05\)</span>, процесс создания GIF из большого набора PNG
+файлов является ресурсоемким, поэтому такой подход не стоит
+использовать. Анимированный GIF может быть подходящим, когда
+используется небольшое количество фреймов, нужно анализировать
+каждый фрейм и проигрывать видео медленно.</p>
+</div>
+</div>
+<div class="section" id="bokeh">
+<span id="fdm-for-ode-long-time-bokeh"></span><h2>Использование Bokeh для сравнения графиков<a class="headerlink" href="#bokeh" title="Permalink to this headline">¶</a></h2>
+<p>Вместо динамического изменения графиков, можно использовать средства
+для расположения графиков на сетке с помощью мыши. Например, мы можем
+расположить четыре периода на графиках, а затем с помощью мыши
+прокручивать остальные временные отрезки. Графическая библиотека
+<a class="reference external" href="http://bokeh.pydata.org">Bokeh</a> предоставляет такой инструментарий,
+но графики должны просматриваться в
+браузере. Библиотека имеет отличную документацию, поэтому здесь мы
+покажем, как она может использоваться при сравнении набора графиков
+функции <span class="math">\(u(t)\)</span>, соответствующих длительному моделированию.</p>
+<p>Допустим, что мы хотим выполнить эксперименты для серии значений
+<span class="math">\(\tau\)</span>. Нам нужно построить совместные графики приближенного и
+точного решения для каждого шага <span class="math">\(\tau\)</span> и расположить их на
+сетке:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/bokeh.png"><img alt="_images/bokeh.png" src="_images/bokeh.png" style="width: 800px;" /></a>
+</div>
+<p>Далее мы можем перемещать мышью кривую в одном графике, в других
+кривые будут смещаться автоматически.</p>
+<p>Функция, генерирующая html страницу с графиками с использованием
+библиотеки Bokeh по заданным спискам массивов <code class="docutils literal"><span class="pre">u</span></code> и соответствующих
+массивов <code class="docutils literal"><span class="pre">t</span></code> для различных вариантов расчета, представлена ниже:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bokeh_plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">legends</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">t_range</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Строится график зависимости приближенного решения от t с</span>
+<span class="sd">    использованием библиотеки Bokeh.</span>
+<span class="sd">    u и t - списки (несколько экспериментов могут сравниваться).</span>
+<span class="sd">    легенды содержат строки для различных пар u,t.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">legends</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">legends</span> <span class="o">=</span> <span class="p">[</span><span class="n">legends</span><span class="p">]</span>
+
+    <span class="kn">import</span> <span class="nn">bokeh.plotting</span> <span class="kn">as</span> <span class="nn">plt</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">output_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;cdn&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">u&#39;Сравнение с помощью Bokeh&#39;</span><span class="p">)</span>
+    <span class="c1"># Предполагаем, что все массивы t имеют одинаковые размеры</span>
+    <span class="n">t_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1001</span><span class="p">)</span>  <span class="c1"># мелкая сетка для точного решения</span>
+    <span class="n">tools</span> <span class="o">=</span> <span class="s1">&#39;pan,wheel_zoom,box_zoom,reset,&#39;</span>\
+            <span class="s1">&#39;save,box_select,lasso_select&#39;</span>
+    <span class="n">u_range</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.2</span><span class="o">*</span><span class="n">U</span><span class="p">,</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">U</span><span class="p">]</span>
+    <span class="n">font_size</span> <span class="o">=</span> <span class="s1">&#39;8pt&#39;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># список графических объектов</span>
+    <span class="c1"># Создаем первую фигуру</span>
+    <span class="n">p_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">legends</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">x_axis_label</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">y_axis_label</span><span class="o">=</span><span class="s1">&#39;u&#39;</span><span class="p">,</span>
+            <span class="n">x_range</span><span class="o">=</span><span class="n">t_range</span><span class="p">,</span> <span class="n">y_range</span><span class="o">=</span><span class="n">u_range</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span>
+            <span class="n">title_text_font_size</span><span class="o">=</span><span class="n">font_size</span><span class="p">)</span>
+    <span class="n">p_</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">axis_label_text_font_size</span><span class="o">=</span><span class="n">font_size</span>
+    <span class="n">p_</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">axis_label_text_font_size</span><span class="o">=</span><span class="n">font_size</span>
+    <span class="n">p_</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+    <span class="c1"># Добавляем точное решение</span>
+    <span class="n">u_e</span> <span class="o">=</span> <span class="n">u_exact</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">)</span>
+    <span class="n">p_</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">u_e</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">line_dash</span><span class="o">=</span><span class="s1">&#39;4 4&#39;</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_</span><span class="p">)</span>
+    <span class="c1"># Создаем оставшиеся фигуры и добавляем их оси к осям первой фигуры</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)):</span>
+            <span class="n">p_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span>
+                    <span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">legends</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">x_axis_label</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">y_axis_label</span><span class="o">=</span><span class="s1">&#39;u&#39;</span><span class="p">,</span>
+                    <span class="n">x_range</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">y_range</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span>
+                    <span class="n">title_text_font_size</span><span class="o">=</span><span class="n">font_size</span><span class="p">)</span>
+            <span class="n">p_</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">axis_label_text_font_size</span> <span class="o">=</span> <span class="n">font_size</span>
+            <span class="n">p_</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">axis_label_text_font_size</span> <span class="o">=</span> <span class="n">font_size</span>
+            <span class="n">p_</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+            <span class="n">p_</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">t_fine</span><span class="p">,</span> <span class="n">u_e</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">line_dash</span><span class="o">=</span><span class="s1">&#39;4 4&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_</span><span class="p">)</span>
+
+    <span class="c1"># Располагаем все графики на сетке с 3 графиками в строке</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="p">[[]]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+            <span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># Новая строка</span>
+                    <span class="n">grid</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+    <span class="n">plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gridplot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">toolbar_location</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Приведем также пример использования функции <code class="docutils literal"><span class="pre">bokeh_plot</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">demo_bokeh</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Решаем обезразмеренное ОДУ u&#39;&#39; + u = 0.&quot;&quot;&quot;</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="mf">1.0</span>        <span class="c1"># обезразмеренная задача (частота)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span>  <span class="c1"># период</span>
+    <span class="n">num_steps_per_period</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">80</span><span class="p">]</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="mi">40</span><span class="o">*</span><span class="n">P</span>       <span class="c1"># Время моделирования: 40 периодов</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="p">[]</span>         <span class="c1"># список с приближенными решениями</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>         <span class="c1"># список с соответствующими сетками</span>
+    <span class="n">legends</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">num_steps_per_period</span><span class="p">:</span>
+        <span class="n">tau</span> <span class="o">=</span> <span class="n">P</span><span class="o">/</span><span class="n">n</span>
+        <span class="n">u_</span><span class="p">,</span> <span class="n">t_</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span><span class="n">U</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">u</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u_</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t_</span><span class="p">)</span>
+        <span class="n">legends</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">u&#39;Шагов на период: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">bokeh_plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">legends</span><span class="p">,</span> <span class="n">U</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">,</span> <span class="n">t_range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="o">*</span><span class="n">P</span><span class="p">],</span>
+               <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;bokeh.html&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fdm-for-ode-long-time-empirical">
+<span id="id20"></span><h2>Практический анализ решения<a class="headerlink" href="#fdm-for-ode-long-time-empirical" title="Permalink to this headline">¶</a></h2>
+<p>Для колебательной функции, аналогичной представленной на
+<a class="reference internal" href="#fdm-for-ode-long-time-fig-1"><span class="std std-ref">Эффект от уменьшения шага вдвое</span></a>, мы можем вычислить амплитуду и частоту
+(или период) на основе моделирования. Мы пробегаем дискретное
+множество точек решения <span class="math">\((t_n, y^n)\)</span> и находим все точки
+экстремумов. Расстояние между двумя последовательными точками максимума (или
+минимума) можно использовать для оценки локального периода, при этом
+половина разницы между максимальным и ближайшим к нему минимальным
+значениями <span class="math">\(y\)</span> дают оценку локальной амплитуды.</p>
+<p>Локальный максимум &#8212; это точки, где выполнено условие</p>
+<div class="math">
+\[y^{n-1} &lt; y^n &gt; y^{n+1}, \quad n = 1, 2, \ldots, N.\]</div>
+<p>Аналогично определяются точки локального минимума</p>
+<div class="math">
+\[y^{n-1} &gt; y^n &lt; y^{n+1}, \quad n = 1, 2, \ldots, N.\]</div>
+<p>Ниже приведена функция определения локальных максимумов и минимумов</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">minmax</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Вычисляются все локальные минимумы и максимумы сеточной функции</span>
+<span class="sd">    u(t_n), представленной массивами u и t. Возвращается список минимумов</span>
+<span class="sd">    и максимумов вида (t[i],u[i]).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">minima</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">maxima</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">minima</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">maxima</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">minima</span><span class="p">,</span> <span class="n">maxima</span>
+</pre></div>
+</div>
+<p>Два возвращаемых объекта &#8212; списки кортежей.</p>
+<p>Пусть <span class="math">\((t_k, e^k)\)</span>, <span class="math">\(k = 0, 1, \ldots, M-1\)</span> &#8212;
+последовательность всех <span class="math">\(M\)</span> точек максимума, где <span class="math">\(t_k\)</span> &#8212;
+момент времени и <span class="math">\(e^k\)</span> &#8212; соответствующее значение сеточной
+функции <span class="math">\(y\)</span>. Локальный период можно определить как <span class="math">\(p_k = t_{k+1} -
+t_k\)</span>, что на языке Python можно реализовать следующим образом:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">periods</span><span class="p">(</span><span class="n">extrema</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    По заданному списку (t,u) точек минимума или максимума возвращается</span>
+<span class="sd">    массив соотвествующих локальных периодов.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="n">extrema</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">extrema</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">extrema</span><span class="p">))]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Зная минимумы и максимумы, мы можем определить локальные амплитуды
+через разницы между соседними точками максимумов и минимумов:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">amplitudes</span><span class="p">(</span><span class="n">minima</span><span class="p">,</span> <span class="n">maxima</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    По заданным спискам точек локальных минимумов и максимумов</span>
+<span class="sd">    возвращается массив соответсвующих локальных амплитуд.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Сравнивается первый максимум с первым минимумом и т.д.</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">abs</span><span class="p">(</span><span class="n">maxima</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">minima</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span><span class="o">/</span><span class="mf">2.0</span>
+         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">minima</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">maxima</span><span class="p">)))]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Так как <code class="docutils literal"><span class="pre">a[k]</span></code> и <code class="docutils literal"><span class="pre">p[k]</span></code> соответствуют <span class="math">\(k\)</span> -тым оценкам
+амплитуды и периода, соответственно, удобно отобразить графически
+зависимость значений <code class="docutils literal"><span class="pre">a</span></code> и <code class="docutils literal"><span class="pre">p</span></code> от индекса <code class="docutils literal"><span class="pre">k</span></code>.</p>
+<p>При анализе больших временных рядов выгодно вычислять и
+визуализировать <code class="docutils literal"><span class="pre">p</span></code> и <code class="docutils literal"><span class="pre">a</span></code> вместо <code class="docutils literal"><span class="pre">y</span></code> для того, чтобы получить
+представление о распространении колебаний. Покажем как это сделать для
+безразмерной задачи при <span class="math">\(\tau = 0.1, 0.5, 0.01\)</span>. Пусть заготовлена
+следующая функция:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_empirical_freq_and_amplitude</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">omega</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Находит эмпирически угловую частоту и амплитуду при вычислениях,</span>
+<span class="sd">    зависящую от u и t. u и t могут быть массивами или (в случае</span>
+<span class="sd">    нескольких расчетов) многомерными массивами.</span>
+<span class="sd">    Одно построение графика выполняется для амплитуды и одно для</span>
+<span class="sd">    угловой частоты (на легендах названа просто частотой).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">vib_empirical_analysis</span> <span class="kn">import</span> <span class="n">minmax</span><span class="p">,</span> <span class="n">periods</span><span class="p">,</span> <span class="n">amplitudes</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)):</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span><span class="p">]</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">]</span>
+    <span class="n">legends1</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">legends2</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)):</span>
+        <span class="n">minima</span><span class="p">,</span> <span class="n">maxima</span> <span class="o">=</span> <span class="n">minmax</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">periods</span><span class="p">(</span><span class="n">maxima</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">amplitudes</span><span class="p">(</span><span class="n">minima</span><span class="p">,</span> <span class="n">maxima</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)),</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">legends1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">u&#39;Частота, case</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="s1">&#39;on&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span> <span class="n">a</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="s1">&#39;on&#39;</span><span class="p">)</span>
+        <span class="n">legends2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">u&#39;Амплитуда, case</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)),</span> <span class="p">[</span><span class="n">omega</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;k--&#39;</span><span class="p">)</span>
+    <span class="n">legends1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">u&#39;Точная частота&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">legends1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.8</span><span class="o">*</span><span class="n">omega</span><span class="p">,</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">omega</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;tmp1.png&#39;</span><span class="p">);</span>  <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;tmp1.pdf&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span> <span class="p">[</span><span class="n">U</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="s1">&#39;k--&#39;</span><span class="p">)</span>
+    <span class="n">legends2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">u&#39;Точная амплитуда&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">legends2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.8</span><span class="o">*</span><span class="n">U</span><span class="p">,</span> <span class="mf">1.2</span><span class="o">*</span><span class="n">U</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;tmp2.png&#39;</span><span class="p">);</span>  <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;tmp2.pdf&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Мы можем написать небольшую программу для создания графиков:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">from</span> <span class="nn">vib_undamped</span> <span class="kn">import</span> <span class="n">solver</span><span class="p">,</span> <span class="n">plot_empirical_freq_and_amplitude</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+
+<span class="n">tau_values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">]</span>
+<span class="n">u_cases</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">t_cases</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="n">tau_values</span><span class="p">:</span>
+    <span class="c1"># Расчитываем безразмерную модель для 40 периодов</span>
+    <span class="n">u</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span><span class="n">U</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">omega</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">,</span> <span class="n">tau</span> <span class="o">=</span> <span class="n">tau</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="mi">40</span><span class="p">)</span>
+    <span class="n">u_cases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">t_cases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+<span class="n">plot_empirical_freq_and_amplitude</span><span class="p">(</span><span class="n">u_cases</span><span class="p">,</span> <span class="n">t_cases</span><span class="p">,</span> <span class="n">U</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">omega</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>На рис. <a class="reference internal" href="#fdm-for-ode-long-time-fig-3"><span class="std std-ref">Эмпирические амплитуды и угловые частоты для трех значений временного шага</span></a> представлен результат работы программы:
+очевидно, что уменьшение шага расчета <span class="math">\(\tau\)</span> существенно
+улучшает угловую частоту, при этом амплитуда тоже становиться более
+точной. Линии для <span class="math">\(\tau = 0.01\)</span>, соответствующие 100 шагам на
+период, сложно отличить от точных значений.</p>
+<div class="figure" id="id29">
+<span id="fdm-for-ode-long-time-fig-3"></span><a class="reference internal image-reference" href="_images/vib-fig-2.png"><img alt="_images/vib-fig-2.png" src="_images/vib-fig-2.png" style="width: 800px;" /></a>
+<p class="caption"><span class="caption-text"><em>Эмпирические амплитуды и угловые частоты для трех значений временного шага</em></span></p>
+</div>
+</div>
+</div>
+<div class="section" id="fdm-for-ode-analysis">
+<span id="id21"></span><h1>Анализ конечно-разностной схемы<a class="headerlink" href="#fdm-for-ode-analysis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="fdm-for-ode-analysis-deriv">
+<span id="id22"></span><h2>Вывод решения конечно-разностной схемы<a class="headerlink" href="#fdm-for-ode-analysis-deriv" title="Permalink to this headline">¶</a></h2>
+<p>Как мы видели в предыдущем разделе погрешность частоты растет со
+временем. Оценим эту погрешность теоретически. Проведем анализ на
+основе точного решения дискретной задачи. Разностное уравнение
+<a class="reference internal" href="#eq-fdm-for-ode-fdd-eq-vibr-efds"><span class="std std-ref">(4)</span></a> &#8212; однородное с постоянными
+коэффициентами. Известно, что такие уравнения имеют решения вида
+<span class="math">\(y^n = c q^n\)</span>, где <span class="math">\(q\)</span> &#8212; некоторое число, определяемое
+из разностного уравнения, а постоянная <span class="math">\(c\)</span> определяется из
+начального условия (<span class="math">\(c = U\)</span>). Здесь верхний индекс <span class="math">\(n\)</span> в
+<span class="math">\(y^n\)</span> обозначает временной слой, а в <span class="math">\(q^n\)</span> &#8212; степень.</p>
+<p>Будем искать <span class="math">\(q\)</span> в виде</p>
+<div class="math">
+\[q = e^{i\tilde{\omega} t},\]</div>
+<p>и решим задачу относительно <span class="math">\(\tilde{\omega}\)</span>. Напомним, что
+<span class="math">\(i = \sqrt{-1}\)</span>. Имеем</p>
+<div class="math">
+\[q^n = e^{\tilde{\omega}\tau n} = e^{i\tilde\omega t} =
+\cos(\tilde\omega t) + i \sin(\tilde\omega t) .\]</div>
+<p>В качестве физически обоснованного численного решения возьмем
+действительную часть этого комплексного выражения.</p>
+<p>Вычисления дают</p>
+<div class="math">
+\[\begin{split}\begin{align*}
+   y_{\bar{t}t}^n &amp;= \frac{y^{n+1} - 2 y^n + y^{n-1}}{\tau^2}\\
+   &amp;= U \frac{q^{n+1} - 2q^{n} + q^{n-1}}{\tau^2} \\
+   &amp; = \frac{U}{\tau^2} \left( e^{i(\tilde{\omega}t+\tau)}
+   -2e^{i(\tilde{\omega}t)} + e^{i(\tilde{\omega}t-\tau)}\right) \\
+   &amp;= U e^{i(\tilde{\omega}t)} \frac{1}{\tau^2}
+   \left( e^{i\tau} + e^{-i\tau} - 2 \right) \\
+   &amp;= U e^{i(\tilde{\omega}t)} \frac{2}{\tau^2}
+   \left( \cos(\tilde{\omega}\tau) - 1 \right) \\
+   &amp;= - U e^{i(\tilde{\omega}t)} \frac{4}{\tau^2}
+   \sin^2\left( \frac{\tilde{\omega}\tau}{2} \right)
+\end{align*}\end{split}\]</div>
+<p>Подставляя <span class="math">\(y^n = U e^{\tilde{\omega}\tau n}\)</span> в
+<a class="reference internal" href="#eq-fdm-for-ode-fdd-eq-vibr-efds"><span class="std std-ref">(4)</span></a> и учитывая последнее выражение, получим</p>
+<div class="math">
+\[- U e^{i(\tilde{\omega}t)} \frac{4}{\tau^2}
+\sin^2\left( \frac{\tilde{\omega}\tau}{2} \right) + \omega^2 U
+e^{i(\tilde{\omega}t)} = 0.\]</div>
+<p>Разделив последнее выражение на <span class="math">\(U e^{i(\tilde{\omega}t)}\)</span>,
+получим</p>
+<div class="math">
+\[\frac{4}{\tau^2} \sin^2\left( \frac{\tilde{\omega}\tau}{2} \right)
+= \omega^2.\]</div>
+<p>Отсюда</p>
+<div class="math">
+\[\sin^2\left( \frac{\tilde{\omega}\tau}{2} \right) =
+\left( \frac{\omega\tau}{2} \right)^2\]</div>
+<p>и, следовательно, имеем</p>
+<div class="math" id="eq-fdm-for-ode-analysis-eq-tomega">
+\[\tag{11}
+\tilde{\omega} = \pm \frac{2}{\tau}
+       \arcsin\left(\frac{\omega\tau}{2}\right).\]</div>
+<p>Из <a class="reference internal" href="#eq-fdm-for-ode-analysis-eq-tomega"><span class="std std-ref">(11)</span></a> видно, что численная частота
+<span class="math">\(\tilde\omega\)</span> никогда не равна точной <span class="math">\(\omega\)</span>. Для того,
+чтобы понять насколько хороша аппроксимация <a class="reference internal" href="#eq-fdm-for-ode-analysis-eq-tomega"><span class="std std-ref">(11)</span></a>,
+используем разложение в ряд Тейлора для малых <span class="math">\(\tau\)</span>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tau</span><span class="p">,</span> <span class="n">omega</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;tau omega&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">omega_tilde_e</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="n">tau</span><span class="o">*</span><span class="n">asin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">tau</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">omega_tilde_series</span> <span class="o">=</span> <span class="n">w_tilde_e</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">omega_tilde_series</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">omega</span> <span class="o">+</span> <span class="n">tau</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">omega</span><span class="o">**</span><span class="mi">3</span><span class="o">/</span><span class="mi">24</span> <span class="o">+</span> <span class="n">O</span><span class="p">(</span><span class="n">tau</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Таким образом, имеем</p>
+<div class="math" id="eq-fdm-for-ode-analysis-eq-omega-exp">
+\[\tag{12}
+\tilde{\omega} = \omega \left( 1 + \frac{1}{24} \omega^2\tau^2
+       \right) + \mathcal{O}(\tau^4).\]</div>
+<p>Погрешность численного значения частоты имеет второй порядок по
+<span class="math">\(\tau\)</span> и стремится к нулю при <span class="math">\(\tau\to 0\)</span>. Из
+<a class="reference internal" href="#eq-fdm-for-ode-analysis-eq-omega-exp"><span class="std std-ref">(12)</span></a> видно, что <span class="math">\(\tilde\omega &gt;
+\omega\)</span>, так как <span class="math">\(\omega^3\tau/24 &gt; 0\)</span>. Это слагаемое вносит наибольший
+вклад в погрешность. Слишком большая численная частота дает слишком
+быстро колеблющийся профиль и, таким образом, решение как бы
+запаздывает, это хорошо видно в левой
+рис. <a class="reference internal" href="#fdm-for-ode-long-time-fig-1"><span class="std std-ref">Эффект от уменьшения шага вдвое</span></a>.</p>
+<p>На <a class="reference internal" href="#fdm-for-ode-analysis-fig-1"><span class="std std-ref">Точная дискретная частота и ее разложение в ряд второго порядка</span></a> представлены графики дискретной частоты
+вычисленной по <a class="reference internal" href="#eq-fdm-for-ode-analysis-eq-tomega"><span class="std std-ref">(11)</span></a> и ее приближения
+<a class="reference internal" href="#eq-fdm-for-ode-analysis-eq-omega-exp"><span class="std std-ref">(12)</span></a> для <span class="math">\(\omega = 1\)</span>.</p>
+<div class="figure" id="id30">
+<span id="fdm-for-ode-analysis-fig-1"></span><a class="reference internal image-reference" href="_images/discrete_freq.png"><img alt="_images/discrete_freq.png" src="_images/discrete_freq.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text"><em>Точная дискретная частота и ее разложение в ряд второго порядка</em></span></p>
+</div>
+</div>
+<div class="section" id="fdm-for-ode-analysis-ex-disc">
+<span id="id23"></span><h2>Точное дискретное решение<a class="headerlink" href="#fdm-for-ode-analysis-ex-disc" title="Permalink to this headline">¶</a></h2>
+<p>Возможно, более важный результат (чем то, что <span class="math">\(\tilde\omega = \omega +
+\mathcal{O}(\tau^2)\)</span>) заключается в том, что мы нашли точное
+дискретное решение задачи:</p>
+<div class="math" id="eq-fdm-for-ode-analysis-eq-ex-discr">
+\[\tag{13}
+y^n = U \cos(\tilde\omega \tau n), \quad \tilde\omega =
+       \frac{2}{\tau} \arcsin \left(\frac{\omega\tau}{2} \right).\]</div>
+<p>Теперь мы можем вычислить сеточную функцию погрешности:</p>
+<div class="math" id="eq-fdm-for-ode-analysis-eq-error">
+\[\tag{14}
+e^n = u_e(t_n) - u^n = U \cos(\omega\tau n) - U
+       \cos(\tilde\omega\tau n) \nonumber\]</div>
+<div class="math" id="eq-auto1">
+\[\tag{15}
+= -2 U \sin\left( \frac{t}{2} (\omega -
+       \tilde\omega) \right) \sin\left( \frac{t}{2} (\omega +
+       \tilde\omega) \right).\]</div>
+<p>Построенная сеточная функция погрешности идеальна для целей
+тестирования поэтому необходимо реализовать тест на основе
+<a class="reference internal" href="#eq-fdm-for-ode-analysis-eq-ex-discr"><span class="std std-ref">(13)</span></a>, выполнив
+<a class="reference internal" href="._main_fdm-for-ode003.html#fdm-for-ode-exercises-2"><span class="std std-ref">Exercise 2: Использование точного дискретного решения для тестирования</span></a>.</p>
+</div>
+<div class="section" id="fdm-for-ode-analysis-conv">
+<span id="id24"></span><h2>Сходимость<a class="headerlink" href="#fdm-for-ode-analysis-conv" title="Permalink to this headline">¶</a></h2>
+<p>Для того, чтобы показать, что приближенное решение сходится к точному,
+т.е. <span class="math">\(e^n \to 0\)</span> при <span class="math">\(\tau \to 0\)</span>, воспользуемся
+<a class="reference internal" href="#eq-fdm-for-ode-analysis-eq-tomega"><span class="std std-ref">(11)</span></a>:</p>
+<div class="math">
+\[\lim_{\tau \to 0} = \lim_{\tau\to 0} \frac{2}{\tau} \arcsin \left(
+\frac{\omega \tau}{2} \right) = \omega.\]</div>
+<p>Это можно проверить, например, с помощью <code class="docutils literal"><span class="pre">sympy</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sympy</span> <span class="kn">as</span> <span class="nn">sym</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tau</span><span class="p">,</span> <span class="n">omega</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;tau omega&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sym</span><span class="o">.</span><span class="n">limit</span><span class="p">((</span><span class="mi">2</span><span class="o">/</span><span class="n">tau</span><span class="p">)</span><span class="o">*</span><span class="n">sym</span><span class="o">.</span><span class="n">asin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">tau</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">tau</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="nb">dir</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="go">omega</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fdm-for-ode-analysis-glob-error">
+<span id="id25"></span><h2>Глобальная погрешность<a class="headerlink" href="#fdm-for-ode-analysis-glob-error" title="Permalink to this headline">¶</a></h2>
+<p>Проведем анализ глобальной погрешности. Разложим сеточную функцию
+погрешности <a class="reference internal" href="#eq-fdm-for-ode-analysis-eq-error"><span class="std std-ref">(14)</span></a>. Воспользуемся для
+этого пакетом <code class="docutils literal"><span class="pre">sympy</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">omega_tilde_e</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="n">tau</span><span class="o">*</span><span class="n">asin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">tau</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">omega_tilde_series</span> <span class="o">=</span> <span class="n">omega_tilde_e</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">omega_tilde_series</span>
+<span class="go">omega + omega**3*tau**2/24 + O(tau**4)</span>
+</pre></div>
+</div>
+<p>Можно использовать команду <code class="docutils literal"><span class="pre">removeO()</span></code>, чтобы избавиться от
+слагаемого <code class="docutils literal"><span class="pre">O()</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">omega_tilde_series</span> <span class="o">=</span> <span class="n">omega_tilde_series</span><span class="o">.</span><span class="n">removeO</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">omega_tilde_series</span>
+<span class="go">omega**3*tau**2/24 + omega</span>
+</pre></div>
+</div>
+<p>Используя выражение для <span class="math">\(\tilde\omega\)</span> и разлагая погрешность в
+ряд, получим</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">error</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="n">cos</span><span class="p">(</span><span class="n">omega_tilde_series</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">error</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="go">omega**3*t*tau**2*sin(omega*t)/24 + omega**6*t**2*tau**4*cos(omega*t)/1152 + O(tau**6)</span>
+</pre></div>
+</div>
+<p>Так как нас интересует главное слагаемое в разложении (слагаемое с
+наименьшей степенью <span class="math">\(\tau\)</span>), воспользуемся методом
+<code class="docutils literal"><span class="pre">.as_leading_term(tau)</span></code>, чтобы выделить это слагаемое:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">error</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">as_leading_term</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+<span class="go">omega**3*t*tau**2*sin(omega*t)/24</span>
+</pre></div>
+</div>
+<p>Последний результат означает, что глобальная погрешность в точке
+<span class="math">\(t\)</span> пропорциональна <span class="math">\(\omega^3 t \tau\)</span>. Учитывая, что
+<span class="math">\(t = n\tau\)</span> и <span class="math">\(\sin(\omega t) \leq 1\)</span>, получим</p>
+<div class="math">
+\[e^n = \frac{1}{24} n \omega^3 \tau^3.\]</div>
+<p>Это главный член погрешности <em>в точке</em>.</p>
+<p>Нас интересует накапливаемая глобальная оценка погрешности, которую
+можно вычислить как <span class="math">\(\ell^2\)</span> норму погрешности <span class="math">\(e^n\)</span>:</p>
+<div class="math">
+\[\| e^n \|_2^2 = \tau \sum_{n=0}^{N} \frac{1}{24^2} n^2 \omega^6
+\tau^6 = \frac{1}{24^2} \tau^7 \sum_{n=0}^{N} n^2.\]</div>
+<p>Сумма <span class="math">\(\sum_{n=0}^{N} n^2\)</span> примерно равен <span class="math">\(\frac{1}{3} N^3\)</span>. Заменяя
+<span class="math">\(N\)</span> на <span class="math">\(T/\tau\)</span>, получим</p>
+<div class="math">
+\[\| e^n \|_2 = \frac{1}{24} \sqrt{\frac{T^3}{3}} \omega^3 \tau^2.\]</div>
+<p>Таким образом, мы получили, что глобальная (интегральная) погрешность
+также пропорциональна <span class="math">\(\tau^2\)</span>.</p>
+</div>
+<div class="section" id="fdm-for-ode-analysis-stab">
+<span id="id26"></span><h2>Устойчивость<a class="headerlink" href="#fdm-for-ode-analysis-stab" title="Permalink to this headline">¶</a></h2>
+<p>Как мы помним численное решение имело правильную постоянную амплитуду,
+но ошибку в частоте. Однако, постоянная амплитуда бывает не
+всегда. Отметим, что если <span class="math">\(\tau\)</span> достаточно большая величина,
+величина аргумента функции <span class="math">\(\arcsin\)</span> в <a class="reference internal" href="#eq-fdm-for-ode-analysis-eq-omega-exp"><span class="std std-ref">(12)</span></a>
+может быть больше 1, т.е. <span class="math">\(\omega\tau/2 &gt; 1\)</span>. В этом случае
+<span class="math">\(\arcsin(\omega\tau/2)\)</span> и, следовательно, <span class="math">\(\tilde\omega\)</span>
+являются комплексными:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">omega</span> <span class="o">=</span> <span class="mf">1.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tau</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">asin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">tau</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">1.5707963267949 - 0.962423650119207*I</span>
+</pre></div>
+</div>
+<p>Пусть <span class="math">\(\tilde\omega = \tilde\omega_r + i\tilde\omega_i\)</span>. Так как
+<span class="math">\(\arcsin(x)\)</span> имеет отрицательную мнимую часть при <span class="math">\(x &gt; 1\)</span>,
+<span class="math">\(\tilde\omega_i &lt; 0\)</span>, то <span class="math">\(e^{i\tilde\omega t} = e^{-\tilde\omega t} e^{i\tilde\omega t}\)</span>,
+что означает экспоненциальный рост со временем, так как
+<span class="math">\(e^{-\tilde\omega t}\)</span> при <span class="math">\(\tilde\omega &lt; 0\)</span> имеет
+положительную степень.</p>
+<div class="admonition- admonition" id="index-7">
+<p class="first admonition-title">Условие устойчивости</p>
+<p class="last">Мы должны исключить рост амплитуды, потому что такой рост
+отсутствует в точном решении. Таким образом, мы должны наложить
+<em>условие устойчивости</em>: аргумент арксинуса должен давать
+действительное значение <span class="math">\(\tilde\omega\)</span>. Условие устойчивости
+выглядит следующим образом:</p>
+</div>
+<div class="math" id="eq-fdm-for-ode-analysis-eq-stab-cond">
+\[\tag{16}
+\frac{\omega\tau}{2} \leq 1 \rightarrow \tau \leq  \frac{2}{\omega}.\]</div>
+<p>Возьмем <span class="math">\(\omega = 2\pi\)</span> и выберем <span class="math">\(\tau &gt; \pi^{-1} = 0.3183098861837907\)</span>.
+На рис. <a class="reference internal" href="#fdm-for-ode-analysis-fig-2"><span class="std std-ref">Неустойчивое решение</span></a> представлен результат расчета при
+<span class="math">\(\tau = 0.3184\)</span>, которое незначительно отличается от
+критического значения: <span class="math">\(\tau = \pi^{-1} + 9.01\cdot 10^{-5}\)</span>.</p>
+<div class="figure" id="id31">
+<span id="fdm-for-ode-analysis-fig-2"></span><a class="reference internal image-reference" href="_images/unstability.png"><img alt="_images/unstability.png" src="_images/unstability.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text"><em>Неустойчивое решение</em></span></p>
+</div>
+</div>
+<div class="section" id="fdm-for-ode-analysis-stan-bound">
+<span id="id27"></span><h2>О точности при границе устойчивости<a class="headerlink" href="#fdm-for-ode-analysis-stan-bound" title="Permalink to this headline">¶</a></h2>
+<p>Ограничение на временной шаг <span class="math">\(\tau &lt; 2/\omega\)</span> кажется
+неудачным. Хотелось бы использовать больший шаг для расчета, чтобы
+ускорить его. При граничном значении шага из условия устойчивости
+имеем <span class="math">\(\arcsin(\omega\tau/2) = \arcsin(1) = \pi/2\)</span> и,
+следовательно, <span class="math">\(\tilde\omega = \pi/\tau\)</span>. Соответствующий период
+численного решения <span class="math">\(\tilde{P} = 2\pi/\tilde{\omega} = 2/\tau\)</span>,
+которое означает, что экстремумы численного решения находятся на
+расстоянии одного временного шага. Это самая короткая волна, которую
+можно воспроизвести на сетке. Другими словами, нет необходимости
+использовать больший, чем задан ограничением, шаг по времени при
+счете.</p>
+<p>Кроме того, мы видим при счете, что ошибка угловой частоты
+существенна: на рис. <a class="reference internal" href="#fdm-for-ode-analysis-fig-5"><span class="std std-ref">Численное решение при </span></a> показаны приближенное и
+точное решения при <span class="math">\(\omega=2\pi\)</span> и
+<span class="math">\(\tau=2/\omega=\pi^{-1}\)</span>. Уже после одного периода у численного
+решения наблюдается минимум там, где у точного максимум. Погрешность в
+частоте при <span class="math">\(\tau\)</span> выбирается на границе устойчивости равна:
+<span class="math">\(\omega - \tilde\omega = \omega(1 - \pi/2)
+\approx-0.57\omega\)</span>. Соответствующая  погрешность периода:
+<span class="math">\(P - \tilde{P} \approx 0.36P\)</span>. После <span class="math">\(m\)</span> периодов
+погрешность становиться уже <span class="math">\(0.36 m P\)</span>. Эта ошибка достигает
+половины периода при <span class="math">\(m = 1/(2\cdot 0.36) \approx 1.38\)</span>, что
+теоретически объясняет результаты расчета, представленные на
+рис. <a class="reference internal" href="#fdm-for-ode-analysis-fig-5"><span class="std std-ref">Численное решение при </span></a>. Следовательно, временной шаг <span class="math">\(\tau\)</span>
+следует выбирать как можно меньшим, чтобы добиться поддающихся
+интерпретации результатов.</p>
+<div class="figure" id="id32">
+<span id="fdm-for-ode-analysis-fig-5"></span><a class="reference internal image-reference" href="_images/exact_tau.png"><img alt="_images/exact_tau.png" src="_images/exact_tau.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">Численное решение при <span class="math">\(\tau = 2/\omega\)</span></span></p>
+</div>
+<div class="admonition-summary admonition">
+<p class="first admonition-title">Summary</p>
+<p>Из анализа точности и устойчивости можно сделать некоторые выводы:</p>
+<ol class="last arabic simple">
+<li>Ключевой параметр в формулах <span class="math">\(p=\omega\tau\)</span>. Пусть период колебаний <span class="math">\(P=2\pi/\omega\)</span>, количество временных шагов на период <span class="math">\(N_P = P/\tau\)</span>. Тогда <span class="math">\(p = \omega\tau = 2\pi N_P\)</span>, т.е. основным параметром является количество временных шагов на период. Наименьшее возможное <span class="math">\(N_P = 2\)</span>, т.е. <span class="math">\(p \in (0, \pi]\)</span>.</li>
+<li>Если <span class="math">\(p \leq 2\)</span>, то амплитуда численного решения постоянна.</li>
+<li>Отношение численной угловой частоты к точной есть <span class="math">\(\tilde{\omega}/\omega \approx 1 + \frac{p^2}{24}\)</span>. Погрешность <span class="math">\(\frac{p^2}{24}\)</span> приводит к смещенным пикам численного решения, и это погрешность расположения пиков растет линейно со временем.</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="._main_fdm-for-ode002.html" class="btn btn-neutral float-right" title="Обобщения: затухание, нелинейные струны и внешние воздействия" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="._main_fdm-for-ode000.html" class="btn btn-neutral" title="Разностные схемы для ОДУ колебаний" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, С. Лемешевский.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

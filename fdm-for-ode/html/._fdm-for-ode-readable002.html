@@ -5,6 +5,7 @@ Automatically generated HTML file from DocOnce source
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
 <meta name="description" content="Разностные схемы для ОДУ колебаний">
 <meta name="keywords" content="Разностная схема,Разностная производная,Разностная производная левая,Разностная производная  правая,Разностная производная вторая,Разностная производная центральная,ArgumentParser,Условие устойчивости">
@@ -55,6 +56,7 @@ code { color: inherit; background-color: transparent; }
     width: 100%;
     margin: auto;
     height: 500px;
+    text-align: webkit-left;
 }
 </style>
 
@@ -375,11 +377,12 @@ MathJax.Hub.Config({
 воздействие \( F(t) \): 
 
 $$
-\begin{equation}
+\begin{align}
 \tag{17}
    m u'' + f(u') + s(u) = F(t), \quad t \in (0, T], \\
-   u(0) = U,  \quad u'(0) = V.
-\end{equation}
+\tag{18}
+   u(0) = U,  \quad u'(0) = V. 
+\end{align}
 $$
 
 <p>
@@ -399,44 +402,45 @@ $$
 <h2 id="fdm-for-ode:gen:lin_damp" class="anchor">Разностная схема для линейного затухания</h2>
 
 <p>
-Для приближенного решения уравнения <a href="#mjx-eqn-17">(17)</a> в
+Для приближенного решения уравнения
+<a href="#mjx-eqn-17">(17)</a>--<a href="#mjx-eqn-18">(18)</a> в
 случае линейного затухания будем использовать следующую разностную
 схему: 
 
 $$
 \begin{align}
-\tag{18}
+\tag{19}
    m y_{\bar{t}t}^n + b y_{\mathring{t}}^n + s(y^n) = F^n, \quad
    n = 1, 2, \ldots, N-1, \\
-\tag{19}
+\tag{20}
    y^0 = U, \quad y_{\mathring{t}}^0 =
    \frac{y^1 - y^{-1}}{2\tau} = V.
 \end{align}
 $$
 
 <p>
-Перепишем задачу <a href="#mjx-eqn-18">(18)</a> &ndash;
-<a href="#mjx-eqn-19">(19)</a>в индексной форме: 
+Перепишем задачу <a href="#mjx-eqn-19">(19)</a> &ndash;
+<a href="#mjx-eqn-20">(20)</a>в индексной форме: 
 
 $$
 \begin{align}
-\tag{20}
+\tag{21}
    m\frac{y^{n+1} - 2y^n +y^{n-1}}{\tau^2} + b\frac{y^{n+1} -
    y^{n-1}}{2\tau} + s(y^n) = F^n, \quad
    n = 1, 2, \ldots, N - 1, \\
-\tag{21}
+\tag{22}
    y^0 = U, \quad \frac{y^1 - y^{-1}}{2\tau} = V.
 \end{align}
 $$
 
 <p>
-Решая разностное уравнение <a href="#mjx-eqn-20">(20)</a>
+Решая разностное уравнение <a href="#mjx-eqn-21">(21)</a>
 относительно неизвестной \( y^{n+1} \), получим следующую рекуррентную
 формулу: 
 
 $$
 \begin{equation}
-\tag{22}
+\tag{23}
    y^{n+1} = \frac{2m y^n + (0.5\tau - m)y^{n-1} + \tau^2(F^n -
    s(y^n))}{m + 0.5b\tau}, \quad n = 1, 2, \ldots, N-1.
 \end{equation}
@@ -447,7 +451,7 @@ $$
 
 $$
 \begin{equation}
-\tag{23}
+\tag{24}
    y^1 = y^0 + \tau V + \frac{\tau^2}{2m} (F^0 - s(y^0) - b V).
 \end{equation}
 $$
@@ -487,7 +491,7 @@ $$
 
 $$
 \begin{equation}
-\tag{24}
+\tag{25}
    m y_{\bar{t}t}^n + by_t^n y_{\bar{t}}^n + s(y^n) = F^n, \quad n =
    1, 2, \ldots, N - 1,
 \end{equation}
@@ -498,7 +502,7 @@ $$
 
 $$
 \begin{equation}
-\tag{25}
+\tag{26}
    y^{n+1} = \frac{2m y^n - m y^{n-1} + by^n |y^n - y^{n-1}| +
    \tau^2(F^n - s(y^n))}{m + b|y^{n} - y^{n-1}|}.
 \end{equation}
@@ -506,11 +510,11 @@ $$
 
 <p>
 При использовании аппроксимации второго начального условия из
-<a href="#mjx-eqn-19">(19)</a> мы получим сложное
+<a href="#mjx-eqn-20">(20)</a> мы получим сложное
 нелинейное выражение для \( y^1 \). Однако, можно построить аппроксимацию,
 линейную относительно \( y^1 \). Для \( t = 0 \) имеем
 \( u'(0)|u'(0)| = b V|V| \). Используя это выражение в уравнении
-<a href="#mjx-eqn-24">(24)</a> и значение \( u(0) = U \) при аппроксимации
+<a href="#mjx-eqn-25">(25)</a> и значение \( u(0) = U \) при аппроксимации
 уравнения <a href="#mjx-eqn-17">(17)</a>, записанного при \( t = 0 \), получим 
 
 $$
@@ -519,12 +523,12 @@ $$
 
 <p>
 Отсюда, учитывая второе начальное условие из
-<a href="#mjx-eqn-19">(19)</a>, получим выражение для
+<a href="#mjx-eqn-20">(20)</a>, получим выражение для
 вычисления \( y^1 \) 
 
 $$
 \begin{equation}
-\tag{26}
+\tag{27}
    y^1 = y^0 + \tau V + \frac{\tau^2}{2m} (F^0 - m V|V| - s(U)).
 \end{equation}
 $$
@@ -542,11 +546,11 @@ $$
 
 <ol>
 <li> \( y^0 = U \);</li>
-<li> вычисляем \( y^1 \), используя <a href="#mjx-eqn-23">(23)</a> для линейного затухания или <a href="#mjx-eqn-26">(26)</a> для квадратичного затухания;</li>
+<li> вычисляем \( y^1 \), используя <a href="#mjx-eqn-24">(24)</a> для линейного затухания или <a href="#mjx-eqn-27">(27)</a> для квадратичного затухания;</li>
 <li> для \( n = 1, 2, \ldots, N-1 \):
 
 <ol type="a"></li>
-  <li> вычисляем \( y^{n+1} \), используя <a href="#mjx-eqn-22">(22)</a> для линейного затухания или <a href="#mjx-eqn-25">(25)</a> для квадратичного затухания.</li> 
+  <li> вычисляем \( y^{n+1} \), используя <a href="#mjx-eqn-23">(23)</a> для линейного затухания или <a href="#mjx-eqn-26">(26)</a> для квадратичного затухания.</li> 
 </ol>
 
 </ol>
@@ -731,7 +735,8 @@ $$
 <p>
 Сценарий <a href="src-fdm-for-ode/vib.py" target="_self">vib.py</a> содержит представленный
 выше фрагмент кода и решает модельную задачу
-<a href="#mjx-eqn-17">(17)</a>. В качестве примера использования
+<a href="#mjx-eqn-17">(17)</a>--<a href="#mjx-eqn-18">(18)</a>. качестве
+примера использования 
 <a href="src-fdm-for-ode/vib.py" target="_self">vib.py</a> 
 рассмотрим случай, когда \( I = 1 \), \( V = 0 \), \( m = 1 \),
 \( s(u) = \sin(u) \), \( F(t) = 3\cos(4t) \), \( \tau=0.05 \) и

@@ -28,6 +28,7 @@
     width: 100%;
     margin: auto;
     height: 500px;
+    text-align: left;
 }
 </style>
 
@@ -252,38 +253,53 @@ $$
 
 <h2 id="fdm-for-ode:fdd:fdd">Разностная схема</h2>
 
-<ul>
-<p><li> Введем равномерную сетку по переменной \( t \) с шагом \( \tau \):</li>
-</ul>
-<p>&nbsp;<br>
+<p>
+
+<p class="slide">
+
+Вводим равномерную сетку по переменной \( t \) с шагом \( \tau \):
+&nbsp;<br>&nbsp;<br>
 $$
    \omega_\tau = \{ t_n = n\tau, \ n = 0, 1, \ldots N \}.
 $$
-<p>&nbsp;<br>
+&nbsp;<br>&nbsp;<br>
 
 
-<ul>
-<p><li> Простейшая разностная схема</li>
-</ul>
-<p>&nbsp;<br>
+</p>
+
+
+<p class="slide">
+
+Простейшая разностная схема
+&nbsp;<br>&nbsp;<br>
 $$
 \begin{equation*}
    \frac{y^{n+1} - 2 y^{n} + y^{n-1}}{\tau^2} = -\omega^2 y^n.
 \end{equation*}
 $$
-<p>&nbsp;<br>
+&nbsp;<br>&nbsp;<br>
 
 
-<ul>
-<p><li> Для формулировки вычислительного алгоритма, предположим, что мы уже знаем значение \( y^{n-1} \) и \( y^{n} \). Тогда из мы можем выразитьнеизвестное значение \( y^{n+1} \):</li> 
-</ul>
-<p>&nbsp;<br>
+</p>
+
+<p>
+
+<p class="slide">
+
+Для формулировки вычислительного алгоритма, предположим, что мы уже
+знаем значение \( y^{n-1} \) и \( y^{n}. \) Тогда из мы можем
+выразитьнеизвестное значение \( y^{n+1} \):  
+
+&nbsp;<br>&nbsp;<br>
 $$
 \begin{equation*}
    y^{n+1} = 2y^n - y^{n-1} - \tau^2 \omega^2 y^n.
 \end{equation*}
 $$
-<p>&nbsp;<br>
+&nbsp;<br>&nbsp;<br>
+
+
+</p>
 </section>
 
 
@@ -957,7 +973,7 @@ $$
 <br /><br /><center><p><img src="fig-fdm-for-ode/discrete_freq.png" align="bottom" width=600></p></center><br /><br />
 
 <p>
-Рекомендация: 25-30 точен на период.
+Рекомендация: 25-30 точек на период.
 </section>
 
 
