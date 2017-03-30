@@ -1,0 +1,1731 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="description" content="Разностные схемы для волнового уравнения">
+<meta name="keywords" content="Уравнение колебаний струны,Волновое уравнение,Волновое уравнение одномерное,Сетка,Узлы,Узлы  граничные,Узлы  внутренние,Разностная схема  трехслойная,Число Куранта,Волновое уравнение  неоднородное,Массив  срез,Граничные условия Неймана,Граничные условия Дирихле,Мнимые ячейки,Мнимые узлы,Мнимые значения">
+
+<title>Разностные схемы для волнового уравнения</title>
+
+<!-- Bootstrap style: bootstrap_FlatUI -->
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.rawgit.com/hplgit/doconce/master/bundled/html_styles/style_bootstrap/css/bootstrap_FlatUI.css" rel="stylesheet">
+<!-- not necessary
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+/* Let inline verbatim have the same color as the surroundings */
+code { color: inherit; background-color: transparent; }
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:50px;      /* fixed header height for style bootstrap_FlatUI */
+  margin:-50px 0 0; /* negative fixed header height */
+}
+</style>
+
+
+<!-- Tools for embedded Bokeh plots -->
+<link rel=stylesheet 
+      href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
+      type=text/css />
+<script type=text/javascript 
+        src=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js>
+</script>
+<script type=text/javascript>
+  Bokeh.set_log_level("info");
+</script>
+
+<style>
+.bk-embeded {
+    width: 100%;
+    margin: auto;
+    height: 500px;
+    text-align: webkit-left;
+}
+</style>
+
+
+</head>
+
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [('Содержание',
+               1,
+               'table_of_contents',
+               'table_of_contents'),
+              (u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u0430\u044f \u0441\u0445\u0435\u043c\u0430 \u0434\u043b\u044f \u043e\u0434\u043d\u043e\u043c\u0435\u0440\u043d\u043e\u0433\u043e \u0432\u043e\u043b\u043d\u043e\u0432\u043e\u0433\u043e \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:string_eq',
+               u'fdm-for-wave:string_eq'),
+              (u'\u0420\u0430\u0441\u0447\u0435\u0442\u043d\u0430\u044f \u0441\u0435\u0442\u043a\u0430',
+               2,
+               u'fdm-for-wave:string_eq:grid',
+               u'fdm-for-wave:string_eq:grid'),
+              (u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u0430\u044f \u0441\u0445\u0435\u043c\u0430',
+               2,
+               u'fdm-for-wave:string_eq:fdm',
+               u'fdm-for-wave:string_eq:fdm'),
+              (u'\u0410\u043f\u043f\u0440\u043e\u043a\u0441\u0438\u043c\u0430\u0446\u0438\u044f \u0432\u0442\u043e\u0440\u043e\u0433\u043e \u043d\u0430\u0447\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u0443\u0441\u043b\u043e\u0432\u0438\u044f',
+               2,
+               u'fdm-for-wave:string_eq:fds_init',
+               u'fdm-for-wave:string_eq:fds_init'),
+              (u'\u0412\u044b\u0447\u0438\u0441\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0430\u043b\u0433\u043e\u0440\u0438\u0442\u043c',
+               2,
+               u'fdm-for-wave:string_eq:alg',
+               u'fdm-for-wave:string_eq:alg'),
+              (u'\u042d\u0441\u043a\u0438\u0437 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0439 \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438',
+               2,
+               u'fdm-for-wave:string_eq:sketch',
+               u'fdm-for-wave:string_eq:sketch'),
+              (u'\u0412\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0439 \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438',
+               1,
+               u'fdm-for-wave:verif',
+               u'fdm-for-wave:verif'),
+              (u'\u041d\u0435\u043e\u0434\u043d\u043e\u0440\u043e\u0434\u043d\u043e\u0435 \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435',
+               2,
+               u'fdm-for-wave:verif:string_unhom',
+               u'fdm-for-wave:verif:string_unhom'),
+              (u'\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0430\u043d\u0430\u043b\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u0440\u0435\u0448\u0435\u043d\u0438\u044f',
+               2,
+               u'fdm-for-wave:verif:analtic',
+               u'fdm-for-wave:verif:analtic'),
+              (u'\u041f\u0440\u043e\u0431\u043d\u044b\u0435 \u0444\u0443\u043d\u043a\u0446\u0438\u0438',
+               2,
+               u'fdm-for-wave:verif:manufact',
+               u'fdm-for-wave:verif:manufact'),
+              (u'\u041f\u043e\u0441\u0442\u0440\u043e\u0435\u043d\u0438\u0435 \u0442\u043e\u0447\u043d\u043e\u0433\u043e \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0434\u0438\u0441\u043a\u0440\u0435\u0442\u043d\u043e\u0439 \u0437\u0430\u0434\u0430\u0447\u0438',
+               2,
+               u'fdm-for-wave:verif:fdm_ex_sol',
+               u'fdm-for-wave:verif:fdm_ex_sol'),
+              (u'\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u0430\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f',
+               1,
+               u'fdm-for-wave:impl',
+               u'fdm-for-wave:impl'),
+              (u'\u0424\u0443\u043d\u043a\u0446\u0438\u044f \u043e\u0431\u0440\u0430\u0442\u043d\u043e\u0433\u043e \u0432\u044b\u0437\u043e\u0432\u0430 \u0434\u043b\u044f \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439, \u0437\u0430\u0434\u0430\u043d\u043d\u044b\u0445 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u043c',
+               2,
+               u'fdm-for-wave:impl:user_action',
+               u'fdm-for-wave:impl:user_action'),
+              (u'\u0424\u0443\u043d\u043a\u0446\u0438\u044f-\u0441\u043e\u043b\u0432\u0435\u0440',
+               2,
+               u'fdm-for-wave:impl:solver',
+               u'fdm-for-wave:impl:solver'),
+              (u'\u0412\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f: \u0442\u043e\u0447\u043d\u043e\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u0435 --- \u043f\u043e\u043b\u0438\u043d\u043e\u043c \u0432\u0442\u043e\u0440\u043e\u0439 \u0441\u0442\u0435\u043f\u0435\u043d\u0438',
+               2,
+               u'fdm-for-wave:impl:ver_quad',
+               u'fdm-for-wave:impl:ver_quad'),
+              (u'\u0412\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f: \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u044f \u0440\u0435\u0448\u0435\u043d\u0438\u044f',
+               2,
+               u'fdm-for-wave:impl:viz',
+               u'fdm-for-wave:impl:viz'),
+              (u'\u0424\u0443\u043d\u043a\u0446\u0438\u044f \u0434\u043b\u044f \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u044f \u0440\u0430\u0441\u0447\u0435\u0442\u043e\u043c',
+               3,
+               u'fdm-for-wave:impl:viz:control',
+               u'fdm-for-wave:impl:viz:control'),
+              (u'\u0410\u043d\u0430\u043b\u0438\u0437 \u043a\u043e\u0434\u0430',
+               3,
+               u'fdm-for-wave:impl:viz:analysis',
+               u'fdm-for-wave:impl:viz:analysis'),
+              (u'\u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u0432\u0438\u0434\u0435\u043e \u0444\u0430\u0439\u043b\u043e\u0432',
+               3,
+               u'fdm-for-wave:impl:viz:movie',
+               u'fdm-for-wave:impl:viz:movie'),
+              (u'\u041f\u0440\u043e\u043f\u0443\u0441\u043a \u043a\u0430\u0434\u0440\u043e\u0432 \u0434\u043b\u044f \u0443\u0441\u043a\u043e\u0440\u0435\u043d\u0438\u044f \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u0438',
+               3,
+               u'fdm-for-wave:impl:viz_skip_fr',
+               u'fdm-for-wave:impl:viz_skip_fr'),
+              (u'\u0417\u0430\u043f\u0443\u0441\u043a \u0432\u0430\u0440\u0438\u0430\u043d\u0442\u0430 \u0440\u0430\u0441\u0447\u0435\u0442\u0430',
+               2,
+               u'fdm-for-wave:impl:running',
+               u'fdm-for-wave:impl:running'),
+              (u'\u0411\u0435\u0437\u0440\u0430\u0437\u043c\u0435\u0440\u043d\u0430\u044f \u043c\u043e\u0434\u0435\u043b\u044c',
+               2,
+               u'fdm-for-wave:impl:scaled',
+               u'fdm-for-wave:impl:scaled'),
+              (u'\u0412\u0435\u043a\u0442\u043e\u0440\u0438\u0437\u0430\u0446\u0438\u044f',
+               1,
+               u'fdm-for-wave:vect',
+               u'fdm-for-wave:vect'),
+              (u'\u041e\u043f\u0435\u0440\u0430\u0446\u0438\u0438 \u043d\u0430 \u0441\u0440\u0435\u0437\u0430\u0445 \u043c\u0430\u0441\u0441\u0438\u0432\u043e\u0432',
+               2,
+               u'fdm-for-wave:vect:op',
+               u'fdm-for-wave:vect:op'),
+              (u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u044b\u0435 \u0441\u0445\u0435\u043c\u044b, \u0432\u044b\u0440\u0430\u0436\u0435\u043d\u043d\u044b\u0435 \u0432 \u0441\u0440\u0435\u0437\u0430\u0445',
+               2,
+               u'fdm-for-wave:vect:slices_fdm',
+               u'fdm-for-wave:vect:slices_fdm'),
+              (u'\u0412\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f',
+               2,
+               u'fdm-for-wave:vect:verif',
+               u'fdm-for-wave:vect:verif'),
+              (u'\u0418\u0437\u043c\u0435\u0440\u0435\u043d\u0438\u0435 \u044d\u0444\u0444\u0435\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u0438',
+               2,
+               u'fdm-for-wave:vect:eff',
+               u'fdm-for-wave:vect:eff'),
+              (u'\u0420\u0435\u0448\u0435\u043d\u0438\u0435 1',
+               3,
+               u'fdm-for-wave:vect:sol1',
+               u'fdm-for-wave:vect:sol1'),
+              (u'\u0420\u0435\u0448\u0435\u043d\u0438\u0435 2',
+               3,
+               u'fdm-for-wave:vect:sol2',
+               u'fdm-for-wave:vect:sol2'),
+              (u'\u042d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u044b \u043f\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0435 \u044d\u0444\u0444\u0435\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u0438',
+               3,
+               u'fdm-for-wave:vect:eff_exp',
+               u'fdm-for-wave:vect:eff_exp'),
+              (u'\u0417\u0430\u043c\u0435\u0447\u0430\u043d\u0438\u0435 \u043e\u0431 \u043e\u0431\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0438 \u043c\u0430\u0441\u0441\u0438\u0432\u043e\u0432',
+               2,
+               u'fdm-for-wave:vect:array_updating',
+               u'fdm-for-wave:vect:array_updating'),
+              (u'\u0423\u043f\u0440\u0430\u0436\u043d\u0435\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:exercises',
+               u'fdm-for-wave:exercises'),
+              (u'Упражнение 1: \u041c\u043e\u0434\u0435\u043b\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u0441\u0442\u043e\u044f\u0447\u0435\u0439 \u0432\u043e\u043b\u043d\u044b',
+               2,
+               u'fdm-for-wave:exercises:1',
+               u'fdm-for-wave:exercises:1'),
+              (u'Замечания', 3, None, '___sec33'),
+              (u'Упражнение 2: \u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0432 \u0444\u0443\u043d\u043a\u0446\u0438\u0438 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f',
+               2,
+               u'fdm-for-wave:exercises:2',
+               u'fdm-for-wave:exercises:2'),
+              (u'Упражнение 3: \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u043a\u043b\u0430\u0441\u0441\u0430 \u0434\u043b\u044f \u0444\u0443\u043d\u043a\u0446\u0438\u0438 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f',
+               2,
+               u'fdm-for-wave:exercises:3',
+               u'fdm-for-wave:exercises:3'),
+              (u'Упражнение 4: \u0421\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u0438\u0445 \u0447\u0438\u0441\u0435\u043b \u041a\u0443\u0440\u0430\u043d\u0442\u0430 \u043d\u0430 \u043e\u0434\u043d\u043e\u043c \u0432\u0438\u0434\u0435\u043e',
+               2,
+               u'fdm-for-wave:exercises:4',
+               u'fdm-for-wave:exercises:4'),
+              (u'Проект 5: \u0418\u0441\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u044f \u0441 \u043e\u0434\u043d\u043e\u043c\u0435\u0440\u043d\u044b\u043c\u0438 \u0441\u0435\u0442\u043e\u0447\u043d\u044b\u043c\u0438 \u0444\u0443\u043d\u043a\u0446\u0438\u044f\u043c\u0438',
+               2,
+               u'fdm-for-wave:exercises:pr1',
+               u'fdm-for-wave:exercises:pr1'),
+              (u'\u041e\u0431\u043e\u0431\u0449\u0435\u043d\u0438\u044f: \u043e\u0442\u0440\u0430\u0436\u0430\u044e\u0449\u0438\u0435 \u0433\u0440\u0430\u043d\u0438\u0446\u044b',
+               1,
+               u'fdm-for-wave:refl',
+               u'fdm-for-wave:refl'),
+              (u'\u0413\u0440\u0430\u043d\u0438\u0447\u043d\u044b\u0435 \u0443\u0441\u043b\u043e\u0432\u0438\u044f \u041d\u0435\u0439\u043c\u0430\u043d\u0430',
+               2,
+               u'fdm-for-wave:refl:neumann',
+               u'fdm-for-wave:refl:neumann'),
+              (u'\u0410\u043f\u043f\u0440\u043e\u043a\u0441\u0438\u043c\u0430\u0446\u0438\u044f \u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u043d\u043e\u0439 \u043d\u0430 \u0433\u0440\u0430\u043d\u0438\u0446\u0435',
+               2,
+               u'fdm-for-wave:refl:deriv_appr',
+               u'fdm-for-wave:refl:deriv_appr'),
+              (u'\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u0430\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u041d\u0435\u0439\u043c\u0430\u043d\u0430',
+               2,
+               u'fdm-for-wave:refl:impl',
+               u'fdm-for-wave:refl:impl'),
+              (u'\u041e\u0431\u043e\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435 \u043c\u043d\u043e\u0436\u0435\u0441\u0442\u0432 \u0438\u043d\u0434\u0435\u043a\u0441\u043e\u0432',
+               2,
+               u'fdm-for-wave:refl:idx_set',
+               u'fdm-for-wave:refl:idx_set'),
+              (u'\u0412\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438 \u0433\u0440\u0430\u043d\u0438\u0447\u043d\u044b\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u041d\u0435\u0439\u043c\u0430\u043d\u0430',
+               2,
+               u'fdm-for-wave:refl:ver',
+               u'fdm-for-wave:refl:ver'),
+              (u'\u0420\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0433\u0440\u0430\u043d\u0438\u0447\u043d\u044b\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u041d\u0435\u0439\u043c\u0430\u043d\u0430 \u0441 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435\u043c \u043c\u043d\u0438\u043c\u044b\u0445 \u044f\u0447\u0435\u0435\u043a',
+               2,
+               u'fdm-for-wave:refl:ghost',
+               u'fdm-for-wave:refl:ghost'),
+              (u'\u0418\u0434\u0435\u044f',
+               3,
+               u'fdm-for-wave:refl:ghost:idea',
+               u'fdm-for-wave:refl:ghost:idea'),
+              (u'\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u0430\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f',
+               3,
+               u'fdm-for-wave:refl:ghost:impl',
+               u'fdm-for-wave:refl:ghost:impl'),
+              (u'\u041e\u0431\u043e\u0431\u0449\u0435\u043d\u0438\u044f: \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u0430\u044f \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u044c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u044f \u0432\u043e\u043b\u043d\u044b',
+               1,
+               u'fdm-for-wave:varvel',
+               u'fdm-for-wave:varvel'),
+              (u'\u041c\u043e\u0434\u0435\u043b\u044c\u043d\u043e\u0435 \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435 \u0441 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u043c\u0438 \u043a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442\u0430\u043c\u0438',
+               2,
+               u'fdm-for-wave:varvel:model',
+               u'fdm-for-wave:varvel:model'),
+              (u'\u0410\u043f\u043f\u0440\u043e\u043a\u0441\u0438\u043c\u0430\u0446\u0438\u044f \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445 \u043a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442\u043e\u0432',
+               2,
+               u'fdm-for-wave:varvel:coeff_appr',
+               u'fdm-for-wave:varvel:coeff_appr'),
+              (u'\u0423\u0441\u043b\u043e\u0432\u0438\u044f \u041d\u0435\u0439\u043c\u0430\u043d\u0430 \u0438 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0435 \u043a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442\u044b',
+               2,
+               u'fdm-for-wave:varvel:neumann',
+               u'fdm-for-wave:varvel:neumann'),
+              (u'\u0411\u043e\u043b\u0435\u0435 \u043e\u0431\u0449\u0435\u0435 \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435 \u0441 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u043c\u0438 \u043a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442\u044b',
+               2,
+               u'fdm-for-wave:varvel:more_gen',
+               u'fdm-for-wave:varvel:more_gen'),
+              (u'\u041e\u0431\u043e\u0431\u0449\u0435\u043d\u0438\u044f: \u0437\u0430\u0442\u0443\u0445\u0430\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:damping',
+               u'fdm-for-wave:damping'),
+              (u'\u0420\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0430 \u043e\u0431\u0449\u0435\u0433\u043e \u0441\u043e\u043b\u0432\u0435\u0440\u0430 \u0434\u043b\u044f \u043e\u0434\u043d\u043e\u043c\u0435\u0440\u043d\u043e\u0433\u043e \u0432\u043e\u043b\u043d\u043e\u0432\u043e\u0433\u043e \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:gen_solver',
+               u'fdm-for-wave:gen_solver'),
+              (u'\u0420\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0444\u0443\u043d\u043a\u0446\u0438\u0438 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439 \u043f\u043e\u043b\u043e\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u0432 \u0432\u0438\u0434\u0435 \u043a\u043b\u0430\u0441\u0441\u0430',
+               2,
+               u'fdm-for-wave:gen_solver:user_action',
+               u'fdm-for-wave:gen_solver:user_action'),
+              (u'\u041a\u043e\u0434',
+               3,
+               u'fdm-for-wave:gen_solver:code',
+               u'fdm-for-wave:gen_solver:code'),
+              (u'\u0420\u0430\u0437\u0431\u043e\u0440',
+               3,
+               u'fdm-for-wave:gen_solver:dissect',
+               u'fdm-for-wave:gen_solver:dissect'),
+              (u'\u0420\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0435 \u0438\u043c\u043f\u0443\u043b\u044c\u0441\u0430 \u0432 \u0434\u0432\u0443\u0445 \u0441\u0440\u0435\u0434\u0430\u0445',
+               2,
+               u'fdm-for-wave:gen_solver:pulse',
+               u'fdm-for-wave:gen_solver:pulse'),
+              (u'\u0423\u043f\u0440\u0430\u0436\u043d\u0435\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:exercises2',
+               u'fdm-for-wave:exercises2'),
+              (u'Упражнение 6: \u041d\u0430\u0445\u043e\u0436\u0434\u0435\u043d\u0438\u0435 \u0430\u043d\u0430\u043b\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0432\u043e\u043b\u043d\u043e\u0432\u043e\u0433\u043e \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u044f \u0441 \u0437\u0430\u0442\u0443\u0445\u0430\u043d\u0438\u0435\u043c',
+               2,
+               u'fdm-for-wave:exercises2:1',
+               u'fdm-for-wave:exercises2:1'),
+              (u'Задача 7: \u0410\u043d\u0430\u043b\u0438\u0437 \u0441\u0438\u043c\u043c\u0435\u0442\u0440\u0438\u0447\u043d\u044b\u0445 \u0433\u0440\u0430\u043d\u0438\u0447\u043d\u044b\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439',
+               2,
+               u'fdm-for-wave:exercises2:2',
+               u'fdm-for-wave:exercises2:2'),
+              (u'Упражнение 8: \u0418\u043c\u0443\u043b\u044c\u0441 \u0447\u0435\u0440\u0435\u0437 \u0441\u043b\u043e\u0438\u0441\u0442\u0443\u044e \u0441\u0440\u0435\u0434\u0443',
+               2,
+               u'fdm-for-wave:exercises2:3',
+               u'fdm-for-wave:exercises2:3'),
+              (u'Упражнение 9: \u041e\u0431\u044a\u044f\u0441\u043d\u0435\u043d\u0438\u0435 \u043f\u043e\u0447\u0435\u043c\u0443 \u0432\u043e\u0437\u043d\u0438\u043a\u0430\u044e\u0442 \u0447\u0438\u0441\u043b\u0435\u043d\u043d\u044b\u0435 \u0448\u0443\u043c\u044b',
+               2,
+               u'fdm-for-wave:exercises2:4',
+               u'fdm-for-wave:exercises2:4'),
+              (u'Упражнение 10: \u0418\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u0435 \u0433\u0430\u0440\u043c\u043e\u043d\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u0441\u0440\u0435\u0434\u043d\u0435\u0433\u043e \u0432 \u043e\u0434\u043d\u043e\u043c\u0435\u0440\u043d\u043e\u0439 \u043c\u043e\u0434\u0435\u043b\u0438',
+               2,
+               u'fdm-for-wave:exercises2:5',
+               u'fdm-for-wave:exercises2:5'),
+              (u'Задача 11: \u0420\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0445 \u0433\u0440\u0430\u043d\u0438\u0446',
+               2,
+               u'fdm-for-wave:exercises2:6',
+               u'fdm-for-wave:exercises2:6')]}
+end of tocinfo -->
+
+<body>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "none"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript"
+ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<!-- newcommands_keep.tex -->
+$$
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[3]{\frac{\partial^#1 #2}{\partial #3^#1}}
+$$
+
+
+
+
+    
+<!-- Bootstrap navigation bar -->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="fdm-for-wave-FlatUI.html">Разностные схемы для волнового уравнения</a>
+  </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI000.html#table_of_contents" style="font-size: 80%;"><b>Содержание</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:string_eq" style="font-size: 80%;"><b>Разностная схема для одномерного волнового уравнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:string_eq:grid" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Расчетная сетка</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:string_eq:fdm" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Разностная схема</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:string_eq:fds_init" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Аппроксимация второго начального условия</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:string_eq:alg" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Вычислительный алгоритм</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:string_eq:sketch" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Эскиз программной реализации</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:verif" style="font-size: 80%;"><b>Верификация программной реализации</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:verif:string_unhom" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Неоднородное уравнение</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:verif:analtic" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Использование аналитического решения</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:verif:manufact" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Пробные функции</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:verif:fdm_ex_sol" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Построение точного решения дискретной задачи</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl" style="font-size: 80%;"><b>Программная реализация</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:user_action" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Функция обратного вызова для действий, заданных пользователем</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:solver" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Функция-солвер</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:ver_quad" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Верификация: точное решение --- полином второй степени</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:viz" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Визуализация: анимация решения</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:viz:control" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Функция для управления расчетом</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:viz:analysis" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Анализ кода</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:viz:movie" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Создание видео файлов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:viz_skip_fr" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Пропуск кадров для ускорения анимации</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:running" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Запуск варианта расчета</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:scaled" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Безразмерная модель</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect" style="font-size: 80%;"><b>Векторизация</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:op" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Операции на срезах массивов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:slices_fdm" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Разностные схемы, выраженные в срезах</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:verif" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Верификация</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:eff" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Измерение эффективности</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:sol1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Решение 1</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:sol2" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Решение 2</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:eff_exp" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Эксперименты по проверке эффективности</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:array_updating" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Замечание об обновлении массивов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI003.html#fdm-for-wave:exercises" style="font-size: 80%;"><b>Упражнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI003.html#fdm-for-wave:exercises:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 1: Моделирование стоячей волны</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI003.html#___sec33" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Замечания</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI003.html#fdm-for-wave:exercises:2" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 2: Добавить сохранение решения в функции действий пользователя</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI003.html#fdm-for-wave:exercises:3" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 3: Использование класса для функции действий пользователя</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI003.html#fdm-for-wave:exercises:4" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 4: Сравнение нескольких чисел Куранта на одном видео</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI003.html#fdm-for-wave:exercises:pr1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Проект 5: Исчисления с одномерными сеточными функциями</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:refl" style="font-size: 80%;"><b>Обобщения: отражающие границы</b></a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:refl:neumann" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Граничные условия Неймана</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:refl:deriv_appr" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Аппроксимация производной на границе</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:refl:impl" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Программная реализация условий Неймана</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:refl:idx_set" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Обозначение множеств индексов</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:refl:ver" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Верификация реализации граничных условий Неймана</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:refl:ghost" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Реализация граничных условий Неймана с использованием мнимых ячеек</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:refl:ghost:idea" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Идея</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:refl:ghost:impl" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Программная реализация</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:varvel" style="font-size: 80%;"><b>Обобщения: переменная скорость распространения волны</b></a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:varvel:model" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Модельное уравнение с переменными коэффициентами</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:varvel:coeff_appr" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Аппроксимация переменных коэффициентов</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:varvel:neumann" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Условия Неймана и переменные коэффициенты</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:varvel:more_gen" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Более общее уравнение с переменными коэффициенты</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:damping" style="font-size: 80%;"><b>Обобщения: затухания</b></a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:gen_solver" style="font-size: 80%;"><b>Разработка общего солвера для одномерного волнового уравнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:gen_solver:user_action" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Реализация функции действий полозователя в виде класса</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:gen_solver:code" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Код</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:gen_solver:dissect" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Разбор</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:gen_solver:pulse" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Распространение импульса в двух средах</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI005.html#fdm-for-wave:exercises2" style="font-size: 80%;"><b>Упражнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI005.html#fdm-for-wave:exercises2:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 6: Нахождение аналитического решения волнового уравнения с затуханием</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI005.html#fdm-for-wave:exercises2:2" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Задача 7: Анализ симметричных граничных условий</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI005.html#fdm-for-wave:exercises2:3" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 8: Имульс через слоистую среду</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI005.html#fdm-for-wave:exercises2:4" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 9: Объяснение почему возникают численные шумы</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI005.html#fdm-for-wave:exercises2:5" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 10: Исследование гармонического среднего в одномерной модели</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI005.html#fdm-for-wave:exercises2:6" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Задача 11: Реализация условий открытых границ</a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</div> <!-- end of navigation bar -->
+
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<a name="part0004"></a>
+<!-- !split -->
+
+<h1 id="fdm-for-wave:refl" class="anchor">Обобщения: отражающие границы</h1>
+
+<p>
+Граничные условия \( u = 0 \) для волнового уравнения означают
+отражение волны, но при этом \( u \) меняет знак на границе, условие
+же \( \frac{\partial u}{\partial x} = 0 \) на границе означает
+отражение волны с сохранением знака решения.
+
+<p>
+Следующая задача, которую мы рассмотрим заключается в реализации
+граничного условия второго рода (<em>условие Неймана</em>)
+\( \frac{\partial u}{\partial x} = 0 \), которое 
+является более сложным для численной реализации, чем <em>условие Дирихле</em>,
+т.е. при заданном значении \( u \) на границе. Ниже мы приведем два
+способа разностной аппроксимации условий Неймана: один из них
+основан на построении модифицированного шаблона вблизи границы, а
+второй основан на расширении сетки мнимыми ячейками и узлами.
+
+<h2 id="fdm-for-wave:refl:neumann" class="anchor">Граничные условия Неймана</h2>
+
+<p>
+Для описания процесса, когда волна ударяется в границу и отражается
+назад, используется условие
+$$
+\begin{equation}
+\tag{27}
+   \frac{\partial u}{\partial \mathbf{n}} \equiv \mathbf{n} \cdot
+   \nabla u = 0,
+\end{equation}
+$$
+
+где \( \partial/\partial\mathbf{n} \) --- производная вдоль нормали,
+внешней к границе. В одномерном случае (отрезок \( [0,l] \)), имеем
+$$
+   \frac{\partial}{\partial\mathbf{n}}\Bigg|_{x = l} =
+   \frac{\partial}{\partial x}, \quad
+   \frac{\partial}{\partial\mathbf{n}}\Bigg|_{x = 0} =
+   -\frac{\partial}{\partial x}
+$$
+
+<h2 id="fdm-for-wave:refl:deriv_appr" class="anchor">Аппроксимация производной на границе</h2>
+
+<p>
+Построим аппроксимацию граничного условия 
+<a href="#mjx-eqn-27">(27)</a> со
+вторым порядком аппроксимации по пространственной переменной. Для
+этого воспользуемся центральной разностной производной:
+$$
+\begin{equation}
+\tag{28}
+   y_{\mathring{x},0}^n = \frac{y_{1}^n - y_{-1}^n}{2h} = 0.
+\end{equation}
+$$
+
+<p>
+Проблема заключается в том, что \( y_{-1}^n \) не является расчетным
+значением, так как задано в нерасчетном узле не принадлежащем
+сетке. Однако, если мы объединим 
+<a href="#mjx-eqn-28">(28)</a> с разностным
+уравнением <a href="._fdm-for-wave-FlatUI001.html#mjx-eqn-8">(8)</a>, записанным в узле
+\( i = 0 \): 
+$$
+\begin{equation}
+\tag{29}
+   y_0^{n+1} = 2y_0^{n} - y_0^{n-1} + \gamma^2 (y_{1}^n - 2y_{0}^n +
+   y_{-1}^n),
+\end{equation}
+$$
+
+мы можем исключить фиктивное значение \( y_{-1}^n \). Учитывая
+<a href="#mjx-eqn-28">(28)</a>, имеем \( y_{-1}^n = y_1^n \). Подставив
+последнее в 
+<a href="#mjx-eqn-29">(29)</a>, получим модифицированное уравнение в
+граничной точке \( y_0^{n+1} \):
+
+$$
+\begin{equation}
+\tag{30}
+   y_0^{n+1} = 2y_0^{n} - y_0^{n-1} + 2\gamma^2 (y_{1}^n - 2y_{0}^n).
+\end{equation}
+$$
+
+<p>
+На рис. <a href="#fdm-for-wave:refl:fig:1">4</a> представлен шаблон схемы на левой
+границе области с учетом аппроксимации условия Неймана.
+
+<p>
+<center> <!-- figure label: --> <div id="fdm-for-wave:refl:fig:1"></div> <!-- FIGURE -->
+<hr class="figure">
+<center><p class="caption">Рисунок 4:  Модифицированный шаблон на левой границе для аппроксимации условия Неймана.  <!-- caption label: fdm-for-wave:refl:fig:1 --> </p></center>
+<p><img src="fig-fdm-for-wave/wave_bound_templ.png" align="bottom" width=300></p>
+</center>
+
+<p>
+Аналогично, получаем апрокссимацию условия 
+<a href="#mjx-eqn-27">(27)</a> на
+правой границе \( x = l \):
+$$
+   y_{\mathring{x},N} = \frac{y_{N+1}^n - y_{N-1}^n}{2h} = 0
+$$
+
+Объединяя последнее с разностным уравнением <a href="._fdm-for-wave-FlatUI001.html#mjx-eqn-8">(8)</a>
+при \( i = N \) получим модифицированное уравнение на правой
+границе:
+$$
+   y_N^{n+1} = 2y_N^n - y_N^{n-1} + 2\gamma^2(y_{N-1}^n - y_{N}^n).
+$$
+
+Кроме того, на границах нужно построить модификацию разностного
+уравнения <a href="._fdm-for-wave-FlatUI001.html#mjx-eqn-11">(11)</a> для вычисления значений
+на первом временном шаге.
+
+<h2 id="fdm-for-wave:refl:impl" class="anchor">Программная реализация условий Неймана</h2>
+
+<p>
+В предыдущем пункте мы вывели специальные формулы для расчета вблизи
+границ. При этом, учитывая аппроксимацию условий Неймана центральной
+разностной производной, мы заменили значения \( y_{-1}^n \) на
+\( y_{1}^n \) на левой границе и \( y_{N+1}^n \) на
+\( y_{N-1}^n \) на правой границе. Эти наблюдения могут легко
+использоваться при программной реализации: мы можем просто
+использовать общий шаблон во всех узлах сетки, но написать код так,
+чтобы можно было легко заменить <code>y[i-1]</code> на <code>y[i+1]</code> и наоборот. Этого
+можно добиться задавая индексы <code>i+1</code> и <code>i-1</code> как переменные <code>ip1</code> (<code>i</code>
+plus <code>1</code>) и <code>im1</code> (<code>i</code> minus <code>1</code>), соответственно. Следовательно на
+левой границе мы можем определить <code>im1 = i+1</code>, в то время как во
+внутренних узлах сетки <code>im1 = i-1</code>. Ниже представлена программная
+реализация такого подхода:
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>i <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+ip1 <span style="color: #666666">=</span> i<span style="color: #666666">+1</span>
+im1 <span style="color: #666666">=</span> ip1  <span style="color: #408080; font-style: italic"># i-1 -&gt; i+1</span>
+y[i] <span style="color: #666666">=</span> y_1[i] <span style="color: #666666">+</span> gamma2<span style="color: #666666">*</span>(y_1[im1] <span style="color: #666666">-</span> <span style="color: #666666">2*</span>y[i] <span style="color: #666666">+</span> y_1[ip1])
+
+i <span style="color: #666666">=</span> N
+im1 <span style="color: #666666">=</span> i<span style="color: #666666">-1</span>
+ip1 <span style="color: #666666">=</span> im1  <span style="color: #408080; font-style: italic"># i+1 -&gt; i-1</span>
+y[i] <span style="color: #666666">=</span> y_1[i] <span style="color: #666666">+</span> gamma2<span style="color: #666666">*</span>(y_1[im1] <span style="color: #666666">-</span> <span style="color: #666666">2*</span>y[i] <span style="color: #666666">+</span> y_1[ip1])
+</pre></div>
+<p>
+На самом деле мы можем создать один цикл как для граничных, так и для
+внутренних узлов и использовать одну формулу для вычисления значений
+на новом временном слое:
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #666666">0</span>, N<span style="color: #666666">+1</span>):
+	ip1 <span style="color: #666666">=</span> i<span style="color: #666666">+1</span> <span style="color: #008000; font-weight: bold">if</span> i <span style="color: #666666">&lt;</span> N<span style="color: #666666">+1</span> <span style="color: #008000; font-weight: bold">else</span> i<span style="color: #666666">-1</span>
+	im1 <span style="color: #666666">=</span> i<span style="color: #666666">-1</span> <span style="color: #008000; font-weight: bold">if</span> i <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span> <span style="color: #008000; font-weight: bold">else</span> i<span style="color: #666666">+1</span>
+	y[i] <span style="color: #666666">=</span> y_1[i] <span style="color: #666666">+</span> gamma2<span style="color: #666666">*</span>(y_1[im1] <span style="color: #666666">-</span> <span style="color: #666666">2*</span>y[i] <span style="color: #666666">+</span> y_1[ip1])
+</pre></div>
+<p>
+Сценарий <a href="src-fdm-for-wave/wave1d_n0.py" target="_self">wave1d_n0.py</a> содержит
+полную программную реализацию решения одномерного волнового уравнения
+с граничными условиями Неймана. В нем реализован тест, использующий
+«волну-вилку» в качестве начального данного и проверяющий, что
+начальное состояние возвращается после одного периода. Но такой тест
+требует выполнения условия \( \gamma = 1 \), так как в этом случае
+численное решение совпадает с точным решением дифференциальной
+задачи.
+
+<h2 id="fdm-for-wave:refl:idx_set" class="anchor">Обозначение множеств индексов</h2>
+
+<p>
+Для того, чтобы улучшить математическую запись и программную
+реализацию, полезно ввести обозначения для множеств индексов. Это
+означает, что мы будем писать \( x \), \( i\in \mathcal{I}_x \)
+вместо \( i = 0, 1, \ldots, N \). Очевидно, что
+\( \mathcal{I}_x \) должно быть множеством индексов
+\( \mathcal{I}_x = \{ 0, 1, \ldots, N\} \), но часто удобно
+использовать символ для этого множества, чем указывать все элементы
+этого множества. Такие обозначения делают описания алгоритмов и их
+программную реализацию более простыми.
+
+<p>
+Первый элемент этого множества будем обозначать
+\( \mathcal{I}_x^0 \), а последний \( \mathcal{I}_x^{-1} \). Если
+нужно отбросить первый элемент множества, то будем использовать символ
+\( \mathcal{I}_x^+ \) для остального подмножества
+\( \mathcal{I}_x^+ = \{1, 2, \ldots, N\} \). Аналогично,
+\( \mathcal{I}_x^- = \{0, 1, \ldots, N-1\} \). Все индексы
+соответствующие внутренним узлам сетки обозначим
+\( \mathcal{I}_x^i =\{1, 2, \ldots, N-1\} \).
+
+<p>
+В коде на Python для множеств индексов будет следующее соответствие:
+
+<p>
+
+<div class="row">
+  <div class="col-xs-5">
+    <table class="table table-striped table-hover table-condensed">
+<thead>
+<tr><td align="center"><b>      Обозначение       </b></td> <td align="center"><b>        Python       </b></td> </tr>
+</thead>
+<tbody>
+<tr><td align="left">   \( \mathcal{I}_x \)         </td> <td align="left">   <code>Ix</code>          </td> </tr>
+<tr><td align="left">   \( \mathcal{I}^0_x \)       </td> <td align="left">   <code>Ix[0]</code>       </td> </tr>
+<tr><td align="left">   \( \mathcal{I}^{-1}_x \)    </td> <td align="left">   <code>Ix[-1]</code>      </td> </tr>
+<tr><td align="left">   \( \mathcal{I}^-_x \)       </td> <td align="left">   <code>Ix[:-1]</code>     </td> </tr>
+<tr><td align="left">   \( \mathcal{I}^+_x \)       </td> <td align="left">   <code>Ix[1:]</code>      </td> </tr>
+<tr><td align="left">   \( \mathcal{I}^i_x \)       </td> <td align="left">   <code>Ix[1:-1]</code>    </td> </tr>
+</tbody>
+    </table>
+  </div> <!-- col-xs-5 -->
+</div> <!-- cell row -->
+<p>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+  <h3 class="panel-title">Почему полезны множества индексов</h3>
+  </div>
+<div class="panel-body">
+<p> <!-- subsequent paragraphs come in larger fonts, so start with a paragraph -->
+Важная характерная особенность использования множеств индексов
+заключается в том, что формулы и код программы не зависят от
+порядка нумерации узлов сетки. Например, обозначение \( i \in
+\mathcal{I}_x \) или \( i \in \mathcal{I}_x^0 \) остается
+одинаковым и для \( \mathcal{I}_x \), определенном выше, и для
+\( \mathcal{I}_x = \{1, 2, \ldots, Q\} \). Аналогично, в коде мы
+можем определить <code>Ix = range(N+1)</code> или <code>Ix = range(1,Q)</code>, а
+выражения типа <code>Ix[0]</code> и <code>Ix[1:-1]</code> остаются корректными. Один
+из примеров удобства использования такого подхода --- это
+преобразование кода, написанного на языке, где нумерация массивов
+начинается с нуля (например, Python или C), в код на языке, где нумерация
+массивов начинается с единицы (например, MATLAB или
+Fortran). Другое важное применение --- это реализация условий
+Неймана с помощью мнимых узлов.
+</div>
+</div>
+
+
+<p>
+В рассматриваемой нами задаче используются следующие множества
+индексов:
+$$
+   \mathcal{I}_x = \{ 0, 1, \ldots, N\}, \\ 
+   \mathcal{I}_t = \{ 0, 1, \ldots, K\}, \\ 
+$$
+
+определяемые в Python следующим образом:
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>Ix <span style="color: #666666">=</span> <span style="color: #008000">range</span>(<span style="color: #666666">0</span>, N<span style="color: #666666">+1</span>)
+It <span style="color: #666666">=</span> <span style="color: #008000">range</span>(<span style="color: #666666">0</span>, K<span style="color: #666666">+1</span>)
+</pre></div>
+<p>
+Используя множества индексов, разностную схему можно записать
+следующим образом:
+$$
+\begin{split}
+   y_i^{n+1} &= y_i^n - \frac{1}{2} \gamma^2(y_{i+1}^n - 2y_i^n +
+   y_{i-1}^n), \quad i \in \mathcal{I}_x, \quad n = 0, \\ 
+   y_i^{n+1} &= 2y_i^{n-1} - y_i^n + \gamma^2(y_{i+1}^n - 2y_i^n +
+   y_{i-1}^n), \quad i \in \mathcal{I}_x^i, \quad n \in
+   \mathcal{I}_t^i, \\ 
+   y_i^{n+1} &= 0, \quad i = \mathcal{I}_x^0, \quad t \in \mathcal{I}_t^-,\\ 
+   y_i^{n+1} &= 0, \quad i = \mathcal{I}_x^{-1}, \quad t \in \mathcal{I}_t^-.
+\end{split}
+$$
+
+Соответствующий программный код имеет вид:
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #408080; font-style: italic"># Начальные условия</span>
+<span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> Ix[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>]:
+	y[i] <span style="color: #666666">=</span> y_1[i] <span style="color: #666666">-</span> <span style="color: #666666">0.5*</span>gamma2<span style="color: #666666">*</span>(y_1[i<span style="color: #666666">+1</span>] <span style="color: #666666">-</span> <span style="color: #666666">2*</span>y_1[i] <span style="color: #666666">+</span> y_1[i<span style="color: #666666">-1</span>])
+
+<span style="color: #408080; font-style: italic"># Цикл по времени</span>
+<span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> It[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>]:
+	<span style="color: #408080; font-style: italic"># Вычисление значений во внутренних узлах</span>
+	<span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> Ix[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>]:
+		y[i] <span style="color: #666666">=</span> <span style="color: #666666">2*</span>y_2[i] <span style="color: #666666">-</span> y_1[i] <span style="color: #666666">+</span> \ 
+		       gamma2<span style="color: #666666">*</span>(y_1[i<span style="color: #666666">+1</span>] <span style="color: #666666">-</span> <span style="color: #666666">2*</span>y_1[i] <span style="color: #666666">+</span> y_1[i<span style="color: #666666">-1</span>])
+	<span style="color: #408080; font-style: italic"># Вычисление граничных условий</span>
+	i <span style="color: #666666">=</span> Ix[<span style="color: #666666">0</span>]; y[i] <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+	i <span style="color: #666666">=</span> Ix[<span style="color: #666666">-1</span>]; y[i] <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+</pre></div>
+<p>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+  <h3 class="panel-title">Замечание</h3>
+  </div>
+<div class="panel-body">
+<p> <!-- subsequent paragraphs come in larger fonts, so start with a paragraph -->
+Сценарий <a href="src-fdm-for-wave/wave1d_n.py" target="_self">wave1d_n.py</a> использует
+множества индексов и решает одномерное волновое уравнение с
+достаточно общими граничными и начальными условиями:
+
+<ul>
+<li> \( x = 0 \): \( u = u_l(t) \) или \( \frac{\partial u}{\partial x} = 0 \);</li>
+<li> \( x = l \): \( u = u_r(t) \) или \( \frac{\partial u}{\partial x} = 0 \);</li>
+<li> \( t = 0 \): \( u = I(x) \);</li>
+<li> \( t = 0 \): \( \frac{\partial u}{\partial t} = V(x) \).</li>
+</ul>
+
+Сценарий объединяет условия Дирихле и Неймана, скалярную и
+векторизованную реализацию разностной схемы, а также множества
+индексов. Большое количество тестовых примеров также включены в
+этот сценарий:
+
+<ul>
+<li> начальное условие в форме «волны-вилки» (при \( \gamma=1 \) решением будет прямоугольник смещающийся на одну ячейку за временной шаг);</li>
+<li> начальное условие как функция Гаусса;</li>
+<li> начальное условие в форме треугольного профиля, который похож на начальное положение гитарной струны;</li>
+<li> синусоидальное изменение решения при \( x=0 \) и либо \( u = 0 \), либо \( \frac{\partial u}{\partial x} = 0 \) при \( x = l \);</li>
+<li> точное аналитическое решение \( u(x, t) = \cos\frac{m\pi t}{l} \sin \frac{m\pi x}{2l} \), которое может использоваться для проверки скорости сходимости.</li>
+</ul>
+</div>
+</div>
+
+
+<h2 id="fdm-for-wave:refl:ver" class="anchor">Верификация реализации граничных условий Неймана</h2>
+
+<p>
+Перейдем к вопросу тестирования реализации условий Неймана. Функция
+<code>solver</code> <a href="src-fdm-for-wave/wave1d_n.py" target="_self">wave1d_n.py</a>
+реализованы как условия Дирихле и 
+Неймана при \( x = 0 \) и \( x = l \). Заманчиво было бы
+использовать решение типа квадратичной функции, однако эта функция не
+является точным решением задачи с условиями Неймана. Линейная функция
+также не подходит, так как реализованы только однородные условия
+Неймана, поэтому для тестирования будем использовать только постоянное
+решение \( u = \mathrm{const} \).
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">test_constant</span>():
+    <span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">    Тестируем работу скалярной и векторизованой версий</span>
+<span style="color: #BA2121; font-style: italic">    для постоянного u(x,t). Выполняем расчет на отрезке</span>
+<span style="color: #BA2121; font-style: italic">    [0, l] и применяем условия Неймана и Дирихле на обоих </span>
+<span style="color: #BA2121; font-style: italic">    границах.</span>
+<span style="color: #BA2121; font-style: italic">    &quot;&quot;&quot;</span>
+    u_const <span style="color: #666666">=</span> <span style="color: #666666">0.45</span>
+    u_exact <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">lambda</span> x, t: u_const
+    I <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">lambda</span> x: u_exact(x, <span style="color: #666666">0</span>)
+    V <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">lambda</span> x: <span style="color: #666666">0</span>
+    f <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">lambda</span> x, t: <span style="color: #666666">0</span>
+
+    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">assert_no_error</span>(y, x, t, n):
+        u_e <span style="color: #666666">=</span> u_exact(x, t[n])
+        diff <span style="color: #666666">=</span> np<span style="color: #666666">.</span>abs(y <span style="color: #666666">-</span> u_e)<span style="color: #666666">.</span>max()
+        msg <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;diff=</span><span style="color: #BB6688; font-weight: bold">%E</span><span style="color: #BA2121">, t_</span><span style="color: #BB6688; font-weight: bold">%d</span><span style="color: #BA2121">=</span><span style="color: #BB6688; font-weight: bold">%g</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span> (diff, n, t[n])
+        tol <span style="color: #666666">=</span> <span style="color: #666666">1E-13</span>
+        <span style="color: #008000; font-weight: bold">assert</span> diff <span style="color: #666666">&lt;</span> tol, msg
+
+    <span style="color: #008000; font-weight: bold">for</span> ul <span style="color: #AA22FF; font-weight: bold">in</span> (<span style="color: #008000">None</span>, <span style="color: #008000; font-weight: bold">lambda</span> t: u_const):
+        <span style="color: #008000; font-weight: bold">for</span> ur <span style="color: #AA22FF; font-weight: bold">in</span> (<span style="color: #008000">None</span>, <span style="color: #008000; font-weight: bold">lambda</span> t: u_const):
+            l <span style="color: #666666">=</span> <span style="color: #666666">2.5</span>
+            c <span style="color: #666666">=</span> <span style="color: #666666">1.5</span>
+            gamma <span style="color: #666666">=</span> <span style="color: #666666">0.75</span>
+            N <span style="color: #666666">=</span> <span style="color: #666666">3</span>  <span style="color: #408080; font-style: italic"># Очень грубая сетка для точного теста</span>
+            tau <span style="color: #666666">=</span> gamma<span style="color: #666666">*</span>(l<span style="color: #666666">/</span>N)<span style="color: #666666">/</span>c
+            T <span style="color: #666666">=</span> <span style="color: #666666">18</span>  
+
+            solver(I, V, f, c, ul, ur, l, tau, gamma, T,
+                   user_action<span style="color: #666666">=</span>assert_no_error,
+                   version<span style="color: #666666">=</span><span style="color: #BA2121">&#39;scalar&#39;</span>)
+            solver(I, V, f, c, ul, ur, l, tau, gamma, T,
+                   user_action<span style="color: #666666">=</span>assert_no_error,
+                   version<span style="color: #666666">=</span><span style="color: #BA2121">&#39;vectorized&#39;</span>)
+            <span style="color: #008000; font-weight: bold">print</span> ul, ur
+</pre></div>
+<p>
+Другой тест основан на том факте, что погрешность аппроксимации равна
+нулю в случае когда число Куранта равно единице. Возьмем в качестве
+начальной функции «волну-площадку», пусть начальная функция
+распадается на две площадки, каждая смещается в своем
+направлении. Проверит, что эти две волны отразятся от границ и
+сформируют начальное распределение после одного
+периода. Соответствующая тестовая функция представлена ниже
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">test_plug</span>():
+    <span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;Тестирование возвращается для профиль-площадка после одного периода.&quot;&quot;&quot;</span>
+    l <span style="color: #666666">=</span> <span style="color: #666666">1.0</span>
+    c <span style="color: #666666">=</span> <span style="color: #666666">0.5</span>
+    tau <span style="color: #666666">=</span> (l<span style="color: #666666">/10</span>)<span style="color: #666666">/</span>c  <span style="color: #408080; font-style: italic"># N=10</span>
+    I <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">lambda</span> x: <span style="color: #666666">0</span> <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">abs</span>(x<span style="color: #666666">-</span>l<span style="color: #666666">/2.0</span>) <span style="color: #666666">&gt;</span> <span style="color: #666666">0.1</span> <span style="color: #008000; font-weight: bold">else</span> <span style="color: #666666">1</span>
+
+    u_s, x, t, cpu <span style="color: #666666">=</span> solver(
+        I<span style="color: #666666">=</span>I,
+        V<span style="color: #666666">=</span><span style="color: #008000">None</span>, f<span style="color: #666666">=</span><span style="color: #008000">None</span>, c<span style="color: #666666">=0.5</span>, ul<span style="color: #666666">=</span><span style="color: #008000">None</span>, ur<span style="color: #666666">=</span><span style="color: #008000">None</span>, l<span style="color: #666666">=</span>l,
+        tau<span style="color: #666666">=</span>tau, gamma<span style="color: #666666">=1</span>, T<span style="color: #666666">=4</span>, user_action<span style="color: #666666">=</span><span style="color: #008000">None</span>, version<span style="color: #666666">=</span><span style="color: #BA2121">&#39;scalar&#39;</span>)
+    u_v, x, t, cpu <span style="color: #666666">=</span> solver(
+        I<span style="color: #666666">=</span>I,
+        V<span style="color: #666666">=</span><span style="color: #008000">None</span>, f<span style="color: #666666">=</span><span style="color: #008000">None</span>, c<span style="color: #666666">=0.5</span>, ul<span style="color: #666666">=</span><span style="color: #008000">None</span>, ur<span style="color: #666666">=</span><span style="color: #008000">None</span>, l<span style="color: #666666">=</span>l,
+        tau<span style="color: #666666">=</span>tau, gamma<span style="color: #666666">=1</span>, T<span style="color: #666666">=4</span>, user_action<span style="color: #666666">=</span><span style="color: #008000">None</span>, version<span style="color: #666666">=</span><span style="color: #BA2121">&#39;vectorized&#39;</span>)
+    tol <span style="color: #666666">=</span> <span style="color: #666666">1E-13</span>
+    diff <span style="color: #666666">=</span> <span style="color: #008000">abs</span>(u_s <span style="color: #666666">-</span> u_v)<span style="color: #666666">.</span>max()
+    <span style="color: #008000; font-weight: bold">assert</span> diff <span style="color: #666666">&lt;</span> tol
+    u_0 <span style="color: #666666">=</span> np<span style="color: #666666">.</span>array([I(x_) <span style="color: #008000; font-weight: bold">for</span> x_ <span style="color: #AA22FF; font-weight: bold">in</span> x])
+    diff <span style="color: #666666">=</span> np<span style="color: #666666">.</span>abs(u_s <span style="color: #666666">-</span> u_0)<span style="color: #666666">.</span>max()
+    <span style="color: #008000; font-weight: bold">assert</span> diff <span style="color: #666666">&lt;</span> tol
+</pre></div>
+<p>
+Остальные тесты используются для анализа погрешности аппроксимации.
+
+<h2 id="fdm-for-wave:refl:ghost" class="anchor">Реализация граничных условий Неймана с использованием мнимых ячеек</h2>
+
+<h3 id="fdm-for-wave:refl:ghost:idea" class="anchor">Идея</h3>
+
+<p>
+Вместо модификации схемы на границе мы можем ввести дополнительные
+узлы вне области задачи, так что фиктивные значения \( y_{-1}^n \)
+и \( u_{N+1}^n \) будут определены на сетке. Добавление интервалов
+\( [-h, 0] \) и \( [l+h,0] \), назовем их <em>мнимые ячейки</em> к
+расчетной сетке дает все узлы сетки, соответствующие \( i = -1, 2, 
+\ldots, N+1 \). Дополнительные узлы \( i =-1 \) и \( i = N+1 \)
+назовем <em>мнимыми узлами</em>, а значения в этих узлах \( y_{-1}^{n} \)
+и \( y_{N+1}^n \) назовем <em>мнимыми значениями</em>
+
+<p>
+Основная идея состоит в том, чтобы быть уверенным, что всегда будет
+выполняться
+$$
+   u_{-1}^n = u_{1}^n \quad \textrm{и}\quad u_{N+1}^n = u_{N-1}^n,
+$$
+
+потому что тогда использование стандартной разностной схемы в узлах
+\( i = 0 \) и \( i = N \) будет корректным и будет гарантировать,
+что решение согласуется с граничным условием Неймана.
+
+<h3 id="fdm-for-wave:refl:ghost:impl" class="anchor">Программная реализация</h3>
+
+<p>
+Массив <code>y</code>, содержащий решение, должен содержать дополнительные
+элементы с мнимыми узлами:
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>y <span style="color: #666666">=</span> zeros(N<span style="color: #666666">+3</span>)
+</pre></div>
+<p>
+Массивы <code>y_1</code> и <code>y_2</code> необходимо определить аналогично.
+
+<p>
+К сожалению стандартная индексация массивов в Python (индексация
+начинается с 0), не удобна в случае использования рассматриваемого
+подхода. В этом случае возникает несоответствие математической
+индексации \( i = -1, 0, 1, \ldots, N+1 \) и индексации
+Python <code>0, 1, ..., N+2</code>. Один способ решения этой проблемы состоит в
+изменении математической нумерации в разностной схеме и записать
+$$
+   y_i^{n+1} = \ldots, \quad i = 1, 2, \ldots, N + 1
+$$
+
+вместо \( i = 0, 1, \ldots, N \). В этом случае номера мнимых узлов
+будут \( i=0 \) и \( i = N+2 \). Можно предложить решение лучше
+основанное на использовании множеств индексов: мы скроем значения
+индексов и будем оперировать понятиями внутренних и граничных узлов.
+
+<p>
+С этой целью мы определим <code>y</code> нужной длины и <code>Ix</code> ---
+соответствующие индексы реальных узлов
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>y   <span style="color: #666666">=</span> np<span style="color: #666666">.</span>zeros(N<span style="color: #666666">+3</span>)
+Ix <span style="color: #666666">=</span> <span style="color: #008000">range</span>(<span style="color: #666666">1</span>, u<span style="color: #666666">.</span>shape[<span style="color: #666666">0</span>]<span style="color: #666666">-1</span>)
+</pre></div>
+<p>
+Это значит, что граничные узлы будут иметь индексы <code>Ix[0]</code> и
+<code>Ix[-1]</code> (как и раньше). Сначала мы вычислим решение физических
+узлах (т.е. во внутренних узлах сетки):
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>        <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> Ix:
+            y[i] <span style="color: #666666">=</span> <span style="color: #666666">-</span> y_2[i] <span style="color: #666666">+</span> <span style="color: #666666">2*</span>y_1[i] <span style="color: #666666">+</span> \ 
+                   gamma2<span style="color: #666666">*</span>(y_1[i<span style="color: #666666">-1</span>] <span style="color: #666666">-</span> <span style="color: #666666">2*</span>y_1[i] <span style="color: #666666">+</span> y_1[i<span style="color: #666666">+1</span>]) <span style="color: #666666">+</span> \ 
+                   tau2<span style="color: #666666">*</span>f(x[i<span style="color: #666666">-</span>Ix[<span style="color: #666666">0</span>]], t[n])
+</pre></div>
+<p>
+Такое индексирование будет сложнее при вызове функций <code>V(x)</code> и
+<code>f(x,t)</code>, так как соответствующая координата \( x \) задана как
+<code>x[i - Ix[0]]</code>:
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>    <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> Ix:
+        y[i] <span style="color: #666666">=</span> y_1[i] <span style="color: #666666">+</span> tau<span style="color: #666666">*</span>V(x[i<span style="color: #666666">-</span>Ix[<span style="color: #666666">0</span>]]) <span style="color: #666666">+</span> \ 
+               <span style="color: #666666">0.5*</span>gamma2<span style="color: #666666">*</span>(y_1[i<span style="color: #666666">-1</span>] <span style="color: #666666">-</span> <span style="color: #666666">2*</span>y_1[i] <span style="color: #666666">+</span> y_1[i<span style="color: #666666">+1</span>]) <span style="color: #666666">+</span> \ 
+               <span style="color: #666666">0.5*</span>tau2<span style="color: #666666">*</span>f(x[i<span style="color: #666666">-</span>Ix[<span style="color: #666666">0</span>]], t[<span style="color: #666666">0</span>])
+</pre></div>
+<p>
+Осталось обновить решение в мнимых узлах, т.е. <code>y[0]</code> и <code>y[-1]</code>
+(или <code>y[N+2]</code>). Для граничного условия Неймана
+\( \frac{\partial u}{\partial x} = 0 \), значения в мнимых узлах
+должны быть равны значениям в соответствующих внутренних узлах. Ниже
+приведен соответствующий фрагмент кода:
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>        <span style="color: #408080; font-style: italic"># Мнимые значения устанавливаем в соответствии с du/dx=0</span>
+        i <span style="color: #666666">=</span> Ix[<span style="color: #666666">0</span>]
+        y[i<span style="color: #666666">-1</span>] <span style="color: #666666">=</span> y[i<span style="color: #666666">+1</span>]
+        i <span style="color: #666666">=</span> Ix[<span style="color: #666666">-1</span>]
+        y[i<span style="color: #666666">+1</span>] <span style="color: #666666">=</span> y[i<span style="color: #666666">-1</span>]
+</pre></div>
+<p>
+Решение, график которого будем строить --- срез <code>y[1:-1]</code>
+или <code>y[Ix[0]:Ix[-1]+1]</code>. Этот срез будет возвращать функция
+<code>solver</code>. Полностью программную реализацию этого подхода можно найти
+в файле <a href="src-fdm-for-wave/wave1d_n_ghost.py" target="_self">wave1d_n_ghost.py</a>.
+
+<p>
+<div class="panel panel-warning">
+  <div class="panel-heading">
+  <h3 class="panel-title">Предупреждение</h3>
+  </div>
+<div class="panel-body">
+<p> <!-- subsequent paragraphs come in larger fonts, so start with a paragraph -->
+Необходимо быть аккуратным с тем, как хранить сетки по пространству
+и времени. Пусть <code>x</code> --- физические узлы
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>x <span style="color: #666666">=</span> linspace(<span style="color: #666666">0</span>, l, N<span style="color: #666666">+1</span>)
+</pre></div>
+<p>
+«Стандартная реализация» начальных данных
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> Ix:
+	y_1[i] <span style="color: #666666">=</span> I(x[i])
+</pre></div>
+<p>
+становится в этом случае ошибочной, так как <code>y_1</code> и <code>x</code> имеют
+разные длины и индекс <code>i</code> соответствует двум различным узлам
+сетки. На самом деле, <code>x[i]</code> соответствует
+<code>y_1[i+1]</code>. Правильная реализация имеет вид
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> Ix:
+	y_1[i] <span style="color: #666666">=</span> I(x[i <span style="color: #666666">-</span> Ix[<span style="color: #666666">0</span>]])
+</pre></div>
+<p>
+Аналогично, использование при вычислении правой части выражения
+<code>f(x[i], t[n])</code> неправильно, если <code>x</code> определено на множестве
+физических точек. Следовательно, <code>x[i]</code> нужно заменить на
+<code>x[i - Ix[0]]</code>.
+
+<p>
+Альтернативный способ решения этой проблемы --- задать массив <code>x</code>
+так, чтобы он содержал мнимые точки и <code>y[i]</code> было значением в
+<code>x[i]</code>.
+</div>
+</div>
+
+
+<p>
+Мнимые ячейки добавляются только к границам, на которых заданы условия
+Неймана. Предположим, что на \( x=l \) задано условие Дирихле, а на
+\( x=0 \) --- условие Неймана. В этом случае к сетке добавляется
+одна мнимая ячейка \( [-h, 0] \), поэтому множестве индексов для
+физических узлов --- \( \{1, 2, \ldots, N+1\} \). Ниже представлен
+соответствующий фрагмент кода:
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>y <span style="color: #666666">=</span> zeros(N<span style="color: #666666">+2</span>)
+Ix <span style="color: #666666">=</span> <span style="color: #008000">range</span>(<span style="color: #666666">1</span>, y<span style="color: #666666">.</span>shape[<span style="color: #666666">0</span>])
+<span style="color: #666666">...</span>
+<span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> Ix[:<span style="color: #666666">-1</span>]:
+	y[i] <span style="color: #666666">=</span> <span style="color: #666666">2*</span>y_1[i] <span style="color: #666666">-</span> y_2[i] <span style="color: #666666">+</span> \ 
+	gamma2<span style="color: #666666">*</span>(y_1[i<span style="color: #666666">-1</span>] <span style="color: #666666">-</span> <span style="color: #666666">2</span>y[i] <span style="color: #666666">+</span> y[i<span style="color: #666666">+1</span>]) <span style="color: #666666">+</span> \ 
+	tau2<span style="color: #666666">*</span>f(x[i<span style="color: #666666">-</span>Ix[<span style="color: #666666">0</span>]], t[n])
+i <span style="color: #666666">=</span> Ix[<span style="color: #666666">-1</span>]
+y[i] <span style="color: #666666">=</span> ur   <span style="color: #408080; font-style: italic"># условия Дирихле</span>
+i <span style="color: #666666">=</span> Ix[<span style="color: #666666">0</span>]
+y[i<span style="color: #666666">-1</span>] <span style="color: #666666">=</span> y[i<span style="color: #666666">+1</span>]   <span style="color: #408080; font-style: italic"># условие Неймана</span>
+</pre></div>
+<p>
+Физическое решение, график которого будет строится, --- <code>y[1:]</code> или
+<code>y[Ix[0]:Ix[-1]+1]</code>.
+
+<p>
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "fdm-for-wave" -->
+<!-- doconce-section-nickname: "refl" -->
+<!-- End: -->
+
+<h1 id="fdm-for-wave:varvel" class="anchor">Обобщения: переменная скорость распространения волны</h1>
+
+<p>
+Следующее обобщение одномерного волнового уравнения
+<a href="._fdm-for-wave-FlatUI001.html#mjx-eqn-1">(1)</a> или
+<a href="._fdm-for-wave-FlatUI001.html#mjx-eqn-12">(12)</a> --- введение 
+переменной скорости распространения волны \( c = c(x) \). Такое
+уравнение описывает процесс протекающий в областях состоящих из сред с
+разными физическими свойствами. Когда среды отличаются физическими
+свойствами, такими как плотность или пористость, скорость
+распространения волны в этом случае зависит от положения в
+пространстве.
+
+<h2 id="fdm-for-wave:varvel:model" class="anchor">Модельное уравнение с переменными коэффициентами</h2>
+
+<p>
+Вместо \( c^2(x) \) будем использовать более удобное обозначение
+\( k(x) = c^2(x) \) для коэффициента уравнения. Одномерное волновое
+уравнение с переменной скоростью распространение волны принимает вид:
+$$
+\begin{equation}
+\tag{31}
+   \frac{\partial^2 u}{\partial t^2} = \frac{\partial }{\partial x}
+   \left( k(x) \frac{\partial u}{\partial x} \right) + f(x,t).
+\end{equation}
+$$
+
+<h2 id="fdm-for-wave:varvel:coeff_appr" class="anchor">Аппроксимация переменных коэффициентов</h2>
+
+<p>
+В случае достаточно гладких коэффициентов и решения дифференциальный оператор
+\( \frac{\partial }{\partial x} \left( k(x) \frac{\partial u}{\partial
+x} \right) \) во внутренних узлах сетки будем 
+аппроксимировать разностным оператором \( (a y_{\bar{x}})_{x} \). Для
+аппроксимации со вторым порядком необходимо выбрать коэффициенты
+разностного оператора так, чтобы
+$$
+\begin{align}
+\tag{32}
+\frac{a_{i+1} - a_i}{h} &= k'(x_i) + O(h^2), \\ 
+\tag{33}
+\frac{a_{i+1} + a_i}{2} &= k(x_i) + O(h^2).
+\end{align}
+$$
+
+<p>
+Этим условиям удовлетворяют, в частности, следующие формулы для
+определения \( a_i \):
+$$
+\begin{align}
+\tag{34}
+	a_i &= k_{i-1/2} = k(x_i - 0.5h),\\ 
+\tag{35}
+	a_i &= \frac{k_{i-1} + k_i}{2},\\ 
+\tag{36}
+   a_i &= 2 \left( \frac{1}{k_{i-1}} + \frac{1}{k_i} \right)^{-1}.
+\end{align}
+$$
+
+<p>
+Выражение 
+<a href="#mjx-eqn-35">(35)</a> --- среднее арифметическое
+значений коэффициента в соседних узлах и часто используется для
+гладких коэффициентов, среднее гармоническое 
+<a href="#mjx-eqn-36">(36)</a>
+часто используется при аппроксимации коэффициентов с сильно
+меняющимися значениями.
+
+<p>
+Правую часть \( f(x,t) \) уравнения <a href="#mjx-eqn-31">(31)</a>
+аппроксимируем следующим образом 
+$$
+   \varphi_i^n = f(x_i,t_n).
+$$
+
+<p>
+Таким образом, мы можем аппроксимировать уравнение 
+<a href="#mjx-eqn-31">(31)</a>
+на сетке \( \omega_{h\tau} \) следующей разностной схемой:
+$$
+\begin{equation}
+\tag{37}
+   y_{\bar{t}t} = (a y_{\bar{x}})_{x} + \varphi, \quad (x,t) \in \omega_{h\tau},
+\end{equation}
+$$
+
+<p>
+Осталось выразить из уравнения 
+<a href="#mjx-eqn-37">(37)</a> значение
+\( y_i^{n+1} \):
+$$
+\begin{align}
+\tag{38}
+   y_i^{n+1} =& 2y_i^n - y_i^{n-1} \nonumber \\ 
+   & + \frac{\tau^2}{h^2} \left( a_{i+1} (y_{i+1}^n - y_{i}^n) -
+   a_{i} (y_{i}^n - y_{i-1}^n) \right) \nonumber\\ 
+   &+ \tau^2 \varphi_i^n
+\tag{39}
+\end{align}
+$$
+
+<h2 id="fdm-for-wave:varvel:neumann" class="anchor">Условия Неймана и переменные коэффициенты</h2>
+
+<p>
+Рассмотрим аппроксимацию условий Неймана на границе \( x = l = Nh \):
+$$
+   \frac{y_{N+1}^n - y_{N-1}^n}{2h} = 0 \Rightarrow y_{N+1}^n =
+   y_{N-1}^n.
+$$
+
+Записывая разностную схему 
+<a href="#mjx-eqn-38">(38)</a> в узле \( i = N \) и учитывая, что
+\( y_{N+1} = y_{N-1} \), получим 
+$$
+\begin{align}
+\tag{40}
+   y_N^{n+1} &= 2 y_{N}^n - y_N^{n-1} \nonumber\\ 
+   &\quad + \frac{\tau^2}{h^2} \left( a_{N+1} (y_{N+1}^n - y_{N}^n) -
+   a_{N} (y_{N}^n - y_{N-1}^n) \right) + \tau^2 \varphi_N^n \nonumber\\ 
+   &= 2 y_{N}^n - y_N^{n-1} + \frac{\tau^2}{h^2} \left( (a_{N+1} +
+   a_N) (y_{N-1} - y_N) \right) + \tau^2\varphi_i^n \nonumber\\ 
+   &\approx 2 y_{N}^n - y_N^{n-1} + 2\frac{\tau^2}{h^2} \left(
+   a_{N+1/2} (y_{N-1} - y_N) \right) + \tau^2\varphi_N^n.
+\tag{41}
+\end{align}
+$$
+
+<p>
+Здесь мы использовали условия 
+<a href="#mjx-eqn-32">(32)</a>--<a href="#mjx-eqn-33">(33)</a>
+и \( a_{N+1/2} = k(x_N) \). Кроме того вместо \( a_{N+1/2} \) можно
+использовать \( a_N \).
+
+<p>
+Выражение 
+<a href="#mjx-eqn-40">(40)</a> с \( a_N \) вместо
+\( a_{N+1/2} \) можно записать в форме
+$$
+   a_N y_{x,N}^n + \frac{h}{2} y_{\bar{t}t,N}^n = \frac{h}{2}
+   \varphi_N^n
+$$
+
+Отметим, что подобные аппроксимации переменных коэффициентов и
+граничных условий Неймана мы можем получить, используя
+интегро-интерполяционный метод (метод баланса) или метод конечных
+элементов.
+
+<h2 id="fdm-for-wave:varvel:more_gen" class="anchor">Более общее уравнение с переменными коэффициенты</h2>
+
+<p>
+Иногда волновое уравнение содержит переменный коэффициент перед второй
+производной по времени:
+$$
+\begin{equation}
+\tag{42}
+	\varrho(x) \pdd{2}{u}{t} = \pd{}{x} \left( k(x) \pd{u}{x} \right)
+	+ f(x,t).
+\end{equation}
+$$
+
+Такое уравнение описывает, например, упругие волны в стержне с
+переменной плотностью.
+
+<p>
+Естественная аппроксимация 
+<a href="#mjx-eqn-42">(42)</a> может выглядеть следующим
+образом:
+$$
+\begin{equation}
+\tag{43}
+\varrho y_{\bar{t}t} = \left( a y_{\bar{x}}\right)_x = \varphi, \quad
+(x,t) \in \omega_{h\tau}
+\end{equation}
+$$
+
+<p>
+Очевидно, что коэффициент \( \varrho \) не добавляет особых трудностей,
+так не требует какогло-либо осреднения, а вычисляется в узле сетки.
+
+<p>
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "fdm-for-wave" -->
+<!-- doconce-section-nickname: "varvel" -->
+<!-- End: -->
+
+<h1 id="fdm-for-wave:damping" class="anchor">Обобщения: затухания</h1>
+
+<p>
+Существует два механизма исчезновения волн. В двумерном и трехмерном
+случаях энергия волн распределяется в пространстве, и, следовательно, с
+учетом сохранения энергии приходим к тому, что должна уменьшаться
+амплитуда колебаний. Этот эффект отсутствует в одномерном
+случае. Затухания являются второй причиной уменьшения
+амплитуды. Например, колебания струны исчезают из-за затуханий,
+обусловленных сопротивлением воздуха и неупругих эффектов в струне.
+
+<p>
+Простейший способ ввести затухания в модель заключается в добавлении
+первой производной по времени в уравнение:
+$$
+\begin{equation}
+\tag{44}
+	\pdd{2}{u}{t} + b\pd{u}{t} = c^2\pdd{2}{u}{x} + f(x,t),
+\end{equation}
+$$
+
+где \( b \geq 0 \) заданный коэффициент затухания.
+
+<p>
+Естественную аппроксимацию уравнения 
+<a href="#mjx-eqn-44">(44)</a> можно получить, используя
+центральную разностную производную
+$$
+\begin{equation}
+\tag{45}
+	y_{\bar{t}t} + b y_{\mathring{t}} = c^2 y_{\bar{x}x} + \varphi.
+\end{equation}
+$$
+
+<p>
+Решая уравнение 
+<a href="#mjx-eqn-45">(45)</a> относительно \( y_i^{n+1} \),
+получим
+$$
+\begin{equation}
+\tag{46}
+	y_i^{n+1} = (1 + 0.5b\tau)^{-1} \left((0.5b\tau - 1)y_i^{n-1} + 2
+	y_i^n + \gamma^2 (y_{i+1}^n - 2y_i^n + y_{i-1}^n) + \varphi_i^n
+	\right), 
+\end{equation}
+$$
+
+для \( i \in \mathcal{I}_x^i \) и \( n \geq 1 \). Также нужно получить
+уравнения для \( y_i^1 \) и для граничных узлов в случае условий Неймана.
+
+<p>
+Обычно во многих физических процессах затухания являются малыми и
+видны только на больших временных отрезках. Этот факт делает
+обоснованным использование для большого числа приложений стандартного
+волнового уравнения без затуханий.
+
+<p>
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "fdm-for-wave" -->
+<!-- doconce-section-nickname: "damping" -->
+<!-- End: -->
+
+<h1 id="fdm-for-wave:gen_solver" class="anchor">Разработка общего солвера для одномерного волнового уравнения</h1>
+
+<p>
+Программа <a href="src-fdm-for-wave/wave1d_dn_vc.py" target="_self">wave1d_dn_vc.py</a>
+представляет собой довольно общий код для задач одномерного 
+распространения волн, который нацелен на следующую начально-краевую
+задачу:
+$$
+\begin{align}
+\tag{47}
+	\pdd{2}{u}{t} &= \pd{}{x}\left( c^2(x) \pd{u}{x} \right) + f(x,t), &\quad x\in
+	(0,l),\ t &\in (0,T],\\ 
+\tag{48}
+	u(x,0) &= I(x), &\quad x &\in [0,l],\\ 
+\tag{49}
+	\pd{u(x,0)}{t} &= V(x), &\quad x &\in [0,l],\\ 
+\tag{50}
+	u(0,t) &= U_0(t)\ \textrm{или}\ \pd{u(0,t)}{x}=0, &\quad t &\in (0, T],\\ 
+\tag{51}
+	u(0,t) &= U_l(t)\ \textrm{или}\ \pd{u(l,t)}{x}=0, &\quad t &\in (0, T].
+\end{align}
+$$
+
+<p>
+Единственная особенность данной задачи, в сравнении с предыдущей,
+состоит в том, что заданы неоднородные условия Дирихле (зависящие от
+времени). Реализация этого тривиальная
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>i <span style="color: #666666">=</span> Ix[<span style="color: #666666">0</span>]
+y[i] <span style="color: #666666">=</span> ul(t[n<span style="color: #666666">+1</span>])
+
+i <span style="color: #666666">=</span> Ix[<span style="color: #666666">-1</span>]
+y[i] <span style="color: #666666">=</span> ur(t[n<span style="color: #666666">+1</span>])
+</pre></div>
+<p>
+Функция <code>solver</code> естественным образом расширяет простейшую функцию
+<code>solver</code> из сценария <a href="src-fdm-for-wave/wave1d_1.py" target="_self">wave1d_1.py</a>,
+добавлением реализации условий Неймана, зависящих от времени условий
+Дирихле, а также переменной скорости распространения волны. Различные
+сегменты кода уже были рассмотрены выше. Саму реализацию функции
+<code>solver</code> с комментариями можно проанализировать в сценарии
+<a href="src-fdm-for-wave/wave1d_dn_vc.py" target="_self">wave1d_dn_vc.py</a>.
+
+<p>
+Векторизация используется только внутри цикла по времени, а не в
+для начальных условиях, так как эта начальная работа незначительна по
+сравнению с моделированием больших временных отрезков в одномерном
+случае.
+
+<p>
+Ниже даются пояснения более продвинутых подходов, применяемых в общем
+одномерном солвере.
+
+<h2 id="fdm-for-wave:gen_solver:user_action" class="anchor">Реализация функции действий полозователя в виде класса</h2>
+
+<p>
+Полезная особенность сценария
+<a href="src-fdm-for-wave/wave1d_dn_vc.py" target="_self">wave1d_dn_vc.py</a> --- это
+реализация функции действия пользователя в виде класса. Эта часть
+сценария может потребовать некоторых пояснений.
+
+<h3 id="fdm-for-wave:gen_solver:code" class="anchor">Код</h3>
+
+<p>
+Класс для построения графиков, очистки файлов, создания анимированных
+графиков, которые выполнялись в функции <code>wave1d_1.viz</code>, можно
+реализовать следующим образом:
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">PlotAndStoreSolution</span>:
+	<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">	Класс для функиции user_action в solver.</span>
+<span style="color: #BA2121; font-style: italic">	Только визуализация решения.</span>
+<span style="color: #BA2121; font-style: italic">	&quot;&quot;&quot;</span>
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(
+			<span style="color: #008000">self</span>,
+			casename<span style="color: #666666">=</span><span style="color: #BA2121">&#39;tmp&#39;</span>,    <span style="color: #408080; font-style: italic"># Префикс в именах файлов</span>
+			umin<span style="color: #666666">=-1</span>, umax<span style="color: #666666">=1</span>,   <span style="color: #408080; font-style: italic"># Задаются границы по оси y</span>
+			pause_between_frames<span style="color: #666666">=</span><span style="color: #008000">None</span>,  <span style="color: #408080; font-style: italic"># Скорость видео</span>
+			backend<span style="color: #666666">=</span><span style="color: #BA2121">&#39;matplotlib&#39;</span>,       <span style="color: #408080; font-style: italic"># или &#39;gnuplot&#39; или None</span>
+			screen_movie<span style="color: #666666">=</span><span style="color: #008000">True</span>, <span style="color: #408080; font-style: italic"># Показывать видео на экране?</span>
+			title<span style="color: #666666">=</span><span style="color: #BA2121">&#39;&#39;</span>,          <span style="color: #408080; font-style: italic"># Дополнительное сообщение в title</span>
+			skip_frame<span style="color: #666666">=1</span>,      <span style="color: #408080; font-style: italic"># Пропуск каждого skip_frame кадра</span>
+			filename<span style="color: #666666">=</span><span style="color: #008000">None</span>):    <span style="color: #408080; font-style: italic"># Имя файла с решением</span>
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>casename <span style="color: #666666">=</span> casename
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>yaxis <span style="color: #666666">=</span> [umin, umax]
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>pause <span style="color: #666666">=</span> pause_between_frames
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>backend <span style="color: #666666">=</span> backend
+		<span style="color: #008000; font-weight: bold">if</span> backend <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+			<span style="color: #408080; font-style: italic"># Использовать matplotlib</span>
+			<span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">matplotlib.pyplot</span> <span style="color: #008000; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">plt</span>
+		<span style="color: #008000; font-weight: bold">elif</span> backend <span style="color: #AA22FF; font-weight: bold">in</span> (<span style="color: #BA2121">&#39;matplotlib&#39;</span>, <span style="color: #BA2121">&#39;gnuplot&#39;</span>):
+			module <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;scitools.easyviz.&#39;</span> <span style="color: #666666">+</span> backend <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_&#39;</span>
+			<span style="color: #008000; font-weight: bold">exec</span>(<span style="color: #BA2121">&#39;import </span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BA2121"> as plt&#39;</span> <span style="color: #666666">%</span> module)
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>plt <span style="color: #666666">=</span> plt
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>screen_movie <span style="color: #666666">=</span> screen_movie
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>title <span style="color: #666666">=</span> title
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>skip_frame <span style="color: #666666">=</span> skip_frame
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #666666">=</span> filename
+		<span style="color: #008000; font-weight: bold">if</span> filename <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			<span style="color: #408080; font-style: italic"># Сохранение временной сетки, когда y записывается в файл</span>
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>t <span style="color: #666666">=</span> []
+			filenames <span style="color: #666666">=</span> glob<span style="color: #666666">.</span>glob(<span style="color: #BA2121">&#39;.&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;*.dat.npz&#39;</span>)
+			<span style="color: #008000; font-weight: bold">for</span> filename <span style="color: #AA22FF; font-weight: bold">in</span> filenames:
+				os<span style="color: #666666">.</span>remove(filename)
+
+		<span style="color: #408080; font-style: italic"># Очистка старых кадров</span>
+		<span style="color: #008000; font-weight: bold">for</span> filename <span style="color: #AA22FF; font-weight: bold">in</span> glob<span style="color: #666666">.</span>glob(<span style="color: #BA2121">&#39;frame_*.png&#39;</span>):
+			os<span style="color: #666666">.</span>remove(filename)
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__call__</span>(<span style="color: #008000">self</span>, u, x, t, n):
+		<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">		Функция обратного вызова user_action, вызываемая солвером:</span>
+<span style="color: #BA2121; font-style: italic">		сохранение решения, построение графиков на экране и</span>
+<span style="color: #BA2121; font-style: italic">		и сохранение их в файл.</span>
+<span style="color: #BA2121; font-style: italic">		&quot;&quot;&quot;</span>
+		<span style="color: #408080; font-style: italic"># Сохраняем решение u в файл, используя numpy.savez</span>
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			name <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;u</span><span style="color: #BB6688; font-weight: bold">%04d</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span> n  <span style="color: #408080; font-style: italic"># имя массива</span>
+			kwargs <span style="color: #666666">=</span> {name: u}
+			fname <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;.&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_&#39;</span> <span style="color: #666666">+</span> name <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;.dat&#39;</span>
+			np<span style="color: #666666">.</span>savez(fname, <span style="color: #666666">**</span>kwargs)
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>t<span style="color: #666666">.</span>append(t[n])  <span style="color: #408080; font-style: italic"># сохранение соответствующего временного знаяения</span>
+			<span style="color: #008000; font-weight: bold">if</span> n <span style="color: #666666">==</span> <span style="color: #666666">0</span>:           <span style="color: #408080; font-style: italic"># сохранение массива x один раз</span>
+				np<span style="color: #666666">.</span>savez(<span style="color: #BA2121">&#39;.&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_x.dat&#39;</span>, x<span style="color: #666666">=</span>x)
+
+		<span style="color: #408080; font-style: italic"># Анимация</span>
+		<span style="color: #008000; font-weight: bold">if</span> n <span style="color: #666666">%</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>skip_frame <span style="color: #666666">!=</span> <span style="color: #666666">0</span>:
+			<span style="color: #008000; font-weight: bold">return</span>
+		title <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;t=</span><span style="color: #BB6688; font-weight: bold">%.3f</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span> t[n]
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>title:
+			title <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>title <span style="color: #666666">+</span> <span style="color: #BA2121">&#39; &#39;</span> <span style="color: #666666">+</span> title
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>backend <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+			<span style="color: #408080; font-style: italic"># анимация matplotlib </span>
+			<span style="color: #008000; font-weight: bold">if</span> n <span style="color: #666666">==</span> <span style="color: #666666">0</span>:
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>ion()
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>lines <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>plot(x, u, <span style="color: #BA2121">&#39;r-&#39;</span>)
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>axis([x[<span style="color: #666666">0</span>], x[<span style="color: #666666">-1</span>],
+				               <span style="color: #008000">self</span><span style="color: #666666">.</span>yaxis[<span style="color: #666666">0</span>], <span style="color: #008000">self</span><span style="color: #666666">.</span>yaxis[<span style="color: #666666">1</span>]])
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>xlabel(<span style="color: #BA2121">&#39;x&#39;</span>)
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>ylabel(<span style="color: #BA2121">&#39;u&#39;</span>)
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>title(title)
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>legend([<span style="color: #BA2121">&#39;t=</span><span style="color: #BB6688; font-weight: bold">%.3f</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span> t[n]])
+			<span style="color: #008000; font-weight: bold">else</span>:
+				<span style="color: #408080; font-style: italic"># Обновляем решение</span>
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>lines[<span style="color: #666666">0</span>]<span style="color: #666666">.</span>set_ydata(u)
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>legend([<span style="color: #BA2121">&#39;t=</span><span style="color: #BB6688; font-weight: bold">%.3f</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span> t[n]])
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>draw()
+		<span style="color: #008000; font-weight: bold">else</span>:
+			<span style="color: #408080; font-style: italic"># анимация scitools.easyviz </span>
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>plot(x, u, <span style="color: #BA2121">&#39;r-&#39;</span>,
+			              xlabel<span style="color: #666666">=</span><span style="color: #BA2121">&#39;x&#39;</span>, ylabel<span style="color: #666666">=</span><span style="color: #BA2121">&#39;u&#39;</span>,
+			              axis<span style="color: #666666">=</span>[x[<span style="color: #666666">0</span>], x[<span style="color: #666666">-1</span>],
+			                    <span style="color: #008000">self</span><span style="color: #666666">.</span>yaxis[<span style="color: #666666">0</span>], <span style="color: #008000">self</span><span style="color: #666666">.</span>yaxis[<span style="color: #666666">1</span>]],
+			              title<span style="color: #666666">=</span>title,
+			              show<span style="color: #666666">=</span><span style="color: #008000">self</span><span style="color: #666666">.</span>screen_movie)
+		<span style="color: #408080; font-style: italic"># пауза</span>
+		<span style="color: #008000; font-weight: bold">if</span> t[n] <span style="color: #666666">==</span> <span style="color: #666666">0</span>:
+			time<span style="color: #666666">.</span>sleep(<span style="color: #666666">2</span>)  <span style="color: #408080; font-style: italic"># показываем начальное решение 2 с</span>
+		<span style="color: #008000; font-weight: bold">else</span>:
+			<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>pause <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+				pause <span style="color: #666666">=</span> <span style="color: #666666">0.2</span> <span style="color: #008000; font-weight: bold">if</span> u<span style="color: #666666">.</span>size <span style="color: #666666">&lt;</span> <span style="color: #666666">100</span> <span style="color: #008000; font-weight: bold">else</span> <span style="color: #666666">0</span>
+			time<span style="color: #666666">.</span>sleep(pause)
+
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>savefig(<span style="color: #BA2121">&#39;frame_</span><span style="color: #BB6688; font-weight: bold">%04d</span><span style="color: #BA2121">.png&#39;</span> <span style="color: #666666">%</span> (n))
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">make_movie_file</span>(<span style="color: #008000">self</span>):
+		<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">		Создается подкаталог на основе casename, перемещаем все файлы</span>
+<span style="color: #BA2121; font-style: italic">		с кадрами в этот каталог и создаем файл index.html для показа</span>
+<span style="color: #BA2121; font-style: italic">		видео в браузере (как последовательности PNG файлов).</span>
+<span style="color: #BA2121; font-style: italic">		&quot;&quot;&quot;</span>
+		directory <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>casename
+		<span style="color: #008000; font-weight: bold">if</span> os<span style="color: #666666">.</span>path<span style="color: #666666">.</span>isdir(directory):
+			shutil<span style="color: #666666">.</span>rmtree(directory)   <span style="color: #408080; font-style: italic"># rm -rf directory</span>
+		os<span style="color: #666666">.</span>mkdir(directory)            <span style="color: #408080; font-style: italic"># mkdir directory</span>
+		<span style="color: #408080; font-style: italic"># mv frame_*.png directory</span>
+		<span style="color: #008000; font-weight: bold">for</span> filename <span style="color: #AA22FF; font-weight: bold">in</span> glob<span style="color: #666666">.</span>glob(<span style="color: #BA2121">&#39;frame_*.png&#39;</span>):
+			os<span style="color: #666666">.</span>rename(filename, os<span style="color: #666666">.</span>path<span style="color: #666666">.</span>join(directory, filename))
+		os<span style="color: #666666">.</span>chdir(directory)        <span style="color: #408080; font-style: italic"># cd directory</span>
+		fps <span style="color: #666666">=</span> <span style="color: #666666">4</span> <span style="color: #408080; font-style: italic"># frames per second</span>
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>backend <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">scitools.std</span> <span style="color: #008000; font-weight: bold">import</span> movie
+			movie(<span style="color: #BA2121">&#39;frame_*.png&#39;</span>, encoder<span style="color: #666666">=</span><span style="color: #BA2121">&#39;html&#39;</span>,
+			      output_file<span style="color: #666666">=</span><span style="color: #BA2121">&#39;index.html&#39;</span>, fps<span style="color: #666666">=</span>fps)
+
+		<span style="color: #408080; font-style: italic"># Создаем другие видео форматы: Flash, Webm, Ogg, MP4</span>
+		codec2ext <span style="color: #666666">=</span> <span style="color: #008000">dict</span>(flv<span style="color: #666666">=</span><span style="color: #BA2121">&#39;flv&#39;</span>, libx264<span style="color: #666666">=</span><span style="color: #BA2121">&#39;mp4&#39;</span>, libvpx<span style="color: #666666">=</span><span style="color: #BA2121">&#39;webm&#39;</span>,
+		                 libtheora<span style="color: #666666">=</span><span style="color: #BA2121">&#39;ogg&#39;</span>)
+		filespec <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;frame_</span><span style="color: #BB6688; font-weight: bold">%04d</span><span style="color: #BA2121">.png&#39;</span>
+		movie_program <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;avconv&#39;</span> <span style="color: #408080; font-style: italic"># или &#39;ffmpeg&#39; </span>
+		<span style="color: #008000; font-weight: bold">for</span> codec <span style="color: #AA22FF; font-weight: bold">in</span> codec2ext:
+			ext <span style="color: #666666">=</span> codec2ext[codec]
+			cmd <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;</span><span style="color: #BB6688; font-weight: bold">%(movie_program)s</span><span style="color: #BA2121"> -r </span><span style="color: #BB6688; font-weight: bold">%(fps)d</span><span style="color: #BA2121"> -i </span><span style="color: #BB6688; font-weight: bold">%(filespec)s</span><span style="color: #BA2121"> &#39;</span>\ 
+			      <span style="color: #BA2121">&#39;-vcodec </span><span style="color: #BB6688; font-weight: bold">%(codec)s</span><span style="color: #BA2121"> movie.</span><span style="color: #BB6688; font-weight: bold">%(ext)s</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span> <span style="color: #008000">vars</span>()
+			os<span style="color: #666666">.</span>system(cmd)
+		os<span style="color: #666666">.</span>chdir(os<span style="color: #666666">.</span>pardir)  <span style="color: #408080; font-style: italic"># возвращаемся в родительский каталог</span>
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">close_file</span>(<span style="color: #008000">self</span>, hashed_input):
+		<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">		Сливаем все файлы в один архив.</span>
+<span style="color: #BA2121; font-style: italic">		hashed_input --- строка, отражающая входные данные</span>
+<span style="color: #BA2121; font-style: italic">		для моделирования (создана функцией solver).</span>
+<span style="color: #BA2121; font-style: italic">		&quot;&quot;&quot;</span>
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			np<span style="color: #666666">.</span>savez(<span style="color: #BA2121">&#39;.&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_t.dat&#39;</span>,
+			         t<span style="color: #666666">=</span>np<span style="color: #666666">.</span>array(<span style="color: #008000">self</span><span style="color: #666666">.</span>t, dtype<span style="color: #666666">=</span><span style="color: #008000">float</span>))
+
+			archive_name <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;.&#39;</span> <span style="color: #666666">+</span> hashed_input <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_archive.npz&#39;</span>
+			filenames <span style="color: #666666">=</span> glob<span style="color: #666666">.</span>glob(<span style="color: #BA2121">&#39;.&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;*.dat.npz&#39;</span>)
+			merge_zip_archives(filenames, archive_name)
+		<span style="color: #008000; font-weight: bold">print</span> <span style="color: #BA2121">&#39;Archive name:&#39;</span>, archive_name
+		<span style="color: #408080; font-style: italic"># data = numpy.load(archive); data.files holds names</span>
+		<span style="color: #408080; font-style: italic"># data[name] extract the array</span>
+</pre></div>
+
+<h3 id="fdm-for-wave:gen_solver:dissect" class="anchor">Разбор</h3>
+
+<p>
+Представленный выше класс поддерживает построение графиков с помощью
+Matplotlib (<code>backend=None</code>) или SciTools (<code>backend=matplotlib</code> или
+<code>backend=gnuplot</code>).
+
+<p>
+Конструктор показывает как можно гибко импортировать графический
+модуль как <code>scitools.easyviz.gnuplot_</code> или
+<code>scitools.easyviz.matplotlib_</code> (символ подчеркивания в конце
+обязателен). С помощью параметра <code>screen_movie</code> мы можем подавлять
+вывод графиков на экран. В качестве альтернативы, для медленных
+анимированных графиков, связанных с мелкой расчетной сеткой, мы можем
+задать <code>skip_frame=10</code>, устанавливая показ каждого десятого кадра.
+
+<p>
+Метод <code>__call__</code> позволяет объектам класса <code>PlotAndStoreSolution</code>
+вести себя как функции, так что мы можем передавать объект, например
+<code>p</code>, в качестве аргумента <code>user_action</code> в функцию <code>solver</code>, и любой
+вызов <code>user_action</code> будет вызывать <code>p.__call__</code>. Метод <code>__call__</code>
+строит график решения на экране, сохраняет график в файл, а также
+сохраняет решение в файл для дальнейшего использования.
+
+<h2 id="fdm-for-wave:gen_solver:pulse" class="anchor">Распространение импульса в двух средах</h2>
+
+<p>
+Функция <code>pulse</code> в <a href="src-fdm-for-wave/wave1d_dn_vc.py" target="_self">wave1d_dn_vc.py</a>
+демонстрирует движение волны в разнородных средах с переменным
+\( c \). Можно задать интервал, на котором скорость распространения волны
+уменьшается пропорционально множителю <code>slowness_factor</code> (или
+увеличивается если задать этот множитель меньшим единицы).
+
+<p>
+Четыре типа начального распределения реализованы:
+
+<ol>
+<li> прямоугольный импульс (<code>plug</code>)</li>
+<li> функция Гаусса (<code>gaussian</code>)</li>
+<li> один период косинуса (<code>cosinehat</code>)</li>
+<li> половина периода косинуса (<code>half-cosinehat</code>)</li>
+</ol>
+
+Эти начальные условия, имеющие форму пика, могут помещаться посередине
+(<code>loc=center</code>) или на левом конце (<code>loc=left</code>) расчетной
+области. Импульсы, расположенные посередине, распадаются на две части,
+каждая с амплитудой, в два раза меньшей начальной, и движутся в
+противоположных направлениях. Если импульс расположен на левом конце
+(центр импульса в \( x=0 \)) и задано условие Неймана, генерируется только
+волна бегущая вправо. Также возникает волна, движущаяся влево, но она
+бежит от \( x=0 \) в отрицательной части оси \( x \) и не видна на отрезке
+\( [0, l] \). Функция <code>pulse</code> является удобным инструментом для вариации с
+разными формами импульса и расположениями сред с разными скоростями
+распространения волны. Ниже представлена реализация данной функции:
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">pulse</span>(gamma<span style="color: #666666">=1</span>,            <span style="color: #408080; font-style: italic"># максимальное число Куранта</span>
+          Nx<span style="color: #666666">=200</span>,         <span style="color: #408080; font-style: italic"># число узлов по пространству</span>
+          animate<span style="color: #666666">=</span><span style="color: #008000">True</span>,
+          version<span style="color: #666666">=</span><span style="color: #BA2121">&#39;vectorized&#39;</span>,
+          T<span style="color: #666666">=2</span>,            <span style="color: #408080; font-style: italic"># конечное время</span>
+          loc<span style="color: #666666">=</span><span style="color: #BA2121">&#39;left&#39;</span>,     <span style="color: #408080; font-style: italic"># размещение начального условия</span>
+          pulse_tp<span style="color: #666666">=</span><span style="color: #BA2121">&#39;gaussian&#39;</span>,  <span style="color: #408080; font-style: italic"># pulse/init.cond. </span>
+          slowness_factor<span style="color: #666666">=2</span>, <span style="color: #408080; font-style: italic"># скорость распространения волны в правой среде</span>
+          medium<span style="color: #666666">=</span>[<span style="color: #666666">0.7</span>, <span style="color: #666666">0.9</span>], <span style="color: #408080; font-style: italic"># отрезок правой области (среды)</span>
+          skip_frame<span style="color: #666666">=1</span>,      
+          sigma<span style="color: #666666">=0.05</span>):
+	<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">	Различные пико-образные начальные условия на [0,1].</span>
+<span style="color: #BA2121; font-style: italic">	Скорость распространения волны уменьшается в slowness_factor раз</span>
+<span style="color: #BA2121; font-style: italic">	венутри среды. Параметр loc может принимать значения &#39;center&#39; или &#39;left&#39;,</span>
+<span style="color: #BA2121; font-style: italic">	в зависимости от того, где располагается пик начальных условий.</span>
+<span style="color: #BA2121; font-style: italic">	Параметр sigma определяет ширину импульса.</span>
+<span style="color: #BA2121; font-style: italic">	&quot;&quot;&quot;</span>
+	<span style="color: #408080; font-style: italic"># Используем безразмерные параметры: l=1 для длины области,</span>
+	<span style="color: #408080; font-style: italic"># c_0=1 для скорости распространения волны вне области.</span>
+	l <span style="color: #666666">=</span> <span style="color: #666666">1.0</span>
+	c_0 <span style="color: #666666">=</span> <span style="color: #666666">1.0</span>
+	<span style="color: #008000; font-weight: bold">if</span> loc <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;center&#39;</span>:
+		xc <span style="color: #666666">=</span> l<span style="color: #666666">/2</span>
+	<span style="color: #008000; font-weight: bold">elif</span> loc <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;left&#39;</span>:
+		xc <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+
+	<span style="color: #008000; font-weight: bold">if</span> pulse_tp <span style="color: #AA22FF; font-weight: bold">in</span> (<span style="color: #BA2121">&#39;gaussian&#39;</span>,<span style="color: #BA2121">&#39;Gaussian&#39;</span>):
+		<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">I</span>(x):
+			<span style="color: #008000; font-weight: bold">return</span> np<span style="color: #666666">.</span>exp(<span style="color: #666666">-0.5*</span>((x<span style="color: #666666">-</span>xc)<span style="color: #666666">/</span>sigma)<span style="color: #666666">**2</span>)
+	<span style="color: #008000; font-weight: bold">elif</span> pulse_tp <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;plug&#39;</span>:
+		<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">I</span>(x):
+			<span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">0</span> <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">abs</span>(x<span style="color: #666666">-</span>xc) <span style="color: #666666">&gt;</span> sigma <span style="color: #008000; font-weight: bold">else</span> <span style="color: #666666">1</span>
+	<span style="color: #008000; font-weight: bold">elif</span> pulse_tp <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;cosinehat&#39;</span>:
+		<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">I</span>(x):
+			<span style="color: #408080; font-style: italic"># Один период косинуса</span>
+			w <span style="color: #666666">=</span> <span style="color: #666666">2</span>
+			a <span style="color: #666666">=</span> w<span style="color: #666666">*</span>sigma
+			<span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">0.5*</span>(<span style="color: #666666">1</span> <span style="color: #666666">+</span> np<span style="color: #666666">.</span>cos(np<span style="color: #666666">.</span>pi<span style="color: #666666">*</span>(x<span style="color: #666666">-</span>xc)<span style="color: #666666">/</span>a)) \ 
+				<span style="color: #008000; font-weight: bold">if</span> xc <span style="color: #666666">-</span> a <span style="color: #666666">&lt;=</span> x <span style="color: #666666">&lt;=</span> xc <span style="color: #666666">+</span> a <span style="color: #008000; font-weight: bold">else</span> <span style="color: #666666">0</span>
+
+	<span style="color: #008000; font-weight: bold">elif</span> pulse_tp <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;half-cosinehat&#39;</span>:
+		<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">I</span>(x):
+			<span style="color: #408080; font-style: italic"># Половина периода косинуса</span>
+			w <span style="color: #666666">=</span> <span style="color: #666666">4</span>
+			a <span style="color: #666666">=</span> w<span style="color: #666666">*</span>sigma
+			<span style="color: #008000; font-weight: bold">return</span> np<span style="color: #666666">.</span>cos(np<span style="color: #666666">.</span>pi<span style="color: #666666">*</span>(x<span style="color: #666666">-</span>xc)<span style="color: #666666">/</span>a) \ 
+				<span style="color: #008000; font-weight: bold">if</span> xc <span style="color: #666666">-</span> <span style="color: #666666">0.5*</span>a <span style="color: #666666">&lt;=</span> x <span style="color: #666666">&lt;=</span> xc <span style="color: #666666">+</span> <span style="color: #666666">0.5*</span>a <span style="color: #008000; font-weight: bold">else</span> <span style="color: #666666">0</span>
+	<span style="color: #008000; font-weight: bold">else</span>:
+		<span style="color: #008000; font-weight: bold">raise</span> <span style="color: #D2413A; font-weight: bold">ValueError</span>(<span style="color: #BA2121">u&#39;Ошибочный_tp=&quot;</span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BA2121">&quot;&#39;</span> <span style="color: #666666">%</span> pulse_tp)
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">c</span>(x):
+		<span style="color: #008000; font-weight: bold">return</span> c_0<span style="color: #666666">/</span>slowness_factor \ 
+			<span style="color: #008000; font-weight: bold">if</span> medium[<span style="color: #666666">0</span>] <span style="color: #666666">&lt;=</span> x <span style="color: #666666">&lt;=</span> medium[<span style="color: #666666">1</span>] <span style="color: #008000; font-weight: bold">else</span> c_0
+
+	umin<span style="color: #666666">=-0.5</span>; umax<span style="color: #666666">=1.5*</span>I(xc)
+	casename <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;</span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BA2121">_Nx</span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BA2121">_sf</span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span> \ 
+	           (pulse_tp, Nx, slowness_factor)
+	action <span style="color: #666666">=</span> PlotMediumAndSolution(
+		medium, casename<span style="color: #666666">=</span>casename, umin<span style="color: #666666">=</span>umin, umax<span style="color: #666666">=</span>umax,
+		skip_frame<span style="color: #666666">=</span>skip_frame, screen_movie<span style="color: #666666">=</span>animate,
+		backend<span style="color: #666666">=</span><span style="color: #BA2121">&#39;matplotlib&#39;</span>, filename<span style="color: #666666">=</span><span style="color: #BA2121">&#39;tmpdata&#39;</span>)
+
+	<span style="color: #408080; font-style: italic"># Выбор ограничения устойчивости при заданном Nx, худший случай c</span>
+	<span style="color: #408080; font-style: italic"># (меньший gamma будет использовать этот шаг tau, но меньшее Nx)</span>
+	tau <span style="color: #666666">=</span> (l<span style="color: #666666">/</span>Nx)<span style="color: #666666">/</span>c_0
+	cpu, hashed_input <span style="color: #666666">=</span> solver(I<span style="color: #666666">=</span>I, V<span style="color: #666666">=</span><span style="color: #008000">None</span>, f<span style="color: #666666">=</span><span style="color: #008000">None</span>, c<span style="color: #666666">=</span>c, ul<span style="color: #666666">=</span><span style="color: #008000">None</span>, ur<span style="color: #666666">=</span><span style="color: #008000">None</span>,
+	                           l<span style="color: #666666">=</span>l, tau<span style="color: #666666">=</span>tau, gamma<span style="color: #666666">=</span>gamma, T<span style="color: #666666">=</span>T,
+	                           user_action<span style="color: #666666">=</span>action, version<span style="color: #666666">=</span>version,
+	                           stability_safety_factor<span style="color: #666666">=1</span>)
+	action<span style="color: #666666">.</span>make_movie_file()
+	action<span style="color: #666666">.</span>close_file(hashed_input)
+</pre></div>
+<p>
+Используемый здесь класс <code>PlotMediumAndSolution</code> --- это подкласс
+класса <code>PlotAndStoreSolution</code>, где среда с уменьшенным коэффициентом
+\( c \), заданная параметром <code>medium</code>, отображается на графике.
+
+<p>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+  <h3 class="panel-title">Комментарий по выбору параметров дискретизации</h3>
+  </div>
+<div class="panel-body">
+<p> <!-- subsequent paragraphs come in larger fonts, so start with a paragraph -->
+Параметр \( N_x \) в функции <code>pulse</code> не соответствует фактической
+пространственной сетке, соответствующей \( \gamma < 1 \), так как функция
+<code>solver</code> принимает фиксированные значения \( \tau \) и \( \gamma \) и
+вычисляет \( h \) соответствующим образом. Как видно, в функции <code>pulse</code>
+заданное значение \( \tau \) выбирается из условия \( \gamma=1 \), поэтому,
+если \( \gamma < 1 \), \( \gamma \) остается таким же, а функция <code>solver</code>
+оперирует большим значением \( h \) и \( N_x \) меньшим, чем заданным в
+<code>pulse</code>. Причина этого в том, что мы хотим сохранять фиксированный шаг
+\( \tau \) графические кадры в анимации синхронизированы по времени
+независимо от значения \( \gamma \) (т.е. \( h \) меняется, если меняется
+число Куранта).
+</div>
+</div>
+
+
+<p>
+Читателю предлагается "поиграть" с функцией <code>pulse</code>:
+
+<p>
+
+<!-- code=python (!bc pyshell) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #666666">&gt;&gt;&gt;</span> <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">wave1d_dn_vc</span> <span style="color: #008000; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">w</span>
+<span style="color: #666666">&gt;&gt;&gt;</span> w<span style="color: #666666">.</span>pulse(loc<span style="color: #666666">=</span><span style="color: #BA2121">&#39;left&#39;</span>, pulse_tp<span style="color: #666666">=</span><span style="color: #BA2121">&#39;cosinehat&#39;</span>, Nx<span style="color: #666666">=50</span>, skip_frame<span style="color: #666666">=10</span>)
+</pre></div>
+<p>
+Для того, чтобы легко остановить отображение графиков (например, с
+помощью Ctrl-C) и начать новое вычисление, может быть проще запустить
+предыдущие два выражения из командной строки:
+
+<p>
+
+<!-- code=text (!bc sys) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>Terminal&gt; python -c &#39;import wave1d_dn_vc as w; w.pulse(loc=&#39;left&#39;, pulse_tp=&#39;cosinehat&#39;, Nx=50, skip_frame=10)&#39;
+</pre></div>
+<p>
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "fdm-for-wave" -->
+<!-- doconce-section-nickname: "gen_solver" -->
+<!-- End: -->
+<p>
+<!-- navigation buttons at the bottom of the page -->
+<ul class="pager">
+  <li class="previous">
+    <a href="._fdm-for-wave-FlatUI003.html">&larr; Prev</a>
+  </li>
+  <li class="next">
+    <a href="._fdm-for-wave-FlatUI005.html">Next &rarr;</a>
+  </li>
+</ul>
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+

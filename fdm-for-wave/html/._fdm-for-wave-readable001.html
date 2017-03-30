@@ -1,0 +1,1183 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="description" content="Разностные схемы для волнового уравнения">
+<meta name="keywords" content="Уравнение колебаний струны,Волновое уравнение,Волновое уравнение одномерное,Сетка,Узлы,Узлы  граничные,Узлы  внутренние,Разностная схема  трехслойная,Число Куранта,Волновое уравнение  неоднородное,Массив  срез,Граничные условия Неймана,Граничные условия Дирихле,Мнимые ячейки,Мнимые узлы,Мнимые значения">
+
+<title>Разностные схемы для волнового уравнения</title>
+
+<!-- Bootstrap style: bootswatch_readable -->
+<link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/readable/bootstrap.min.css" rel="stylesheet">
+<!-- not necessary
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+/* Let inline verbatim have the same color as the surroundings */
+code { color: inherit; background-color: transparent; }
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:64px;      /* fixed header height for style bootswatch_readable */
+  margin:-64px 0 0; /* negative fixed header height */
+}
+</style>
+
+
+<!-- Tools for embedded Bokeh plots -->
+<link rel=stylesheet 
+      href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
+      type=text/css />
+<script type=text/javascript 
+        src=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js>
+</script>
+<script type=text/javascript>
+  Bokeh.set_log_level("info");
+</script>
+
+<style>
+.bk-embeded {
+    width: 100%;
+    margin: auto;
+    height: 500px;
+    text-align: webkit-left;
+}
+</style>
+
+
+</head>
+
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [('Содержание',
+               1,
+               'table_of_contents',
+               'table_of_contents'),
+              (u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u0430\u044f \u0441\u0445\u0435\u043c\u0430 \u0434\u043b\u044f \u043e\u0434\u043d\u043e\u043c\u0435\u0440\u043d\u043e\u0433\u043e \u0432\u043e\u043b\u043d\u043e\u0432\u043e\u0433\u043e \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:string_eq',
+               u'fdm-for-wave:string_eq'),
+              (u'\u0420\u0430\u0441\u0447\u0435\u0442\u043d\u0430\u044f \u0441\u0435\u0442\u043a\u0430',
+               2,
+               u'fdm-for-wave:string_eq:grid',
+               u'fdm-for-wave:string_eq:grid'),
+              (u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u0430\u044f \u0441\u0445\u0435\u043c\u0430',
+               2,
+               u'fdm-for-wave:string_eq:fdm',
+               u'fdm-for-wave:string_eq:fdm'),
+              (u'\u0410\u043f\u043f\u0440\u043e\u043a\u0441\u0438\u043c\u0430\u0446\u0438\u044f \u0432\u0442\u043e\u0440\u043e\u0433\u043e \u043d\u0430\u0447\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u0443\u0441\u043b\u043e\u0432\u0438\u044f',
+               2,
+               u'fdm-for-wave:string_eq:fds_init',
+               u'fdm-for-wave:string_eq:fds_init'),
+              (u'\u0412\u044b\u0447\u0438\u0441\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0430\u043b\u0433\u043e\u0440\u0438\u0442\u043c',
+               2,
+               u'fdm-for-wave:string_eq:alg',
+               u'fdm-for-wave:string_eq:alg'),
+              (u'\u042d\u0441\u043a\u0438\u0437 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0439 \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438',
+               2,
+               u'fdm-for-wave:string_eq:sketch',
+               u'fdm-for-wave:string_eq:sketch'),
+              (u'\u0412\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0439 \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438',
+               1,
+               u'fdm-for-wave:verif',
+               u'fdm-for-wave:verif'),
+              (u'\u041d\u0435\u043e\u0434\u043d\u043e\u0440\u043e\u0434\u043d\u043e\u0435 \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435',
+               2,
+               u'fdm-for-wave:verif:string_unhom',
+               u'fdm-for-wave:verif:string_unhom'),
+              (u'\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0430\u043d\u0430\u043b\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u0440\u0435\u0448\u0435\u043d\u0438\u044f',
+               2,
+               u'fdm-for-wave:verif:analtic',
+               u'fdm-for-wave:verif:analtic'),
+              (u'\u041f\u0440\u043e\u0431\u043d\u044b\u0435 \u0444\u0443\u043d\u043a\u0446\u0438\u0438',
+               2,
+               u'fdm-for-wave:verif:manufact',
+               u'fdm-for-wave:verif:manufact'),
+              (u'\u041f\u043e\u0441\u0442\u0440\u043e\u0435\u043d\u0438\u0435 \u0442\u043e\u0447\u043d\u043e\u0433\u043e \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0434\u0438\u0441\u043a\u0440\u0435\u0442\u043d\u043e\u0439 \u0437\u0430\u0434\u0430\u0447\u0438',
+               2,
+               u'fdm-for-wave:verif:fdm_ex_sol',
+               u'fdm-for-wave:verif:fdm_ex_sol'),
+              (u'\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u0430\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f',
+               1,
+               u'fdm-for-wave:impl',
+               u'fdm-for-wave:impl'),
+              (u'\u0424\u0443\u043d\u043a\u0446\u0438\u044f \u043e\u0431\u0440\u0430\u0442\u043d\u043e\u0433\u043e \u0432\u044b\u0437\u043e\u0432\u0430 \u0434\u043b\u044f \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439, \u0437\u0430\u0434\u0430\u043d\u043d\u044b\u0445 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u043c',
+               2,
+               u'fdm-for-wave:impl:user_action',
+               u'fdm-for-wave:impl:user_action'),
+              (u'\u0424\u0443\u043d\u043a\u0446\u0438\u044f-\u0441\u043e\u043b\u0432\u0435\u0440',
+               2,
+               u'fdm-for-wave:impl:solver',
+               u'fdm-for-wave:impl:solver'),
+              (u'\u0412\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f: \u0442\u043e\u0447\u043d\u043e\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u0435 --- \u043f\u043e\u043b\u0438\u043d\u043e\u043c \u0432\u0442\u043e\u0440\u043e\u0439 \u0441\u0442\u0435\u043f\u0435\u043d\u0438',
+               2,
+               u'fdm-for-wave:impl:ver_quad',
+               u'fdm-for-wave:impl:ver_quad'),
+              (u'\u0412\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f: \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u044f \u0440\u0435\u0448\u0435\u043d\u0438\u044f',
+               2,
+               u'fdm-for-wave:impl:viz',
+               u'fdm-for-wave:impl:viz'),
+              (u'\u0424\u0443\u043d\u043a\u0446\u0438\u044f \u0434\u043b\u044f \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u044f \u0440\u0430\u0441\u0447\u0435\u0442\u043e\u043c',
+               3,
+               u'fdm-for-wave:impl:viz:control',
+               u'fdm-for-wave:impl:viz:control'),
+              (u'\u0410\u043d\u0430\u043b\u0438\u0437 \u043a\u043e\u0434\u0430',
+               3,
+               u'fdm-for-wave:impl:viz:analysis',
+               u'fdm-for-wave:impl:viz:analysis'),
+              (u'\u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u0432\u0438\u0434\u0435\u043e \u0444\u0430\u0439\u043b\u043e\u0432',
+               3,
+               u'fdm-for-wave:impl:viz:movie',
+               u'fdm-for-wave:impl:viz:movie'),
+              (u'\u041f\u0440\u043e\u043f\u0443\u0441\u043a \u043a\u0430\u0434\u0440\u043e\u0432 \u0434\u043b\u044f \u0443\u0441\u043a\u043e\u0440\u0435\u043d\u0438\u044f \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u0438',
+               3,
+               u'fdm-for-wave:impl:viz_skip_fr',
+               u'fdm-for-wave:impl:viz_skip_fr'),
+              (u'\u0417\u0430\u043f\u0443\u0441\u043a \u0432\u0430\u0440\u0438\u0430\u043d\u0442\u0430 \u0440\u0430\u0441\u0447\u0435\u0442\u0430',
+               2,
+               u'fdm-for-wave:impl:running',
+               u'fdm-for-wave:impl:running'),
+              (u'\u0411\u0435\u0437\u0440\u0430\u0437\u043c\u0435\u0440\u043d\u0430\u044f \u043c\u043e\u0434\u0435\u043b\u044c',
+               2,
+               u'fdm-for-wave:impl:scaled',
+               u'fdm-for-wave:impl:scaled'),
+              (u'\u0412\u0435\u043a\u0442\u043e\u0440\u0438\u0437\u0430\u0446\u0438\u044f',
+               1,
+               u'fdm-for-wave:vect',
+               u'fdm-for-wave:vect'),
+              (u'\u041e\u043f\u0435\u0440\u0430\u0446\u0438\u0438 \u043d\u0430 \u0441\u0440\u0435\u0437\u0430\u0445 \u043c\u0430\u0441\u0441\u0438\u0432\u043e\u0432',
+               2,
+               u'fdm-for-wave:vect:op',
+               u'fdm-for-wave:vect:op'),
+              (u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u044b\u0435 \u0441\u0445\u0435\u043c\u044b, \u0432\u044b\u0440\u0430\u0436\u0435\u043d\u043d\u044b\u0435 \u0432 \u0441\u0440\u0435\u0437\u0430\u0445',
+               2,
+               u'fdm-for-wave:vect:slices_fdm',
+               u'fdm-for-wave:vect:slices_fdm'),
+              (u'\u0412\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f',
+               2,
+               u'fdm-for-wave:vect:verif',
+               u'fdm-for-wave:vect:verif'),
+              (u'\u0418\u0437\u043c\u0435\u0440\u0435\u043d\u0438\u0435 \u044d\u0444\u0444\u0435\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u0438',
+               2,
+               u'fdm-for-wave:vect:eff',
+               u'fdm-for-wave:vect:eff'),
+              (u'\u0420\u0435\u0448\u0435\u043d\u0438\u0435 1',
+               3,
+               u'fdm-for-wave:vect:sol1',
+               u'fdm-for-wave:vect:sol1'),
+              (u'\u0420\u0435\u0448\u0435\u043d\u0438\u0435 2',
+               3,
+               u'fdm-for-wave:vect:sol2',
+               u'fdm-for-wave:vect:sol2'),
+              (u'\u042d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u044b \u043f\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0435 \u044d\u0444\u0444\u0435\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u0438',
+               3,
+               u'fdm-for-wave:vect:eff_exp',
+               u'fdm-for-wave:vect:eff_exp'),
+              (u'\u0417\u0430\u043c\u0435\u0447\u0430\u043d\u0438\u0435 \u043e\u0431 \u043e\u0431\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0438 \u043c\u0430\u0441\u0441\u0438\u0432\u043e\u0432',
+               2,
+               u'fdm-for-wave:vect:array_updating',
+               u'fdm-for-wave:vect:array_updating'),
+              (u'\u0423\u043f\u0440\u0430\u0436\u043d\u0435\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:exercises',
+               u'fdm-for-wave:exercises'),
+              (u'Упражнение 1: \u041c\u043e\u0434\u0435\u043b\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u0441\u0442\u043e\u044f\u0447\u0435\u0439 \u0432\u043e\u043b\u043d\u044b',
+               2,
+               u'fdm-for-wave:exercises:1',
+               u'fdm-for-wave:exercises:1'),
+              (u'Замечания', 3, None, '___sec33'),
+              (u'Упражнение 2: \u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0432 \u0444\u0443\u043d\u043a\u0446\u0438\u0438 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f',
+               2,
+               u'fdm-for-wave:exercises:2',
+               u'fdm-for-wave:exercises:2'),
+              (u'Упражнение 3: \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u043a\u043b\u0430\u0441\u0441\u0430 \u0434\u043b\u044f \u0444\u0443\u043d\u043a\u0446\u0438\u0438 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f',
+               2,
+               u'fdm-for-wave:exercises:3',
+               u'fdm-for-wave:exercises:3'),
+              (u'Упражнение 4: \u0421\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u0438\u0445 \u0447\u0438\u0441\u0435\u043b \u041a\u0443\u0440\u0430\u043d\u0442\u0430 \u043d\u0430 \u043e\u0434\u043d\u043e\u043c \u0432\u0438\u0434\u0435\u043e',
+               2,
+               u'fdm-for-wave:exercises:4',
+               u'fdm-for-wave:exercises:4'),
+              (u'Проект 5: \u0418\u0441\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u044f \u0441 \u043e\u0434\u043d\u043e\u043c\u0435\u0440\u043d\u044b\u043c\u0438 \u0441\u0435\u0442\u043e\u0447\u043d\u044b\u043c\u0438 \u0444\u0443\u043d\u043a\u0446\u0438\u044f\u043c\u0438',
+               2,
+               u'fdm-for-wave:exercises:pr1',
+               u'fdm-for-wave:exercises:pr1'),
+              (u'\u041e\u0431\u043e\u0431\u0449\u0435\u043d\u0438\u044f: \u043e\u0442\u0440\u0430\u0436\u0430\u044e\u0449\u0438\u0435 \u0433\u0440\u0430\u043d\u0438\u0446\u044b',
+               1,
+               u'fdm-for-wave:refl',
+               u'fdm-for-wave:refl'),
+              (u'\u0413\u0440\u0430\u043d\u0438\u0447\u043d\u044b\u0435 \u0443\u0441\u043b\u043e\u0432\u0438\u044f \u041d\u0435\u0439\u043c\u0430\u043d\u0430',
+               2,
+               u'fdm-for-wave:refl:neumann',
+               u'fdm-for-wave:refl:neumann'),
+              (u'\u0410\u043f\u043f\u0440\u043e\u043a\u0441\u0438\u043c\u0430\u0446\u0438\u044f \u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u043d\u043e\u0439 \u043d\u0430 \u0433\u0440\u0430\u043d\u0438\u0446\u0435',
+               2,
+               u'fdm-for-wave:refl:deriv_appr',
+               u'fdm-for-wave:refl:deriv_appr'),
+              (u'\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u0430\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u041d\u0435\u0439\u043c\u0430\u043d\u0430',
+               2,
+               u'fdm-for-wave:refl:impl',
+               u'fdm-for-wave:refl:impl'),
+              (u'\u041e\u0431\u043e\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435 \u043c\u043d\u043e\u0436\u0435\u0441\u0442\u0432 \u0438\u043d\u0434\u0435\u043a\u0441\u043e\u0432',
+               2,
+               u'fdm-for-wave:refl:idx_set',
+               u'fdm-for-wave:refl:idx_set'),
+              (u'\u0412\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438 \u0433\u0440\u0430\u043d\u0438\u0447\u043d\u044b\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u041d\u0435\u0439\u043c\u0430\u043d\u0430',
+               2,
+               u'fdm-for-wave:refl:ver',
+               u'fdm-for-wave:refl:ver'),
+              (u'\u0420\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0433\u0440\u0430\u043d\u0438\u0447\u043d\u044b\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u041d\u0435\u0439\u043c\u0430\u043d\u0430 \u0441 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435\u043c \u043c\u043d\u0438\u043c\u044b\u0445 \u044f\u0447\u0435\u0435\u043a',
+               2,
+               u'fdm-for-wave:refl:ghost',
+               u'fdm-for-wave:refl:ghost'),
+              (u'\u0418\u0434\u0435\u044f',
+               3,
+               u'fdm-for-wave:refl:ghost:idea',
+               u'fdm-for-wave:refl:ghost:idea'),
+              (u'\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u0430\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f',
+               3,
+               u'fdm-for-wave:refl:ghost:impl',
+               u'fdm-for-wave:refl:ghost:impl'),
+              (u'\u041e\u0431\u043e\u0431\u0449\u0435\u043d\u0438\u044f: \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u0430\u044f \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u044c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u044f \u0432\u043e\u043b\u043d\u044b',
+               1,
+               u'fdm-for-wave:varvel',
+               u'fdm-for-wave:varvel'),
+              (u'\u041c\u043e\u0434\u0435\u043b\u044c\u043d\u043e\u0435 \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435 \u0441 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u043c\u0438 \u043a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442\u0430\u043c\u0438',
+               2,
+               u'fdm-for-wave:varvel:model',
+               u'fdm-for-wave:varvel:model'),
+              (u'\u0410\u043f\u043f\u0440\u043e\u043a\u0441\u0438\u043c\u0430\u0446\u0438\u044f \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445 \u043a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442\u043e\u0432',
+               2,
+               u'fdm-for-wave:varvel:coeff_appr',
+               u'fdm-for-wave:varvel:coeff_appr'),
+              (u'\u0423\u0441\u043b\u043e\u0432\u0438\u044f \u041d\u0435\u0439\u043c\u0430\u043d\u0430 \u0438 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0435 \u043a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442\u044b',
+               2,
+               u'fdm-for-wave:varvel:neumann',
+               u'fdm-for-wave:varvel:neumann'),
+              (u'\u0411\u043e\u043b\u0435\u0435 \u043e\u0431\u0449\u0435\u0435 \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435 \u0441 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u043c\u0438 \u043a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442\u044b',
+               2,
+               u'fdm-for-wave:varvel:more_gen',
+               u'fdm-for-wave:varvel:more_gen'),
+              (u'\u041e\u0431\u043e\u0431\u0449\u0435\u043d\u0438\u044f: \u0437\u0430\u0442\u0443\u0445\u0430\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:damping',
+               u'fdm-for-wave:damping'),
+              (u'\u0420\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0430 \u043e\u0431\u0449\u0435\u0433\u043e \u0441\u043e\u043b\u0432\u0435\u0440\u0430 \u0434\u043b\u044f \u043e\u0434\u043d\u043e\u043c\u0435\u0440\u043d\u043e\u0433\u043e \u0432\u043e\u043b\u043d\u043e\u0432\u043e\u0433\u043e \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:gen_solver',
+               u'fdm-for-wave:gen_solver'),
+              (u'\u0420\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0444\u0443\u043d\u043a\u0446\u0438\u0438 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439 \u043f\u043e\u043b\u043e\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u0432 \u0432\u0438\u0434\u0435 \u043a\u043b\u0430\u0441\u0441\u0430',
+               2,
+               u'fdm-for-wave:gen_solver:user_action',
+               u'fdm-for-wave:gen_solver:user_action'),
+              (u'\u041a\u043e\u0434',
+               3,
+               u'fdm-for-wave:gen_solver:code',
+               u'fdm-for-wave:gen_solver:code'),
+              (u'\u0420\u0430\u0437\u0431\u043e\u0440',
+               3,
+               u'fdm-for-wave:gen_solver:dissect',
+               u'fdm-for-wave:gen_solver:dissect'),
+              (u'\u0420\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0435 \u0438\u043c\u043f\u0443\u043b\u044c\u0441\u0430 \u0432 \u0434\u0432\u0443\u0445 \u0441\u0440\u0435\u0434\u0430\u0445',
+               2,
+               u'fdm-for-wave:gen_solver:pulse',
+               u'fdm-for-wave:gen_solver:pulse'),
+              (u'\u0423\u043f\u0440\u0430\u0436\u043d\u0435\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:exercises2',
+               u'fdm-for-wave:exercises2'),
+              (u'Упражнение 6: \u041d\u0430\u0445\u043e\u0436\u0434\u0435\u043d\u0438\u0435 \u0430\u043d\u0430\u043b\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0432\u043e\u043b\u043d\u043e\u0432\u043e\u0433\u043e \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u044f \u0441 \u0437\u0430\u0442\u0443\u0445\u0430\u043d\u0438\u0435\u043c',
+               2,
+               u'fdm-for-wave:exercises2:1',
+               u'fdm-for-wave:exercises2:1'),
+              (u'Задача 7: \u0410\u043d\u0430\u043b\u0438\u0437 \u0441\u0438\u043c\u043c\u0435\u0442\u0440\u0438\u0447\u043d\u044b\u0445 \u0433\u0440\u0430\u043d\u0438\u0447\u043d\u044b\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439',
+               2,
+               u'fdm-for-wave:exercises2:2',
+               u'fdm-for-wave:exercises2:2'),
+              (u'Упражнение 8: \u0418\u043c\u0443\u043b\u044c\u0441 \u0447\u0435\u0440\u0435\u0437 \u0441\u043b\u043e\u0438\u0441\u0442\u0443\u044e \u0441\u0440\u0435\u0434\u0443',
+               2,
+               u'fdm-for-wave:exercises2:3',
+               u'fdm-for-wave:exercises2:3'),
+              (u'Упражнение 9: \u041e\u0431\u044a\u044f\u0441\u043d\u0435\u043d\u0438\u0435 \u043f\u043e\u0447\u0435\u043c\u0443 \u0432\u043e\u0437\u043d\u0438\u043a\u0430\u044e\u0442 \u0447\u0438\u0441\u043b\u0435\u043d\u043d\u044b\u0435 \u0448\u0443\u043c\u044b',
+               2,
+               u'fdm-for-wave:exercises2:4',
+               u'fdm-for-wave:exercises2:4'),
+              (u'Упражнение 10: \u0418\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u0435 \u0433\u0430\u0440\u043c\u043e\u043d\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u0441\u0440\u0435\u0434\u043d\u0435\u0433\u043e \u0432 \u043e\u0434\u043d\u043e\u043c\u0435\u0440\u043d\u043e\u0439 \u043c\u043e\u0434\u0435\u043b\u0438',
+               2,
+               u'fdm-for-wave:exercises2:5',
+               u'fdm-for-wave:exercises2:5'),
+              (u'Задача 11: \u0420\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0445 \u0433\u0440\u0430\u043d\u0438\u0446',
+               2,
+               u'fdm-for-wave:exercises2:6',
+               u'fdm-for-wave:exercises2:6')]}
+end of tocinfo -->
+
+<body>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "none"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript"
+ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<!-- newcommands_keep.tex -->
+$$
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[3]{\frac{\partial^#1 #2}{\partial #3^#1}}
+$$
+
+
+
+
+    
+<!-- Bootstrap navigation bar -->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="fdm-for-wave-readable.html">Разностные схемы для волнового уравнения</a>
+  </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable000.html#table_of_contents" style="font-size: 80%;"><b>Содержание</b></a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:string_eq" style="font-size: 80%;"><b>Разностная схема для одномерного волнового уравнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:string_eq:grid" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Расчетная сетка</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:string_eq:fdm" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Разностная схема</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:string_eq:fds_init" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Аппроксимация второго начального условия</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:string_eq:alg" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Вычислительный алгоритм</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:string_eq:sketch" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Эскиз программной реализации</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:verif" style="font-size: 80%;"><b>Верификация программной реализации</b></a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:verif:string_unhom" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Неоднородное уравнение</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:verif:analtic" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Использование аналитического решения</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:verif:manufact" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Пробные функции</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:verif:fdm_ex_sol" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Построение точного решения дискретной задачи</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:impl" style="font-size: 80%;"><b>Программная реализация</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:impl:user_action" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Функция обратного вызова для действий, заданных пользователем</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:impl:solver" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Функция-солвер</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:impl:ver_quad" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Верификация: точное решение --- полином второй степени</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:impl:viz" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Визуализация: анимация решения</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:impl:viz:control" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Функция для управления расчетом</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:impl:viz:analysis" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Анализ кода</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:impl:viz:movie" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Создание видео файлов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:impl:viz_skip_fr" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Пропуск кадров для ускорения анимации</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:impl:running" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Запуск варианта расчета</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:impl:scaled" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Безразмерная модель</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:vect" style="font-size: 80%;"><b>Векторизация</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:vect:op" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Операции на срезах массивов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:vect:slices_fdm" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Разностные схемы, выраженные в срезах</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:vect:verif" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Верификация</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:vect:eff" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Измерение эффективности</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:vect:sol1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Решение 1</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:vect:sol2" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Решение 2</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:vect:eff_exp" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Эксперименты по проверке эффективности</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable002.html#fdm-for-wave:vect:array_updating" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Замечание об обновлении массивов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable003.html#fdm-for-wave:exercises" style="font-size: 80%;"><b>Упражнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable003.html#fdm-for-wave:exercises:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 1: Моделирование стоячей волны</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable003.html#___sec33" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Замечания</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable003.html#fdm-for-wave:exercises:2" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 2: Добавить сохранение решения в функции действий пользователя</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable003.html#fdm-for-wave:exercises:3" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 3: Использование класса для функции действий пользователя</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable003.html#fdm-for-wave:exercises:4" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 4: Сравнение нескольких чисел Куранта на одном видео</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable003.html#fdm-for-wave:exercises:pr1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Проект 5: Исчисления с одномерными сеточными функциями</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:refl" style="font-size: 80%;"><b>Обобщения: отражающие границы</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:refl:neumann" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Граничные условия Неймана</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:refl:deriv_appr" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Аппроксимация производной на границе</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:refl:impl" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Программная реализация условий Неймана</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:refl:idx_set" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Обозначение множеств индексов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:refl:ver" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Верификация реализации граничных условий Неймана</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:refl:ghost" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Реализация граничных условий Неймана с использованием мнимых ячеек</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:refl:ghost:idea" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Идея</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:refl:ghost:impl" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Программная реализация</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:varvel" style="font-size: 80%;"><b>Обобщения: переменная скорость распространения волны</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:varvel:model" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Модельное уравнение с переменными коэффициентами</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:varvel:coeff_appr" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Аппроксимация переменных коэффициентов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:varvel:neumann" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Условия Неймана и переменные коэффициенты</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:varvel:more_gen" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Более общее уравнение с переменными коэффициенты</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:damping" style="font-size: 80%;"><b>Обобщения: затухания</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:gen_solver" style="font-size: 80%;"><b>Разработка общего солвера для одномерного волнового уравнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:gen_solver:user_action" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Реализация функции действий полозователя в виде класса</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:gen_solver:code" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Код</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:gen_solver:dissect" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Разбор</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable004.html#fdm-for-wave:gen_solver:pulse" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Распространение импульса в двух средах</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable005.html#fdm-for-wave:exercises2" style="font-size: 80%;"><b>Упражнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable005.html#fdm-for-wave:exercises2:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 6: Нахождение аналитического решения волнового уравнения с затуханием</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable005.html#fdm-for-wave:exercises2:2" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Задача 7: Анализ симметричных граничных условий</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable005.html#fdm-for-wave:exercises2:3" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 8: Имульс через слоистую среду</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable005.html#fdm-for-wave:exercises2:4" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 9: Объяснение почему возникают численные шумы</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable005.html#fdm-for-wave:exercises2:5" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 10: Исследование гармонического среднего в одномерной модели</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable005.html#fdm-for-wave:exercises2:6" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Задача 11: Реализация условий открытых границ</a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</div> <!-- end of navigation bar -->
+
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<a name="part0001"></a>
+<!-- !split -->
+
+<h1 id="fdm-for-wave:string_eq" class="anchor">Разностная схема для одномерного волнового уравнения</h1>
+
+<p>
+Рассмотрим одномерную математическую модель распространения колебаний
+на струне. Пусть струна в деформированном состоянии 
+распространяется на интервале \( [0, l] \) оси \( x \) и
+\( u(x,t) \) --- перемещение по времени в направлении \( y \)
+точки, изначально лежащей на оси \( x \). Функция перемещения
+\( u(x,t) \) определяется следующей математической моделью:
+
+$$
+\begin{align}
+\tag{1}
+   \frac{\partial^2 u}{\partial t^2} &=
+   c^2 \frac{\partial^2 u}{\partial x^2},
+   \quad x \in (0, l), \quad t \in (0, T], \\ 
+\tag{2}
+   u(x,0) &= I(x), \quad x \in [0, l],\\ 
+\tag{3}
+   \frac{\partial u(x,0)}{\partial t} &= 0, \quad x \in [0, l],\\ 
+\tag{4}
+   u(0,t) &= 0, \quad t \in (0, T],\\ 
+\tag{5}
+   u(l,t) &= 0, \quad t \in (0, T].
+\end{align}
+$$
+
+Постоянная \( c \) и функция \( I(x) \) --- заданы.
+
+<p>
+Уравнение <a href="#mjx-eqn-1">(1)</a> известно как
+<em>волновое уравнение</em> (<em>уравнение колебаний струны</em>). Так как это
+уравнение в частных производных содержит вторую производную по
+времени, необходимо задать два начальных условия. Условие
+<a href="#mjx-eqn-2">(2)</a> начальную форму струны, 
+а условие <a href="#mjx-eqn-3">(3)</a> означает, что начальная скорость
+струны равна нулю. Кроме того уравнение
+<a href="#mjx-eqn-1">(1)</a> дополняется 
+граничными условиями <a href="#mjx-eqn-4">(4)</a> и 
+<a href="#mjx-eqn-5">(5)</a>. Эти два условия означают,
+что струна закреплена на концах, т.е. перемещения равны нулю.
+
+<p>
+
+<div>
+<video  loop controls width='500' height='365' preload='none'>
+    <source src='mov-fdm-for-wave/movie.webm' type='video/webm; codecs="vp8, vorbis"'>
+    <source src='mov-fdm-for-wave/movie.ogg'  type='video/ogg;  codecs="theora, vorbis"'>
+</video>
+</div>
+<p><em>Пример колебаний струны <div id="fdm-for-wave:string_eq:mov:1"></div></em></p>
+
+<!-- Issue warning if in a Safari browser -->
+<script language="javascript">
+if (!!(window.safari)) {
+  document.write("<div style=\"width: 95%%; padding: 10px; border: 1px solid #100; border-radius: 4px;\"><p><font color=\"red\">The above movie will not play in Safari - use Chrome, Firefox, or Opera.</font></p></div>")}
+</script>
+
+<p>
+Перейдем к построению конечно-разностной аппроксимации задачи
+<a href="#mjx-eqn-1">(1)</a>--<a href="#mjx-eqn-5">(5)</a>.
+
+<h2 id="fdm-for-wave:string_eq:grid" class="anchor">Расчетная сетка</h2>
+
+<p>
+Для построения разностной схемы надо прежде всего ввести сетку в
+области изменения независимых переменных и задать шаблон,
+т.е. множество точек сетки, участвующих в аппроксимации
+дифференциального выражения. Введем равномерную сетку по переменному
+\( x \) с шагом \( h \)
+$$
+   \omega_h = \left\{ x_i = ih, \ i = 0, 1, \ldots, N, \ hN = l
+   \right\},
+$$
+
+и сетку по переменной \( t \) с шагом \( \tau \)
+$$
+   \omega_{\tau} = \left\{ t_n = n\tau, \ n = 0, 1, \ldots, K, \ K\tau
+   = T \right\}.
+$$
+
+Точки \( (x_i,t_n) \), \( i = 0, 1, \ldots, N \),
+\( n = 0, 1, \ldots, K \), образуют узлы пространственно-временной
+сетки \( \omega_{h\tau} = \omega_h \times \omega_{\tau} \)
+(см. рис. <a href="#fdm-for-wave:string_eq:fig:1">1</a>)
+
+<p>
+<center> <!-- figure label: --> <div id="fdm-for-wave:string_eq:fig:1"></div> <!-- FIGURE -->
+<hr class="figure">
+<center><p class="caption">Рисунок 1:  Пространственно-временная сетка \( \omega_{h\tau} \).  <!-- caption label: fdm-for-wave:string_eq:fig:1 --> </p></center>
+<p><img src="fig-fdm-for-wave/wave-grid.png" align="bottom" width=400></p>
+</center>
+
+<p>
+Узлы \( (x_i,t_n) \), принадлежащие отрезкам
+\( I_0=\{0 \leq x \leq l,\ t = 0\} \), \( I_l=\{x = 0, \ 0 \leq t \leq T\} \),
+\( I_r=\{x = l, \ 0 \leq t \leq T\} \) называются <em>граничными узлами</em>
+сетки \( \omega_{h\tau} \), а остальные узлы --- <em>внутренними</em>. На
+рис.  <a href="#fdm-for-wave:string_eq:fig:1">1</a> граничные узлы 
+обозначены крестиками, а внутренние кружочками.
+
+<p>
+<em>Слоем</em> называется множество всех узлов сетки \( \omega_h\tau \),
+имеющих одну и ту же временную координату. Так, \( n \)-м слоем
+называется множество узлов
+$$
+   (x_0, t_n), (x_1, t_n), \ldots, (x_N, t_n).	
+$$
+
+Очевидно, минимальный шаблон, на котором можно аппроксимировать
+уравнение <a href="#mjx-eqn-1">(1)</a>, это пятиточечный
+шаблон, изображенный на рис. <a href="#fdm-for-wave:string_eq:fig:2">2</a>. Таким
+образом, здесь требуется использовать три временных слоя: \( n-1 \), \( n \),
+\( n+1 \). Такие схемы называются <em>трехслойными</em>. Их применение
+предполагает, что при нахождении значений \( y_i^{n+1} \) на верхнем
+слое значения на предыдущих слоях \( y_i^{n} \), \( y_i^{n-1} \),
+\( i = 0, 1, \ldots, N \) хранятся в памяти.
+
+<p>
+<center> <!-- figure label: --> <div id="fdm-for-wave:string_eq:fig:2"></div> <!-- FIGURE -->
+<hr class="figure">
+<center><p class="caption">Рисунок 2:  Минимальный шаблон трехслойной разностной схемы.  <!-- caption label: fdm-for-wave:string_eq:fig:2 --> </p></center>
+<p><img src="fig-fdm-for-wave/wave-templ.png" align="bottom" width=400></p>
+</center>
+
+<h2 id="fdm-for-wave:string_eq:fdm" class="anchor">Разностная схема</h2>
+
+<p>
+Простейшей разностной аппроксимацией уравнения <a href="#mjx-eqn-1">(1)</a> и
+граникных условий <a href="#mjx-eqn-4">(4)</a> и
+<a href="#mjx-eqn-5">(5)</a> является следующая
+система уравнений: 
+$$
+\begin{align}
+\tag{6}
+   \frac{y_i^{n+1} - 2 y_i^{n} + y_i^{n-1}}{\tau^2} =
+   \frac{y_{i+1}^n - 2 y_{i}^n + y_{i-1}^n}{h^2}, \\ 
+   i = 1, 2,
+   \ldots, N-1, \ n = 1, 2, \ldots, K, \nonumber\\ 
+\tag{7}
+   y_0^{n+1} = y_N^{n+1} = 0, \quad n = 0, 1, \ldots, K-1.
+\end{align}
+$$
+
+<p>
+Разностное уравнение <a href="#mjx-eqn-1">(1)</a> имеет второй порядок
+погрешности аппроксимации по \( \tau \) и по \( h \). Решение
+\( y_i^{n+1} \) выражается явным образом через значения на
+предыдущих слоях:
+$$
+\begin{align}
+\tag{8}
+   y_i^{n+1} = 2 y_i^n - y_i^{n-1} + \gamma^2 (y_{i+1}^n - 2y_{i}^n +
+   y_{i-1}^n), \\ 
+   i = 1, 2, \ldots, N-1, \ n = 1, 2, \ldots, K-1. \nonumber
+\end{align}
+$$
+
+<p>
+Здесь мы ввели параметр
+$$
+   \gamma = c\frac{\tau}{h},
+$$
+
+который называют <em>числом Куранта</em>.
+
+<p>
+Для начала счета по <a href="#mjx-eqn-8">(8)</a> должны быть заданы значения
+\( y_i^0, y_i^1 \), \( i = 0, 1, \ldots, N \). Из первого
+начального условия <a href="#mjx-eqn-2">(2)</a> сразу получаем
+$$
+\begin{equation}
+\tag{9}
+   y_i^0 = I(x_i), \quad i = 0, 1, \ldots, N.
+\end{equation}
+$$
+
+<h2 id="fdm-for-wave:string_eq:fds_init" class="anchor">Аппроксимация второго начального условия</h2>
+
+<p>
+Простейшая замена второго начального условия <a href="#mjx-eqn-3">(3)</a>
+уравнением \( (y_i^1 - y_i^0)/\tau = 0 \) имеет лишь первый порядок
+аппроксимации по \( \tau \). Поскольку уравнение <a href="#mjx-eqn-6">(6)</a>
+аппроксимирует уравнение <a href="#mjx-eqn-1">(1)</a> со
+вторым порядком, желательно, чтобы и разностное начальное условие
+также имело второй порядок аппроксимации. Построим такую
+аппроксимацию. Уравнение 
+$$
+\begin{equation}
+\tag{10}
+   \frac{y_i^1 - y_i^{-1}}{2\tau} = 0,
+\end{equation}
+$$
+
+аппроксимирует уравнение \( \frac{\partial u}{\partial t} = 0 \) со
+вторым порядком. Чтобы найти значения \( y_i^{-1} \) запишем
+уравнение <a href="#mjx-eqn-6">(6)</a> при \( n = 0 \):
+$$
+	\frac{y_i^1 - 2 y_i^0 + y_i^{-1}}{\tau^2} = y_{\bar{x}x,i}^0,
+$$
+
+<p>
+Из <a href="#mjx-eqn-10">(10)</a>  имеем \( y^{-1} = y^{1} \). Отсюда получаем
+$$
+\begin{equation}
+\tag{11}
+   y_i^1 = y_i^0 + \frac{\gamma^2}{2} \left( y_{i+1}^0 - 2 y_{i}^0 +
+   y_{i-1}^0 \right).
+\end{equation}
+$$
+
+Совокупность уравнений <a href="#mjx-eqn-6">(6)</a>,
+<a href="#mjx-eqn-7">(7)</a>,
+<a href="#mjx-eqn-9">(9)</a> и 
+<a href="#mjx-eqn-10">(10)</a> составляет разностную
+схему, аппроксимирующую исходную задачу
+<a href="#mjx-eqn-1">(1)</a>--<a href="#mjx-eqn-5">(5)</a>.
+
+<h2 id="fdm-for-wave:string_eq:alg" class="anchor">Вычислительный алгоритм</h2>
+
+<p>
+Теперь мы можем сформулировать вычислительный алгоритм:
+
+<ol>
+<li> Вычисляем \( y_i^0 \), используя <a href="#mjx-eqn-9">(9)</a>.</li>
+<li> Вычисляем \( y_i^1 \), используя <a href="#mjx-eqn-11">(11)</a> и задаем граничные условия <a href="#mjx-eqn-7">(7)</a> при \( n=0 \).</li>
+<li> Для всех временных слоев \( n = 1, 2, \ldots, K-1 \)
+
+<ol type="a"></li>
+  <li> находим \( y_i^{n+1} \), используя <a href="#mjx-eqn-8">(8)</a>.</li>
+  <li> задаем граничные условия <a href="#mjx-eqn-7">(7)</a>.</li>
+</ol>
+
+</ol>
+
+<h2 id="fdm-for-wave:string_eq:sketch" class="anchor">Эскиз программной реализации</h2>
+
+<p>
+При реализации представленного алгоритма на Python будем использовать
+массивы <code>y[i]</code> для хранения значений \( y_i^{n+1} \), <code>y_1[i]</code> для
+хранения значений \( y_i^{n} \) и <code>y_2[i]</code> для хранения
+\( y_i^{n-1} \). Можно считать, что используется следующее
+соглашение о названии переменных: <code>y</code> используется для вычисляемого
+пространственного распределения (сеточной функции) на новом временном
+шаге, <code>y_1</code> --- решение на временном шаге, отстоящем на один
+временной слой назад, <code>y_2</code> --- на два временных слоя назад и т.д.
+
+<p>
+Алгоритм использует только три временных слоя, таким образом, нам
+достаточно иметь только три массива для \( y_i^{n+1}, y_i^n \) и
+\( y_i^{n-1} \), \( i = 0, 1, \ldots, N \). Хранение всего
+решения в двумерном массиве размерности \( (N+1) \times (K+1) \)
+возможно в простейшем одномерном случае уравнений в частных
+производных, но не для двумерных и трехмерных задач. Таким образом,
+во всех программах для решения уравнений в частных производных мы будем 
+хранить в памяти минимально возможное число временных слоев.
+
+<p>
+Следующий фрагмент кода реализует вычислительный алгоритм
+
+<p>
+
+<!-- code=python (!bc pypro) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #408080; font-style: italic"># -*- coding: utf-8 -*-</span>
+
+<span style="color: #408080; font-style: italic"># --- Start snippet 1 ---</span>
+<span style="color: #408080; font-style: italic"># Заданные сетки как массивы x и t</span>
+dx <span style="color: #666666">=</span> x[<span style="color: #666666">1</span>] <span style="color: #666666">-</span> x[<span style="color: #666666">0</span>]
+dt <span style="color: #666666">=</span> t[<span style="color: #666666">1</span>] <span style="color: #666666">-</span> t[<span style="color: #666666">0</span>]
+C <span style="color: #666666">=</span> c<span style="color: #666666">*</span>dt<span style="color: #666666">/</span>dx  <span style="color: #408080; font-style: italic"># Число Куранта</span>
+K <span style="color: #666666">=</span> <span style="color: #008000">len</span>(t) <span style="color: #666666">-</span> <span style="color: #666666">1</span>
+N <span style="color: #666666">=</span> <span style="color: #008000">len</span>(x) <span style="color: #666666">-</span> <span style="color: #666666">1</span>
+C2 <span style="color: #666666">=</span> C<span style="color: #666666">**2</span>
+
+<span style="color: #408080; font-style: italic"># Задаем начальное условие</span>
+<span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(N<span style="color: #666666">+1</span>) :
+	y_1[i] <span style="color: #666666">=</span> I(x[i])
+
+<span style="color: #408080; font-style: italic"># Используем специальную формулу для расчета на первом</span>
+<span style="color: #408080; font-style: italic"># временном шаге с учетом du/dt = 0</span>
+<span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(N):
+	y[i] <span style="color: #666666">=</span> y_1[i] <span style="color: #666666">-</span> <span style="color: #666666">0.5*</span>C2(y_1[i<span style="color: #666666">+1</span>] <span style="color: #666666">-</span> <span style="color: #666666">2*</span>y_1[i] <span style="color: #666666">+</span> y_1[i<span style="color: #666666">-1</span>])
+y[<span style="color: #666666">0</span>] <span style="color: #666666">=</span> <span style="color: #666666">0</span>; y[N] <span style="color: #666666">=</span> <span style="color: #666666">0</span> <span style="color: #408080; font-style: italic"># Применяем граничные условия</span>
+
+<span style="color: #408080; font-style: italic"># Изменяем переменные перед переходом на следующий</span>
+<span style="color: #408080; font-style: italic"># временной слой</span>
+y_2[:], y_1[:] <span style="color: #666666">=</span> y_1, y
+
+<span style="color: #008000; font-weight: bold">for</span> n <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(K) :
+	<span style="color: #408080; font-style: italic"># Пересчитываем значения во внутренних узлах сетки на слое n+1</span>
+    <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #666666">1</span>, N) :
+	    y[i] <span style="color: #666666">=</span> <span style="color: #666666">2*</span>y_1[i] <span style="color: #666666">-</span> y_2[i] <span style="color: #666666">-</span> C2<span style="color: #666666">*</span>(y_1[i<span style="color: #666666">+1</span>] <span style="color: #666666">-</span> <span style="color: #666666">2*</span>y_1[i] <span style="color: #666666">+</span> y_1[i<span style="color: #666666">-1</span>])
+    <span style="color: #408080; font-style: italic"># Задаем граничные условия</span>
+    y[<span style="color: #666666">0</span>] <span style="color: #666666">=</span> <span style="color: #666666">0</span>; y[N] <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+    <span style="color: #408080; font-style: italic"># Изменяем переменные перед переходом на следующий</span>
+    <span style="color: #408080; font-style: italic"># временной слой</span>
+    y_2[:], y_1[:] <span style="color: #666666">=</span> y_1, y
+<span style="color: #408080; font-style: italic"># --- End snippet 1 ---</span>
+
+<span style="color: #408080; font-style: italic"># --- Start snippet 2 ---</span>
+i <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+ip1 <span style="color: #666666">=</span> i<span style="color: #666666">+1</span>
+im1 <span style="color: #666666">=</span> ip1  <span style="color: #408080; font-style: italic"># i-1 -&gt; i+1</span>
+y[i] <span style="color: #666666">=</span> y_1[i] <span style="color: #666666">+</span> gamma2<span style="color: #666666">*</span>(y_1[im1] <span style="color: #666666">-</span> <span style="color: #666666">2*</span>y[i] <span style="color: #666666">+</span> y_1[ip1])
+
+i <span style="color: #666666">=</span> N
+im1 <span style="color: #666666">=</span> i<span style="color: #666666">-1</span>
+ip1 <span style="color: #666666">=</span> im1  <span style="color: #408080; font-style: italic"># i+1 -&gt; i-1</span>
+y[i] <span style="color: #666666">=</span> y_1[i] <span style="color: #666666">+</span> gamma2<span style="color: #666666">*</span>(y_1[im1] <span style="color: #666666">-</span> <span style="color: #666666">2*</span>y[i] <span style="color: #666666">+</span> y_1[ip1])
+<span style="color: #408080; font-style: italic"># --- End snippet 2 ---</span>
+
+<span style="color: #408080; font-style: italic"># --- Start snippet 3 ---</span>
+<span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #666666">0</span>, N<span style="color: #666666">+1</span>):
+	ip1 <span style="color: #666666">=</span> i<span style="color: #666666">+1</span> <span style="color: #008000; font-weight: bold">if</span> i <span style="color: #666666">&lt;</span> N<span style="color: #666666">+1</span> <span style="color: #008000; font-weight: bold">else</span> i<span style="color: #666666">-1</span>
+	im1 <span style="color: #666666">=</span> i<span style="color: #666666">-1</span> <span style="color: #008000; font-weight: bold">if</span> i <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span> <span style="color: #008000; font-weight: bold">else</span> i<span style="color: #666666">+1</span>
+	y[i] <span style="color: #666666">=</span> y_1[i] <span style="color: #666666">+</span> gamma2<span style="color: #666666">*</span>(y_1[im1] <span style="color: #666666">-</span> <span style="color: #666666">2*</span>y[i] <span style="color: #666666">+</span> y_1[ip1])
+<span style="color: #408080; font-style: italic"># --- End snippet 3 ---</span>
+
+<span style="color: #408080; font-style: italic"># --- Start snippet 4 ---</span>
+<span style="color: #408080; font-style: italic"># Начальные условия</span>
+<span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> Ix[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>]:
+	y[i] <span style="color: #666666">=</span> y_1[i] <span style="color: #666666">-</span> <span style="color: #666666">0.5*</span>gamma2<span style="color: #666666">*</span>(y_1[i<span style="color: #666666">+1</span>] <span style="color: #666666">-</span> <span style="color: #666666">2*</span>y_1[i] <span style="color: #666666">+</span> y_1[i<span style="color: #666666">-1</span>])
+
+<span style="color: #408080; font-style: italic"># Цикл по времени</span>
+<span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> It[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>]:
+	<span style="color: #408080; font-style: italic"># Вычисление значений во внутренних узлах</span>
+	<span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> Ix[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>]:
+		y[i] <span style="color: #666666">=</span> <span style="color: #666666">2*</span>y_2[i] <span style="color: #666666">-</span> y_1[i] <span style="color: #666666">+</span> \
+		       gamma2<span style="color: #666666">*</span>(y_1[i<span style="color: #666666">+1</span>] <span style="color: #666666">-</span> <span style="color: #666666">2*</span>y_1[i] <span style="color: #666666">+</span> y_1[i<span style="color: #666666">-1</span>])
+	<span style="color: #408080; font-style: italic"># Вычисление граничных условий</span>
+	i <span style="color: #666666">=</span> Ix[<span style="color: #666666">0</span>]; y[i] <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+	i <span style="color: #666666">=</span> Ix[<span style="color: #666666">-1</span>]; y[i] <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+<span style="color: #408080; font-style: italic"># --- End snippet 4 ---</span>
+</pre></div>
+<p>
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "fdm-for-wave" -->
+<!-- doconce-section-nickname: "string_eq" -->
+
+<h1 id="fdm-for-wave:verif" class="anchor">Верификация программной реализации</h1>
+
+<p>
+Прежде чем реализовывать алгоритм, удобно добавить в уравнение
+<a href="#mjx-eqn-1">(1)</a> слагаемое, описывающее источник
+(правую часть), что даст свободу в выборе тестовых задач для
+верификации алгоритма.
+
+<h2 id="fdm-for-wave:verif:string_unhom" class="anchor">Неоднородное уравнение</h2>
+
+<p>
+Рассмотрим следующую смешанную задачу для неоднородного волнового
+уравнения:
+
+$$
+\begin{align}
+\tag{12}
+   \frac{\partial^2 u}{\partial t^2} &= c^2 \frac{\partial^2
+   u}{\partial x^2} + f(x, t), \quad x \in(0, l), \quad t \in (0,
+   T],\\ 
+\tag{13}
+   u(x,0) &= I(x), \quad x \in [0, l],\\ 
+\tag{14}
+   \frac{\partial u(x,0)}{\partial t} &= V(x), \quad x \in [0, l],\\ 
+\tag{15}
+   u(0, t) &= 0, \quad t \in (0, T],\\ 
+\tag{16}
+   u(l, t) &= 0, \quad t \in (0, T].
+\end{align}
+$$
+
+<p>
+Аппроксимируя задачу
+<a href="#mjx-eqn-12">(12)</a>--<a href="#mjx-eqn-16">(16)</a>
+(аналогично случаю однородного уравнения) разностной схемой второго
+порядка аппроксимации на сетке \( \omega_{h\tau} \), получим рекуррентное соотношение
+
+$$
+\begin{align}
+\tag{17}
+   y_i^{n+1} = 2 y_i^n - y_i^{n-1} + \gamma^2 (y_{i+1}^n - 2y_{i}^n +
+   y_{i-1}^n) + \tau^2 f_i^n, \\ 
+   i = 1, 2, \ldots, N-1, \ n = 1, 2, \ldots, K-1. \nonumber
+\end{align}
+$$
+
+<p>
+Кроме того аппроксимируя начальное условие
+<a href="#mjx-eqn-14">(14)</a> со вторым порядком
+
+$$
+   \frac{y_i^1 - y_i^{-1}}{2\tau} = V(x_i) \Rightarrow y_i^{-1} =
+   y_i^1 - 2\tau V(x_i),
+$$
+
+<p>
+для нахождения значений приближенного решения на первом временном слое
+получим
+
+$$
+\begin{equation}
+\tag{18}
+   y_i^1 = y_i^0 + \tau V(x_i) + \frac{\gamma^2}{2} \left( y_{i+1}^0 - 2 y_{i}^0 +
+   y_{i-1}^0 \right) + \frac{\tau^2}{2} f_i^0.
+\end{equation}
+$$
+
+<h2 id="fdm-for-wave:verif:analtic" class="anchor">Использование аналитического решения</h2>
+
+<p>
+Многие волновые задачи описывают синусоидальные по времени и
+пространству. Например, исходная задача
+<a href="#mjx-eqn-1">(1)</a>--<a href="#mjx-eqn-5">(5)</a>
+допускает точное решение 
+
+$$
+\begin{equation}
+\tag{19}
+   u_e(x,t) = A \sin \frac{\pi x}{l} \cos \frac{\pi c t}{l}
+\end{equation}
+$$
+
+<p>
+Это решение удовлетворяет однородному волновому уравнению, однородным
+граничным условиям, а также начальным условиям
+\( I(x) = A\sin\frac{\pi x}{l} \) и \( V = 0 \).
+
+<p>
+Обычной практикой является использование точного решения для
+тестирования программной реализации. Однако численное решение
+\( y_i^n \) --- это только некоторое приближение точного. Мы не
+знаем величину погрешности этого приближения и, следовательно, мы не
+можем знать возникает ли разница между \( y_i^n \) и
+\( u_e(x_i,t_n) \) из-за математического приближения или из-за
+ошибок в программе. В частности, когда графики приближенного и точного
+решений выглядят похоже, возникает соблазн сделать заключение о том,
+что программная реализация работает правильно. Однако, даже если
+графики выглядят похоже и точность кажется хорошей, все равно в
+программной реализации могут присутствовать существенные ошибки.
+
+<p>
+Единственный способ использовать точное решение вида
+<a href="#mjx-eqn-19">(19)</a> при верификации программы
+заключается в выполнении ряда расчетов, сгущая сетку, вычисляя
+интегральную погрешность на каждой сетке, и на основе этого оценить
+скорость сходимости метода.
+
+<p>
+В нашем случае порядок сходимости метода равен 2 (см. следующий
+раздел), значит, вычисленная скорость сходимости должна быть близка к
+2 на достаточно мелкой сетке.
+
+<h2 id="fdm-for-wave:verif:manufact" class="anchor">Пробные функции</h2>
+
+<p>
+Преимущество использования метода пробных функций заключается в том,
+что мы можем тестировать все варианты в задаче
+<a href="#mjx-eqn-12">(12)</a>--<a href="#mjx-eqn-16">(16)</a>. Идея
+метода заключается в том, что мы 
+выбираем некоторую функцию и получаем соответствующие правую часть,
+граничные и начальные условия, подставив эту функцию в задачу. Кроме
+того, мы можем выбирать функцию, которая удовлетворяет граничным
+условиям. Например,
+
+$$
+   u_e(x,t) = x(l - x) \sin t.
+$$
+
+<p>
+Подставляя эту функцию в уравнение
+<a href="#mjx-eqn-12">(12)</a>, получаем 
+
+$$
+   -x(l-x) \sin t = -c^2 2\sin t + f \Rightarrow f = (2 c^2 -
+   x(l-x)) \sin t
+$$
+
+<p>
+Начальные условия будут следующие
+
+$$
+   u(x,0) = I(x) = 0, \\ 
+   \frac{\partial u(x,0)}{\partial t} = V(x) = x(l - x).
+$$
+
+<p>
+Для проверки программного кода, также нужно провести серию расчетов на
+последовательности сгущающихся сеток, чтобы оценить скорость
+сходимости в предположении, что некоторая мера \( E \) погрешности
+зависит от шагов сетки следующим образом
+
+$$
+   E = C_t \tau^r + C_x h^p,
+$$
+
+<p>
+где \( C_t, C_x, r \) и \( p \) --- постоянные. Постоянные
+\( r \) и \( p \) характеризуют порядок сходимости по времени и
+пространству соответственно. Из анализа погрешности аппроксимации
+разностной схемы, мы ожидаем, что \( r = p = 2 \).
+
+<p>
+Используя точное решение дифференциальной задачи, мы можем вычислить
+меру погрешности \( E \) на последовательности сгущающихся сеток и
+проверить наличие второго порядка точности \( r = p = 2 \). Мы не
+будем оценивать константы \( C_t \) и \( C_x \).
+
+<p>
+Удобно ввести один параметр дискретизации \( d = \tau = \hat{c} h \)
+с некоторой константой \( \hat{c} \). Так как \( \tau \) и
+\( h \) связаны числом Куранта \( \tau = \gamma h/c \), положим
+\( d = \tau \), тогда \( h = d c/\gamma \). Теперь выражения для меры в
+случае, когда \( p=r \), погрешности упрощается
+
+$$
+   E = C_t \tau^r + C_x h^r = C_t d^r + C_x \left( \frac{c}{\gamma}
+   \right)^r d^r = D d^r, \quad
+   D = C_t + C_x \left( \frac{c}{\gamma}\right)^r.
+$$
+
+<p>
+Выбирая начальный параметр дискретизации \( d_0 \), проводим серию
+расчетов для последовательности уменьшающихся шагов \( d_k = 
+2^{-k} d_0 \). Уменьшение шага в два раза необязательно, это обычный
+выбор. Для каждого расчета следует сохранять \( E \) и
+\( d \). Наиболее часто в качестве меры погрешности используются
+\( \ell^2 \)- или \( \ell^{\infty} \)-нормы сеточной функции
+погрешности \( e_i^n \):
+
+$$
+\begin{align}
+\tag{20}
+   E &= \| e_i^n\|_{\ell^2} = \left( \sum_{n = 0}^{K} \tau \sum_{i =
+   0}^{K} (e_i^n)^2 \right)^{1/2}, \quad
+   e_i^n = u_e(x_i, t_n) - y_i^n,\\ 
+\tag{21}
+   E &= \| e_i^n \|_{\ell^{\infty}} = \max_{i,n} |e_i^n|.
+\end{align}
+$$
+
+<p>
+При программной реализации на языке Python мы можем вычислить на
+каждом временном шаге \( \sum_{i} (e_i^n)^2 \), а затем аккумулировать
+значение в некоторой переменной, например, <code>e2_sum</code>. А на последнем
+временном шаге выполнить что-то подобное <code>sqrt(dt*dx*e2_sum)</code>. Для
+\( \ell^{\infty} \)-нормы нужно сравнить максимум погрешности на
+временном слое <code>e.max()</code> с глобальной погрешностью, полученной на предыдущих
+временных слоях, например, так: <code>e_max = max(e_max, e.max())</code>.
+
+<p>
+Альтернативный способ измерения погрешности состоит в использовании
+только пространственной нормы на временном шаге, например, при
+значении времени \( T \) (\( n = K \)):
+
+$$
+\begin{align}
+\tag{22}
+   E &= \| e_i^K \|_{\ell^2} = \left( \sum_{i =
+   0}^{K} (e_i^K)^2 \right)^{1/2}, \quad
+   e_i^K = u_e(x_i, t_K) - y_i^K,\\ 
+\tag{23}
+   E &= \| e_i^K \|_{\ell^{\infty}} = \max_{0 \leq i \leq N} |e_i^K|.
+\end{align}
+$$
+
+<p>
+Главное, что мера погрешности \( E \) --- это одно число.
+
+<p>
+Пусть \( E_k \) --- мера погрешности при расчете с номером \( k \)
+и пусть \( h_k \) --- соответствующий параметр
+дискретизации. Учитывая, что \( E_k = D d_k^r \) мы можем оценить
+\( r \), сравнивая два последовательных расчета
+
+$$
+   E_{k+1} = D d_{k+1}^r, \quad
+   E_k = D d_k^r.
+$$
+
+Отсюда, выражая \( r \), получим
+
+$$
+   r_k = \frac{\ln E_{k+1}/E_k}{\ln d_{k+1}/d_k}.
+$$
+
+<p>
+Так как \( r \) зависит от \( k \), то добавили индекс к
+\( r \): \( r_k \), \( k = 0, 1, \ldots, m - 2 \), где \( m \)
+--- количество проведенных расчетов: \( (d_0, E_0), (d_1, E_1),\ldots, (d_m, E_m) \).
+
+<p>
+В нашем случае ожидается, что \( r = 2 \) и, следовательно,
+последовательность \( r_k \) должна стремиться к \( 2 \) с ростом
+\( k \).
+
+<h2 id="fdm-for-wave:verif:fdm_ex_sol" class="anchor">Построение точного решения дискретной задачи</h2>
+
+<p>
+Используя метод пробных функций и точное аналитическое решение
+дифференциальной задачи, как упоминалось выше, мы можем оценить
+скорость сходимости и правильное асимптотическое поведение. Опыт
+показывает, что этот способ верификации достаточно хорош, так как
+многие ошибки в программной реализации приводят к нарушению скорости
+сходимости. Однако нам кажется, что для верификации программной
+реализации, более точный тест тот, который позволяет проверить
+совпадает ли численное решение с тем, которое точно должно быть. Это
+требует точного знания численной погрешности, которого мы обычно не
+можем получить. Однако, можно рассмотреть решение, для которого
+численная погрешность равна нулю, т.е. решение исходной
+дифференциальной задачи, которое так же является точным решением
+разностной схемы. Это часто возникает, когда решением дифференциальной
+задачи является полином небольшой степени. (Анализ погрешности
+аппроксимации приводит к оценке погрешности, содержащей производные
+решения. В нашем случае, погрешность аппроксимации содержит
+производные четвертого порядка по пространству и времени. Выбирая
+в качестве точного решения полином степени не выше третьей, мы получим
+погрешность равную нулю.)
+
+<p>
+Рассмотрим построение точного решения как дифференциальной так и
+разностной задачи. Выберем в качестве пробной функции полиномиальную
+(второго порядка по пространственной переменной и первого по временной
+переменной):
+
+$$
+\begin{equation}
+\tag{24}
+   u_e(x,t) = x(l - x)(1 + 0.5 t),
+\end{equation}
+$$
+
+<p>
+которое дает \( f(x,t) = 2(1+t)c^2 \). Это решение удовлетворяет
+однородным граничным условиям <a href="#mjx-eqn-15">(15)</a>
+и <a href="#mjx-eqn-16">(16)</a>, а также начальным условиям
+<a href="#mjx-eqn-13">(13)</a> с \( I(x) = x(l - x) \) и
+<a href="#mjx-eqn-14">(14)</a> с \( V(x) = 0.5 x(l - x) \).
+
+<p>
+Чтобы убедиться, что \( u_e \) является точным решением разностной
+схемы выполним вычисления
+
+$$
+\begin{align*}
+   u_{e\bar{t}t,i}^n &= x_i(x_i-l) (t)_{\bar{t}t}^n \nonumber\\ 
+   &= x_i(x_i-l) \frac{1 + 0.5t_{n+1} - 2 - t_n + 1 + 0.5t_{n-1}}{\tau^2} \nonumber\\ 
+   &=
+   x_i(x_i-l) \tau \frac{0.5(n+1) - n + 0.5(n-1)}{\tau^2} = 0, \nonumber\\ 
+   u_{e\bar{x}x,i}^n &= (1 + 0.5 t_n) (l x - x^2)_{\bar{x}x,i} \nonumber\\ 
+   &= (1 + 0.5t_n) (l(x)_{\bar{x}x,i} - (x^2)_{\bar{x}x,i}) \nonumber\\ 
+   &= - (1 + 0.5t_n) \frac{x_{i+1}^2 - 2x_i^2 + x_{i-1}^2}{h^2} \nonumber\\ 
+   &= - (1 + 0.5t_n) h^2 \frac{(i+1)^2 - 2i^2 + (i-1)^2}{h^2} \nonumber\\ 
+   &= -2(1 + 0.5 t_n). \nonumber
+\end{align*}
+$$
+
+<p>
+Отсюда, \( f_i^n = 2(1 + 0.5 t_n)c^2 \). Кроме того,
+\( u_e(x_i,0) = I(x_i) \) и \( \frac{\partial u(x,0)}{\partial 
+t} = V(x_i) \), а также \( u_e(x_i,t_n) \) удовлетворяет разностному
+уравнению для вычисления приближенного решения на первом временном
+шаге <a href="#mjx-eqn-18">(18)</a>.
+
+<p>
+Таким образом, точное решение дифференциальной задачи
+<a href="#mjx-eqn-24">(24)</a> 
+является точным решением разностной схемы. Мы
+можем использовать его для проверки совпадения вычисленного
+приближенного решения \( y_i^n \) со значением \( u_e(x_i, t_n) \)
+с учетом машинной точности, независимо от значения временных шагов
+\( h \) и \( \tau \). Тем не менее, следует учитывать ограничения
+на шаги из условия устойчивости, т.е. тесты следует выполнять только
+на сетках удовлетворяющих условию устойчивости, которое в нашем случае
+имеет вид \( \gamma \leq 1 \) и будет получено позже.
+
+<p>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+  <h3 class="panel-title">Замечание</h3>
+  </div>
+<div class="panel-body">
+<p> <!-- subsequent paragraphs come in larger fonts, so start with a paragraph -->
+Произведение квадратичного или линейного выражений от разных
+независимых переменных, как показано выше, часто является точным
+решением как дифференциальной так и разностной задач, и может
+использоваться для верификации программной реализации алгоритма.
+
+<p>
+Однако, для одномерного волнового уравнения вида
+\( \frac{\partial^2 u}{\partial t^2} = c^2 \frac{\partial^2
+u}{\partial t^2} \), как мы увидим далее, существует другой способ
+генерации точных решений, который состоит в только выборе числа
+Куранта равным единице, \( \gamma = 1 \)!
+</div>
+</div>
+
+
+<p>
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "fdm-for-wave" -->
+<!-- doconce-section-nickname: "verif" -->
+<!-- End: -->
+<p>
+<!-- navigation buttons at the bottom of the page -->
+<ul class="pager">
+  <li class="previous">
+    <a href="._fdm-for-wave-readable000.html">&larr; Prev</a>
+  </li>
+  <li class="next">
+    <a href="._fdm-for-wave-readable002.html">Next &rarr;</a>
+  </li>
+</ul>
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+

@@ -1,0 +1,412 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Упражнения</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+
+        <script src="http://sagecell.sagemath.org/static/jquery.min.js"></script>
+        <script src="http://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+
+        <script>sagecell.makeSagecell({inputLocation: ".sage"});</script>
+
+        <style type="text/css">
+                .sagecell .CodeMirror-scroll {
+                        overflow-y: hidden;
+                        overflow-x: auto;
+                }
+                .sagecell .CodeMirror {
+                        height: auto;
+                }
+        </style>
+
+    
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Разностные схемы для волнового уравнения" href="index.html"/>
+        <link rel="next" title="Обобщения: отражающие границы" href="._main_fdm-for-wave004.html"/>
+        <link rel="prev" title="Программная реализация" href="._main_fdm-for-wave002.html"/>
+ 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+
+       <style type="text/css">
+         div.admonition {
+           background-color: whiteSmoke;
+           border: 1px solid #bababa;
+         }
+       </style>
+      </head>
+    
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Разностные схемы для волнового уравнения
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave000.html">Разностные схемы для волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html">Разностная схема для одномерного волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif">Верификация программной реализации</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html">Программная реализация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-vect">Векторизация</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Упражнения</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#exercise-1">Exercise 1: Моделирование стоячей волны</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#remarks">Remarks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#exercise-2">Exercise 2: Добавить сохранение решения в функции действий пользователя</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercise-3">Exercise 3: Использование класса для функции действий пользователя</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercise-4">Exercise 4: Сравнение нескольких чисел Куранта на одном видео</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-5">Project 5: Исчисления с одномерными сеточными функциями</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html">Обобщения: отражающие границы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-varvel">Обобщения: переменная скорость распространения волны</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-damping">Обобщения: затухания</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver">Разработка общего солвера для одномерного волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave005.html">Упражнения</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Разностные схемы для волнового уравнения</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Упражнения</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/._main_fdm-for-wave003.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fdm-for-wave-exercises">
+<span id="id1"></span><h1>Упражнения<a class="headerlink" href="#fdm-for-wave-exercises" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="exercise-1">
+<span id="fdm-for-wave-exercises-1"></span><h2>Exercise 1: Моделирование стоячей волны<a class="headerlink" href="#exercise-1" title="Permalink to this headline">¶</a></h2>
+<p>Цель данного упражнения &#8212; провести моделирование стоячей волны на
+отрезке <span class="math">\([0, l]\)</span> и проиллюстрировать расчет
+погрешности. Стоячие волны порождаются начальным условием</p>
+<div class="math">
+\[u(x,0) = A \sin \frac{\pi m x}{l}\]</div>
+<p>где <span class="math">\(m\)</span> &#8212; целое число, <span class="math">\(A\)</span> &#8212; заданная
+амплитуда. Соответствующее точное решение может быть получено:</p>
+<div class="math">
+\[u_e(x, t) = A \sin\frac{\pi m x}{l} \cos\frac{\pi m c t}{l}.\]</div>
+<ol class="arabic simple">
+<li>Показать, что для функции <span class="math">\(\sin kx \cos \omega t\)</span> длина волны в</li>
+</ol>
+<blockquote>
+<div>пространстве <span class="math">\(\lambda = 2\pi/k\)</span> и период по времени <span class="math">\(P =
+2\pi/\omega\)</span>. Используйте эти выражения для нахождения соответствующих
+пространственной длины волны и периода по времени функции <span class="math">\(u_e\)</span>.</div></blockquote>
+<ol class="arabic simple" start="2">
+<li>Импортировать функцию <code class="docutils literal"><span class="pre">solver</span></code> из сценария</li>
+</ol>
+<blockquote>
+<div><a class="reference external" href="src-fdm-for-wave/wave1d_1.py">wave1d_1.py</a> в новый файл, где
+функция <code class="docutils literal"><span class="pre">viz</span></code> будет реализована так, что будут строится
+графики содержащие или численное и точное решение, или
+погрешность.</div></blockquote>
+<ol class="arabic simple" start="3">
+<li>Создать анимацию, где будет иллюстрироваться как погрешность</li>
+</ol>
+<blockquote>
+<div><span class="math">\(e_i^n = u(x,t_n) - y_i^n\)</span> будет расти и уменьшаться со
+временем. Также создать анимацию совместно изменяющихся
+<span class="math">\(y\)</span> и <span class="math">\(u_e\)</span>.</div></blockquote>
+<p><strong>Hint 1.</strong>
+Необходим достаточно длинный расчет, чтобы увидеть существенное
+несоответствие между точным и приближенным решениями.</p>
+<p><strong>Hint 2.</strong>
+Возможный набор параметров: <span class="math">\(l = 12\)</span>, <span class="math">\(m = 9\)</span>, <span class="math">\(c=2\)</span>, <span class="math">\(A=1\)</span>, <span class="math">\(N_x =
+80\)</span>, <span class="math">\(\gamma = 0.8\)</span>. Сеточная функция погрешности <span class="math">\(e^n\)</span> можно вычислить
+для 10 периодов, в то время как для того, чтобы увидеть существенную
+разницу между точным и приближенным решениями, нужно 20 - 30 периодов.</p>
+<p>Filename: <code class="docutils literal"><span class="pre">wave_standing.py</span></code>.</p>
+<div class="section" id="remarks">
+<h3>Remarks<a class="headerlink" href="#remarks" title="Permalink to this headline">¶</a></h3>
+<p>Важными параметрами, влияющими на качество численного решения,
+являются число Куранта <span class="math">\(\gamma=c\tau/h\)</span> и соотношение <span class="math">\(kh\)</span>,
+пропорциональное числу узлов сетки на длину волны.</p>
+</div>
+</div>
+<div class="section" id="exercise-2">
+<span id="fdm-for-wave-exercises-2"></span><h2>Exercise 2: Добавить сохранение решения в функции действий пользователя<a class="headerlink" href="#exercise-2" title="Permalink to this headline">¶</a></h2>
+<p>Расширить функцию <code class="docutils literal"><span class="pre">plot_u</span></code> в файле
+<a class="reference external" href="src-fdm-for-wave/wave1d_1.py">wave1d_1.py</a>, чтобы также сохранялось
+решение <code class="docutils literal"><span class="pre">y</span></code> в
+список. С этой целью объявите в функции <code class="docutils literal"><span class="pre">viz</span></code> вне <code class="docutils literal"><span class="pre">plot_u</span></code>
+переменную <code class="docutils literal"><span class="pre">all_u</span></code> как пустой список выполните операцию
+добавления элемента к списку внутри функции <code class="docutils literal"><span class="pre">plot_u</span></code>. Заметьте,
+что функция, как <code class="docutils literal"><span class="pre">plot_u</span></code>, внутри другой функции, как <code class="docutils literal"><span class="pre">viz</span></code>,
+помнит все локальные переменные функции <code class="docutils literal"><span class="pre">viz</span></code>, включая <code class="docutils literal"><span class="pre">all_u</span></code>,
+даже когда <code class="docutils literal"><span class="pre">plot_u</span></code> вызывается (как <code class="docutils literal"><span class="pre">user_action</span></code>) из функции
+<code class="docutils literal"><span class="pre">solver</span></code>. Протестируйте как <code class="docutils literal"><span class="pre">all_u.append(y)</span></code> так и
+<code class="docutils literal"><span class="pre">all_u.append(y.copy)</span></code>. Почему одна из этих конструкций не
+выполняет сохранение решения корректно? Пусть функция <code class="docutils literal"><span class="pre">viz</span></code>
+возвращает список <code class="docutils literal"><span class="pre">all_u</span></code>, преобразованный в двумерный массив
+<code class="docutils literal"><span class="pre">numpy</span></code>.
+Filename: <code class="docutils literal"><span class="pre">wave1d_1_store.py</span></code>.</p>
+</div>
+<div class="section" id="exercise-3">
+<span id="fdm-for-wave-exercises-3"></span><h2>Exercise 3: Использование класса для функции действий пользователя<a class="headerlink" href="#exercise-3" title="Permalink to this headline">¶</a></h2>
+<p>Переделать <a class="reference internal" href="#fdm-for-wave-exercises-2"><span class="std std-ref">Exercise 2: Добавить сохранение решения в функции действий пользователя</span></a>, используя класс для функции
+<code class="docutils literal"><span class="pre">user_action</span></code>, т.е. определить класс <code class="docutils literal"><span class="pre">Action</span></code>, у которого
+список <code class="docutils literal"><span class="pre">all_u</span></code> является свойством, и реализовать функцию действий
+пользователя как метод этого класса (специальный метод <code class="docutils literal"><span class="pre">__call__</span></code>
+&#8212; естественный выбор). Такая версия исключает ситуацию, когда
+функция действий пользователя зависит от параметров, определенных
+вне функции (такую как в  <a class="reference internal" href="#fdm-for-wave-exercises-2"><span class="std std-ref">Exercise 2: Добавить сохранение решения в функции действий пользователя</span></a>).
+Filename: <code class="docutils literal"><span class="pre">wave1d_1_s2c.py</span></code>.</p>
+</div>
+<div class="section" id="exercise-4">
+<span id="fdm-for-wave-exercises-4"></span><h2>Exercise 4: Сравнение нескольких чисел Куранта на одном видео<a class="headerlink" href="#exercise-4" title="Permalink to this headline">¶</a></h2>
+<p>Цель упражнения &#8212; сделать видео, на котором отображается
+несколько кривых, соответствующих разным числам
+Куранта. Импортировать <code class="docutils literal"><span class="pre">solver</span></code> из
+<a class="reference external" href="src-fdm-for-wave/wave1d_1.py">wave1d_1.py</a>
+в новый файл <code class="docutils literal"><span class="pre">wave_compare.py</span></code>. Заново
+реализовать функцию <code class="docutils literal"><span class="pre">viz</span></code> так, чтобы она получала в качестве
+аргумента список значений <code class="docutils literal"><span class="pre">gamma</span></code> и создавала анимацию с
+решениями, соответствующими заданным значениям <code class="docutils literal"><span class="pre">gamma</span></code>. Функция
+<code class="docutils literal"><span class="pre">plot_u</span></code> должна быть изменена для того, чтобы сохранять значения
+в массив (см. <a class="reference internal" href="#fdm-for-wave-exercises-2"><span class="std std-ref">Exercise 2: Добавить сохранение решения в функции действий пользователя</span></a> или
+<a class="reference internal" href="#fdm-for-wave-exercises-3"><span class="std std-ref">Exercise 3: Использование класса для функции действий пользователя</span></a>), <code class="docutils literal"><span class="pre">solver</span></code> должен выполняться для
+каждого значения числа Куранта, и, наконец, на всех временных слоях
+должны быть построены графики решений и решения должны быть сохранены
+в файл.</p>
+<p>Главная проблема такой визуализации заключается в том, что мы
+должны быть уверены, что графики решений на одном кадре
+соответствуют одному и тому же моменту времени. Простейший способ
+устранения проблемы &#8212; это оставить шаги по времени и пространству
+постоянными, а менять скорость волны <span class="math">\(c\)</span> для того, чтобы
+изменялось число Куранта.
+Filename: <code class="docutils literal"><span class="pre">wave_compare.py</span></code>.</p>
+</div>
+<div class="section" id="project-5">
+<span id="fdm-for-wave-exercises-pr1"></span><h2>Project 5: Исчисления с одномерными сеточными функциями<a class="headerlink" href="#project-5" title="Permalink to this headline">¶</a></h2>
+<p>Этот проект &#8212; изучение интегрирования и дифференцирования сеточных
+функций, как в скалярной так и в векторизованной реализации. Пусть задана
+сеточная функция <span class="math">\(f_i\)</span> на одномерной пространственной сетке</p>
+<div class="math">
+\[\omega_h = \{ x_i = a + ih, \ i = 0, 1, \ldots N, \  h = (b - a)/N
+\},\]</div>
+<p>заданной на отрезке <span class="math">\([a, b]\)</span>.</p>
+<dl class="docutils">
+<dt><strong>1)</strong> Определить разностную производную от <span class="math">\(f_i\)</span>, используя центральную</dt>
+<dd>производную во внутренних узлах секи и
+направленные производные на концах отрезков. Реализовать программно
+скалярную версию вычислений в виде функции Python и написать
+соответствующий юнит-тест для линейной функции <span class="math">\(f(x) = 4x -
+2.5\)</span>, для которой разностные производные должны совпадать с
+непрерывными.</dd>
+<dt><strong>2)</strong> Векторизовать реализацию вычисления разностных производных.</dt>
+<dd>Расширить юнит-тест для проверки адекватности такой реализации.</dd>
+<dt><strong>3)</strong> Для вычисления дискретного интеграла <span class="math">\(F_i\)</span> от <span class="math">\(f_i\)</span>,</dt>
+<dd>предположим, что сеточная функция <span class="math">\(f_i\)</span> изменяется линейно
+между узлами сетки (линейна или кусочно-линейна). Пусть <span class="math">\(f(x)\)</span> &#8212;
+линейная интерполяция <span class="math">\(f_i\)</span>. Тогда имеем</dd>
+</dl>
+<div class="math">
+\[F_i = \int_{x_0}^{x_i} f(x)dx\]</div>
+<p>Точный интеграл кусочно-линейной от функции <span class="math">\(f(x)\)</span> дается формулой
+трапеций. Показать, что если вычислено значение <span class="math">\(F_i\)</span>, то <span class="math">\(F_{i+1}\)</span>
+можно получить следующим образом</p>
+<div class="math">
+\[F_{i+1} = F_i + \frac{1}{2} \left( f_i + f_{i+1} \right)h\]</div>
+<p>Создать функцию скалярной реализации дискретного интеграла как
+сеточной функции. Это значит, что функция должна возвращать <span class="math">\(F_i\)</span> для
+<span class="math">\(i = 0, 1, \ldots, N\)</span>. Для юнит-тестирования используйте тот факт, что
+описанный выше дискретный интеграл от линейной функции (например,
+<span class="math">\(f(x) = 4x - 2.5\)</span>) дает точное значение интеграла.</p>
+<p><strong>4)</strong> Векторизовать программную реализацию дискретного
+интеграла. Расширить юнит-тест для проверки адекватности такой
+реализации.</p>
+<p><strong>5)</strong> Создать класс <code class="docutils literal"><span class="pre">MeshCalculus</span></code>, который позволит интегрировать и
+дифференцировать сеточные функции. В классе должны быть определены
+методы, которые вызывают созданные раньше функции. Ниже приведен
+пример использования класса:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="n">calc</span> <span class="o">=</span> <span class="n">MeshCalculus</span><span class="p">(</span><span class="n">vectorized</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>     <span class="c1"># сетка</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                 <span class="c1"># сеточная функция</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">differentiate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="c1"># разностная производная</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>      <span class="c1"># дискретный интеграл</span>
+</pre></div>
+</div>
+<p><strong>Hint.</strong>
+Представьте рекуррентную формулу для <span class="math">\(F_{i+1}\)</span> в виде суммы. Создайте
+массив, содержащий элементы суммы, и используйте &#8220;cumsum&#8221;
+(<code class="docutils literal"><span class="pre">numpy.cumsum</span></code>) операцию для вычисления накапливаемой суммы:
+<code class="docutils literal"><span class="pre">numpy.cumsum([1</span> <span class="pre">,3,</span> <span class="pre">5])</span></code> даст <code class="docutils literal"><span class="pre">[1,</span> <span class="pre">4,</span> <span class="pre">9]</span></code>.</p>
+<p>Filename: <code class="docutils literal"><span class="pre">mesh_calculus_1d.py</span></code>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="._main_fdm-for-wave004.html" class="btn btn-neutral float-right" title="Обобщения: отражающие границы" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="._main_fdm-for-wave002.html" class="btn btn-neutral" title="Программная реализация" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, С.В. Лемешевский.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

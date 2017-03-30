@@ -1,0 +1,1247 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Обобщения: отражающие границы</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+
+        <script src="http://sagecell.sagemath.org/static/jquery.min.js"></script>
+        <script src="http://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+
+        <script>sagecell.makeSagecell({inputLocation: ".sage"});</script>
+
+        <style type="text/css">
+                .sagecell .CodeMirror-scroll {
+                        overflow-y: hidden;
+                        overflow-x: auto;
+                }
+                .sagecell .CodeMirror {
+                        height: auto;
+                }
+        </style>
+
+    
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Разностные схемы для волнового уравнения" href="index.html"/>
+        <link rel="next" title="Упражнения" href="._main_fdm-for-wave005.html"/>
+        <link rel="prev" title="Упражнения" href="._main_fdm-for-wave003.html"/>
+ 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+
+       <style type="text/css">
+         div.admonition {
+           background-color: whiteSmoke;
+           border: 1px solid #bababa;
+         }
+       </style>
+      </head>
+    
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Разностные схемы для волнового уравнения
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave000.html">Разностные схемы для волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html">Разностная схема для одномерного волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif">Верификация программной реализации</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html">Программная реализация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-vect">Векторизация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave003.html">Упражнения</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Обобщения: отражающие границы</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-refl-neumann">Граничные условия Неймана</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-refl-deriv-appr">Аппроксимация производной на границе</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-refl-impl">Программная реализация условий Неймана</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-refl-idx-set">Обозначение множеств индексов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-refl-ver">Верификация реализации граничных условий Неймана</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-refl-ghost">Реализация граничных условий Неймана с использованием мнимых ячеек</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fdm-for-wave-refl-ghost-idea">Идея</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fdm-for-wave-refl-ghost-impl">Программная реализация</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#fdm-for-wave-varvel">Обобщения: переменная скорость распространения волны</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-varvel-model">Модельное уравнение с переменными коэффициентами</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-varvel-coeff-appr">Аппроксимация переменных коэффициентов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-varvel-neumann">Условия Неймана и переменные коэффициенты</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-varvel-more-gen">Более общее уравнение с переменными коэффициенты</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#fdm-for-wave-damping">Обобщения: затухания</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#fdm-for-wave-gen-solver">Разработка общего солвера для одномерного волнового уравнения</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-gen-solver-user-action">Реализация функции действий полозователя в виде класса</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fdm-for-wave-gen-solver-code">Код</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fdm-for-wave-gen-solver-dissect">Разбор</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-gen-solver-pulse">Распространение импульса в двух средах</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave005.html">Упражнения</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Разностные схемы для волнового уравнения</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Обобщения: отражающие границы</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/._main_fdm-for-wave004.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fdm-for-wave-refl">
+<span id="id1"></span><h1>Обобщения: отражающие границы<a class="headerlink" href="#fdm-for-wave-refl" title="Permalink to this headline">¶</a></h1>
+<p>Граничные условия <span class="math">\(u = 0\)</span> для волнового уравнения означают
+отражение волны, но при этом <span class="math">\(u\)</span> меняет знак на границе, условие
+же <span class="math">\(\frac{\partial u}{\partial x} = 0\)</span> на границе означает
+отражение волны с сохранением знака решения.</p>
+<span class="target" id="index-0"></span><p id="index-1">Следующая задача, которую мы рассмотрим заключается в реализации
+граничного условия второго рода (<em>условие Неймана</em>)
+<span class="math">\(\frac{\partial u}{\partial x} = 0\)</span>, которое
+является более сложным для численной реализации, чем <em>условие Дирихле</em>,
+т.е. при заданном значении <span class="math">\(u\)</span> на границе. Ниже мы приведем два
+способа разностной аппроксимации условий Неймана: один из них
+основан на построении модифицированного шаблона вблизи границы, а
+второй основан на расширении сетки мнимыми ячейками и узлами.</p>
+<div class="section" id="fdm-for-wave-refl-neumann">
+<span id="id2"></span><h2>Граничные условия Неймана<a class="headerlink" href="#fdm-for-wave-refl-neumann" title="Permalink to this headline">¶</a></h2>
+<p>Для описания процесса, когда волна ударяется в границу и отражается
+назад, используется условие</p>
+<div class="math" id="eq-fdm-for-wave-refl-eq-neumann">
+\[\tag{27}
+\frac{\partial u}{\partial \mathbf{n}} \equiv \mathbf{n} \cdot
+       \nabla u = 0,\]</div>
+<p>где <span class="math">\(\partial/\partial\mathbf{n}\)</span> &#8212; производная вдоль нормали,
+внешней к границе. В одномерном случае (отрезок <span class="math">\([0,l]\)</span>), имеем</p>
+<div class="math">
+\[\frac{\partial}{\partial\mathbf{n}}\Bigg|_{x = l} =
+\frac{\partial}{\partial x}, \quad
+\frac{\partial}{\partial\mathbf{n}}\Bigg|_{x = 0} =
+-\frac{\partial}{\partial x}\]</div>
+</div>
+<div class="section" id="fdm-for-wave-refl-deriv-appr">
+<span id="id3"></span><h2>Аппроксимация производной на границе<a class="headerlink" href="#fdm-for-wave-refl-deriv-appr" title="Permalink to this headline">¶</a></h2>
+<p>Построим аппроксимацию граничного условия
+<a class="reference internal" href="#eq-fdm-for-wave-refl-eq-neumann"><span class="std std-ref">(27)</span></a> со
+вторым порядком аппроксимации по пространственной переменной. Для
+этого воспользуемся центральной разностной производной:</p>
+<div class="math" id="eq-fdm-for-wave-refl-eq-neumann-appr">
+\[\tag{28}
+y_{\mathring{x},0}^n = \frac{y_{1}^n - y_{-1}^n}{2h} = 0.\]</div>
+<p>Проблема заключается в том, что <span class="math">\(y_{-1}^n\)</span> не является расчетным
+значением, так как задано в нерасчетном узле не принадлежащем
+сетке. Однако, если мы объединим
+<a class="reference internal" href="#eq-fdm-for-wave-refl-eq-neumann-appr"><span class="std std-ref">(28)</span></a> с разностным
+уравнением <a class="reference internal" href="._main_fdm-for-wave001.html#eq-fdm-for-wave-string-eq-eq-fds-rec"><span class="std std-ref">(8)</span></a>, записанным в узле
+<span class="math">\(i = 0\)</span>:</p>
+<div class="math" id="eq-fdm-for-wave-refl-eq-fds-0">
+\[\tag{29}
+y_0^{n+1} = 2y_0^{n} - y_0^{n-1} + \gamma^2 (y_{1}^n - 2y_{0}^n +
+       y_{-1}^n),\]</div>
+<p>мы можем исключить фиктивное значение <span class="math">\(y_{-1}^n\)</span>. Учитывая
+<a class="reference internal" href="#eq-fdm-for-wave-refl-eq-neumann-appr"><span class="std std-ref">(28)</span></a>, имеем <span class="math">\(y_{-1}^n = y_1^n\)</span>. Подставив
+последнее в
+<a class="reference internal" href="#eq-fdm-for-wave-refl-eq-fds-0"><span class="std std-ref">(29)</span></a>, получим модифицированное уравнение в
+граничной точке <span class="math">\(y_0^{n+1}\)</span>:</p>
+<div class="math" id="eq-fdm-for-wave-refl-eq-neumann-modif">
+\[\tag{30}
+y_0^{n+1} = 2y_0^{n} - y_0^{n-1} + 2\gamma^2 (y_{1}^n - 2y_{0}^n).\]</div>
+<p>На рис. <a class="reference internal" href="#fdm-for-wave-refl-fig-1"><span class="std std-ref">Модифицированный шаблон на левой границе для аппроксимации условия Неймана</span></a> представлен шаблон схемы на левой
+границе области с учетом аппроксимации условия Неймана.</p>
+<div class="figure" id="id21">
+<span id="fdm-for-wave-refl-fig-1"></span><a class="reference internal image-reference" href="_images/wave_bound_templ.png"><img alt="_images/wave_bound_templ.png" src="_images/wave_bound_templ.png" style="width: 300px;" /></a>
+<p class="caption"><span class="caption-text"><em>Модифицированный шаблон на левой границе для аппроксимации условия Неймана</em></span></p>
+</div>
+<p>Аналогично, получаем апрокссимацию условия
+<a class="reference internal" href="#eq-fdm-for-wave-refl-eq-neumann"><span class="std std-ref">(27)</span></a> на
+правой границе <span class="math">\(x = l\)</span>:</p>
+<div class="math">
+\[y_{\mathring{x},N} = \frac{y_{N+1}^n - y_{N-1}^n}{2h} = 0\]</div>
+<p>Объединяя последнее с разностным уравнением <a class="reference internal" href="._main_fdm-for-wave001.html#eq-fdm-for-wave-string-eq-eq-fds-rec"><span class="std std-ref">(8)</span></a>
+при <span class="math">\(i = N\)</span> получим модифицированное уравнение на правой
+границе:</p>
+<div class="math">
+\[y_N^{n+1} = 2y_N^n - y_N^{n-1} + 2\gamma^2(y_{N-1}^n - y_{N}^n).\]</div>
+<p>Кроме того, на границах нужно построить модификацию разностного
+уравнения <a class="reference internal" href="._main_fdm-for-wave001.html#eq-fdm-for-wave-string-eq-eq-y1"><span class="std std-ref">(11)</span></a> для вычисления значений
+на первом временном шаге.</p>
+</div>
+<div class="section" id="fdm-for-wave-refl-impl">
+<span id="id4"></span><h2>Программная реализация условий Неймана<a class="headerlink" href="#fdm-for-wave-refl-impl" title="Permalink to this headline">¶</a></h2>
+<p>В предыдущем пункте мы вывели специальные формулы для расчета вблизи
+границ. При этом, учитывая аппроксимацию условий Неймана центральной
+разностной производной, мы заменили значения <span class="math">\(y_{-1}^n\)</span> на
+<span class="math">\(y_{1}^n\)</span> на левой границе и <span class="math">\(y_{N+1}^n\)</span> на
+<span class="math">\(y_{N-1}^n\)</span> на правой границе. Эти наблюдения могут легко
+использоваться при программной реализации: мы можем просто
+использовать общий шаблон во всех узлах сетки, но написать код так,
+чтобы можно было легко заменить <code class="docutils literal"><span class="pre">y[i-1]</span></code> на <code class="docutils literal"><span class="pre">y[i+1]</span></code> и наоборот. Этого
+можно добиться задавая индексы <code class="docutils literal"><span class="pre">i+1</span></code> и <code class="docutils literal"><span class="pre">i-1</span></code> как переменные <code class="docutils literal"><span class="pre">ip1</span></code> (<code class="docutils literal"><span class="pre">i</span></code>
+plus <code class="docutils literal"><span class="pre">1</span></code>) и <code class="docutils literal"><span class="pre">im1</span></code> (<code class="docutils literal"><span class="pre">i</span></code> minus <code class="docutils literal"><span class="pre">1</span></code>), соответственно. Следовательно на
+левой границе мы можем определить <code class="docutils literal"><span class="pre">im1</span> <span class="pre">=</span> <span class="pre">i+1</span></code>, в то время как во
+внутренних узлах сетки <code class="docutils literal"><span class="pre">im1</span> <span class="pre">=</span> <span class="pre">i-1</span></code>. Ниже представлена программная
+реализация такого подхода:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ip1</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">im1</span> <span class="o">=</span> <span class="n">ip1</span>  <span class="c1"># i-1 -&gt; i+1</span>
+<span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">im1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_1</span><span class="p">[</span><span class="n">ip1</span><span class="p">])</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="n">N</span>
+<span class="n">im1</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span>
+<span class="n">ip1</span> <span class="o">=</span> <span class="n">im1</span>  <span class="c1"># i+1 -&gt; i-1</span>
+<span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">im1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_1</span><span class="p">[</span><span class="n">ip1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>На самом деле мы можем создать один цикл как для граничных, так и для
+внутренних узлов и использовать одну формулу для вычисления значений
+на новом временном слое:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">ip1</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span> <span class="k">else</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">im1</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">im1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_1</span><span class="p">[</span><span class="n">ip1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Сценарий <a class="reference external" href="src-fdm-for-wave/wave1d_n0.py">wave1d_n0.py</a> содержит
+полную программную реализацию решения одномерного волнового уравнения
+с граничными условиями Неймана. В нем реализован тест, использующий
+«волну-вилку» в качестве начального данного и проверяющий, что
+начальное состояние возвращается после одного периода. Но такой тест
+требует выполнения условия <span class="math">\(\gamma = 1\)</span>, так как в этом случае
+численное решение совпадает с точным решением дифференциальной
+задачи.</p>
+</div>
+<div class="section" id="fdm-for-wave-refl-idx-set">
+<span id="id5"></span><h2>Обозначение множеств индексов<a class="headerlink" href="#fdm-for-wave-refl-idx-set" title="Permalink to this headline">¶</a></h2>
+<p>Для того, чтобы улучшить математическую запись и программную
+реализацию, полезно ввести обозначения для множеств индексов. Это
+означает, что мы будем писать <span class="math">\(x\)</span>, <span class="math">\(i\in \mathcal{I}_x\)</span>
+вместо <span class="math">\(i = 0, 1, \ldots, N\)</span>. Очевидно, что
+<span class="math">\(\mathcal{I}_x\)</span> должно быть множеством индексов
+<span class="math">\(\mathcal{I}_x = \{ 0, 1, \ldots, N\}\)</span>, но часто удобно
+использовать символ для этого множества, чем указывать все элементы
+этого множества. Такие обозначения делают описания алгоритмов и их
+программную реализацию более простыми.</p>
+<p>Первый элемент этого множества будем обозначать
+<span class="math">\(\mathcal{I}_x^0\)</span>, а последний <span class="math">\(\mathcal{I}_x^{-1}\)</span>. Если
+нужно отбросить первый элемент множества, то будем использовать символ
+<span class="math">\(\mathcal{I}_x^+\)</span> для остального подмножества
+<span class="math">\(\mathcal{I}_x^+ = \{1, 2, \ldots, N\}\)</span>. Аналогично,
+<span class="math">\(\mathcal{I}_x^- = \{0, 1, \ldots, N-1\}\)</span>. Все индексы
+соответствующие внутренним узлам сетки обозначим
+<span class="math">\(\mathcal{I}_x^i =\{1, 2, \ldots, N-1\}\)</span>.</p>
+<p>В коде на Python для множеств индексов будет следующее соответствие:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="68%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Обозначение</th>
+<th class="head">Python</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math">\(\mathcal{I}_x\)</span></td>
+<td><code class="docutils literal"><span class="pre">Ix</span></code></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math">\(\mathcal{I}^0_x\)</span>     <code class="docutils literal"><span class="pre">Ix[0]</span></code>
+==========================  ============
+<span class="math">\(\mathcal{I}^{-1}_x\)</span>  <code class="docutils literal"><span class="pre">Ix[-1]</span></code>
+==========================  ============
+<span class="math">\(\mathcal{I}^-_x\)</span>     <code class="docutils literal"><span class="pre">Ix[:-1]</span></code>
+==========================  ============
+<span class="math">\(\mathcal{I}^+_x\)</span>     <code class="docutils literal"><span class="pre">Ix[1:]</span></code>
+==========================  ============
+<span class="math">\(\mathcal{I}^i_x\)</span>     <code class="docutils literal"><span class="pre">Ix[1:-1]</span></code>
+==========================  ============</p>
+<div class="admonition- admonition">
+<p class="first admonition-title">Почему полезны множества индексов</p>
+<p class="last">Важная характерная особенность использования множеств индексов
+заключается в том, что формулы и код программы не зависят от
+порядка нумерации узлов сетки. Например, обозначение <span class="math">\(i \in
+\mathcal{I}_x\)</span> или <span class="math">\(i \in \mathcal{I}_x^0\)</span> остается
+одинаковым и для <span class="math">\(\mathcal{I}_x\)</span>, определенном выше, и для
+<span class="math">\(\mathcal{I}_x = \{1, 2, \ldots, Q\}\)</span>. Аналогично, в коде мы
+можем определить <code class="docutils literal"><span class="pre">Ix</span> <span class="pre">=</span> <span class="pre">range(N+1)</span></code> или <code class="docutils literal"><span class="pre">Ix</span> <span class="pre">=</span> <span class="pre">range(1,Q)</span></code>, а
+выражения типа <code class="docutils literal"><span class="pre">Ix[0]</span></code> и <code class="docutils literal"><span class="pre">Ix[1:-1]</span></code> остаются корректными. Один
+из примеров удобства использования такого подхода &#8212; это
+преобразование кода, написанного на языке, где нумерация массивов
+начинается с нуля (например, Python или C), в код на языке, где нумерация
+массивов начинается с единицы (например, MATLAB или
+Fortran). Другое важное применение &#8212; это реализация условий
+Неймана с помощью мнимых узлов.</p>
+</div>
+<p>В рассматриваемой нами задаче используются следующие множества
+индексов:</p>
+<div class="math">
+\[\begin{split}\mathcal{I}_x = \{ 0, 1, \ldots, N\}, \\
+\mathcal{I}_t = \{ 0, 1, \ldots, K\}, \\\end{split}\]</div>
+<p>определяемые в Python следующим образом:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Ix</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">It</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">K</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Используя множества индексов, разностную схему можно записать
+следующим образом:</p>
+<div class="math">
+\[\begin{split}\begin{split}
+   y_i^{n+1} &amp;= y_i^n - \frac{1}{2} \gamma^2(y_{i+1}^n - 2y_i^n +
+   y_{i-1}^n), \quad i \in \mathcal{I}_x, \quad n = 0, \\
+   y_i^{n+1} &amp;= 2y_i^{n-1} - y_i^n + \gamma^2(y_{i+1}^n - 2y_i^n +
+   y_{i-1}^n), \quad i \in \mathcal{I}_x^i, \quad n \in
+   \mathcal{I}_t^i, \\
+   y_i^{n+1} &amp;= 0, \quad i = \mathcal{I}_x^0, \quad t \in \mathcal{I}_t^-,\\
+   y_i^{n+1} &amp;= 0, \quad i = \mathcal{I}_x^{-1}, \quad t \in \mathcal{I}_t^-.
+\end{split}\end{split}\]</div>
+<p>Соответствующий программный код имеет вид:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Начальные условия</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Цикл по времени</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">It</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="c1"># Вычисление значений во внутренних узлах</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> \
+                   <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># Вычисление граничных условий</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Сценарий <a class="reference external" href="src-fdm-for-wave/wave1d_n.py">wave1d_n.py</a> использует
+множества индексов и решает одномерное волновое уравнение с
+достаточно общими граничными и начальными условиями:</p>
+<ul class="simple">
+<li><span class="math">\(x = 0\)</span>: <span class="math">\(u = u_l(t)\)</span> или <span class="math">\(\frac{\partial u}{\partial x} = 0\)</span>;</li>
+<li><span class="math">\(x = l\)</span>: <span class="math">\(u = u_r(t)\)</span> или <span class="math">\(\frac{\partial u}{\partial x} = 0\)</span>;</li>
+<li><span class="math">\(t = 0\)</span>: <span class="math">\(u = I(x)\)</span>;</li>
+<li><span class="math">\(t = 0\)</span>: <span class="math">\(\frac{\partial u}{\partial t} = V(x)\)</span>.</li>
+</ul>
+<p>Сценарий объединяет условия Дирихле и Неймана, скалярную и
+векторизованную реализацию разностной схемы, а также множества
+индексов. Большое количество тестовых примеров также включены в
+этот сценарий:</p>
+<ul class="last simple">
+<li>начальное условие в форме «волны-вилки» (при <span class="math">\(\gamma=1\)</span> решением будет прямоугольник смещающийся на одну ячейку за временной шаг);</li>
+<li>начальное условие как функция Гаусса;</li>
+<li>начальное условие в форме треугольного профиля, который похож на начальное положение гитарной струны;</li>
+<li>синусоидальное изменение решения при <span class="math">\(x=0\)</span> и либо <span class="math">\(u = 0\)</span>, либо <span class="math">\(\frac{\partial u}{\partial x} = 0\)</span> при <span class="math">\(x = l\)</span>;</li>
+<li>точное аналитическое решение <span class="math">\(u(x, t) = \cos\frac{m\pi t}{l} \sin \frac{m\pi x}{2l}\)</span>, которое может использоваться для проверки скорости сходимости.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="fdm-for-wave-refl-ver">
+<span id="id6"></span><h2>Верификация реализации граничных условий Неймана<a class="headerlink" href="#fdm-for-wave-refl-ver" title="Permalink to this headline">¶</a></h2>
+<p>Перейдем к вопросу тестирования реализации условий Неймана. Функция
+<code class="docutils literal"><span class="pre">solver</span></code> <a class="reference external" href="src-fdm-for-wave/wave1d_n.py">wave1d_n.py</a>
+реализованы как условия Дирихле и
+Неймана при <span class="math">\(x = 0\)</span> и <span class="math">\(x = l\)</span>. Заманчиво было бы
+использовать решение типа квадратичной функции, однако эта функция не
+является точным решением задачи с условиями Неймана. Линейная функция
+также не подходит, так как реализованы только однородные условия
+Неймана, поэтому для тестирования будем использовать только постоянное
+решение <span class="math">\(u = \mathrm{const}\)</span>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_constant</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Тестируем работу скалярной и векторизованой версий</span>
+<span class="sd">    для постоянного u(x,t). Выполняем расчет на отрезке</span>
+<span class="sd">    [0, l] и применяем условия Неймана и Дирихле на обоих</span>
+<span class="sd">    границах.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">u_const</span> <span class="o">=</span> <span class="mf">0.45</span>
+    <span class="n">u_exact</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">u_const</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">u_exact</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">assert_no_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">u_e</span> <span class="o">=</span> <span class="n">u_exact</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">u_e</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;diff=</span><span class="si">%E</span><span class="s1">, t_</span><span class="si">%d</span><span class="s1">=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+        <span class="n">tol</span> <span class="o">=</span> <span class="mf">1E-13</span>
+        <span class="k">assert</span> <span class="n">diff</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">,</span> <span class="n">msg</span>
+
+    <span class="k">for</span> <span class="n">ul</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">u_const</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ur</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">u_const</span><span class="p">):</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="mf">2.5</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="mf">1.5</span>
+            <span class="n">gamma</span> <span class="o">=</span> <span class="mf">0.75</span>
+            <span class="n">N</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># Очень грубая сетка для точного теста</span>
+            <span class="n">tau</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">*</span><span class="p">(</span><span class="n">l</span><span class="o">/</span><span class="n">N</span><span class="p">)</span><span class="o">/</span><span class="n">c</span>
+            <span class="n">T</span> <span class="o">=</span> <span class="mi">18</span>
+
+            <span class="n">solver</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ul</span><span class="p">,</span> <span class="n">ur</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span>
+                   <span class="n">user_action</span><span class="o">=</span><span class="n">assert_no_error</span><span class="p">,</span>
+                   <span class="n">version</span><span class="o">=</span><span class="s1">&#39;scalar&#39;</span><span class="p">)</span>
+            <span class="n">solver</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ul</span><span class="p">,</span> <span class="n">ur</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span>
+                   <span class="n">user_action</span><span class="o">=</span><span class="n">assert_no_error</span><span class="p">,</span>
+                   <span class="n">version</span><span class="o">=</span><span class="s1">&#39;vectorized&#39;</span><span class="p">)</span>
+            <span class="k">print</span> <span class="n">ul</span><span class="p">,</span> <span class="n">ur</span>
+</pre></div>
+</div>
+<p>Другой тест основан на том факте, что погрешность аппроксимации равна
+нулю в случае когда число Куранта равно единице. Возьмем в качестве
+начальной функции «волну-площадку», пусть начальная функция
+распадается на две площадки, каждая смещается в своем
+направлении. Проверит, что эти две волны отразятся от границ и
+сформируют начальное распределение после одного
+периода. Соответствующая тестовая функция представлена ниже</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_plug</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Тестирование возвращается для профиль-площадка после одного периода.&quot;&quot;&quot;</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="n">c</span>  <span class="c1"># N=10</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">l</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.1</span> <span class="k">else</span> <span class="mi">1</span>
+
+    <span class="n">u_s</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">cpu</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span>
+        <span class="n">I</span><span class="o">=</span><span class="n">I</span><span class="p">,</span>
+        <span class="n">V</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">ul</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ur</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="n">l</span><span class="p">,</span>
+        <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">user_action</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;scalar&#39;</span><span class="p">)</span>
+    <span class="n">u_v</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">cpu</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span>
+        <span class="n">I</span><span class="o">=</span><span class="n">I</span><span class="p">,</span>
+        <span class="n">V</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">ul</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ur</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="n">l</span><span class="p">,</span>
+        <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">user_action</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;vectorized&#39;</span><span class="p">)</span>
+    <span class="n">tol</span> <span class="o">=</span> <span class="mf">1E-13</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">u_s</span> <span class="o">-</span> <span class="n">u_v</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">diff</span> <span class="o">&lt;</span> <span class="n">tol</span>
+    <span class="n">u_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">I</span><span class="p">(</span><span class="n">x_</span><span class="p">)</span> <span class="k">for</span> <span class="n">x_</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">u_s</span> <span class="o">-</span> <span class="n">u_0</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">diff</span> <span class="o">&lt;</span> <span class="n">tol</span>
+</pre></div>
+</div>
+<p>Остальные тесты используются для анализа погрешности аппроксимации.</p>
+<span class="target" id="index-2"></span><span class="target" id="index-3"></span></div>
+<div class="section" id="fdm-for-wave-refl-ghost">
+<span id="index-4"></span><span id="id7"></span><h2>Реализация граничных условий Неймана с использованием мнимых ячеек<a class="headerlink" href="#fdm-for-wave-refl-ghost" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="fdm-for-wave-refl-ghost-idea">
+<span id="id8"></span><h3>Идея<a class="headerlink" href="#fdm-for-wave-refl-ghost-idea" title="Permalink to this headline">¶</a></h3>
+<p>Вместо модификации схемы на границе мы можем ввести дополнительные
+узлы вне области задачи, так что фиктивные значения <span class="math">\(y_{-1}^n\)</span>
+и <span class="math">\(u_{N+1}^n\)</span> будут определены на сетке. Добавление интервалов
+<span class="math">\([-h, 0]\)</span> и <span class="math">\([l+h,0]\)</span>, назовем их <em>мнимые ячейки</em> к
+расчетной сетке дает все узлы сетки, соответствующие <span class="math">\(i = -1, 2,
+\ldots, N+1\)</span>. Дополнительные узлы <span class="math">\(i =-1\)</span> и <span class="math">\(i = N+1\)</span>
+назовем <em>мнимыми узлами</em>, а значения в этих узлах <span class="math">\(y_{-1}^{n}\)</span>
+и <span class="math">\(y_{N+1}^n\)</span> назовем <em>мнимыми значениями</em></p>
+<p>Основная идея состоит в том, чтобы быть уверенным, что всегда будет
+выполняться</p>
+<div class="math">
+\[u_{-1}^n = u_{1}^n \quad \textrm{и}\quad u_{N+1}^n = u_{N-1}^n,\]</div>
+<p>потому что тогда использование стандартной разностной схемы в узлах
+<span class="math">\(i = 0\)</span> и <span class="math">\(i = N\)</span> будет корректным и будет гарантировать,
+что решение согласуется с граничным условием Неймана.</p>
+</div>
+<div class="section" id="fdm-for-wave-refl-ghost-impl">
+<span id="id9"></span><h3>Программная реализация<a class="headerlink" href="#fdm-for-wave-refl-ghost-impl" title="Permalink to this headline">¶</a></h3>
+<p>Массив <code class="docutils literal"><span class="pre">y</span></code>, содержащий решение, должен содержать дополнительные
+элементы с мнимыми узлами:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Массивы <code class="docutils literal"><span class="pre">y_1</span></code> и <code class="docutils literal"><span class="pre">y_2</span></code> необходимо определить аналогично.</p>
+<p>К сожалению стандартная индексация массивов в Python (индексация
+начинается с 0), не удобна в случае использования рассматриваемого
+подхода. В этом случае возникает несоответствие математической
+индексации <span class="math">\(i = -1, 0, 1, \ldots, N+1\)</span> и индексации
+Python <code class="docutils literal"><span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">...,</span> <span class="pre">N+2</span></code>. Один способ решения этой проблемы состоит в
+изменении математической нумерации в разностной схеме и записать</p>
+<div class="math">
+\[y_i^{n+1} = \ldots, \quad i = 1, 2, \ldots, N + 1\]</div>
+<p>вместо <span class="math">\(i = 0, 1, \ldots, N\)</span>. В этом случае номера мнимых узлов
+будут <span class="math">\(i=0\)</span> и <span class="math">\(i = N+2\)</span>. Можно предложить решение лучше
+основанное на использовании множеств индексов: мы скроем значения
+индексов и будем оперировать понятиями внутренних и граничных узлов.</p>
+<p>С этой целью мы определим <code class="docutils literal"><span class="pre">y</span></code> нужной длины и <code class="docutils literal"><span class="pre">Ix</span></code> &#8212;
+соответствующие индексы реальных узлов</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">y</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">Ix</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Это значит, что граничные узлы будут иметь индексы <code class="docutils literal"><span class="pre">Ix[0]</span></code> и
+<code class="docutils literal"><span class="pre">Ix[-1]</span></code> (как и раньше). Сначала мы вычислим решение физических
+узлах (т.е. во внутренних узлах сетки):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Ix</span><span class="p">:</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span> <span class="n">y_2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> \
+           <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> \
+           <span class="n">tau2</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">Ix</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Такое индексирование будет сложнее при вызове функций <code class="docutils literal"><span class="pre">V(x)</span></code> и
+<code class="docutils literal"><span class="pre">f(x,t)</span></code>, так как соответствующая координата <span class="math">\(x\)</span> задана как
+<code class="docutils literal"><span class="pre">x[i</span> <span class="pre">-</span> <span class="pre">Ix[0]]</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Ix</span><span class="p">:</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">tau</span><span class="o">*</span><span class="n">V</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">Ix</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span> <span class="o">+</span> \
+           <span class="mf">0.5</span><span class="o">*</span><span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> \
+           <span class="mf">0.5</span><span class="o">*</span><span class="n">tau2</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">Ix</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Осталось обновить решение в мнимых узлах, т.е. <code class="docutils literal"><span class="pre">y[0]</span></code> и <code class="docutils literal"><span class="pre">y[-1]</span></code>
+(или <code class="docutils literal"><span class="pre">y[N+2]</span></code>). Для граничного условия Неймана
+<span class="math">\(\frac{\partial u}{\partial x} = 0\)</span>, значения в мнимых узлах
+должны быть равны значениям в соответствующих внутренних узлах. Ниже
+приведен соответствующий фрагмент кода:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Мнимые значения устанавливаем в соответствии с du/dx=0</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Решение, график которого будем строить &#8212; срез <code class="docutils literal"><span class="pre">y[1:-1]</span></code>
+или <code class="docutils literal"><span class="pre">y[Ix[0]:Ix[-1]+1]</span></code>. Этот срез будет возвращать функция
+<code class="docutils literal"><span class="pre">solver</span></code>. Полностью программную реализацию этого подхода можно найти
+в файле <a class="reference external" href="src-fdm-for-wave/wave1d_n_ghost.py">wave1d_n_ghost.py</a>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Необходимо быть аккуратным с тем, как хранить сетки по пространству
+и времени. Пусть <code class="docutils literal"><span class="pre">x</span></code> &#8212; физические узлы</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>«Стандартная реализация» начальных данных</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Ix</span><span class="p">:</span>
+        <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">I</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>становится в этом случае ошибочной, так как <code class="docutils literal"><span class="pre">y_1</span></code> и <code class="docutils literal"><span class="pre">x</span></code> имеют
+разные длины и индекс <code class="docutils literal"><span class="pre">i</span></code> соответствует двум различным узлам
+сетки. На самом деле, <code class="docutils literal"><span class="pre">x[i]</span></code> соответствует
+<code class="docutils literal"><span class="pre">y_1[i+1]</span></code>. Правильная реализация имеет вид</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Ix</span><span class="p">:</span>
+        <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">I</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>Аналогично, использование при вычислении правой части выражения
+<code class="docutils literal"><span class="pre">f(x[i],</span> <span class="pre">t[n])</span></code> неправильно, если <code class="docutils literal"><span class="pre">x</span></code> определено на множестве
+физических точек. Следовательно, <code class="docutils literal"><span class="pre">x[i]</span></code> нужно заменить на
+<code class="docutils literal"><span class="pre">x[i</span> <span class="pre">-</span> <span class="pre">Ix[0]]</span></code>.</p>
+<p class="last">Альтернативный способ решения этой проблемы &#8212; задать массив <code class="docutils literal"><span class="pre">x</span></code>
+так, чтобы он содержал мнимые точки и <code class="docutils literal"><span class="pre">y[i]</span></code> было значением в
+<code class="docutils literal"><span class="pre">x[i]</span></code>.</p>
+</div>
+<p>Мнимые ячейки добавляются только к границам, на которых заданы условия
+Неймана. Предположим, что на <span class="math">\(x=l\)</span> задано условие Дирихле, а на
+<span class="math">\(x=0\)</span> &#8212; условие Неймана. В этом случае к сетке добавляется
+одна мнимая ячейка <span class="math">\([-h, 0]\)</span>, поэтому множестве индексов для
+физических узлов &#8212; <span class="math">\(\{1, 2, \ldots, N+1\}\)</span>. Ниже представлен
+соответствующий фрагмент кода:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">Ix</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="o">...</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Ix</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> \
+    <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> \
+    <span class="n">tau2</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">Ix</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ur</span>   <span class="c1"># условия Дирихле</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>   <span class="c1"># условие Неймана</span>
+</pre></div>
+</div>
+<p>Физическое решение, график которого будет строится, &#8212; <code class="docutils literal"><span class="pre">y[1:]</span></code> или
+<code class="docutils literal"><span class="pre">y[Ix[0]:Ix[-1]+1]</span></code>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="fdm-for-wave-varvel">
+<span id="id10"></span><h1>Обобщения: переменная скорость распространения волны<a class="headerlink" href="#fdm-for-wave-varvel" title="Permalink to this headline">¶</a></h1>
+<p>Следующее обобщение одномерного волнового уравнения
+<a class="reference internal" href="._main_fdm-for-wave001.html#eq-fdm-for-wave-string-eq-eq-string"><span class="std std-ref">(1)</span></a> или
+<a class="reference internal" href="._main_fdm-for-wave001.html#eq-fdm-for-wave-verif-eq-string-unhom"><span class="std std-ref">(12)</span></a> &#8212; введение
+переменной скорости распространения волны <span class="math">\(c = c(x)\)</span>. Такое
+уравнение описывает процесс протекающий в областях состоящих из сред с
+разными физическими свойствами. Когда среды отличаются физическими
+свойствами, такими как плотность или пористость, скорость
+распространения волны в этом случае зависит от положения в
+пространстве.</p>
+<div class="section" id="fdm-for-wave-varvel-model">
+<span id="id11"></span><h2>Модельное уравнение с переменными коэффициентами<a class="headerlink" href="#fdm-for-wave-varvel-model" title="Permalink to this headline">¶</a></h2>
+<p>Вместо <span class="math">\(c^2(x)\)</span> будем использовать более удобное обозначение
+<span class="math">\(k(x) = c^2(x)\)</span> для коэффициента уравнения. Одномерное волновое
+уравнение с переменной скоростью распространение волны принимает вид:</p>
+<div class="math" id="eq-fdm-for-wave-varvel-eq-string">
+\[\tag{31}
+\frac{\partial^2 u}{\partial t^2} = \frac{\partial }{\partial x}
+       \left( k(x) \frac{\partial u}{\partial x} \right) + f(x,t).\]</div>
+</div>
+<div class="section" id="fdm-for-wave-varvel-coeff-appr">
+<span id="id12"></span><h2>Аппроксимация переменных коэффициентов<a class="headerlink" href="#fdm-for-wave-varvel-coeff-appr" title="Permalink to this headline">¶</a></h2>
+<p>В случае достаточно гладких коэффициентов и решения дифференциальный оператор
+<span class="math">\(\frac{\partial }{\partial x} \left( k(x) \frac{\partial u}{\partial
+x} \right)\)</span> во внутренних узлах сетки будем
+аппроксимировать разностным оператором <span class="math">\((a y_{\bar{x}})_{x}\)</span>. Для
+аппроксимации со вторым порядком необходимо выбрать коэффициенты
+разностного оператора так, чтобы</p>
+<div class="math" id="eq-fdm-for-wave-varvel-eq-coeff-cond-1">
+\[\tag{32}
+\frac{a_{i+1} - a_i}{h} = k'(x_i) + O(h^2),\]</div>
+<div class="math" id="eq-fdm-for-wave-varvel-eq-coeff-cond-2">
+\[\tag{33}
+\frac{a_{i+1} + a_i}{2} = k(x_i) + O(h^2).\]</div>
+<p>Этим условиям удовлетворяют, в частности, следующие формулы для
+определения <span class="math">\(a_i\)</span>:</p>
+<div class="math" id="eq-fdm-for-wave-varvel-eq-coeff">
+\[\tag{34}
+a_i = k_{i-1/2} = k(x_i - 0.5h),\]</div>
+<div class="math" id="eq-fdm-for-wave-varvel-eq-coeff-arithm">
+\[\tag{35}
+a_i = \frac{k_{i-1} + k_i}{2},\]</div>
+<div class="math" id="eq-fdm-for-wave-varvel-eq-coeff-harm">
+\[\tag{36}
+a_i = 2 \left( \frac{1}{k_{i-1}} + \frac{1}{k_i} \right)^{-1}.\]</div>
+<p>Выражение
+<a class="reference internal" href="#eq-fdm-for-wave-varvel-eq-coeff-arithm"><span class="std std-ref">(35)</span></a> &#8212; среднее арифметическое
+значений коэффициента в соседних узлах и часто используется для
+гладких коэффициентов, среднее гармоническое
+<a class="reference internal" href="#eq-fdm-for-wave-varvel-eq-coeff-harm"><span class="std std-ref">(36)</span></a>
+часто используется при аппроксимации коэффициентов с сильно
+меняющимися значениями.</p>
+<p>Правую часть <span class="math">\(f(x,t)\)</span> уравнения <a class="reference internal" href="#eq-fdm-for-wave-varvel-eq-string"><span class="std std-ref">(31)</span></a>
+аппроксимируем следующим образом</p>
+<div class="math">
+\[\varphi_i^n = f(x_i,t_n).\]</div>
+<p>Таким образом, мы можем аппроксимировать уравнение
+<a class="reference internal" href="#eq-fdm-for-wave-varvel-eq-string"><span class="std std-ref">(31)</span></a>
+на сетке <span class="math">\(\omega_{h\tau}\)</span> следующей разностной схемой:</p>
+<div class="math" id="eq-fdm-for-wave-varvel-eq-fds">
+\[\tag{37}
+y_{\bar{t}t} = (a y_{\bar{x}})_{x} + \varphi, \quad (x,t) \in \omega_{h\tau},\]</div>
+<p>Осталось выразить из уравнения
+<a class="reference internal" href="#eq-fdm-for-wave-varvel-eq-fds"><span class="std std-ref">(37)</span></a> значение
+<span class="math">\(y_i^{n+1}\)</span>:</p>
+<div class="math" id="eq-fdm-for-wave-varvel-eq-fds-rec">
+\[\tag{38}
+y_i^{n+1} = 2y_i^n - y_i^{n-1} \nonumber\]</div>
+<div class="math">
+\[ + \frac{\tau^2}{h^2} \left( a_{i+1} (y_{i+1}^n - y_{i}^n) -
+a_{i} (y_{i}^n - y_{i-1}^n) \right) \nonumber\]</div>
+<div class="math" id="eq-auto1">
+\[\tag{39}
++ \tau^2 \varphi_i^n\]</div>
+</div>
+<div class="section" id="fdm-for-wave-varvel-neumann">
+<span id="id13"></span><h2>Условия Неймана и переменные коэффициенты<a class="headerlink" href="#fdm-for-wave-varvel-neumann" title="Permalink to this headline">¶</a></h2>
+<p>Рассмотрим аппроксимацию условий Неймана на границе <span class="math">\(x = l = Nh\)</span>:</p>
+<div class="math">
+\[\frac{y_{N+1}^n - y_{N-1}^n}{2h} = 0 \Rightarrow y_{N+1}^n =
+y_{N-1}^n.\]</div>
+<p>Записывая разностную схему
+<a class="reference internal" href="#eq-fdm-for-wave-varvel-eq-fds-rec"><span class="std std-ref">(38)</span></a> в узле <span class="math">\(i = N\)</span> и учитывая, что
+<span class="math">\(y_{N+1} = y_{N-1}\)</span>, получим</p>
+<div class="math" id="eq-fdm-for-wave-varvel-eq-fds-neumann">
+\[\tag{40}
+y_N^{n+1} = 2 y_{N}^n - y_N^{n-1} \nonumber\]</div>
+<div class="math">
+\[\quad + \frac{\tau^2}{h^2} \left( a_{N+1} (y_{N+1}^n - y_{N}^n) -
+a_{N} (y_{N}^n - y_{N-1}^n) \right) + \tau^2 \varphi_N^n \nonumber\]</div>
+<div class="math">
+\[= 2 y_{N}^n - y_N^{n-1} + \frac{\tau^2}{h^2} \left( (a_{N+1} +
+a_N) (y_{N-1} - y_N) \right) + \tau^2\varphi_i^n \nonumber\]</div>
+<div class="math" id="eq-auto2">
+\[\tag{41}
+\approx 2 y_{N}^n - y_N^{n-1} + 2\frac{\tau^2}{h^2} \left(
+       a_{N+1/2} (y_{N-1} - y_N) \right) + \tau^2\varphi_N^n.\]</div>
+<p>Здесь мы использовали условия
+<a class="reference internal" href="#eq-fdm-for-wave-varvel-eq-coeff-cond-1"><span class="std std-ref">(32)</span></a>&#8211;<a class="reference internal" href="#eq-fdm-for-wave-varvel-eq-coeff-cond-2"><span class="std std-ref">(33)</span></a>
+и <span class="math">\(a_{N+1/2} = k(x_N)\)</span>. Кроме того вместо <span class="math">\(a_{N+1/2}\)</span> можно
+использовать <span class="math">\(a_N\)</span>.</p>
+<p>Выражение
+<a class="reference internal" href="#eq-fdm-for-wave-varvel-eq-fds-neumann"><span class="std std-ref">(40)</span></a> с <span class="math">\(a_N\)</span> вместо
+<span class="math">\(a_{N+1/2}\)</span> можно записать в форме</p>
+<div class="math">
+\[a_N y_{x,N}^n + \frac{h}{2} y_{\bar{t}t,N}^n = \frac{h}{2}
+\varphi_N^n\]</div>
+<p>Отметим, что подобные аппроксимации переменных коэффициентов и
+граничных условий Неймана мы можем получить, используя
+интегро-интерполяционный метод (метод баланса) или метод конечных
+элементов.</p>
+</div>
+<div class="section" id="fdm-for-wave-varvel-more-gen">
+<span id="id14"></span><h2>Более общее уравнение с переменными коэффициенты<a class="headerlink" href="#fdm-for-wave-varvel-more-gen" title="Permalink to this headline">¶</a></h2>
+<p>Иногда волновое уравнение содержит переменный коэффициент перед второй
+производной по времени:</p>
+<div class="math" id="eq-fdm-for-wave-varvel-eq-wave-gen">
+\[\tag{42}
+\varrho(x) \frac{\partial^2 u}{\partial t^2} = \frac{\partial }{x} \left( k(x) \frac{\partial u}{\partial \partial x} \right)
+            + f(x,t).\]</div>
+<p>Такое уравнение описывает, например, упругие волны в стержне с
+переменной плотностью.</p>
+<p>Естественная аппроксимация
+<a class="reference internal" href="#eq-fdm-for-wave-varvel-eq-wave-gen"><span class="std std-ref">(42)</span></a> может выглядеть следующим
+образом:</p>
+<div class="math" id="eq-fdm-for-wave-varvel-eq-wave-gen-fds">
+\[\tag{43}
+\varrho y_{\bar{t}t} = \left( a y_{\bar{x}}\right)_x = \varphi, \quad
+    (x,t) \in \omega_{h\tau}\]</div>
+<p>Очевидно, что коэффициент <span class="math">\(\varrho\)</span> не добавляет особых трудностей,
+так не требует какогло-либо осреднения, а вычисляется в узле сетки.</p>
+</div>
+</div>
+<div class="section" id="fdm-for-wave-damping">
+<span id="id15"></span><h1>Обобщения: затухания<a class="headerlink" href="#fdm-for-wave-damping" title="Permalink to this headline">¶</a></h1>
+<p>Существует два механизма исчезновения волн. В двумерном и трехмерном
+случаях энергия волн распределяется в пространстве, и, следовательно, с
+учетом сохранения энергии приходим к тому, что должна уменьшаться
+амплитуда колебаний. Этот эффект отсутствует в одномерном
+случае. Затухания являются второй причиной уменьшения
+амплитуды. Например, колебания струны исчезают из-за затуханий,
+обусловленных сопротивлением воздуха и неупругих эффектов в струне.</p>
+<p>Простейший способ ввести затухания в модель заключается в добавлении
+первой производной по времени в уравнение:</p>
+<div class="math" id="eq-fdm-for-wave-damping-eq-vibr">
+\[\tag{44}
+\frac{\partial^2 u}{\partial t^2} + b\frac{\partial u}{\partial t} = c^2\frac{\partial^2 u}{\partial x^2} + f(x,t),\]</div>
+<p>где <span class="math">\(b \geq 0\)</span> заданный коэффициент затухания.</p>
+<p>Естественную аппроксимацию уравнения
+<a class="reference internal" href="#eq-fdm-for-wave-damping-eq-vibr"><span class="std std-ref">(44)</span></a> можно получить, используя
+центральную разностную производную</p>
+<div class="math" id="eq-fdm-for-wave-damping-eq-vibr-fds">
+\[\tag{45}
+y_{\bar{t}t} + b y_{\mathring{t}} = c^2 y_{\bar{x}x} + \varphi.\]</div>
+<p>Решая уравнение
+<a class="reference internal" href="#eq-fdm-for-wave-damping-eq-vibr-fds"><span class="std std-ref">(45)</span></a> относительно <span class="math">\(y_i^{n+1}\)</span>,
+получим</p>
+<div class="math" id="eq-fdm-for-wave-damping-eq-vibr-fds-rec">
+\[\tag{46}
+y_i^{n+1} = (1 + 0.5b\tau)^{-1} \left((0.5b\tau - 1)y_i^{n-1} + 2
+            y_i^n + \gamma^2 (y_{i+1}^n - 2y_i^n + y_{i-1}^n) + \varphi_i^n
+            \right),\]</div>
+<p>для <span class="math">\(i \in \mathcal{I}_x^i\)</span> и <span class="math">\(n \geq 1\)</span>. Также нужно получить
+уравнения для <span class="math">\(y_i^1\)</span> и для граничных узлов в случае условий Неймана.</p>
+<p>Обычно во многих физических процессах затухания являются малыми и
+видны только на больших временных отрезках. Этот факт делает
+обоснованным использование для большого числа приложений стандартного
+волнового уравнения без затуханий.</p>
+</div>
+<div class="section" id="fdm-for-wave-gen-solver">
+<span id="id16"></span><h1>Разработка общего солвера для одномерного волнового уравнения<a class="headerlink" href="#fdm-for-wave-gen-solver" title="Permalink to this headline">¶</a></h1>
+<p>Программа <a class="reference external" href="src-fdm-for-wave/wave1d_dn_vc.py">wave1d_dn_vc.py</a>
+представляет собой довольно общий код для задач одномерного
+распространения волн, который нацелен на следующую начально-краевую
+задачу:</p>
+<div class="math" id="eq-fdm-for-wave-gen-solver-eq-wave">
+\[\tag{47}
+\frac{\partial^2 u}{\partial t^2} = \frac{\partial }{x}\left( c^2(x) \frac{\partial u}{\partial \partial x} \right) + f(x,t), \quad x\in
+            (0,l),\ t \in (0,T],\]</div>
+<div class="math" id="eq-fdm-for-wave-gen-solver-eq-init">
+\[\tag{48}
+u(x,0) = I(x), \quad x \in [0,l],\]</div>
+<div class="math" id="eq-fdm-for-wave-gen-solver-eq-init-vel">
+\[\tag{49}
+\frac{\partial u(x,0)}{\partial t} = V(x), \quad x \in [0,l],\]</div>
+<div class="math" id="eq-fdm-for-wave-gen-solver-eq-left-bound">
+\[\tag{50}
+u(0,t) = U_0(t)\ \textrm{или}\ \frac{\partial u(0,t)}{\partial x}=0, \quad t \in (0, T],\]</div>
+<div class="math" id="eq-fdm-for-wave-gen-solver-eq-right-bound">
+\[\tag{51}
+u(0,t) = U_l(t)\ \textrm{или}\ \frac{\partial u(l,t)}{\partial x}=0, \quad t \in (0, T].\]</div>
+<p>Единственная особенность данной задачи, в сравнении с предыдущей,
+состоит в том, что заданы неоднородные условия Дирихле (зависящие от
+времени). Реализация этого тривиальная</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ul</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ur</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Функция <code class="docutils literal"><span class="pre">solver</span></code> естественным образом расширяет простейшую функцию
+<code class="docutils literal"><span class="pre">solver</span></code> из сценария <a class="reference external" href="src-fdm-for-wave/wave1d_1.py">wave1d_1.py</a>,
+добавлением реализации условий Неймана, зависящих от времени условий
+Дирихле, а также переменной скорости распространения волны. Различные
+сегменты кода уже были рассмотрены выше. Саму реализацию функции
+<code class="docutils literal"><span class="pre">solver</span></code> с комментариями можно проанализировать в сценарии
+<a class="reference external" href="src-fdm-for-wave/wave1d_dn_vc.py">wave1d_dn_vc.py</a>.</p>
+<p>Векторизация используется только внутри цикла по времени, а не в
+для начальных условиях, так как эта начальная работа незначительна по
+сравнению с моделированием больших временных отрезков в одномерном
+случае.</p>
+<p>Ниже даются пояснения более продвинутых подходов, применяемых в общем
+одномерном солвере.</p>
+<div class="section" id="fdm-for-wave-gen-solver-user-action">
+<span id="id17"></span><h2>Реализация функции действий полозователя в виде класса<a class="headerlink" href="#fdm-for-wave-gen-solver-user-action" title="Permalink to this headline">¶</a></h2>
+<p>Полезная особенность сценария
+<a class="reference external" href="src-fdm-for-wave/wave1d_dn_vc.py">wave1d_dn_vc.py</a> &#8212; это
+реализация функции действия пользователя в виде класса. Эта часть
+сценария может потребовать некоторых пояснений.</p>
+<div class="section" id="fdm-for-wave-gen-solver-code">
+<span id="id18"></span><h3>Код<a class="headerlink" href="#fdm-for-wave-gen-solver-code" title="Permalink to this headline">¶</a></h3>
+<p>Класс для построения графиков, очистки файлов, создания анимированных
+графиков, которые выполнялись в функции <code class="docutils literal"><span class="pre">wave1d_1.viz</span></code>, можно
+реализовать следующим образом:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PlotAndStoreSolution</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Класс для функиции user_action в solver.</span>
+<span class="sd">    Только визуализация решения.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="p">,</span>
+                    <span class="n">casename</span><span class="o">=</span><span class="s1">&#39;tmp&#39;</span><span class="p">,</span>    <span class="c1"># Префикс в именах файлов</span>
+                    <span class="n">umin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">umax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>   <span class="c1"># Задаются границы по оси y</span>
+                    <span class="n">pause_between_frames</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>  <span class="c1"># Скорость видео</span>
+                    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">,</span>       <span class="c1"># или &#39;gnuplot&#39; или None</span>
+                    <span class="n">screen_movie</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="c1"># Показывать видео на экране?</span>
+                    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>          <span class="c1"># Дополнительное сообщение в title</span>
+                    <span class="n">skip_frame</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>      <span class="c1"># Пропуск каждого skip_frame кадра</span>
+                    <span class="n">filename</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>    <span class="c1"># Имя файла с решением</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">casename</span> <span class="o">=</span> <span class="n">casename</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">yaxis</span> <span class="o">=</span> <span class="p">[</span><span class="n">umin</span><span class="p">,</span> <span class="n">umax</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pause</span> <span class="o">=</span> <span class="n">pause_between_frames</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span>
+            <span class="k">if</span> <span class="n">backend</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="c1"># Использовать matplotlib</span>
+                    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+            <span class="k">elif</span> <span class="n">backend</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">,</span> <span class="s1">&#39;gnuplot&#39;</span><span class="p">):</span>
+                    <span class="n">module</span> <span class="o">=</span> <span class="s1">&#39;scitools.easyviz.&#39;</span> <span class="o">+</span> <span class="n">backend</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span>
+                    <span class="k">exec</span><span class="p">(</span><span class="s1">&#39;import </span><span class="si">%s</span><span class="s1"> as plt&#39;</span> <span class="o">%</span> <span class="n">module</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span> <span class="o">=</span> <span class="n">plt</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">screen_movie</span> <span class="o">=</span> <span class="n">screen_movie</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">skip_frame</span> <span class="o">=</span> <span class="n">skip_frame</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+            <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="c1"># Сохранение временной сетки, когда y записывается в файл</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;*.dat.npz&#39;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+                            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+            <span class="c1"># Очистка старых кадров</span>
+            <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;frame_*.png&#39;</span><span class="p">):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Функция обратного вызова user_action, вызываемая солвером:</span>
+<span class="sd">            сохранение решения, построение графиков на экране и</span>
+<span class="sd">            и сохранение их в файл.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="c1"># Сохраняем решение u в файл, используя numpy.savez</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;u</span><span class="si">%04d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">n</span>  <span class="c1"># имя массива</span>
+                    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">u</span><span class="p">}</span>
+                    <span class="n">fname</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.dat&#39;</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>  <span class="c1"># сохранение соответствующего временного знаяения</span>
+                    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>           <span class="c1"># сохранение массива x один раз</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;_x.dat&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+
+            <span class="c1"># Анимация</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_frame</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">return</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;t=</span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
+                    <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">title</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="c1"># анимация matplotlib</span>
+                    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">yaxis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaxis</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;t=</span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># Обновляем решение</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;t=</span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]])</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># анимация scitools.easyviz</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span>
+                                  <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;u&#39;</span><span class="p">,</span>
+                                  <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                        <span class="bp">self</span><span class="o">.</span><span class="n">yaxis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaxis</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                                  <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                                  <span class="n">show</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">screen_movie</span><span class="p">)</span>
+            <span class="c1"># пауза</span>
+            <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># показываем начальное решение 2 с</span>
+            <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pause</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                            <span class="n">pause</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="k">if</span> <span class="n">u</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">100</span> <span class="k">else</span> <span class="mi">0</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">pause</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;frame_</span><span class="si">%04d</span><span class="s1">.png&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">make_movie_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Создается подкаталог на основе casename, перемещаем все файлы</span>
+<span class="sd">            с кадрами в этот каталог и создаем файл index.html для показа</span>
+<span class="sd">            видео в браузере (как последовательности PNG файлов).</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">casename</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>   <span class="c1"># rm -rf directory</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>            <span class="c1"># mkdir directory</span>
+            <span class="c1"># mv frame_*.png directory</span>
+            <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;frame_*.png&#39;</span><span class="p">):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>        <span class="c1"># cd directory</span>
+            <span class="n">fps</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># frames per second</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="kn">from</span> <span class="nn">scitools.std</span> <span class="kn">import</span> <span class="n">movie</span>
+                    <span class="n">movie</span><span class="p">(</span><span class="s1">&#39;frame_*.png&#39;</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="s1">&#39;html&#39;</span><span class="p">,</span>
+                          <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">fps</span><span class="p">)</span>
+
+            <span class="c1"># Создаем другие видео форматы: Flash, Webm, Ogg, MP4</span>
+            <span class="n">codec2ext</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">flv</span><span class="o">=</span><span class="s1">&#39;flv&#39;</span><span class="p">,</span> <span class="n">libx264</span><span class="o">=</span><span class="s1">&#39;mp4&#39;</span><span class="p">,</span> <span class="n">libvpx</span><span class="o">=</span><span class="s1">&#39;webm&#39;</span><span class="p">,</span>
+                             <span class="n">libtheora</span><span class="o">=</span><span class="s1">&#39;ogg&#39;</span><span class="p">)</span>
+            <span class="n">filespec</span> <span class="o">=</span> <span class="s1">&#39;frame_</span><span class="si">%04d</span><span class="s1">.png&#39;</span>
+            <span class="n">movie_program</span> <span class="o">=</span> <span class="s1">&#39;avconv&#39;</span> <span class="c1"># или &#39;ffmpeg&#39;</span>
+            <span class="k">for</span> <span class="n">codec</span> <span class="ow">in</span> <span class="n">codec2ext</span><span class="p">:</span>
+                    <span class="n">ext</span> <span class="o">=</span> <span class="n">codec2ext</span><span class="p">[</span><span class="n">codec</span><span class="p">]</span>
+                    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%(movie_program)s</span><span class="s1"> -r </span><span class="si">%(fps)d</span><span class="s1"> -i </span><span class="si">%(filespec)s</span><span class="s1"> &#39;</span>\
+                          <span class="s1">&#39;-vcodec </span><span class="si">%(codec)s</span><span class="s1"> movie.</span><span class="si">%(ext)s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">vars</span><span class="p">()</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)</span>  <span class="c1"># возвращаемся в родительский каталог</span>
+
+    <span class="k">def</span> <span class="nf">close_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hashed_input</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Сливаем все файлы в один архив.</span>
+<span class="sd">            hashed_input --- строка, отражающая входные данные</span>
+<span class="sd">            для моделирования (создана функцией solver).</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;_t.dat&#39;</span><span class="p">,</span>
+                             <span class="n">t</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
+
+                    <span class="n">archive_name</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">hashed_input</span> <span class="o">+</span> <span class="s1">&#39;_archive.npz&#39;</span>
+                    <span class="n">filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;*.dat.npz&#39;</span><span class="p">)</span>
+                    <span class="n">merge_zip_archives</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="n">archive_name</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s1">&#39;Archive name:&#39;</span><span class="p">,</span> <span class="n">archive_name</span>
+            <span class="c1"># data = numpy.load(archive); data.files holds names</span>
+            <span class="c1"># data[name] extract the array</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fdm-for-wave-gen-solver-dissect">
+<span id="id19"></span><h3>Разбор<a class="headerlink" href="#fdm-for-wave-gen-solver-dissect" title="Permalink to this headline">¶</a></h3>
+<p>Представленный выше класс поддерживает построение графиков с помощью
+Matplotlib (<code class="docutils literal"><span class="pre">backend=None</span></code>) или SciTools (<code class="docutils literal"><span class="pre">backend=matplotlib</span></code> или
+<code class="docutils literal"><span class="pre">backend=gnuplot</span></code>).</p>
+<p>Конструктор показывает как можно гибко импортировать графический
+модуль как <code class="docutils literal"><span class="pre">scitools.easyviz.gnuplot_</span></code> или
+<code class="docutils literal"><span class="pre">scitools.easyviz.matplotlib_</span></code> (символ подчеркивания в конце
+обязателен). С помощью параметра <code class="docutils literal"><span class="pre">screen_movie</span></code> мы можем подавлять
+вывод графиков на экран. В качестве альтернативы, для медленных
+анимированных графиков, связанных с мелкой расчетной сеткой, мы можем
+задать <code class="docutils literal"><span class="pre">skip_frame=10</span></code>, устанавливая показ каждого десятого кадра.</p>
+<p>Метод <code class="docutils literal"><span class="pre">__call__</span></code> позволяет объектам класса <code class="docutils literal"><span class="pre">PlotAndStoreSolution</span></code>
+вести себя как функции, так что мы можем передавать объект, например
+<code class="docutils literal"><span class="pre">p</span></code>, в качестве аргумента <code class="docutils literal"><span class="pre">user_action</span></code> в функцию <code class="docutils literal"><span class="pre">solver</span></code>, и любой
+вызов <code class="docutils literal"><span class="pre">user_action</span></code> будет вызывать <code class="docutils literal"><span class="pre">p.__call__</span></code>. Метод <code class="docutils literal"><span class="pre">__call__</span></code>
+строит график решения на экране, сохраняет график в файл, а также
+сохраняет решение в файл для дальнейшего использования.</p>
+</div>
+</div>
+<div class="section" id="fdm-for-wave-gen-solver-pulse">
+<span id="id20"></span><h2>Распространение импульса в двух средах<a class="headerlink" href="#fdm-for-wave-gen-solver-pulse" title="Permalink to this headline">¶</a></h2>
+<p>Функция <code class="docutils literal"><span class="pre">pulse</span></code> в <a class="reference external" href="src-fdm-for-wave/wave1d_dn_vc.py">wave1d_dn_vc.py</a>
+демонстрирует движение волны в разнородных средах с переменным
+<span class="math">\(c\)</span>. Можно задать интервал, на котором скорость распространения волны
+уменьшается пропорционально множителю <code class="docutils literal"><span class="pre">slowness_factor</span></code> (или
+увеличивается если задать этот множитель меньшим единицы).</p>
+<p>Четыре типа начального распределения реализованы:</p>
+<ol class="arabic simple">
+<li>прямоугольный импульс (<code class="docutils literal"><span class="pre">plug</span></code>)</li>
+<li>функция Гаусса (<code class="docutils literal"><span class="pre">gaussian</span></code>)</li>
+<li>один период косинуса (<code class="docutils literal"><span class="pre">cosinehat</span></code>)</li>
+<li>половина периода косинуса (<code class="docutils literal"><span class="pre">half-cosinehat</span></code>)</li>
+</ol>
+<p>Эти начальные условия, имеющие форму пика, могут помещаться посередине
+(<code class="docutils literal"><span class="pre">loc=center</span></code>) или на левом конце (<code class="docutils literal"><span class="pre">loc=left</span></code>) расчетной
+области. Импульсы, расположенные посередине, распадаются на две части,
+каждая с амплитудой, в два раза меньшей начальной, и движутся в
+противоположных направлениях. Если импульс расположен на левом конце
+(центр импульса в <span class="math">\(x=0\)</span>) и задано условие Неймана, генерируется только
+волна бегущая вправо. Также возникает волна, движущаяся влево, но она
+бежит от <span class="math">\(x=0\)</span> в отрицательной части оси <span class="math">\(x\)</span> и не видна на отрезке
+<span class="math">\([0, l]\)</span>. Функция <code class="docutils literal"><span class="pre">pulse</span></code> является удобным инструментом для вариации с
+разными формами импульса и расположениями сред с разными скоростями
+распространения волны. Ниже представлена реализация данной функции:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pulse</span><span class="p">(</span><span class="n">gamma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>            <span class="c1"># максимальное число Куранта</span>
+          <span class="n">Nx</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>         <span class="c1"># число узлов по пространству</span>
+          <span class="n">animate</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+          <span class="n">version</span><span class="o">=</span><span class="s1">&#39;vectorized&#39;</span><span class="p">,</span>
+          <span class="n">T</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>            <span class="c1"># конечное время</span>
+          <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span>     <span class="c1"># размещение начального условия</span>
+          <span class="n">pulse_tp</span><span class="o">=</span><span class="s1">&#39;gaussian&#39;</span><span class="p">,</span>  <span class="c1"># pulse/init.cond.</span>
+          <span class="n">slowness_factor</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="c1"># скорость распространения волны в правой среде</span>
+          <span class="n">medium</span><span class="o">=</span><span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],</span> <span class="c1"># отрезок правой области (среды)</span>
+          <span class="n">skip_frame</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+          <span class="n">sigma</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Различные пико-образные начальные условия на [0,1].</span>
+<span class="sd">    Скорость распространения волны уменьшается в slowness_factor раз</span>
+<span class="sd">    венутри среды. Параметр loc может принимать значения &#39;center&#39; или &#39;left&#39;,</span>
+<span class="sd">    в зависимости от того, где располагается пик начальных условий.</span>
+<span class="sd">    Параметр sigma определяет ширину импульса.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Используем безразмерные параметры: l=1 для длины области,</span>
+    <span class="c1"># c_0=1 для скорости распространения волны вне области.</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">c_0</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">if</span> <span class="n">loc</span> <span class="o">==</span> <span class="s1">&#39;center&#39;</span><span class="p">:</span>
+            <span class="n">xc</span> <span class="o">=</span> <span class="n">l</span><span class="o">/</span><span class="mi">2</span>
+    <span class="k">elif</span> <span class="n">loc</span> <span class="o">==</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span>
+            <span class="n">xc</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">pulse_tp</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;gaussian&#39;</span><span class="p">,</span><span class="s1">&#39;Gaussian&#39;</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">I</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">xc</span><span class="p">)</span><span class="o">/</span><span class="n">sigma</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">pulse_tp</span> <span class="o">==</span> <span class="s1">&#39;plug&#39;</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">I</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">xc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">sigma</span> <span class="k">else</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">pulse_tp</span> <span class="o">==</span> <span class="s1">&#39;cosinehat&#39;</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">I</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                    <span class="c1"># Один период косинуса</span>
+                    <span class="n">w</span> <span class="o">=</span> <span class="mi">2</span>
+                    <span class="n">a</span> <span class="o">=</span> <span class="n">w</span><span class="o">*</span><span class="n">sigma</span>
+                    <span class="k">return</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">xc</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">))</span> \
+                            <span class="k">if</span> <span class="n">xc</span> <span class="o">-</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">xc</span> <span class="o">+</span> <span class="n">a</span> <span class="k">else</span> <span class="mi">0</span>
+
+    <span class="k">elif</span> <span class="n">pulse_tp</span> <span class="o">==</span> <span class="s1">&#39;half-cosinehat&#39;</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">I</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                    <span class="c1"># Половина периода косинуса</span>
+                    <span class="n">w</span> <span class="o">=</span> <span class="mi">4</span>
+                    <span class="n">a</span> <span class="o">=</span> <span class="n">w</span><span class="o">*</span><span class="n">sigma</span>
+                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">xc</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">)</span> \
+                            <span class="k">if</span> <span class="n">xc</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">a</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">xc</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">a</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">u&#39;Ошибочный_tp=&quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> <span class="n">pulse_tp</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">c</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">c_0</span><span class="o">/</span><span class="n">slowness_factor</span> \
+                    <span class="k">if</span> <span class="n">medium</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">medium</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="n">c_0</span>
+
+    <span class="n">umin</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">;</span> <span class="n">umax</span><span class="o">=</span><span class="mf">1.5</span><span class="o">*</span><span class="n">I</span><span class="p">(</span><span class="n">xc</span><span class="p">)</span>
+    <span class="n">casename</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_Nx</span><span class="si">%s</span><span class="s1">_sf</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> \
+               <span class="p">(</span><span class="n">pulse_tp</span><span class="p">,</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">slowness_factor</span><span class="p">)</span>
+    <span class="n">action</span> <span class="o">=</span> <span class="n">PlotMediumAndSolution</span><span class="p">(</span>
+            <span class="n">medium</span><span class="p">,</span> <span class="n">casename</span><span class="o">=</span><span class="n">casename</span><span class="p">,</span> <span class="n">umin</span><span class="o">=</span><span class="n">umin</span><span class="p">,</span> <span class="n">umax</span><span class="o">=</span><span class="n">umax</span><span class="p">,</span>
+            <span class="n">skip_frame</span><span class="o">=</span><span class="n">skip_frame</span><span class="p">,</span> <span class="n">screen_movie</span><span class="o">=</span><span class="n">animate</span><span class="p">,</span>
+            <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;tmpdata&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Выбор ограничения устойчивости при заданном Nx, худший случай c</span>
+    <span class="c1"># (меньший gamma будет использовать этот шаг tau, но меньшее Nx)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="o">/</span><span class="n">Nx</span><span class="p">)</span><span class="o">/</span><span class="n">c_0</span>
+    <span class="n">cpu</span><span class="p">,</span> <span class="n">hashed_input</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span><span class="n">I</span><span class="o">=</span><span class="n">I</span><span class="p">,</span> <span class="n">V</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">ul</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ur</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                               <span class="n">l</span><span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span>
+                               <span class="n">user_action</span><span class="o">=</span><span class="n">action</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span>
+                               <span class="n">stability_safety_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">action</span><span class="o">.</span><span class="n">make_movie_file</span><span class="p">()</span>
+    <span class="n">action</span><span class="o">.</span><span class="n">close_file</span><span class="p">(</span><span class="n">hashed_input</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Используемый здесь класс <code class="docutils literal"><span class="pre">PlotMediumAndSolution</span></code> &#8212; это подкласс
+класса <code class="docutils literal"><span class="pre">PlotAndStoreSolution</span></code>, где среда с уменьшенным коэффициентом
+<span class="math">\(c\)</span>, заданная параметром <code class="docutils literal"><span class="pre">medium</span></code>, отображается на графике.</p>
+<div class="admonition- admonition">
+<p class="first admonition-title">Комментарий по выбору параметров дискретизации</p>
+<p class="last">Параметр <span class="math">\(N_x\)</span> в функции <code class="docutils literal"><span class="pre">pulse</span></code> не соответствует фактической
+пространственной сетке, соответствующей <span class="math">\(\gamma &lt; 1\)</span>, так как функция
+<code class="docutils literal"><span class="pre">solver</span></code> принимает фиксированные значения <span class="math">\(\tau\)</span> и <span class="math">\(\gamma\)</span> и
+вычисляет <span class="math">\(h\)</span> соответствующим образом. Как видно, в функции <code class="docutils literal"><span class="pre">pulse</span></code>
+заданное значение <span class="math">\(\tau\)</span> выбирается из условия <span class="math">\(\gamma=1\)</span>, поэтому,
+если <span class="math">\(\gamma &lt; 1\)</span>, <span class="math">\(\gamma\)</span> остается таким же, а функция <code class="docutils literal"><span class="pre">solver</span></code>
+оперирует большим значением <span class="math">\(h\)</span> и <span class="math">\(N_x\)</span> меньшим, чем заданным в
+<code class="docutils literal"><span class="pre">pulse</span></code>. Причина этого в том, что мы хотим сохранять фиксированный шаг
+<span class="math">\(\tau\)</span> графические кадры в анимации синхронизированы по времени
+независимо от значения <span class="math">\(\gamma\)</span> (т.е. <span class="math">\(h\)</span> меняется, если меняется
+число Куранта).</p>
+</div>
+<p>Читателю предлагается &#8220;поиграть&#8221; с функцией <code class="docutils literal"><span class="pre">pulse</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">wave1d_dn_vc</span> <span class="kn">as</span> <span class="nn">w</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span><span class="o">.</span><span class="n">pulse</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">pulse_tp</span><span class="o">=</span><span class="s1">&#39;cosinehat&#39;</span><span class="p">,</span> <span class="n">Nx</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">skip_frame</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Для того, чтобы легко остановить отображение графиков (например, с
+помощью Ctrl-C) и начать новое вычисление, может быть проще запустить
+предыдущие два выражения из командной строки:</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>Terminal&gt; python -c &#39;import wave1d_dn_vc as w; w.pulse(loc=&#39;left&#39;, pulse_tp=&#39;cosinehat&#39;, Nx=50, skip_frame=10)&#39;
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="._main_fdm-for-wave005.html" class="btn btn-neutral float-right" title="Упражнения" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="._main_fdm-for-wave003.html" class="btn btn-neutral" title="Упражнения" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, С.В. Лемешевский.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

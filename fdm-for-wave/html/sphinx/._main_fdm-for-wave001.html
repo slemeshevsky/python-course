@@ -1,0 +1,763 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Разностная схема для одномерного волнового уравнения</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+
+        <script src="http://sagecell.sagemath.org/static/jquery.min.js"></script>
+        <script src="http://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+
+        <script>sagecell.makeSagecell({inputLocation: ".sage"});</script>
+
+        <style type="text/css">
+                .sagecell .CodeMirror-scroll {
+                        overflow-y: hidden;
+                        overflow-x: auto;
+                }
+                .sagecell .CodeMirror {
+                        height: auto;
+                }
+        </style>
+
+    
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Разностные схемы для волнового уравнения" href="index.html"/>
+        <link rel="next" title="Программная реализация" href="._main_fdm-for-wave002.html"/>
+        <link rel="prev" title="Разностные схемы для волнового уравнения" href="._main_fdm-for-wave000.html"/>
+ 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+
+       <style type="text/css">
+         div.admonition {
+           background-color: whiteSmoke;
+           border: 1px solid #bababa;
+         }
+       </style>
+      </head>
+    
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Разностные схемы для волнового уравнения
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave000.html">Разностные схемы для волнового уравнения</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Разностная схема для одномерного волнового уравнения</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-string-eq-grid">Расчетная сетка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-string-eq-fdm">Разностная схема</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-string-eq-fds-init">Аппроксимация второго начального условия</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-string-eq-alg">Вычислительный алгоритм</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-string-eq-sketch">Эскиз программной реализации</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#fdm-for-wave-verif">Верификация программной реализации</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-verif-string-unhom">Неоднородное уравнение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-verif-analtic">Использование аналитического решения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-verif-manufact">Пробные функции</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-verif-fdm-ex-sol">Построение точного решения дискретной задачи</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html">Программная реализация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-vect">Векторизация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave003.html">Упражнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html">Обобщения: отражающие границы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-varvel">Обобщения: переменная скорость распространения волны</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-damping">Обобщения: затухания</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver">Разработка общего солвера для одномерного волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave005.html">Упражнения</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Разностные схемы для волнового уравнения</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Разностная схема для одномерного волнового уравнения</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/._main_fdm-for-wave001.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fdm-for-wave-string-eq">
+<span id="id1"></span><h1>Разностная схема для одномерного волнового уравнения<a class="headerlink" href="#fdm-for-wave-string-eq" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><span class="target" id="index-1"></span><p id="index-2">Рассмотрим одномерную математическую модель распространения колебаний
+на струне. Пусть струна в деформированном состоянии
+распространяется на интервале <span class="math">\([0, l]\)</span> оси <span class="math">\(x\)</span> и
+<span class="math">\(u(x,t)\)</span> &#8212; перемещение по времени в направлении <span class="math">\(y\)</span>
+точки, изначально лежащей на оси <span class="math">\(x\)</span>. Функция перемещения
+<span class="math">\(u(x,t)\)</span> определяется следующей математической моделью:</p>
+<div class="math" id="eq-fdm-for-wave-string-eq-eq-string">
+\[\tag{1}
+\frac{\partial^2 u}{\partial t^2} =
+       c^2 \frac{\partial^2 u}{\partial x^2},
+       \quad x \in (0, l), \quad t \in (0, T],\]</div>
+<div class="math" id="eq-fdm-for-wave-string-eq-eq-init-u">
+\[\tag{2}
+u(x,0) = I(x), \quad x \in [0, l],\]</div>
+<div class="math" id="eq-fdm-for-wave-string-eq-eq-init-vel">
+\[\tag{3}
+\frac{\partial u(x,0)}{\partial t} = 0, \quad x \in [0, l],\]</div>
+<div class="math" id="eq-fdm-for-wave-string-eq-eq-bound-left">
+\[\tag{4}
+u(0,t) = 0, \quad t \in (0, T],\]</div>
+<div class="math" id="eq-fdm-for-wave-string-eq-eq-bound-right">
+\[\tag{5}
+u(l,t) = 0, \quad t \in (0, T].\]</div>
+<p>Постоянная <span class="math">\(c\)</span> и функция <span class="math">\(I(x)\)</span> &#8212; заданы.</p>
+<p>Уравнение <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-string"><span class="std std-ref">(1)</span></a> известно как
+<em>волновое уравнение</em> (<em>уравнение колебаний струны</em>). Так как это
+уравнение в частных производных содержит вторую производную по
+времени, необходимо задать два начальных условия. Условие
+<a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-init-u"><span class="std std-ref">(2)</span></a> начальную форму струны,
+а условие <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-init-vel"><span class="std std-ref">(3)</span></a> означает, что начальная скорость
+струны равна нулю. Кроме того уравнение
+<a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-string"><span class="std std-ref">(1)</span></a> дополняется
+граничными условиями <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-bound-left"><span class="std std-ref">(4)</span></a> и
+<a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-bound-right"><span class="std std-ref">(5)</span></a>. Эти два условия означают,
+что струна закреплена на концах, т.е. перемещения равны нулю.</p>
+<p>Перейдем к построению конечно-разностной аппроксимации задачи
+<a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-string"><span class="std std-ref">(1)</span></a>&#8211;<a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-bound-right"><span class="std std-ref">(5)</span></a>.</p>
+<div class="section" id="fdm-for-wave-string-eq-grid">
+<span id="index-3"></span><span id="id2"></span><h2>Расчетная сетка<a class="headerlink" href="#fdm-for-wave-string-eq-grid" title="Permalink to this headline">¶</a></h2>
+<p>Для построения разностной схемы надо прежде всего ввести сетку в
+области изменения независимых переменных и задать шаблон,
+т.е. множество точек сетки, участвующих в аппроксимации
+дифференциального выражения. Введем равномерную сетку по переменному
+<span class="math">\(x\)</span> с шагом <span class="math">\(h\)</span></p>
+<div class="math">
+\[\omega_h = \left\{ x_i = ih, \ i = 0, 1, \ldots, N, \ hN = l
+\right\},\]</div>
+<p>и сетку по переменной <span class="math">\(t\)</span> с шагом <span class="math">\(\tau\)</span></p>
+<div class="math">
+\[\omega_{\tau} = \left\{ t_n = n\tau, \ n = 0, 1, \ldots, K, \ K\tau
+= T \right\}.\]</div>
+<p>Точки <span class="math">\((x_i,t_n)\)</span>, <span class="math">\(i = 0, 1, \ldots, N\)</span>,
+<span class="math">\(n = 0, 1, \ldots, K\)</span>, образуют узлы пространственно-временной
+сетки <span class="math">\(\omega_{h\tau} = \omega_h \times \omega_{\tau}\)</span>
+(см. рис. <a class="reference internal" href="#fdm-for-wave-string-eq-fig-1"><span class="std std-ref">Пространственно-временная сетка </span></a>)</p>
+<div class="figure" id="id12">
+<span id="fdm-for-wave-string-eq-fig-1"></span><a class="reference internal image-reference" href="_images/wave-grid.png"><img alt="_images/wave-grid.png" src="_images/wave-grid.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-text">Пространственно-временная сетка <span class="math">\(\omega_{h\tau}\)</span></span></p>
+</div>
+<span class="target" id="index-4"></span><span class="target" id="index-5"></span><p id="index-6">Узлы <span class="math">\((x_i,t_n)\)</span>, принадлежащие отрезкам
+<span class="math">\(I_0=\{0 \leq x \leq l,\ t = 0\}\)</span>, <span class="math">\(I_l=\{x = 0, \ 0 \leq t \leq T\}\)</span>,
+<span class="math">\(I_r=\{x = l, \ 0 \leq t \leq T\}\)</span> называются <em>граничными узлами</em>
+сетки <span class="math">\(\omega_{h\tau}\)</span>, а остальные узлы &#8212; <em>внутренними</em>. На
+рис.  <a class="reference internal" href="#fdm-for-wave-string-eq-fig-1"><span class="std std-ref">Пространственно-временная сетка </span></a> граничные узлы
+обозначены крестиками, а внутренние кружочками.</p>
+<p><em>Слоем</em> называется множество всех узлов сетки <span class="math">\(\omega_h\tau\)</span>,
+имеющих одну и ту же временную координату. Так, <span class="math">\(n\)</span>-м слоем
+называется множество узлов</p>
+<div class="math">
+\[(x_0, t_n), (x_1, t_n), \ldots, (x_N, t_n).\]</div>
+<p>Очевидно, минимальный шаблон, на котором можно аппроксимировать
+уравнение <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-string"><span class="std std-ref">(1)</span></a>, это пятиточечный
+шаблон, изображенный на рис. <a class="reference internal" href="#fdm-for-wave-string-eq-fig-2"><span class="std std-ref">Минимальный шаблон трехслойной разностной схемы</span></a>. Таким
+образом, здесь требуется использовать три временных слоя: <span class="math">\(n-1\)</span>, <span class="math">\(n\)</span>,
+<span class="math">\(n+1\)</span>. Такие схемы называются <em>трехслойными</em>. Их применение
+предполагает, что при нахождении значений <span class="math">\(y_i^{n+1}\)</span> на верхнем
+слое значения на предыдущих слоях <span class="math">\(y_i^{n}\)</span>, <span class="math">\(y_i^{n-1}\)</span>,
+<span class="math">\(i = 0, 1, \ldots, N\)</span> хранятся в памяти.</p>
+<div class="figure" id="id13">
+<span id="fdm-for-wave-string-eq-fig-2"></span><a class="reference internal image-reference" href="_images/wave-templ.png"><img alt="_images/wave-templ.png" src="_images/wave-templ.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-text"><em>Минимальный шаблон трехслойной разностной схемы</em></span></p>
+</div>
+</div>
+<div class="section" id="fdm-for-wave-string-eq-fdm">
+<span id="id3"></span><h2>Разностная схема<a class="headerlink" href="#fdm-for-wave-string-eq-fdm" title="Permalink to this headline">¶</a></h2>
+<p id="index-7">Простейшей разностной аппроксимацией уравнения <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-string"><span class="std std-ref">(1)</span></a> и
+граникных условий <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-bound-left"><span class="std std-ref">(4)</span></a> и
+<a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-bound-right"><span class="std std-ref">(5)</span></a> является следующая
+система уравнений:</p>
+<div class="math" id="eq-fdm-for-wave-string-eq-eq-fds">
+\[\tag{6}
+\frac{y_i^{n+1} - 2 y_i^{n} + y_i^{n-1}}{\tau^2} =
+       \frac{y_{i+1}^n - 2 y_{i}^n + y_{i-1}^n}{h^2},\]</div>
+<div class="math">
+\[i = 1, 2,
+\ldots, N-1, \ n = 1, 2, \ldots, K, \nonumber\]</div>
+<div class="math" id="eq-fdm-for-wave-string-eq-eq-fds-bound">
+\[\tag{7}
+y_0^{n+1} = y_N^{n+1} = 0, \quad n = 0, 1, \ldots, K-1.\]</div>
+<p>Разностное уравнение <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-string"><span class="std std-ref">(1)</span></a> имеет второй порядок
+погрешности аппроксимации по <span class="math">\(\tau\)</span> и по <span class="math">\(h\)</span>. Решение
+<span class="math">\(y_i^{n+1}\)</span> выражается явным образом через значения на
+предыдущих слоях:</p>
+<div class="math" id="eq-fdm-for-wave-string-eq-eq-fds-rec">
+\[\tag{8}
+y_i^{n+1} = 2 y_i^n - y_i^{n-1} + \gamma^2 (y_{i+1}^n - 2y_{i}^n +
+       y_{i-1}^n),\]</div>
+<div class="math">
+\[i = 1, 2, \ldots, N-1, \ n = 1, 2, \ldots, K-1. \nonumber\]</div>
+<p id="index-8">Здесь мы ввели параметр</p>
+<div class="math">
+\[\gamma = c\frac{\tau}{h},\]</div>
+<p>который называют <em>числом Куранта</em>.</p>
+<p>Для начала счета по <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-fds-rec"><span class="std std-ref">(8)</span></a> должны быть заданы значения
+<span class="math">\(y_i^0, y_i^1\)</span>, <span class="math">\(i = 0, 1, \ldots, N\)</span>. Из первого
+начального условия <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-init-u"><span class="std std-ref">(2)</span></a> сразу получаем</p>
+<div class="math" id="eq-fdm-for-wave-string-eq-eq-y0">
+\[\tag{9}
+y_i^0 = I(x_i), \quad i = 0, 1, \ldots, N.\]</div>
+</div>
+<div class="section" id="fdm-for-wave-string-eq-fds-init">
+<span id="id4"></span><h2>Аппроксимация второго начального условия<a class="headerlink" href="#fdm-for-wave-string-eq-fds-init" title="Permalink to this headline">¶</a></h2>
+<p>Простейшая замена второго начального условия <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-init-vel"><span class="std std-ref">(3)</span></a>
+уравнением <span class="math">\((y_i^1 - y_i^0)/\tau = 0\)</span> имеет лишь первый порядок
+аппроксимации по <span class="math">\(\tau\)</span>. Поскольку уравнение <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-fds"><span class="std std-ref">(6)</span></a>
+аппроксимирует уравнение <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-string"><span class="std std-ref">(1)</span></a> со
+вторым порядком, желательно, чтобы и разностное начальное условие
+также имело второй порядок аппроксимации. Построим такую
+аппроксимацию. Уравнение</p>
+<div class="math" id="eq-fdm-for-wave-string-eq-eq-fds-init">
+\[\tag{10}
+\frac{y_i^1 - y_i^{-1}}{2\tau} = 0,\]</div>
+<p>аппроксимирует уравнение <span class="math">\(\frac{\partial u}{\partial t} = 0\)</span> со
+вторым порядком. Чтобы найти значения <span class="math">\(y_i^{-1}\)</span> запишем
+уравнение <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-fds"><span class="std std-ref">(6)</span></a> при <span class="math">\(n = 0\)</span>:</p>
+<div class="math">
+\[\frac{y_i^1 - 2 y_i^0 + y_i^{-1}}{\tau^2} = y_{\bar{x}x,i}^0,\]</div>
+<p>Из <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-fds-init"><span class="std std-ref">(10)</span></a>  имеем <span class="math">\(y^{-1} = y^{1}\)</span>. Отсюда получаем</p>
+<div class="math" id="eq-fdm-for-wave-string-eq-eq-y1">
+\[\tag{11}
+y_i^1 = y_i^0 + \frac{\gamma^2}{2} \left( y_{i+1}^0 - 2 y_{i}^0 +
+       y_{i-1}^0 \right).\]</div>
+<p>Совокупность уравнений <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-fds"><span class="std std-ref">(6)</span></a>,
+<a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-fds-bound"><span class="std std-ref">(7)</span></a>,
+<a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-y0"><span class="std std-ref">(9)</span></a> и
+<a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-fds-init"><span class="std std-ref">(10)</span></a> составляет разностную
+схему, аппроксимирующую исходную задачу
+<a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-string"><span class="std std-ref">(1)</span></a>&#8211;<a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-bound-right"><span class="std std-ref">(5)</span></a>.</p>
+</div>
+<div class="section" id="fdm-for-wave-string-eq-alg">
+<span id="id5"></span><h2>Вычислительный алгоритм<a class="headerlink" href="#fdm-for-wave-string-eq-alg" title="Permalink to this headline">¶</a></h2>
+<p>Теперь мы можем сформулировать вычислительный алгоритм:</p>
+<ol class="arabic simple">
+<li>Вычисляем <span class="math">\(y_i^0\)</span>, используя <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-y0"><span class="std std-ref">(9)</span></a>.</li>
+<li>Вычисляем <span class="math">\(y_i^1\)</span>, используя <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-y1"><span class="std std-ref">(11)</span></a> и задаем граничные условия <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-fds-bound"><span class="std std-ref">(7)</span></a> при <span class="math">\(n=0\)</span>.</li>
+<li>Для всех временных слоев <span class="math">\(n = 1, 2, \ldots, K-1\)</span></li>
+</ol>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>находим <span class="math">\(y_i^{n+1}\)</span>, используя <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-fds-rec"><span class="std std-ref">(8)</span></a>.</li>
+<li>задаем граничные условия <a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-fds-bound"><span class="std std-ref">(7)</span></a>.</li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="fdm-for-wave-string-eq-sketch">
+<span id="id6"></span><h2>Эскиз программной реализации<a class="headerlink" href="#fdm-for-wave-string-eq-sketch" title="Permalink to this headline">¶</a></h2>
+<p>При реализации представленного алгоритма на Python будем использовать
+массивы <code class="docutils literal"><span class="pre">y[i]</span></code> для хранения значений <span class="math">\(y_i^{n+1}\)</span>, <code class="docutils literal"><span class="pre">y_1[i]</span></code> для
+хранения значений <span class="math">\(y_i^{n}\)</span> и <code class="docutils literal"><span class="pre">y_2[i]</span></code> для хранения
+<span class="math">\(y_i^{n-1}\)</span>. Можно считать, что используется следующее
+соглашение о названии переменных: <code class="docutils literal"><span class="pre">y</span></code> используется для вычисляемого
+пространственного распределения (сеточной функции) на новом временном
+шаге, <code class="docutils literal"><span class="pre">y_1</span></code> &#8212; решение на временном шаге, отстоящем на один
+временной слой назад, <code class="docutils literal"><span class="pre">y_2</span></code> &#8212; на два временных слоя назад и т.д.</p>
+<p>Алгоритм использует только три временных слоя, таким образом, нам
+достаточно иметь только три массива для <span class="math">\(y_i^{n+1}, y_i^n\)</span> и
+<span class="math">\(y_i^{n-1}\)</span>, <span class="math">\(i = 0, 1, \ldots, N\)</span>. Хранение всего
+решения в двумерном массиве размерности <span class="math">\((N+1) \times (K+1)\)</span>
+возможно в простейшем одномерном случае уравнений в частных
+производных, но не для двумерных и трехмерных задач. Таким образом,
+во всех программах для решения уравнений в частных производных мы будем
+хранить в памяти минимально возможное число временных слоев.</p>
+<p>Следующий фрагмент кода реализует вычислительный алгоритм</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># --- Start snippet 1 ---</span>
+<span class="c1"># Заданные сетки как массивы x и t</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">c</span><span class="o">*</span><span class="n">dt</span><span class="o">/</span><span class="n">dx</span>  <span class="c1"># Число Куранта</span>
+<span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">C2</span> <span class="o">=</span> <span class="n">C</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="c1"># Задаем начальное условие</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span>
+    <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">I</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="c1"># Используем специальную формулу для расчета на первом</span>
+<span class="c1"># временном шаге с учетом du/dt = 0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">C2</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">y</span><span class="p">[</span><span class="n">N</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># Применяем граничные условия</span>
+
+<span class="c1"># Изменяем переменные перед переходом на следующий</span>
+<span class="c1"># временной слой</span>
+<span class="n">y_2</span><span class="p">[:],</span> <span class="n">y_1</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="p">:</span>
+    <span class="c1"># Пересчитываем значения во внутренних узлах сетки на слое n+1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="p">:</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">C2</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># Задаем граничные условия</span>
+    <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">y</span><span class="p">[</span><span class="n">N</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># Изменяем переменные перед переходом на следующий</span>
+    <span class="c1"># временной слой</span>
+    <span class="n">y_2</span><span class="p">[:],</span> <span class="n">y_1</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">,</span> <span class="n">y</span>
+<span class="c1"># --- End snippet 1 ---</span>
+
+<span class="c1"># --- Start snippet 2 ---</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ip1</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">im1</span> <span class="o">=</span> <span class="n">ip1</span>  <span class="c1"># i-1 -&gt; i+1</span>
+<span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">im1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_1</span><span class="p">[</span><span class="n">ip1</span><span class="p">])</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="n">N</span>
+<span class="n">im1</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span>
+<span class="n">ip1</span> <span class="o">=</span> <span class="n">im1</span>  <span class="c1"># i+1 -&gt; i-1</span>
+<span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">im1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_1</span><span class="p">[</span><span class="n">ip1</span><span class="p">])</span>
+<span class="c1"># --- End snippet 2 ---</span>
+
+<span class="c1"># --- Start snippet 3 ---</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">ip1</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span> <span class="k">else</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">im1</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">im1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_1</span><span class="p">[</span><span class="n">ip1</span><span class="p">])</span>
+<span class="c1"># --- End snippet 3 ---</span>
+
+<span class="c1"># --- Start snippet 4 ---</span>
+<span class="c1"># Начальные условия</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Цикл по времени</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">It</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="c1"># Вычисление значений во внутренних узлах</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> \
+                   <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># Вычисление граничных условий</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1"># --- End snippet 4 ---</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="fdm-for-wave-verif">
+<span id="id7"></span><h1>Верификация программной реализации<a class="headerlink" href="#fdm-for-wave-verif" title="Permalink to this headline">¶</a></h1>
+<p>Прежде чем реализовывать алгоритм, удобно добавить в уравнение
+<a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-string"><span class="std std-ref">(1)</span></a> слагаемое, описывающее источник
+(правую часть), что даст свободу в выборе тестовых задач для
+верификации алгоритма.</p>
+<div class="section" id="fdm-for-wave-verif-string-unhom">
+<span id="index-9"></span><span id="id8"></span><h2>Неоднородное уравнение<a class="headerlink" href="#fdm-for-wave-verif-string-unhom" title="Permalink to this headline">¶</a></h2>
+<p>Рассмотрим следующую смешанную задачу для неоднородного волнового
+уравнения:</p>
+<div class="math" id="eq-fdm-for-wave-verif-eq-string-unhom">
+\[\tag{12}
+\frac{\partial^2 u}{\partial t^2} = c^2 \frac{\partial^2
+       u}{\partial x^2} + f(x, t), \quad x \in(0, l), \quad t \in (0,
+       T],\]</div>
+<div class="math" id="eq-fdm-for-wave-verif-eq-init-u-unhom">
+\[\tag{13}
+u(x,0) = I(x), \quad x \in [0, l],\]</div>
+<div class="math" id="eq-fdm-for-wave-verif-eq-init-vel-unhom">
+\[\tag{14}
+\frac{\partial u(x,0)}{\partial t} = V(x), \quad x \in [0, l],\]</div>
+<div class="math" id="eq-fdm-for-wave-verif-eq-bound-left-unhom">
+\[\tag{15}
+u(0, t) = 0, \quad t \in (0, T],\]</div>
+<div class="math" id="eq-fdm-for-wave-verif-eq-bound-right-unhom">
+\[\tag{16}
+u(l, t) = 0, \quad t \in (0, T].\]</div>
+<p>Аппроксимируя задачу
+<a class="reference internal" href="#eq-fdm-for-wave-verif-eq-string-unhom"><span class="std std-ref">(12)</span></a>&#8211;<a class="reference internal" href="#eq-fdm-for-wave-verif-eq-bound-right-unhom"><span class="std std-ref">(16)</span></a>
+(аналогично случаю однородного уравнения) разностной схемой второго
+порядка аппроксимации на сетке <span class="math">\(\omega_{h\tau}\)</span>, получим рекуррентное соотношение</p>
+<div class="math" id="eq-fdm-for-wave-verif-eq-fdm-rec">
+\[\tag{17}
+y_i^{n+1} = 2 y_i^n - y_i^{n-1} + \gamma^2 (y_{i+1}^n - 2y_{i}^n +
+       y_{i-1}^n) + \tau^2 f_i^n,\]</div>
+<div class="math">
+\[i = 1, 2, \ldots, N-1, \ n = 1, 2, \ldots, K-1. \nonumber\]</div>
+<p>Кроме того аппроксимируя начальное условие
+<a class="reference internal" href="#eq-fdm-for-wave-verif-eq-init-vel-unhom"><span class="std std-ref">(14)</span></a> со вторым порядком</p>
+<div class="math">
+\[\frac{y_i^1 - y_i^{-1}}{2\tau} = V(x_i) \Rightarrow y_i^{-1} =
+y_i^1 - 2\tau V(x_i),\]</div>
+<p>для нахождения значений приближенного решения на первом временном слое
+получим</p>
+<div class="math" id="eq-fdm-for-wave-verif-eq-y1-unhom">
+\[\tag{18}
+y_i^1 = y_i^0 + \tau V(x_i) + \frac{\gamma^2}{2} \left( y_{i+1}^0 - 2 y_{i}^0 +
+       y_{i-1}^0 \right) + \frac{\tau^2}{2} f_i^0.\]</div>
+</div>
+<div class="section" id="fdm-for-wave-verif-analtic">
+<span id="id9"></span><h2>Использование аналитического решения<a class="headerlink" href="#fdm-for-wave-verif-analtic" title="Permalink to this headline">¶</a></h2>
+<p>Многие волновые задачи описывают синусоидальные по времени и
+пространству. Например, исходная задача
+<a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-string"><span class="std std-ref">(1)</span></a>&#8211;<a class="reference internal" href="#eq-fdm-for-wave-string-eq-eq-bound-right"><span class="std std-ref">(5)</span></a>
+допускает точное решение</p>
+<div class="math" id="eq-fdm-for-wave-verif-eq-exact-sol">
+\[\tag{19}
+u_e(x,t) = A \sin \frac{\pi x}{l} \cos \frac{\pi c t}{l}\]</div>
+<p>Это решение удовлетворяет однородному волновому уравнению, однородным
+граничным условиям, а также начальным условиям
+<span class="math">\(I(x) = A\sin\frac{\pi x}{l}\)</span> и <span class="math">\(V = 0\)</span>.</p>
+<p>Обычной практикой является использование точного решения для
+тестирования программной реализации. Однако численное решение
+<span class="math">\(y_i^n\)</span> &#8212; это только некоторое приближение точного. Мы не
+знаем величину погрешности этого приближения и, следовательно, мы не
+можем знать возникает ли разница между <span class="math">\(y_i^n\)</span> и
+<span class="math">\(u_e(x_i,t_n)\)</span> из-за математического приближения или из-за
+ошибок в программе. В частности, когда графики приближенного и точного
+решений выглядят похоже, возникает соблазн сделать заключение о том,
+что программная реализация работает правильно. Однако, даже если
+графики выглядят похоже и точность кажется хорошей, все равно в
+программной реализации могут присутствовать существенные ошибки.</p>
+<p>Единственный способ использовать точное решение вида
+<a class="reference internal" href="#eq-fdm-for-wave-verif-eq-exact-sol"><span class="std std-ref">(19)</span></a> при верификации программы
+заключается в выполнении ряда расчетов, сгущая сетку, вычисляя
+интегральную погрешность на каждой сетке, и на основе этого оценить
+скорость сходимости метода.</p>
+<p>В нашем случае порядок сходимости метода равен 2 (см. следующий
+раздел), значит, вычисленная скорость сходимости должна быть близка к
+2 на достаточно мелкой сетке.</p>
+</div>
+<div class="section" id="fdm-for-wave-verif-manufact">
+<span id="id10"></span><h2>Пробные функции<a class="headerlink" href="#fdm-for-wave-verif-manufact" title="Permalink to this headline">¶</a></h2>
+<p>Преимущество использования метода пробных функций заключается в том,
+что мы можем тестировать все варианты в задаче
+<a class="reference internal" href="#eq-fdm-for-wave-verif-eq-string-unhom"><span class="std std-ref">(12)</span></a>&#8211;<a class="reference internal" href="#eq-fdm-for-wave-verif-eq-bound-right-unhom"><span class="std std-ref">(16)</span></a>. Идея
+метода заключается в том, что мы
+выбираем некоторую функцию и получаем соответствующие правую часть,
+граничные и начальные условия, подставив эту функцию в задачу. Кроме
+того, мы можем выбирать функцию, которая удовлетворяет граничным
+условиям. Например,</p>
+<div class="math">
+\[u_e(x,t) = x(l - x) \sin t.\]</div>
+<p>Подставляя эту функцию в уравнение
+<a class="reference internal" href="#eq-fdm-for-wave-verif-eq-string-unhom"><span class="std std-ref">(12)</span></a>, получаем</p>
+<div class="math">
+\[-x(l-x) \sin t = -c^2 2\sin t + f \Rightarrow f = (2 c^2 -
+x(l-x)) \sin t\]</div>
+<p>Начальные условия будут следующие</p>
+<div class="math">
+\[\begin{split}u(x,0) = I(x) = 0, \\
+\frac{\partial u(x,0)}{\partial t} = V(x) = x(l - x).\end{split}\]</div>
+<p>Для проверки программного кода, также нужно провести серию расчетов на
+последовательности сгущающихся сеток, чтобы оценить скорость
+сходимости в предположении, что некоторая мера <span class="math">\(E\)</span> погрешности
+зависит от шагов сетки следующим образом</p>
+<div class="math">
+\[E = C_t \tau^r + C_x h^p,\]</div>
+<p>где <span class="math">\(C_t, C_x, r\)</span> и <span class="math">\(p\)</span> &#8212; постоянные. Постоянные
+<span class="math">\(r\)</span> и <span class="math">\(p\)</span> характеризуют порядок сходимости по времени и
+пространству соответственно. Из анализа погрешности аппроксимации
+разностной схемы, мы ожидаем, что <span class="math">\(r = p = 2\)</span>.</p>
+<p>Используя точное решение дифференциальной задачи, мы можем вычислить
+меру погрешности <span class="math">\(E\)</span> на последовательности сгущающихся сеток и
+проверить наличие второго порядка точности <span class="math">\(r = p = 2\)</span>. Мы не
+будем оценивать константы <span class="math">\(C_t\)</span> и <span class="math">\(C_x\)</span>.</p>
+<p>Удобно ввести один параметр дискретизации <span class="math">\(d = \tau = \hat{c} h\)</span>
+с некоторой константой <span class="math">\(\hat{c}\)</span>. Так как <span class="math">\(\tau\)</span> и
+<span class="math">\(h\)</span> связаны числом Куранта <span class="math">\(\tau = \gamma h/c\)</span>, положим
+<span class="math">\(d = \tau\)</span>, тогда <span class="math">\(h = d c/\gamma\)</span>. Теперь выражения для меры в
+случае, когда <span class="math">\(p=r\)</span>, погрешности упрощается</p>
+<div class="math">
+\[E = C_t \tau^r + C_x h^r = C_t d^r + C_x \left( \frac{c}{\gamma}
+\right)^r d^r = D d^r, \quad
+D = C_t + C_x \left( \frac{c}{\gamma}\right)^r.\]</div>
+<p>Выбирая начальный параметр дискретизации <span class="math">\(d_0\)</span>, проводим серию
+расчетов для последовательности уменьшающихся шагов <span class="math">\(d_k =
+2^{-k} d_0\)</span>. Уменьшение шага в два раза необязательно, это обычный
+выбор. Для каждого расчета следует сохранять <span class="math">\(E\)</span> и
+<span class="math">\(d\)</span>. Наиболее часто в качестве меры погрешности используются
+<span class="math">\(\ell^2\)</span>- или <span class="math">\(\ell^{\infty}\)</span>-нормы сеточной функции
+погрешности <span class="math">\(e_i^n\)</span>:</p>
+<div class="math" id="eq-fdm-for-wave-verif-eq-e-l2">
+\[\tag{20}
+E = \| e_i^n\|_{\ell^2} = \left( \sum_{n = 0}^{K} \tau \sum_{i =
+       0}^{K} (e_i^n)^2 \right)^{1/2}, \quad
+       e_i^n = u_e(x_i, t_n) - y_i^n,\]</div>
+<div class="math" id="eq-fdm-for-wave-verif-eq-e-inf">
+\[\tag{21}
+E = \| e_i^n \|_{\ell^{\infty}} = \max_{i,n} |e_i^n|.\]</div>
+<p>При программной реализации на языке Python мы можем вычислить на
+каждом временном шаге <span class="math">\(\sum_{i} (e_i^n)^2\)</span>, а затем аккумулировать
+значение в некоторой переменной, например, <code class="docutils literal"><span class="pre">e2_sum</span></code>. А на последнем
+временном шаге выполнить что-то подобное <code class="docutils literal"><span class="pre">sqrt(dt*dx*e2_sum)</span></code>. Для
+<span class="math">\(\ell^{\infty}\)</span>-нормы нужно сравнить максимум погрешности на
+временном слое <code class="docutils literal"><span class="pre">e.max()</span></code> с глобальной погрешностью, полученной на предыдущих
+временных слоях, например, так: <code class="docutils literal"><span class="pre">e_max</span> <span class="pre">=</span> <span class="pre">max(e_max,</span> <span class="pre">e.max())</span></code>.</p>
+<p>Альтернативный способ измерения погрешности состоит в использовании
+только пространственной нормы на временном шаге, например, при
+значении времени <span class="math">\(T\)</span> (<span class="math">\(n = K\)</span>):</p>
+<div class="math" id="eq-fdm-for-wave-verif-eq-e-l2-lev">
+\[\tag{22}
+E = \| e_i^K \|_{\ell^2} = \left( \sum_{i =
+       0}^{K} (e_i^K)^2 \right)^{1/2}, \quad
+       e_i^K = u_e(x_i, t_K) - y_i^K,\]</div>
+<div class="math" id="eq-fdm-for-wave-verif-eq-e-inf-lev">
+\[\tag{23}
+E = \| e_i^K \|_{\ell^{\infty}} = \max_{0 \leq i \leq N} |e_i^K|.\]</div>
+<p>Главное, что мера погрешности <span class="math">\(E\)</span> &#8212; это одно число.</p>
+<p>Пусть <span class="math">\(E_k\)</span> &#8212; мера погрешности при расчете с номером <span class="math">\(k\)</span>
+и пусть <span class="math">\(h_k\)</span> &#8212; соответствующий параметр
+дискретизации. Учитывая, что <span class="math">\(E_k = D d_k^r\)</span> мы можем оценить
+<span class="math">\(r\)</span>, сравнивая два последовательных расчета</p>
+<div class="math">
+\[E_{k+1} = D d_{k+1}^r, \quad
+E_k = D d_k^r.\]</div>
+<p>Отсюда, выражая <span class="math">\(r\)</span>, получим</p>
+<div class="math">
+\[r_k = \frac{\ln E_{k+1}/E_k}{\ln d_{k+1}/d_k}.\]</div>
+<p>Так как <span class="math">\(r\)</span> зависит от <span class="math">\(k\)</span>, то добавили индекс к
+<span class="math">\(r\)</span>: <span class="math">\(r_k\)</span>, <span class="math">\(k = 0, 1, \ldots, m - 2\)</span>, где <span class="math">\(m\)</span>
+&#8212; количество проведенных расчетов: <span class="math">\((d_0, E_0), (d_1, E_1),\ldots, (d_m, E_m)\)</span>.</p>
+<p>В нашем случае ожидается, что <span class="math">\(r = 2\)</span> и, следовательно,
+последовательность <span class="math">\(r_k\)</span> должна стремиться к <span class="math">\(2\)</span> с ростом
+<span class="math">\(k\)</span>.</p>
+</div>
+<div class="section" id="fdm-for-wave-verif-fdm-ex-sol">
+<span id="id11"></span><h2>Построение точного решения дискретной задачи<a class="headerlink" href="#fdm-for-wave-verif-fdm-ex-sol" title="Permalink to this headline">¶</a></h2>
+<p>Используя метод пробных функций и точное аналитическое решение
+дифференциальной задачи, как упоминалось выше, мы можем оценить
+скорость сходимости и правильное асимптотическое поведение. Опыт
+показывает, что этот способ верификации достаточно хорош, так как
+многие ошибки в программной реализации приводят к нарушению скорости
+сходимости. Однако нам кажется, что для верификации программной
+реализации, более точный тест тот, который позволяет проверить
+совпадает ли численное решение с тем, которое точно должно быть. Это
+требует точного знания численной погрешности, которого мы обычно не
+можем получить. Однако, можно рассмотреть решение, для которого
+численная погрешность равна нулю, т.е. решение исходной
+дифференциальной задачи, которое так же является точным решением
+разностной схемы. Это часто возникает, когда решением дифференциальной
+задачи является полином небольшой степени. (Анализ погрешности
+аппроксимации приводит к оценке погрешности, содержащей производные
+решения. В нашем случае, погрешность аппроксимации содержит
+производные четвертого порядка по пространству и времени. Выбирая
+в качестве точного решения полином степени не выше третьей, мы получим
+погрешность равную нулю.)</p>
+<p>Рассмотрим построение точного решения как дифференциальной так и
+разностной задачи. Выберем в качестве пробной функции полиномиальную
+(второго порядка по пространственной переменной и первого по временной
+переменной):</p>
+<div class="math" id="eq-fdm-for-wave-verif-eq-quad-sol">
+\[\tag{24}
+u_e(x,t) = x(l - x)(1 + 0.5 t),\]</div>
+<p>которое дает <span class="math">\(f(x,t) = 2(1+t)c^2\)</span>. Это решение удовлетворяет
+однородным граничным условиям <a class="reference internal" href="#eq-fdm-for-wave-verif-eq-bound-left-unhom"><span class="std std-ref">(15)</span></a>
+и <a class="reference internal" href="#eq-fdm-for-wave-verif-eq-bound-right-unhom"><span class="std std-ref">(16)</span></a>, а также начальным условиям
+<a class="reference internal" href="#eq-fdm-for-wave-verif-eq-init-u-unhom"><span class="std std-ref">(13)</span></a> с <span class="math">\(I(x) = x(l - x)\)</span> и
+<a class="reference internal" href="#eq-fdm-for-wave-verif-eq-init-vel-unhom"><span class="std std-ref">(14)</span></a> с <span class="math">\(V(x) = 0.5 x(l - x)\)</span>.</p>
+<p>Чтобы убедиться, что <span class="math">\(u_e\)</span> является точным решением разностной
+схемы выполним вычисления</p>
+<div class="math">
+\[\begin{split}\begin{align*}
+   u_{e\bar{t}t,i}^n &amp;= x_i(x_i-l) (t)_{\bar{t}t}^n \nonumber\\
+   &amp;= x_i(x_i-l) \frac{1 + 0.5t_{n+1} - 2 - t_n + 1 + 0.5t_{n-1}}{\tau^2} \nonumber\\
+   &amp;=
+   x_i(x_i-l) \tau \frac{0.5(n+1) - n + 0.5(n-1)}{\tau^2} = 0, \nonumber\\
+   u_{e\bar{x}x,i}^n &amp;= (1 + 0.5 t_n) (l x - x^2)_{\bar{x}x,i} \nonumber\\
+   &amp;= (1 + 0.5t_n) (l(x)_{\bar{x}x,i} - (x^2)_{\bar{x}x,i}) \nonumber\\
+   &amp;= - (1 + 0.5t_n) \frac{x_{i+1}^2 - 2x_i^2 + x_{i-1}^2}{h^2} \nonumber\\
+   &amp;= - (1 + 0.5t_n) h^2 \frac{(i+1)^2 - 2i^2 + (i-1)^2}{h^2} \nonumber\\
+   &amp;= -2(1 + 0.5 t_n). \nonumber
+\end{align*}\end{split}\]</div>
+<p>Отсюда, <span class="math">\(f_i^n = 2(1 + 0.5 t_n)c^2\)</span>. Кроме того,
+<span class="math">\(u_e(x_i,0) = I(x_i)\)</span> и <span class="math">\(\frac{\partial u(x,0)}{\partial
+t} = V(x_i)\)</span>, а также <span class="math">\(u_e(x_i,t_n)\)</span> удовлетворяет разностному
+уравнению для вычисления приближенного решения на первом временном
+шаге <a class="reference internal" href="#eq-fdm-for-wave-verif-eq-y1-unhom"><span class="std std-ref">(18)</span></a>.</p>
+<p>Таким образом, точное решение дифференциальной задачи
+<a class="reference internal" href="#eq-fdm-for-wave-verif-eq-quad-sol"><span class="std std-ref">(24)</span></a>
+является точным решением разностной схемы. Мы
+можем использовать его для проверки совпадения вычисленного
+приближенного решения <span class="math">\(y_i^n\)</span> со значением <span class="math">\(u_e(x_i, t_n)\)</span>
+с учетом машинной точности, независимо от значения временных шагов
+<span class="math">\(h\)</span> и <span class="math">\(\tau\)</span>. Тем не менее, следует учитывать ограничения
+на шаги из условия устойчивости, т.е. тесты следует выполнять только
+на сетках удовлетворяющих условию устойчивости, которое в нашем случае
+имеет вид <span class="math">\(\gamma \leq 1\)</span> и будет получено позже.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Произведение квадратичного или линейного выражений от разных
+независимых переменных, как показано выше, часто является точным
+решением как дифференциальной так и разностной задач, и может
+использоваться для верификации программной реализации алгоритма.</p>
+<p class="last">Однако, для одномерного волнового уравнения вида
+<span class="math">\(\frac{\partial^2 u}{\partial t^2} = c^2 \frac{\partial^2
+u}{\partial t^2}\)</span>, как мы увидим далее, существует другой способ
+генерации точных решений, который состоит в только выборе числа
+Куранта равным единице, <span class="math">\(\gamma = 1\)</span>!</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="._main_fdm-for-wave002.html" class="btn btn-neutral float-right" title="Программная реализация" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="._main_fdm-for-wave000.html" class="btn btn-neutral" title="Разностные схемы для волнового уравнения" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, С.В. Лемешевский.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

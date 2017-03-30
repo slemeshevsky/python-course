@@ -1,0 +1,21 @@
+.. Automatically generated Sphinx-extended reStructuredText file from DocOnce source
+   (https://github.com/hplgit/doconce/)
+
+.. Document title:
+
+Разностные схемы для волнового уравнения
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+:Authors: С.В. Лемешевский (sergey.lemeshevsky at gmail.com)
+:Date: Mar 30, 2017
+
+*Abstract.* Многие физические волновые процессы приводят описываются
+уравнениями в частных производных гиперболического типа
+:math:`\frac{\partial^2 u}{\partial t^2} = \nabla \cdot (c^2 \nabla u) + f`,
+решение которого с помощью метода конечных разностей мы рассмотрим в
+данной части. 
+
+.. Common Mako variable and functions
+
+.. -*- coding: utf-8 -*-
+

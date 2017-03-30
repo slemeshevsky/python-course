@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Упражнения</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+
+        <script src="http://sagecell.sagemath.org/static/jquery.min.js"></script>
+        <script src="http://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+
+        <script>sagecell.makeSagecell({inputLocation: ".sage"});</script>
+
+        <style type="text/css">
+                .sagecell .CodeMirror-scroll {
+                        overflow-y: hidden;
+                        overflow-x: auto;
+                }
+                .sagecell .CodeMirror {
+                        height: auto;
+                }
+        </style>
+
+    
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Разностные схемы для волнового уравнения" href="index.html"/>
+        <link rel="prev" title="Обобщения: отражающие границы" href="._main_fdm-for-wave004.html"/>
+ 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+
+       <style type="text/css">
+         div.admonition {
+           background-color: whiteSmoke;
+           border: 1px solid #bababa;
+         }
+       </style>
+      </head>
+    
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Разностные схемы для волнового уравнения
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave000.html">Разностные схемы для волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html">Разностная схема для одномерного волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif">Верификация программной реализации</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html">Программная реализация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-vect">Векторизация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave003.html">Упражнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html">Обобщения: отражающие границы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-varvel">Обобщения: переменная скорость распространения волны</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-damping">Обобщения: затухания</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver">Разработка общего солвера для одномерного волнового уравнения</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Упражнения</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#exercise-6">Exercise 6: Нахождение аналитического решения волнового уравнения с затуханием</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problem-7">Problem 7: Анализ симметричных граничных условий</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercise-8">Exercise 8: Имульс через слоистую среду</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercise-9">Exercise 9: Объяснение почему возникают численные шумы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercise-10">Exercise 10: Исследование гармонического среднего в одномерной модели</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problem-11">Problem 11: Реализация условий открытых границ</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Разностные схемы для волнового уравнения</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Упражнения</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/._main_fdm-for-wave005.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fdm-for-wave-exercises2">
+<span id="id1"></span><h1>Упражнения<a class="headerlink" href="#fdm-for-wave-exercises2" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="exercise-6">
+<span id="fdm-for-wave-exercises2-1"></span><h2>Exercise 6: Нахождение аналитического решения волнового уравнения с затуханием<a class="headerlink" href="#exercise-6" title="Permalink to this headline">¶</a></h2>
+<p>Рассмотрим волновое уравнение с затуханием
+<a class="reference internal" href="._main_fdm-for-wave004.html#eq-fdm-for-wave-damping-eq-vibr"><span class="std std-ref">(44)</span></a>. Цель упражнения &#8212; найти точное
+решение задачи с затуханием. Отправная точка &#8212; стоячая волна из
+<a class="reference internal" href="._main_fdm-for-wave003.html#fdm-for-wave-exercises-1"><span class="std std-ref">Exercise 1: Моделирование стоячей волны</span></a>. Необходимо включить множитель затухания
+<span class="math">\(e^{-ct}\)</span>, а также синусоидальной и косинусоидальные компоненты по
+времени:</p>
+<div class="math">
+\[u_e(x,t) =  e^{-\beta t}
+\sin kx \left( A\cos\omega t + B\sin\omega t\right).\]</div>
+<p>Найти <span class="math">\(k\)</span>, используя граничные условия <span class="math">\(u(0,t) = u(l,t) = 0\)</span>. Затем
+используйте уравнение для нахождения ограничений на <span class="math">\(\beta\)</span>, <span class="math">\(\omega\)</span>,
+<span class="math">\(A\)</span> и <span class="math">\(B\)</span>. Сформулируйте полную начально-краевую задачу и ее решение.
+Filename: <code class="docutils literal"><span class="pre">damped_waves</span></code>.</p>
+</div>
+<div class="section" id="problem-7">
+<span id="fdm-for-wave-exercises2-2"></span><h2>Problem 7: Анализ симметричных граничных условий<a class="headerlink" href="#problem-7" title="Permalink to this headline">¶</a></h2>
+<p>Рассмотрим простую волну-&#8220;площадку&#8221;, где <span class="math">\(\Omega = [-l, l]\)</span> и</p>
+<div class="math">
+\[\begin{split}I(x) = \begin{cases}
+1, &amp; x \in [-\delta, \delta],\\
+0, \textrm{иначе},
+\end{cases}\end{split}\]</div>
+<p>для некоторого числа <span class="math">\(0 &lt; \delta &lt; l\)</span>. Второе начальное условие &#8212;
+<span class="math">\(\frac{\partial u(x,0)}{\partial t} = 0\)</span>. Предположим также, что отсутствует правая часть
+<span class="math">\(f\)</span>. В качестве граничных условий выберем однородные условия
+Дирихле. Решение данной задачи симметрично относительно <span class="math">\(x = 0\)</span>. Это
+означает, что мы можем проводить моделирование только на половине
+области <span class="math">\([0,l]\)</span>.</p>
+<p><strong>1)</strong> Показать почему симметричным граничным условием будет <span class="math">\(\frac{\partial u}{\partial x}
+= 0\)</span> при <span class="math">\(x = 0\)</span>.</p>
+<p><strong>2)</strong> Выполнить расчет задачи для волнового уравнения на отрезке
+<span class="math">\([-l,l]\)</span>. После этого, используйте симметричность решения и выполните
+расчет в половине области <span class="math">\([0,l]\)</span>, используя симметричное граничное
+условие при <span class="math">\(x = 0\)</span>. Сравните два решения и удостоверьтесь в том, что
+они совпадают.</p>
+<p><strong>3)</strong> Докажите симметричность решения, сформулировав начально-краевую
+задачу и показав, что если <span class="math">\(u(x,t)\)</span> &#8212; решение задачи, то и <span class="math">\(u(-x,t)\)</span>
+также является решением этой задачи.</p>
+<p><strong>Hint.</strong>
+Симметричность функции относительно <span class="math">\(x_0 = 0\)</span> означает, что <span class="math">\(f(x_0+h)
+= f(x_0 - h)\)</span>.</p>
+<p>Filename: <code class="docutils literal"><span class="pre">waved1d_symmetric</span></code>.</p>
+</div>
+<div class="section" id="exercise-8">
+<span id="fdm-for-wave-exercises2-3"></span><h2>Exercise 8: Имульс через слоистую среду<a class="headerlink" href="#exercise-8" title="Permalink to this headline">¶</a></h2>
+<p>Используйте функцию <code class="docutils literal"><span class="pre">pulse</span></code> из
+<a class="reference external" href="src-fdm-for-wave/wave1d_dn_vc.py">wave1d_dn_vc.py</a> для того, чтобы
+исследовать распространение импульса, чей начальный пик расположен в
+<span class="math">\(x=0\)</span>, через две среды с разными скоростями распространения
+волн. Скорость распространения волны в левой области положить равной
+<span class="math">\(1\)</span>, а в правой области &#8212; <span class="math">\(s_f\)</span>. Показать, что происходит для
+разных импульсов при <span class="math">\(N_x = 40, 80, 160\)</span> и <span class="math">\(s_f = 2, 4\)</span>. Моделирование
+проводить до <span class="math">\(T = 2\)</span>.
+Filename: <code class="docutils literal"><span class="pre">pulse1d.py</span></code>.</p>
+</div>
+<div class="section" id="exercise-9">
+<span id="fdm-for-wave-exercises2-4"></span><h2>Exercise 9: Объяснение почему возникают численные шумы<a class="headerlink" href="#exercise-9" title="Permalink to this headline">¶</a></h2>
+<p>Эксперименты из <a class="reference internal" href="#fdm-for-wave-exercises2-3"><span class="std std-ref">Exercise 8: Имульс через слоистую среду</span></a> показывают существенные
+численные шумы (осцилляции) в виде нифизичных колебаний, особенно для
+<span class="math">\(s_f = 4\)</span> и импульса площадки (<code class="docutils literal"><span class="pre">plug</span></code>) или <code class="docutils literal"><span class="pre">half-cosinehat</span></code>
+импульса. Шумы менее видны для Гауссового импульса. Выполните варианты
+расчетов для импульсов <code class="docutils literal"><span class="pre">plug</span></code> и <code class="docutils literal"><span class="pre">half-cosinehat</span></code> при <span class="math">\(s_f = 1\)</span>,
+<span class="math">\(\gamma = 0.9, 0.25\)</span> и <span class="math">\(N_x = 40, 80, 160\)</span>. Используйте отношение
+численной дисперсии для обоснования результатов.
+Filename: <code class="docutils literal"><span class="pre">pulse1d_analysis</span></code>.</p>
+</div>
+<div class="section" id="exercise-10">
+<span id="fdm-for-wave-exercises2-5"></span><h2>Exercise 10: Исследование гармонического среднего в одномерной модели<a class="headerlink" href="#exercise-10" title="Permalink to this headline">¶</a></h2>
+<p>Гармонические средние часто используются, когда скорость
+распространения волны негладкая или разрывная. Даст ли меньшие шумы
+использование гармонического среднего при аппроксимации коэффициента
+уравнения для <span class="math">\(s_f=4\)</span> в <a class="reference internal" href="#fdm-for-wave-exercises2-4"><span class="std std-ref">Exercise 9: Объяснение почему возникают численные шумы</span></a>?
+Filename: <code class="docutils literal"><span class="pre">pulse1d_harmonic.py</span></code>.</p>
+</div>
+<div class="section" id="problem-11">
+<span id="fdm-for-wave-exercises2-6"></span><h2>Problem 11: Реализация условий открытых границ<a class="headerlink" href="#problem-11" title="Permalink to this headline">¶</a></h2>
+<p>Для того, чтобы дать возможность волне покинуть вычислительную область
+и перемещаться без искажений через границу <span class="math">\(x=l\)</span>, в одномерной модели
+можно наложить следующее условие, называемое <em>условием излучения</em> или
+<em>условием открытой границы</em>:</p>
+<div class="math" id="eq-fdm-for-wave-exercises2-eq-right-open-bound">
+\[\tag{52}
+\frac{\partial u}{\partial t} + c \frac{\partial u}{\partial x} = 0.\]</div>
+<p>Параметр <span class="math">\(c\)</span> &#8212; скорость распространения волны.</p>
+<p>Показать, что
+<a class="reference internal" href="#eq-fdm-for-wave-exercises2-eq-right-open-bound"><span class="std std-ref">(52)</span></a> допускает решение <span class="math">\(u =
+g_R(x - ct)\)</span> (волна, бегущая вправо), но не <span class="math">\(u = g_L(x + ct)\)</span> (волна,
+бегущая влево).</p>
+<p>Соответствующее условие открытой границы при <span class="math">\(x=0\)</span> имеет вид</p>
+<div class="math" id="eq-fdm-for-wave-exercises2-eq-left-open-bound">
+\[\tag{53}
+\frac{\partial u}{\partial t} - c \frac{\partial u}{\partial x} = 0.\]</div>
+<p><strong>1)</strong> Естественная идея аппроксимации граничного условия
+<a class="reference internal" href="#eq-fdm-for-wave-exercises2-eq-right-open-bound"><span class="std std-ref">(52)</span></a> в конечном узле с
+индексом <span class="math">\(i = N\)</span> заключается в использовании центральных разностных
+производных по пространственной и временной перемменной:</p>
+<div class="math" id="eq-fdm-for-wave-exercises2-eq-right-open-bound-fds">
+\[\tag{54}
+y_{\mathring{t},N}^n + c y_{\mathring{x},N}^n = 0.\]</div>
+<p>Избавиться от фиктивного значения <span class="math">\(y_{N+1}^n\)</span>, используя аппроксимацию
+уравнения в этой же точке.</p>
+<p>Уравнение для <span class="math">\(y_i^1\)</span> также нарушается, мы можем использовать условие
+<span class="math">\(u_N^1=0\)</span>, так как волна еще не достигла правой границы.</p>
+<p><strong>2)</strong> Более удобная реализация условия открытой границы при <span class="math">\(x = l\)</span>
+может основываться на явной дискретизации</p>
+<div class="math" id="eq-fdm-for-wave-exercises2-eq-right-open-bound-fds-exp">
+\[\tag{55}
+y_{t,N}^n + c y_{\bar{x},N}^n = 0.\]</div>
+<p>Из этого уравнения можно найти <span class="math">\(y_N^{n+1}\)</span> и его как условие
+Дирихле. Однако, в этом случае аппроксимация будет иметь первый
+порядок.</p>
+<p>Реализовать эту схему для волнового уравнения <span class="math">\(\frac{\partial^2 u}{\partial t^2} = c^2
+\frac{\partial^2 u}{\partial x^2}\)</span> на отрезке <span class="math">\([0,l]\)</span> с граничным условием <span class="math">\(\frac{\partial u}{\partial x} = 0\)</span>
+при <span class="math">\(x = 0\)</span>, условием
+<a class="reference internal" href="#eq-fdm-for-wave-exercises2-eq-right-open-bound"><span class="std std-ref">(52)</span></a> при <span class="math">\(x = l\)</span>, и начальным
+возмущением в центре отрезка, например, профиль-площадка вида</p>
+<div class="math">
+\[\begin{split}u(x,0) = \begin{cases}
+1, &amp; l/2-\ell \leq x \leq l/2+\ell,\\
+0, &amp;\textrm{в противном случае}.
+\end{cases}\end{split}\]</div>
+<p>Обратите внимание на то, что начальный профиль распадается на две
+площадки, волна, бегущая влево, отражается от границы <span class="math">\(x = 0\)</span>, и обе
+волны уходят за границу <span class="math">\(x = l\)</span>, оставляя в итоге решение <span class="math">\(u = 0\)</span>
+на <span class="math">\([0, l]\)</span>. Используйте число Куранта равное единице, что позволит
+получить точное решение. Создать анимированный график.</p>
+<p><strong>3)</strong> Добавить возможность задание либо условия <span class="math">\(\frac{\partial u}{\partial x} = 0\)</span>, либо
+условия открытой границы при <span class="math">\(x=0\)</span>. Последнее условие аппроксимировать
+как</p>
+<div class="math">
+\[y_{t,0}^n - c y_{x,i}^n = 0,\]</div>
+<p>дающее возможность явного вычисления <span class="math">\(y_0^{n+1}\)</span>.</p>
+<p>Реализацию можно протестировать на функции Гаусса как начальном
+условии:</p>
+<div class="math">
+\[g(x; m, s) = \frac{1}{\sqrt{2\pi} s}e^{-\frac{(x-m)^2}{2s^2}}.\]</div>
+<p>Выполнить два теста:
+1. Возмущение в центре области, <span class="math">\(I(x) = g(x; l/2, s)\)</span> и открытой левой</p>
+<p>границей.
+1. Возмущение на левом конце области, <span class="math">\(I(x) = g(x; 0, s)\)</span> и условием</p>
+<p>симметрии <span class="math">\(\frac{\partial u}{\partial x} = 0\)</span> на левой границе.</p>
+<p>Создать юнит-тесты для обоих случаев, проверяющие, что решение равно
+нулю после того, как волна покинет область.</p>
+<p><strong>Hint.</strong>
+Модифицируйте солвер из <a class="reference external" href="src-fdm-for-wave/wave1d_n.py">wave1d_n.py</a>.</p>
+<p>Filename: <code class="docutils literal"><span class="pre">wave1d_open_bc.py</span></code>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="._main_fdm-for-wave004.html" class="btn btn-neutral" title="Обобщения: отражающие границы" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, С.В. Лемешевский.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

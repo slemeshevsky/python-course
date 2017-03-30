@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Разностные схемы для волнового уравнения</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+
+        <script src="http://sagecell.sagemath.org/static/jquery.min.js"></script>
+        <script src="http://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+
+        <script>sagecell.makeSagecell({inputLocation: ".sage"});</script>
+
+        <style type="text/css">
+                .sagecell .CodeMirror-scroll {
+                        overflow-y: hidden;
+                        overflow-x: auto;
+                }
+                .sagecell .CodeMirror {
+                        height: auto;
+                }
+        </style>
+
+    
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Разностные схемы для волнового уравнения" href="#"/>
+        <link rel="next" title="Разностные схемы для волнового уравнения" href="._main_fdm-for-wave000.html"/>
+ 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+
+       <style type="text/css">
+         div.admonition {
+           background-color: whiteSmoke;
+           border: 1px solid #bababa;
+         }
+       </style>
+      </head>
+    
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> Разностные схемы для волнового уравнения
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave000.html">Разностные схемы для волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html">Разностная схема для одномерного волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif">Верификация программной реализации</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html">Программная реализация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-vect">Векторизация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave003.html">Упражнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html">Обобщения: отражающие границы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-varvel">Обобщения: переменная скорость распространения волны</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-damping">Обобщения: затухания</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver">Разработка общего солвера для одномерного волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave005.html">Упражнения</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Разностные схемы для волнового уравнения</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>Разностные схемы для волнового уравнения</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>Разностные схемы для волнового уравнения<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave000.html">Разностные схемы для волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html">Разностная схема для одномерного волнового уравнения</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-string-eq-grid">Расчетная сетка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-string-eq-fdm">Разностная схема</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-string-eq-fds-init">Аппроксимация второго начального условия</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-string-eq-alg">Вычислительный алгоритм</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-string-eq-sketch">Эскиз программной реализации</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif">Верификация программной реализации</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif-string-unhom">Неоднородное уравнение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif-analtic">Использование аналитического решения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif-manufact">Пробные функции</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif-fdm-ex-sol">Построение точного решения дискретной задачи</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html">Программная реализация</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-impl-user-action">Функция обратного вызова для действий, заданных пользователем</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-impl-solver">Функция-солвер</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-impl-ver-quad">Верификация: точное решение &#8212; полином второй степени</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-impl-viz">Визуализация: анимация решения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-impl-running">Запуск варианта расчета</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-impl-scaled">Безразмерная модель</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-vect">Векторизация</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-vect-op">Операции на срезах массивов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-vect-slices-fdm">Разностные схемы, выраженные в срезах</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-vect-verif">Верификация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-vect-eff">Измерение эффективности</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-vect-array-updating">Замечание об обновлении массивов</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave003.html">Упражнения</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave003.html#exercise-1">Exercise 1: Моделирование стоячей волны</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave003.html#exercise-2">Exercise 2: Добавить сохранение решения в функции действий пользователя</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave003.html#exercise-3">Exercise 3: Использование класса для функции действий пользователя</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave003.html#exercise-4">Exercise 4: Сравнение нескольких чисел Куранта на одном видео</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave003.html#project-5">Project 5: Исчисления с одномерными сеточными функциями</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html">Обобщения: отражающие границы</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-refl-neumann">Граничные условия Неймана</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-refl-deriv-appr">Аппроксимация производной на границе</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-refl-impl">Программная реализация условий Неймана</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-refl-idx-set">Обозначение множеств индексов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-refl-ver">Верификация реализации граничных условий Неймана</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-refl-ghost">Реализация граничных условий Неймана с использованием мнимых ячеек</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-varvel">Обобщения: переменная скорость распространения волны</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-varvel-model">Модельное уравнение с переменными коэффициентами</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-varvel-coeff-appr">Аппроксимация переменных коэффициентов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-varvel-neumann">Условия Неймана и переменные коэффициенты</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-varvel-more-gen">Более общее уравнение с переменными коэффициенты</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-damping">Обобщения: затухания</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver">Разработка общего солвера для одномерного волнового уравнения</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver-user-action">Реализация функции действий полозователя в виде класса</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver-pulse">Распространение импульса в двух средах</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave005.html">Упражнения</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave005.html#exercise-6">Exercise 6: Нахождение аналитического решения волнового уравнения с затуханием</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave005.html#problem-7">Problem 7: Анализ симметричных граничных условий</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave005.html#exercise-8">Exercise 8: Имульс через слоистую среду</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave005.html#exercise-9">Exercise 9: Объяснение почему возникают численные шумы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave005.html#exercise-10">Exercise 10: Исследование гармонического среднего в одномерной модели</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave005.html#problem-11">Problem 11: Реализация условий открытых границ</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="index">
+<h1>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+</ul>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="._main_fdm-for-wave000.html" class="btn btn-neutral float-right" title="Разностные схемы для волнового уравнения" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, С.В. Лемешевский.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

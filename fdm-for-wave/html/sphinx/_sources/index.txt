@@ -1,0 +1,24 @@
+
+.. Master file automatically created by doconce sphinx_dir
+
+
+Разностные схемы для волнового уравнения
+============================================================================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   ._main_fdm-for-wave000
+   ._main_fdm-for-wave001
+   ._main_fdm-for-wave002
+   ._main_fdm-for-wave003
+   ._main_fdm-for-wave004
+   ._main_fdm-for-wave005
+
+
+Index
+=====
+
+* :ref:`genindex`
