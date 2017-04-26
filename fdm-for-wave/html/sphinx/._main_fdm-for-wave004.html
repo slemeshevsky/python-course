@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -50,7 +52,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Разностные схемы для волнового уравнения" href="index.html"/>
+    <link rel="top" title="Разностные схемы для волнового уравнения 1.0 documentation" href="index.html"/>
         <link rel="next" title="Упражнения" href="._main_fdm-for-wave005.html"/>
         <link rel="prev" title="Упражнения" href="._main_fdm-for-wave003.html"/>
  
@@ -70,6 +72,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -110,7 +113,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave000.html">Разностные схемы для волнового уравнения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html">Разностная схема для одномерного волнового уравнения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif">Верификация программной реализации</a></li>
@@ -139,6 +145,18 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#fdm-for-wave-damping">Обобщения: затухания</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#fdm-for-wave-gen-solver">Разработка общего солвера для одномерного волнового уравнения</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-gen-solver-solver">Функция-солвер</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fdm-for-wave-gen-solver-solver-code">Код</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fdm-for-wave-gen-solver-solver-dissect">Разбор</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-gen-solver-verif">Верификация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#savez">Сохранение больших архивов в файлы с использованием <code class="docutils literal"><span class="pre">savez</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id21">Сохранение индивидуальных массивов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zip">Слияние zip-архивов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">Чтение массивов из zip-архива</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-gen-solver-user-action">Реализация функции действий полозователя в виде класса</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#fdm-for-wave-gen-solver-code">Код</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fdm-for-wave-gen-solver-dissect">Разбор</a></li>
@@ -148,6 +166,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave005.html">Упражнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave006.html">Создание ПО с использованием ООП</a></li>
 </ul>
 
             
@@ -160,8 +179,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">Разностные схемы для волнового уравнения</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Разностные схемы для волнового уравнения</a>
+        
       </nav>
 
 
@@ -170,23 +191,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Обобщения: отражающие границы</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Обобщения: отражающие границы</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="_sources/._main_fdm-for-wave004.txt" rel="nofollow"> View page source</a>
+            
+            <a href="_sources/._main_fdm-for-wave004.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -251,7 +289,7 @@ y_0^{n+1} = 2y_0^{n} - y_0^{n-1} + \gamma^2 (y_{1}^n - 2y_{0}^n +
 y_0^{n+1} = 2y_0^{n} - y_0^{n-1} + 2\gamma^2 (y_{1}^n - 2y_{0}^n).\]</div>
 <p>На рис. <a class="reference internal" href="#fdm-for-wave-refl-fig-1"><span class="std std-ref">Модифицированный шаблон на левой границе для аппроксимации условия Неймана</span></a> представлен шаблон схемы на левой
 границе области с учетом аппроксимации условия Неймана.</p>
-<div class="figure" id="id21">
+<div class="figure" id="id27">
 <span id="fdm-for-wave-refl-fig-1"></span><a class="reference internal image-reference" href="_images/wave_bound_templ.png"><img alt="_images/wave_bound_templ.png" src="_images/wave_bound_templ.png" style="width: 300px;" /></a>
 <p class="caption"><span class="caption-text"><em>Модифицированный шаблон на левой границе для аппроксимации условия Неймана</em></span></p>
 </div>
@@ -853,27 +891,367 @@ u(0,t) = U_l(t)\ \textrm{или}\ \frac{\partial u(l,t)}{\partial x}=0, \quad t 
 <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ur</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>Функция <code class="docutils literal"><span class="pre">solver</span></code> естественным образом расширяет простейшую функцию
-<code class="docutils literal"><span class="pre">solver</span></code> из сценария <a class="reference external" href="src-fdm-for-wave/wave1d_1.py">wave1d_1.py</a>,
-добавлением реализации условий Неймана, зависящих от времени условий
-Дирихле, а также переменной скорости распространения волны. Различные
-сегменты кода уже были рассмотрены выше. Саму реализацию функции
-<code class="docutils literal"><span class="pre">solver</span></code> с комментариями можно проанализировать в сценарии
-<a class="reference external" href="src-fdm-for-wave/wave1d_dn_vc.py">wave1d_dn_vc.py</a>.</p>
 <p>Векторизация используется только внутри цикла по времени, а не в
 для начальных условиях, так как эта начальная работа незначительна по
 сравнению с моделированием больших временных отрезков в одномерном
 случае.</p>
-<p>Ниже даются пояснения более продвинутых подходов, применяемых в общем
-одномерном солвере.</p>
+<div class="section" id="fdm-for-wave-gen-solver-solver">
+<span id="id17"></span><h2>Функция-солвер<a class="headerlink" href="#fdm-for-wave-gen-solver-solver" title="Permalink to this headline">¶</a></h2>
+<p>Решение с помощью явной разностной схемы, описанной в
+параграфе <a class="reference internal" href="#fdm-for-wave-varvel"><span class="std std-ref">Обобщения: переменная скорость распространения волны</span></a> общей начально-краевой задачи
+<a class="reference internal" href="#eq-fdm-for-wave-gen-solver-eq-wave"><span class="std std-ref">(47)</span></a> - <a class="reference internal" href="#eq-fdm-for-wave-gen-solver-eq-right-bound"><span class="std std-ref">(51)</span></a>
+можно реализовать с помощью функции <code class="docutils literal"><span class="pre">solver</span></code> (см. сценарий
+<a class="reference external" href="src-fdm-for-wave/wave1d_dn_vc.py">wave1d_dn_vc.py</a>). Эта функция
+расширяет простейшую функцию <code class="docutils literal"><span class="pre">solver</span></code> из сценария
+<a class="reference external" href="src-fdm-for-wave/wave1d_1.py">wave1d_1.py</a>, добавлением реализации
+условий Неймана, зависящих от времени условий Дирихле, а также
+переменной скорости распространения волны:</p>
+<div class="section" id="fdm-for-wave-gen-solver-solver-code">
+<span id="id18"></span><h3>Код<a class="headerlink" href="#fdm-for-wave-gen-solver-solver-code" title="Permalink to this headline">¶</a></h3>
+<p>Ниже представлен код функции <code class="docutils literal"><span class="pre">solver</span></code> из сценария
+<a class="reference external" href="src-fdm-for-wave/wave1d_dn_vc.py">wave1d_dn_vc.py</a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">solver</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">ul</span><span class="p">,</span> <span class="n">ur</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span>
+           <span class="n">user_action</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;scalar&#39;</span><span class="p">,</span>
+           <span class="n">stability_safety_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Решается уравнение $u_tt=(c^2*u_x)_x + f$ на $(0,l)\times(0,T]$.&quot;&quot;&quot;</span>
+    <span class="n">Nt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">tau</span><span class="p">))</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Nt</span><span class="o">*</span><span class="n">tau</span><span class="p">,</span> <span class="n">Nt</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>      <span class="c1"># Сетка по времени</span>
+
+    <span class="c1"># Находим max(c) используя мнимую сетку и адаптируем пространственный</span>
+    <span class="c1"># шаг h согласно gamma и tau</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">)):</span>
+        <span class="n">c_max</span> <span class="o">=</span> <span class="n">c</span>
+    <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+        <span class="n">c_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">c</span><span class="p">(</span><span class="n">x_</span><span class="p">)</span> <span class="k">for</span> <span class="n">x_</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="mi">101</span><span class="p">)])</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">tau</span><span class="o">*</span><span class="n">c_max</span><span class="o">/</span><span class="p">(</span><span class="n">stability_safety_factor</span><span class="o">*</span><span class="n">gamma</span><span class="p">)</span>
+    <span class="n">Nx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">l</span><span class="o">/</span><span class="n">h</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Nx</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>          <span class="c1"># Пространственная сетка</span>
+
+    <span class="c1"># Представляем c(x) как массив</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">)):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+    <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+        <span class="c1"># Вызываем c(x) и заполняем массив c</span>
+        <span class="n">c_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Nx</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">c_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">c_</span>
+
+    <span class="n">q</span> <span class="o">=</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">gamma2</span> <span class="o">=</span> <span class="p">(</span><span class="n">tau</span><span class="o">/</span><span class="n">h</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">;</span> <span class="n">tau2</span> <span class="o">=</span> <span class="n">tau</span><span class="o">*</span><span class="n">tau</span>    <span class="c1"># Вспомогательные переменные</span>
+
+    <span class="c1"># Обертка для заданных пользователем f, I, V, ul, ur</span>
+    <span class="k">if</span> <span class="n">f</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">f</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="s1">&#39;scalar&#39;</span> <span class="k">else</span> \
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">I</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">I</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">I</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="s1">&#39;scalar&#39;</span> <span class="k">else</span> \
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">V</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">V</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="s1">&#39;scalar&#39;</span> <span class="k">else</span> \
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ul</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ul</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">))</span> <span class="ow">and</span> <span class="n">ul</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ul</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">ur</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ur</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">))</span> <span class="ow">and</span> <span class="n">ur</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ur</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mi">0</span>
+
+    <span class="c1"># Делаем хэш всех входных данных</span>
+    <span class="kn">import</span> <span class="nn">hashlib</span><span class="o">,</span> <span class="nn">inspect</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">+</span> \
+           <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> \
+           <span class="p">(</span><span class="s1">&#39;None&#39;</span> <span class="k">if</span> <span class="n">ul</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">ul</span><span class="p">))</span> <span class="o">+</span> \
+           <span class="p">(</span><span class="s1">&#39;None&#39;</span> <span class="k">if</span> <span class="n">ur</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">ur</span><span class="p">))</span> <span class="o">+</span> \
+           <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gamma</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> \
+           <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">stability_safety_factor</span><span class="p">)</span>
+    <span class="n">hashed_input</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">hashed_input</span> <span class="o">+</span> <span class="s1">&#39;_archive.npz&#39;</span><span class="p">):</span>
+        <span class="c1"># Расчет уже запущен</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">hashed_input</span>
+
+    <span class="n">y</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Nx</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># Массив решения на новом слое</span>
+    <span class="n">y_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Nx</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># Решение на слое n</span>
+    <span class="n">y_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Nx</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># Решение на слое n-1</span>
+
+    <span class="kn">import</span> <span class="nn">time</span><span class="p">;</span>  <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span>  <span class="c1"># Измерение процессорного времени</span>
+
+    <span class="n">Ix</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Nx</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">It</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Nt</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Задаем начальные условия в y_1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">Nx</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">I</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">user_action</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">user_action</span><span class="p">(</span><span class="n">y_1</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Специальная формула для первого слоя</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">tau</span><span class="o">*</span><span class="n">V</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> \
+        <span class="mf">0.5</span><span class="o">*</span><span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> \
+                <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span> <span class="o">+</span> \
+        <span class="mf">0.5</span><span class="o">*</span><span class="n">tau2</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">ul</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c1"># Установка граничных условий du/dn = 0</span>
+        <span class="c1"># x=0: i-1 -&gt; i+1 так как y[i-1]=y[i+1]</span>
+        <span class="c1"># x=l: i+1 -&gt; i-1 так как y[i+1]=y[i-1])</span>
+        <span class="n">ip1</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">im1</span> <span class="o">=</span> <span class="n">ip1</span>  <span class="c1"># i-1 -&gt; i+1</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">tau</span><span class="o">*</span><span class="n">V</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> \
+               <span class="mf">0.5</span><span class="o">*</span><span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">ip1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">ip1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>  <span class="o">-</span> \
+                       <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">im1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="n">im1</span><span class="p">]))</span> <span class="o">+</span> \
+        <span class="mf">0.5</span><span class="o">*</span><span class="n">tau2</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ul</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+
+    <span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">ur</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">im1</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span>
+        <span class="n">ip1</span> <span class="o">=</span> <span class="n">im1</span>  <span class="c1"># i+1 -&gt; i-1</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">tau</span><span class="o">*</span><span class="n">V</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> \
+               <span class="mf">0.5</span><span class="o">*</span><span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">ip1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">ip1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>  <span class="o">-</span> \
+                       <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">im1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="n">im1</span><span class="p">]))</span> <span class="o">+</span> \
+        <span class="mf">0.5</span><span class="o">*</span><span class="n">tau2</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ur</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">user_action</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">user_action</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Обновляем данные для следущего слоя</span>
+    <span class="c1">#y_2[:] = y_1;  y_1[:] = y  # безопасно, но медленнее</span>
+    <span class="n">y_2</span><span class="p">,</span> <span class="n">y_1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_2</span>
+
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">It</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="c1"># Расчет во внутренних узлах</span>
+        <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="s1">&#39;scalar&#39;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span> <span class="n">y_2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> \
+                    <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>  <span class="o">-</span> \
+                        <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span> <span class="o">+</span> \
+                <span class="n">tau2</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+
+        <span class="k">elif</span> <span class="n">version</span> <span class="o">==</span> <span class="s1">&#39;vectorized&#39;</span><span class="p">:</span>
+            <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span> <span class="n">y_2</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
+            <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span>
+                <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]))</span> <span class="o">+</span> \
+            <span class="n">tau2</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;version=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">version</span><span class="p">)</span>
+
+        <span class="c1"># Добавляем граничные условия</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">ul</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c1"># Устанавливаем граничные условия</span>
+            <span class="c1"># x=0: i-1 -&gt; i+1 так как y[i-1]=y[i+1] при du/dn=0</span>
+            <span class="c1"># x=l: i+1 -&gt; i-1 так как y[i+1]=y[i-1] при du/dn=0</span>
+            <span class="n">ip1</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">im1</span> <span class="o">=</span> <span class="n">ip1</span>
+            <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span> <span class="n">y_2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> \
+                   <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">ip1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">ip1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>  <span class="o">-</span> \
+                       <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">im1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="n">im1</span><span class="p">]))</span> <span class="o">+</span> \
+            <span class="n">tau2</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ul</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">ur</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">im1</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span>
+            <span class="n">ip1</span> <span class="o">=</span> <span class="n">im1</span>
+            <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span> <span class="n">y_2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> \
+                   <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">ip1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">ip1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>  <span class="o">-</span> \
+                       <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">im1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="p">[</span><span class="n">im1</span><span class="p">]))</span> <span class="o">+</span> \
+            <span class="n">tau2</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ur</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">user_action</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">user_action</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">break</span>
+
+        <span class="c1"># Обновляем данные для следующего слоя</span>
+        <span class="c1">#y_2[:] = y_1;  y_1[:] = y</span>
+        <span class="n">y_2</span><span class="p">,</span> <span class="n">y_1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y_1</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_2</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y_1</span>
+    <span class="n">cpu_time</span> <span class="o">=</span> <span class="n">t0</span> <span class="o">-</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cpu_time</span><span class="p">,</span> <span class="n">hashed_input</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fdm-for-wave-gen-solver-solver-dissect">
+<span id="id19"></span><h3>Разбор<a class="headerlink" href="#fdm-for-wave-gen-solver-solver-dissect" title="Permalink to this headline">¶</a></h3>
+<p>Реализация основного алгоритма аналогично рассмотренным выше. Поэтому
+остановимся только на участке кода, связанного с переменной
+<code class="docutils literal"><span class="pre">hashed_input</span></code>, используемой для задания имени итогового архивного
+файла со всеми решениями. Переменная <code class="docutils literal"><span class="pre">hashed_input</span></code> отражает все
+значения важных параметров задачи так, что имя файла будет
+уникальным. Строка <code class="docutils literal"><span class="pre">hashed_input</span></code> генерируется с использованием
+модулей <code class="docutils literal"><span class="pre">hashlib</span></code> и <code class="docutils literal"><span class="pre">inspect</span></code> на основе входных параметров функции
+<code class="docutils literal"><span class="pre">solver</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Делаем хэш всех входных данных</span>
+<span class="kn">import</span> <span class="nn">hashlib</span><span class="o">,</span> <span class="nn">inspect</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">+</span> \
+       <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> \
+       <span class="p">(</span><span class="s1">&#39;None&#39;</span> <span class="k">if</span> <span class="n">ul</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">ul</span><span class="p">))</span> <span class="o">+</span> \
+       <span class="p">(</span><span class="s1">&#39;None&#39;</span> <span class="k">if</span> <span class="n">ur</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">ur</span><span class="p">))</span> <span class="o">+</span> \
+       <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gamma</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> \
+       <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">stability_safety_factor</span><span class="p">)</span>
+<span class="n">hashed_input</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Для получения исходного кода функции <code class="docutils literal"><span class="pre">f</span></code> в качестве строки
+используется <code class="docutils literal"><span class="pre">inspect.getsource(f)</span></code>. Все входные данные, функции и
+переменные объединяются в строку <code class="docutils literal"><span class="pre">data</span></code>, затем функция <code class="docutils literal"><span class="pre">hashlib.sha1</span></code>
+создает уникальное более короткую строку фиксированной длины (40
+символов) из строки <code class="docutils literal"><span class="pre">data</span></code>, которую можно использовать в качестве
+имени файла архива.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Обратите внимание, что такое построение строки <code class="docutils literal"><span class="pre">data</span></code> не совсем
+подходящее: если, например, <code class="docutils literal"><span class="pre">I</span></code> &#8212; это формула с параметрами, и
+параметры изменяются, исходный код остается тем же самым и
+соответственно хэш-строка остается неизменной. Поэтому данная
+реализация должна использоваться аккуратно!</p>
+</div>
+<p>Далее переменная <code class="docutils literal"><span class="pre">hashed_input</span></code> используется для избегания перезапуска
+ранее выполнявшегося эксперимента. Если архивный файл с именем
+основанным на <code class="docutils literal"><span class="pre">hashed_input</span></code> уже существует, то расчет с текущим
+набором параметров уже был выполнен ранее и можно пропустить
+выполнение повторной работы. функция <code class="docutils literal"><span class="pre">solver</span></code> возвращает процессорное
+время <code class="docutils literal"><span class="pre">cpu</span></code> и <code class="docutils literal"><span class="pre">hashed_input</span></code>, при этом отрицательное значение <code class="docutils literal"><span class="pre">cpu</span></code>
+означает, что расчет не был запущен. В этом случае мы не должны
+запускать метод <code class="docutils literal"><span class="pre">close_file</span></code> объекта класса <code class="docutils literal"><span class="pre">PlotAndStoreSolution</span></code>
+(см. раздел <a class="reference internal" href="#fdm-for-wave-gen-solver-user-action"><span class="std std-ref">Реализация функции действий полозователя в виде класса</span></a>). Типичное
+использование переменных <code class="docutils literal"><span class="pre">hashed_input</span></code> и <code class="docutils literal"><span class="pre">cpu</span></code> выглядит следующим
+образом:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">action</span> <span class="o">=</span> <span class="n">PlotAndStoreSolution</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">tau</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="o">/</span><span class="n">Nx</span><span class="p">)</span><span class="o">/</span><span class="n">gamma</span>  <span class="c1"># выбор ограничения устойчивости по заданному Nx</span>
+<span class="n">cpu</span><span class="p">,</span> <span class="n">hashed_input</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span>
+    <span class="n">I</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">l</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.1</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">V</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ul</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ur</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="n">l</span><span class="p">,</span>
+    <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span>
+    <span class="n">user_action</span><span class="o">=</span><span class="n">action</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;vectorized&#39;</span><span class="p">,</span>
+    <span class="n">stability_safety_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">action</span><span class="o">.</span><span class="n">make_movie_file</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">cpu</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">action</span><span class="o">.</span><span class="n">close_file</span><span class="p">(</span><span class="n">hashed_input</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="fdm-for-wave-gen-solver-verif">
+<span id="id20"></span><h2>Верификация<a class="headerlink" href="#fdm-for-wave-gen-solver-verif" title="Permalink to this headline">¶</a></h2>
+<p>Точные решения численных уравнений всегда привлекательны для целей
+тестирования, так как программное обеспечение должно воспроизводить такие
+решения с машинной точностью. Для условий Дирихле мы можем построить
+функцию линейную по <span class="math">\(t\)</span> и квадратичную по <span class="math">\(x\)</span>, которая является точным
+решением схемы, в то время как для условий Неймана остается только
+постоянное решение.</p>
+<p>Более общий метод верификации &#8212; проверка скорости сходимости (см.,
+например, раздел <a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif-manufact"><span class="std std-ref">Пробные функции</span></a>)</p>
+</div>
+<div class="section" id="savez">
+<span id="fdm-for-wave-gen-solver-save-arrays"></span><h2>Сохранение больших архивов в файлы с использованием <code class="docutils literal"><span class="pre">savez</span></code><a class="headerlink" href="#savez" title="Permalink to this headline">¶</a></h2>
+<p>При выполнении моделирования в качестве результата получаются большие
+массивы, содержащие решение в узлах, и мы должны сохранять их на
+диск. В Python доступно несколько методов. Мы рекомендуем использовать
+специализированные решения для больших массивов, а не стандартные
+инструменты хранения файлов, такие как <code class="docutils literal"><span class="pre">pickle</span></code> (<code class="docutils literal"><span class="pre">cPickle</span></code> для
+ускорения в Python версии 2) и <code class="docutils literal"><span class="pre">shelve</span></code>.</p>
+<div class="section" id="id21">
+<h3>Сохранение индивидуальных массивов<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<p>Функция <code class="docutils literal"><span class="pre">numpy.savez</span></code> может сохранить набор массивов в именованный
+файл в zip-архиве. Связанная с ней функция <code class="docutils literal"><span class="pre">numpy.load</span></code> может
+использоваться для чтения файла. В основном, мы вызываем
+<code class="docutils literal"><span class="pre">numpy.savez(filename,</span> <span class="pre">**kwargs)</span></code>, где <code class="docutils literal"><span class="pre">kwargs</span></code> &#8212; словарь,
+содержащий имя массива в качестве ключа и соответствующий
+объект-массив в качестве значения. Очень часто решению в момент
+времени дается естественное имя, где имя переменной и счетчик
+временного слоя объединяются, например, <code class="docutils literal"><span class="pre">u11</span></code> или <code class="docutils literal"><span class="pre">v39</span></code>. Предположим, что <code class="docutils literal"><span class="pre">n</span></code>
+&#8212; счетчик временного слоя и у нас есть два массива с решениями <code class="docutils literal"><span class="pre">u</span></code> и
+<code class="docutils literal"><span class="pre">v</span></code>, которые мы хотим сохранить в zip-архив. Соответствующий код
+представлен ниже</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="n">u_name</span> <span class="o">=</span> <span class="s1">&#39;u</span><span class="si">%04d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">n</span>        <span class="c1"># имя массива</span>
+<span class="n">v_name</span> <span class="o">=</span> <span class="s1">&#39;v</span><span class="si">%04d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">n</span>        <span class="c1"># имя массива</span>
+<span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">u_name</span><span class="p">:</span> <span class="n">u</span><span class="p">,</span> <span class="n">v_name</span><span class="p">:</span> <span class="n">v</span><span class="p">}</span>     <span class="c1"># аргументы ключевых слов для savez</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="s1">&#39;.mydata%04.dat&#39;</span> <span class="o">%</span> <span class="n">n</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>          <span class="c1"># сохраняем x один раз</span>
+   <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="s1">&#39;.mydata_x.dat&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Так как имя массива должно быть передано в качестве аргумента
+ключевого слова для <code class="docutils literal"><span class="pre">savez</span></code>, и имя генерируется как показано в
+примере, становится сложно сделать вызов, но с помощью словаря
+<code class="docutils literal"><span class="pre">kwargs</span></code> и <code class="docutils literal"><span class="pre">**kwargs</span></code>, который отправляет каждую пару ключ-значение в
+качетсве отдельных аргументов ключевого слова,  задача выполняется.</p>
+</div>
+<div class="section" id="zip">
+<h3>Слияние zip-архивов<a class="headerlink" href="#zip" title="Permalink to this headline">¶</a></h3>
+<p>Каждый отдельный вызов функции <code class="docutils literal"><span class="pre">numpy.savez</span></code> создает новый файл
+(zip-архив) с расширением <code class="docutils literal"><span class="pre">.npz</span></code> (добавляется автоматически). Очень
+удобно собрать все результаты в одном архиве. Это можно сделать
+слиянием индивидуальных архивов в один zip-архив:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">merge_zip_archives</span><span class="p">(</span><span class="n">individual_archives</span><span class="p">,</span> <span class="n">archive_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Слияние индивидуальных zip-архивов, сделанных с помощью</span>
+<span class="sd">    numpy.savez, в один архив с именем archive_name.</span>
+<span class="sd">    Отдельные архивы могут быть заданы как список имен.</span>
+<span class="sd">    В результате выполнения этой функции все отдельные</span>
+<span class="sd">    архивы удаляются и создается один новый архив.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">zipfile</span>
+    <span class="n">archive</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span>
+            <span class="n">archive_name</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZIP_DEFLATED</span><span class="p">,</span>
+            <span class="n">allowZip64</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">individual_archives</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">filenames</span> <span class="o">=</span> <span class="n">individual_archives</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">individual_archives</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">individual_archives</span><span class="p">)</span>
+
+    <span class="c1"># Открываем каждый архив и пишем его в общий архив</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span>  <span class="s1">&#39;r&#39;</span><span class="p">,</span>
+                                <span class="n">zipfile</span><span class="o">.</span><span class="n">ZIP_DEFLATED</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">namelist</span><span class="p">():</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+                    <span class="c1"># Сохраняем под именем без .npy</span>
+                    <span class="n">archive</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">name</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">archive</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Этот подход используется в разделе
+<a class="reference internal" href="#fdm-for-wave-gen-solver-user-action"><span class="std std-ref">Реализация функции действий полозователя в виде класса</span></a> в методе <code class="docutils literal"><span class="pre">close_file</span></code>.</p>
+</div>
+<div class="section" id="id22">
+<h3>Чтение массивов из zip-архива<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<p>Архивы, созданные с помощью <code class="docutils literal"><span class="pre">savez</span></code> или объединенный массив, описанный
+выше, с именем вида <code class="docutils literal"><span class="pre">myarchive.npz</span></code> могут быть загружены с помощью
+функции <code class="docutils literal"><span class="pre">numpy.load</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="n">array_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sb">`myarchive.npz`</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">array_name</span> <span class="ow">in</span> <span class="n">array_names</span><span class="p">:</span>
+    <span class="c1"># array_names[array_name] is the array itself</span>
+    <span class="c1"># e.g. plot(array_names[&#39;t&#39;], array_names[array_name])</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="fdm-for-wave-gen-solver-user-action">
-<span id="id17"></span><h2>Реализация функции действий полозователя в виде класса<a class="headerlink" href="#fdm-for-wave-gen-solver-user-action" title="Permalink to this headline">¶</a></h2>
+<span id="id23"></span><h2>Реализация функции действий полозователя в виде класса<a class="headerlink" href="#fdm-for-wave-gen-solver-user-action" title="Permalink to this headline">¶</a></h2>
 <p>Полезная особенность сценария
 <a class="reference external" href="src-fdm-for-wave/wave1d_dn_vc.py">wave1d_dn_vc.py</a> &#8212; это
 реализация функции действия пользователя в виде класса. Эта часть
 сценария может потребовать некоторых пояснений.</p>
 <div class="section" id="fdm-for-wave-gen-solver-code">
-<span id="id18"></span><h3>Код<a class="headerlink" href="#fdm-for-wave-gen-solver-code" title="Permalink to this headline">¶</a></h3>
+<span id="id24"></span><h3>Код<a class="headerlink" href="#fdm-for-wave-gen-solver-code" title="Permalink to this headline">¶</a></h3>
 <p>Класс для построения графиков, очистки файлов, создания анимированных
 графиков, которые выполнялись в функции <code class="docutils literal"><span class="pre">wave1d_1.viz</span></code>, можно
 реализовать следующим образом:</p>
@@ -882,7 +1260,7 @@ u(0,t) = U_l(t)\ \textrm{или}\ \frac{\partial u(l,t)}{\partial x}=0, \quad t 
 <span class="sd">    Класс для функиции user_action в solver.</span>
 <span class="sd">    Только визуализация решения.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
                     <span class="bp">self</span><span class="p">,</span>
                     <span class="n">casename</span><span class="o">=</span><span class="s1">&#39;tmp&#39;</span><span class="p">,</span>    <span class="c1"># Префикс в именах файлов</span>
                     <span class="n">umin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">umax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>   <span class="c1"># Задаются границы по оси y</span>
@@ -918,7 +1296,7 @@ u(0,t) = U_l(t)\ \textrm{или}\ \frac{\partial u(l,t)}{\partial x}=0, \quad t 
             <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;frame_*.png&#39;</span><span class="p">):</span>
                     <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Функция обратного вызова user_action, вызываемая солвером:</span>
 <span class="sd">            сохранение решения, построение графиков на экране и</span>
@@ -1026,7 +1404,7 @@ u(0,t) = U_l(t)\ \textrm{или}\ \frac{\partial u(l,t)}{\partial x}=0, \quad t 
 </div>
 </div>
 <div class="section" id="fdm-for-wave-gen-solver-dissect">
-<span id="id19"></span><h3>Разбор<a class="headerlink" href="#fdm-for-wave-gen-solver-dissect" title="Permalink to this headline">¶</a></h3>
+<span id="id25"></span><h3>Разбор<a class="headerlink" href="#fdm-for-wave-gen-solver-dissect" title="Permalink to this headline">¶</a></h3>
 <p>Представленный выше класс поддерживает построение графиков с помощью
 Matplotlib (<code class="docutils literal"><span class="pre">backend=None</span></code>) или SciTools (<code class="docutils literal"><span class="pre">backend=matplotlib</span></code> или
 <code class="docutils literal"><span class="pre">backend=gnuplot</span></code>).</p>
@@ -1046,7 +1424,7 @@ Matplotlib (<code class="docutils literal"><span class="pre">backend=None</span>
 </div>
 </div>
 <div class="section" id="fdm-for-wave-gen-solver-pulse">
-<span id="id20"></span><h2>Распространение импульса в двух средах<a class="headerlink" href="#fdm-for-wave-gen-solver-pulse" title="Permalink to this headline">¶</a></h2>
+<span id="id26"></span><h2>Распространение импульса в двух средах<a class="headerlink" href="#fdm-for-wave-gen-solver-pulse" title="Permalink to this headline">¶</a></h2>
 <p>Функция <code class="docutils literal"><span class="pre">pulse</span></code> в <a class="reference external" href="src-fdm-for-wave/wave1d_dn_vc.py">wave1d_dn_vc.py</a>
 демонстрирует движение волны в разнородных средах с переменным
 <span class="math">\(c\)</span>. Можно задать интервал, на котором скорость распространения волны
@@ -1119,7 +1497,7 @@ Matplotlib (<code class="docutils literal"><span class="pre">backend=None</span>
                     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">xc</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">)</span> \
                             <span class="k">if</span> <span class="n">xc</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">a</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">xc</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">a</span> <span class="k">else</span> <span class="mi">0</span>
     <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">u&#39;Ошибочный_tp=&quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> <span class="n">pulse_tp</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Ошибочный_tp=&quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> <span class="n">pulse_tp</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">c</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">c_0</span><span class="o">/</span><span class="n">slowness_factor</span> \
@@ -1177,15 +1555,18 @@ Matplotlib (<code class="docutils literal"><span class="pre">backend=None</span>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="._main_fdm-for-wave005.html" class="btn btn-neutral float-right" title="Упражнения" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="._main_fdm-for-wave005.html" class="btn btn-neutral float-right" title="Упражнения" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="._main_fdm-for-wave003.html" class="btn btn-neutral" title="Упражнения" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="._main_fdm-for-wave003.html" class="btn btn-neutral" title="Упражнения" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -1219,13 +1600,14 @@ Matplotlib (<code class="docutils literal"><span class="pre">backend=None</span>
             VERSION:'1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

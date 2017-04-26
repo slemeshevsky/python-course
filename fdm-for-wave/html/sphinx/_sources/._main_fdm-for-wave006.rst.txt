@@ -1,0 +1,889 @@
+.. !split
+
+.. _fdm-for-wave:oop:
+
+Создание ПО с использованием ООП
+================================
+
+Некоторые разработчики предпочитают использование
+объектно-ориентированное программирование. В данном разделе мы
+покажем как можно использовать классы для решаемой задачи.
+
+Мы создадим класс ``WaveProblem1D`` для того, чтобы управлять физическими
+параметрами задачи для одномерного волнового уравнения, класс
+``WaveExplicitSolver1D``, который реализует решение смешанной задачи для
+одномерного волнового уравнения с помощью явной разностной
+схемы. Кроме того, удобно собрать массивы, описывающие сетку, в один
+класс ``Mesh`` и создать класс ``Function`` реализующий сеточные функции.
+
+.. _fdm-for-wave:oop:mesh:
+
+Класс ``Mesh``
+--------------
+
+Мы создадим класс ``Mesh``, который можно использовать для описания
+прямоугольной пространственно-временной сетки :math:`\omega_{h\tau}` с любым
+числом пространственных переменных. Для того, чтобы сделать его
+универсальным, конструктор класса будет принимать либо кортеж/список
+числа отрезков в каждом пространственном направлении, либо
+кортеж/список шагов сетки по каждому из пространственных
+направлений. Для одномерных сеток более естественно задавать число
+отрезков или шаг сетки, в не списки. Также нам нужен временной отрезок
+от ``t0`` до ``T``. В случае, если не задана дискретизация по
+пространству, то подразумевается только сетка по времени, и
+наоборот. Ниже представлен класс ``Mesh`` с использованием строк с
+тестами в описании (для использования ``doctest``):
+
+.. code-block:: python
+
+    class Mesh(object):
+    	"""
+    	Содержит структуру данных для равномерной сетки на гиперкубе в 
+    	пространстве и равномерной сетки по времени.
+    
+    	======== ===================================================
+    	Параметр         Описание
+    	======== ===================================================
+    	L         Список двухэлементных списков с минимальной и 
+    	          максимальной координатами по каждому 
+    	          пространственному направлению
+    	T         Конечный момент времени
+    	Nt        Число отрезков по времени
+    	dt        Шаг по времени. Или Nt или dt должно быть задано
+    	N         Список, содержащий количество отрезков
+    	          по каждому пространственному направлению.
+    	d         Список шагов по пространственным переменным.
+    	          Или N или d должен быть задан.
+    	======== ===================================================
+    
+    	Пользователь имеет доступ ко всем описанным выше параметрам плюс 
+    	к ``x[i]`` и ``t`` для координат в направлении ``i`` и временной 
+    	координаты, соответственно.
+    
+    	Примеры:
+    
+    	>>> from UniformFDMesh import Mesh
+    	>>>
+    	>>> # Простая пространственная сетка
+    	>>> m = Mesh(L=[0,1], N=4)
+    	>>> print m.dump()
+    	пространство: [0,1] N = 4 d = 0.25
+    	>>>
+    	>>> # Простая сетка по времени
+    	>>> m = Mesh(T=4, dt=0.5)
+    	>>> print m.dump()
+    	время: [0,4] Nt = 8 dt = 0.5
+    	>>>
+    	>>> # двумерная пространственная сетка
+    	>>> m = Mesh(L=[[0,1], [-1,1]], d=[0.5, 1])
+    	>>> print m.dump()
+    	пространство: [0,1]x[-1,1] N = 2x2 d = 0.5,1
+    	>>>
+    	>>> # двумерная пространственная сетка и сетка по времени
+    	>>> m = Mesh(L=[[0,1], [-1,1]], d=[0.5, 1], Nt=10, T=3)
+    	>>> print m.dump()
+    	пространство: [0,1]x[-1,1] N = 2x2 d = 0.5,1 время: [0,3] Nt = 10 dt = 0.3
+    
+    	"""
+    
+    	def __init__(self,
+    	             L=None, T=None, t0=0,
+    	             N=None, d=None,
+    	             Nt=None, dt=None):
+    		if N is None and d is None:
+    			# Пространственная сетка отсутсвует
+    			if Nt is None and dt is None:
+    				raise ValueError(
+    					'Коструктор сетки: Должен быть задан либо Nt, либо dt')
+    			if T is None:
+    				raise ValueError(
+    					'Конструктор сетки: T должен быть задан')
+    		if Nt is None and dt is None:
+    			# Отсутствует сетка по времени
+    			if N is None and d is None:
+    				raise ValueError(
+    					'Конструктор сетки: Должен быть задан либо N, либо d')
+    			if L is None:
+    				raise ValueError('Конструктор сетки: L должен быть задан')
+    		
+    		# Допускаем одномерный интерфейс без использования вложенных списков
+    		if L is not None and isinstance(L[0], (float,int)):
+    			L=[L]
+    		if N is not None and isinstance(N, (float,int)):
+    			N=[N]
+    		if d is not None and isinstance(d, (float,int)):
+    			d=[d]
+    
+    		# Устанавливаем все атрибуты в None
+    		self.x = None
+    		self.t = None
+    		self.T = None
+    		self.Nt = None
+    		self.dt = None
+    		self.L = None
+    		self.N = None
+    		self.d = None
+    		self.t0 = t0
+    
+    		if N is None and d is not None and L is not None:
+    			self.L = L
+    			if len(d) != len(L):
+    				raise ValueError('список d имеет длину отличную от L: %d - %d',
+    				                 len(d), len(L))
+    			self.d = d
+    			self.N = [int(round(float(self.L[i][1] - self.L[i][0])/d[i]))
+    			          for i in range(len(d))]
+    		if d is None and N is not None and L is not None:
+    			self.L = L
+    			if len(N) != len(L):
+    				raise ValueError('список N имеет длину отличную от L: %d - %d',
+    				                 len(N), len(L))
+    			self.N = N
+    			self.d = [float(self.L[i][1] - self.L[i][0])/N[i]
+    			          for i in range(len(N))]
+    
+    		if Nt is None and dt is not None and T is not None:
+    			self.T = T
+    			self.dt = dt
+    			self.Nt = int(round(T/dt))
+    		if dt is None and Nt is not None and T is not None:
+    			self.T = T
+    			self.Nt = Nt
+    			self.dt = T/float(Nt)
+    
+    		if self.N is not None:
+    			self.x = [np.linspace(self.L[i][0], self.L[i][1], self.N[i]+1)
+    			          for i in range(len(self.L))]
+    		if self.Nt is not None:
+    			self.t = np.linspace(self.t0, self.T, self.Nt+1)
+    
+    	def get_num_space_dim(self):
+    		return len(self.d) if self.d is not None else 0
+    
+    	def has_space(self):
+    		return self.d is not None
+    
+    	def has_time(self):
+    		return self.dt is not None
+    
+    	def dump(self):
+    		s = ''
+    		if self.has_space():
+    			s += 'пространство: ' + \ 
+    			     'x'.join(['[%g,%g]' % (self.L[i][0],self.L[i][1])
+    			               for i in range(len(self.L))]) + ' N = '
+    			s += 'x'.join([str(Ni) for Ni in self.N]) + ' d = '
+    			s += ','.join([str(di) for di in self.d])
+    		if self.has_space() and self.has_time():
+    			s+= ' '
+    		if self.has_time():
+    			s += 'время: ' + '[%g,%g]' % (self.t0, self.T) + \ 
+    			     ' Nt = %g' % self.Nt + ' dt = %g' % self.dt
+    		return s
+
+.. _fdm-for-wave:oop:function:
+
+Класс ``Function``
+------------------
+
+Класс ``Function`` удобен для управления сеткой и соответствующими
+значениями на ней скалярных или векторных функций. Так как мы при
+решении разностных задач могут использоваться пространственная,
+временная или пространственно-временная сетки, а функции могут иметь
+одну (скалярная) или несколько (векторная) компонент, то необходимы
+некоторые проверки правильного выделения массивов. Примеры данные в
+строках документации поясняют использование представленного класса
+
+.. code-block:: python
+
+    class Function(object):
+    	"""
+    	Скалярная или векторная сеточная функция (используется класс Mesh)
+    	=========== ==============================================================
+    	Параметр       Описание
+    	=========== ==============================================================
+    	mesh         объект класса Mesh: пространственная и/или временная сетка
+    	num_comp     Количество компонент функции (1 для скалярной функции)
+    	space_only   True, если функция определена только на пространственной
+    	             сетке. False, если функция зависит от пространства и времени
+    	=========== ==============================================================
+    
+    	Индексация массива ``u``, который содержит значения функции в узлах сетки,
+    	зависит от того, есть ли у нас пространственная и/или временная сетка.
+    
+    	Примеры:
+    	
+    	>>> from UniformFDMesh import Mesh, Function
+    	>>>
+    	>>> # Простая пространственная сетка
+    	>>> m = Mesh(L=[0,1], N=4)
+    	>>> print m.dump()
+    	пространство: [0,1] N = 4 d = 0.25
+    	>>> f = Function(m)
+    	>>> f.indices
+    	['x0']
+    	>>> f.u.shape
+    	(5,)
+    	>>> f.u[4]  # значение в узле с номером 4
+    	0.0
+    	>>>
+    	>>> # Прострая сетка по времени для двух компонент
+    	>>> m = Mesh(T=4, dt=0.5)
+    	>>> print m.dump()
+    	время: [0,4] Nt = 8 dt = 0.5
+    	>>> f = Function(m, num_comp=2)
+    	>>> f.indices
+    	['time', 'component']
+    	>>> f.u.shape
+    	(9, 2)
+    	>>> f.u[3,1]  # значение на 3 временном слое, comp=1 (2-я компонента)
+    	0.0
+    	>>>
+    	>>> # двумерная пространственная сетка
+    	>>> m = Mesh(L=[[0,1], [-1,1]], d=[0.5, 1])
+    	>>> print m.dump()
+    	пространство: [0,1]x[-1,1] N = 2x2 d = 0.5,1
+    	>>> f = Function(m)
+    	>>> f.indices
+    	['x0', 'x1']
+    	>>> f.u.shape
+    	(3, 3)
+    	>>> f.u[1,2]  # значение в узле (1,2)
+    	0.0
+    	>>>
+    	>>> # двумерная пространственная сетка и сетка по времени
+    	>>> m = Mesh(L=[[0,1],[-1,1]], d=[0.5,1], Nt=10, T=3)
+    	>>> print m.dump()
+    	пространство: [0,1]x[-1,1] N = 2x2 d = 0.5,1 время: [0,3] Nt = 10 dt = 0.3
+    	>>> f = Function(m, num_comp=2, space_only=False)
+    	>>> f.indices
+    	['time', 'x0', 'x1', 'component']
+    	>>> f.u.shape
+    	(11, 3, 3, 2)
+    	>>> f.u[2,1,2,0]  # значение на 2-м временном слое, в пространственном узле (1,2), comp=0
+    	0.0
+    	>>> # Функция с данными только по вространству
+    	>>> f = Function(m, num_comp=1, space_only=True)
+    	>>> f.indices
+    	['x0', 'x1']
+    	>>> f.u.shape
+    	(3, 3)
+    	>>> f.u[1,2]  # значение в узле (1,2)
+    	0.0
+    	"""
+    
+    	def __init__(self, mesh, num_comp=1, space_only=True):
+    		self.mesh = mesh
+    		self.num_comp = num_comp
+    		self.space_only = space_only
+    		self.indices = []
+    
+    		# Создаем массив(ы) для хранения значений в узлах сетки
+    		if (self.mesh.has_space() and not self.mesh.has_time()) or \ 
+    		   (self.mesh.has_space() and self.mesh.has_time() and space_only):
+    			# Только пространственная сетка
+    			if num_comp == 1:
+    				self.u = np.zeros([self.mesh.N[i]+1 for i in range(len(self.mesh.N))])
+    				self.indices = ['x'+str(i) for i in range(len(self.mesh.N))]
+    			else:
+    				self.u = np.zeros([self.mesh.N[i]+1 for i in range(len(self.mesh.N))] + [num_comp])
+    				self.indices = ['x'+str(i) for i in range(len(self.mesh.N))] + ['component']
+    		if not self.mesh.has_space() and self.mesh.has_time():
+    			# Только сетка по времени
+    			if num_comp == 1:
+    				self.u = np.zeros(self.mesh.Nt + 1)
+    				self.indices = ['time']
+    			else:
+    				self.u = np.zeros((self.mesh.Nt+1, num_comp))
+    				self.indices = ['time', 'component']
+    		if self.mesh.has_space() and self.mesh.has_time() and not space_only:
+    			# Пространственно-временная сетка
+    			size = [self.mesh.Nt + 1] + [self.mesh.N[i]+1 for i in range(len(self.mesh.N))]
+    			if num_comp > 1:
+    				self.indices = ['time'] + \ 
+    				               ['x' + str(i) for i in range(len(self.mesh.N))] + \ 
+    				               ['component']
+    				size += [num_comp]
+    			else:
+    				self.indices = ['time'] + \ 
+    				               ['x' + str(i) for i in range(len(self.mesh.N))]
+    			self.u = np.zeros(size)
+    			
+    
+    	def norm(self):
+    		return np.sqrt(self.u*self.u)
+
+
+.. note::
+   Классы ``Mesh`` и ``Function`` реализованы в сценарии
+   `UniformFDMesh.py <src-fdm-for-wave/UniformFDMesh.py>`__ .
+   В строках документаций представленных классов ``Mesh`` и ``Function``
+   заданы примеры использования, поясняющие функционал этих классов. Они
+   записаны в таком формате, что могут быть использованы для тестирования
+   их реализации с помощью модуля ``doctest``. В коде представлено
+   простейшее использование. Для того, чтобы выполнить тестирование в
+   сценарии `UniformFDMesh.py <src-fdm-for-wave/UniformFDMesh.py>`__
+   добавлен следующий код:
+   
+   .. code-block:: python
+   
+       if __name__ =='__main__':
+       	import doctest
+       	failure_count, test_count = doctest.testmod()
+   
+   Таким образом, чтобы запустить все тесты представленные в документации
+   классов нужно выполнить
+   
+   .. code-block:: bash
+   
+       Terminal> python UniformFDMesh.py
+   
+   Более подробную информацию по использованию ``doctest`` можно найти в
+   `документации Python <https://docs.python.org/2/library/doctest.html>`__
+
+
+
+
+.. _fdm-for-wave:oop:params:
+
+Класс ``Parameters``
+--------------------
+
+Для реализации классов, которые должны содержать некоторые аргументы,
+которые можно передавать, например, через командную строку, удобно
+использовать один базовый класс. Ниже представлен класс ``Parameters``,
+который будет использоваться в качестве базового для класса
+``WaveProblem1D``, содержащего физические параметры задачи, и класса ``WaveExplicitSolver1D``,
+содержащего численные параметры и реализацию алгоритма:
+
+.. code-block:: python
+
+    # -*- coding: utf-8 -*-
+    class Parameters(object):
+    	def __init__(self):
+    		"""
+    		Подклассы должны инициализировать self.prm параметрами и значениями
+    		по умолчанию, self.type соответствующими типами, и self.help 
+    		соответствующими описаниями параметров. self.type и self.help являются 
+    		необязательными. self.prm должен быть заполнен и содержать все 
+    		параметры
+    		"""
+    		pass
+    
+    	def ok(self):
+    		""" Проверяет определены ли атрибуты класса prm, type и help """
+    		if hasattr(self, 'prm') and isinstance(self.prm, dict) and \
+    		   hasattr(self, 'type') and isinstance(self.type, dict) and \
+    		   hasattr(self, 'help') and isinstance(self.help, dict):
+    			return True
+    		else:
+    			raise ValueError(
+    				'Конструктор в классе %s  не инициализирует\n'\
+    				'словари self.prm, self.type, self.help!' %
+    				self.__class__.__name__)
+    
+    	def _illegal_parameter(self, name):
+    		"""Вызывает исключение о недопустимом имени параметра """
+    		raise ValueError(
+    			'Параметр "%s" не зарегистрирован.\n' \
+    			'Допустимые параметры: \n%s' %
+    			(name, ' '.join(list(self.prm.keys()))))
+    
+    	def set(self, **parameters):
+    		""" Устанавливаем значения один или несколько параметров. """
+    		for name in parameters:
+    			if name in self.prm:
+    				self.prm[name] = parameters[name]
+    			else:
+    				slef._illegal_parameter(name)
+    
+    	def get(self, name):
+    		""" Возвращает значения одного или нескольких параметров. """
+    		if isinstance(name, (list, tuple)):
+    			for n in name:
+    				if n not in self.prm:
+    					self._illegal_parameter(n)
+    			return [self.prm[n] for n in name]
+    		else:
+    			if name not in self.prm:
+    				self._illegal_parameter(name)
+    			return self.prm[name]
+    
+    	def __getitem__(self, name):
+    		""" Разрешает доступ к параметру по obj[name] """
+    		return self.get(name)
+    
+    	def __setitem__(self, name, value):
+    		""" Допускает синтаксис obj[name] для задания значения параметра """
+    		return self.set(name=value)
+    
+    	def define_command_line_options(self, parser=None):
+    		self.ok()
+    		if parser is None:
+    			import argparse
+    			parser = argparse.ArgumentParser()
+    
+    		for name in self.prm:
+    			tp = self.type[name] if name in self.type else str
+    			help = self.help[name] if name in self.help else None
+    			parser.add_argument(
+    				'--' + name, default=self.get(name), metavar=name,
+    				type=tp, help=help)
+    
+    		return parser
+
+.. _fdm-for-wave:oop:problem:
+
+Класс ``WaveProblem1D``
+-----------------------
+
+Класс ``WaveProblem1D`` является подклассом класса ``Parameters`` и
+содержит физические параметры задачи. Они описаны в коде,
+представленном ниже:
+
+.. code-block:: python
+
+    class WaveProblem1D(Parameters):
+    	"""
+    	Входные параметры смешанной задачи для волнового уравнения.
+    	"""
+    	def __init__(self):
+    		self.prm = dict(L=[0.,1.], I=1.0, V=0.0, f=0.0, c=1.,
+    		                ul=None, ur=None, u_exact=None, T=1.0)
+    		self.type = dict(L=list, I=(float,callable), V=(float,callable),
+    		                 f=(float,callable), c=(float,callable),
+    		                 ul=(float,callable), ur=(float,callable),
+    		                 u_exact=(float,callable), T=float)
+    		self.help = dict(L='Прямоугольная расчетная область',
+    		                 I='Начальная траектроия',
+    		                 V='Начальная скорость', f='Внешние силы',
+    		                 c='Скорость распространения волны',
+    		                 ul='Левое граничное условие',
+    		                 ur='Правое граниченое условие',
+    		                 u_exact='Точное решение задачи',
+    		                 T='Конечный момент времени')
+    		self._update()
+    		
+    	def _update(self):
+    		if self.prm['f'] is None:
+    			self.prm['f'] = (lambda x, t: np.zeros_like(x))
+    		elif isinstance(self.prm['f'],float):
+    			val = self.prm['f']
+    			self.prm['f'] = (lambda x, t: np.zeros_like(x) + val)
+    		if self.prm['I'] is None:
+    			self.prm['I'] = lambda x: np.zeros_like(x)
+    		elif isinstance(self.prm['I'],float):
+    			val = self.prm['I']
+    			self.prm['I'] = (lambda x: np.zeros_like(x) + val)
+    		if self.prm['V'] is None:
+    			self.prm['V'] = (lambda x: np.zeros_like(x))
+    		elif isinstance(self.prm['V'],float):
+    			val = self.prm['V']
+    			self.prm['V'] = (lambda x: np.zeros_like(x) + val)
+    		if self.prm['ul'] is not None:
+    			if isinstance(self.prm['ul'], (float,int)):
+    				val = self.prm['ul']
+    				self.prm['ul'] = (lambda t: np.zeros_like(t) + val)
+    		if self.prm['ur'] is not None:
+    			if isinstance(self.prm['ur'], (float,int)):
+    				val = self.prm['ul']
+    				self.prm['ur'] = (lambda t: np.zeros_like(t) + val)
+    
+    from UniformFDMesh import Mesh, Function
+
+.. _fdm-for-wave:oop:solver:
+
+Класс ``Solver``
+----------------
+
+Класс ``WaveExplicitSolver1D`` также является подклассом класса
+``Parameters`` и содержит численные параметры и реализацию алгоритма
+решения смешанной задачи для одномерного волнового уравнения с
+переменным коэффициентом, основанного на явной схеме:
+
+.. code-block:: python
+
+    class WaveExplicitSolver1D(Parameters):
+    	"""
+    	Численные параметры и алгоритм решения задачи для волнового уравнения.
+    	"""
+    	def __init__(self, problem):
+    		self.problem = problem
+    		self.prm = dict(dt=0.1, gamma=1., user_action=None,
+    		                stability_safety_factor=1.0)
+    		self.type = dict(dt=float, gamma=float, user_action=callable,
+    		                 stability_safety_factor=float)
+    		self.help = dict(dt='Шаг сетки по времени', gamma='Число Куранта',
+    						 user_action='Функция действий пользователя',
+    						 stability_safety_factor='Коэффициент, гарантирующий устойчивость')
+    		
+    	
+    	def solve(self):
+    		"""
+    		Реализация алгоритма по явной разностной схеме.
+    		"""
+    
+    		Nt = int(round(self.problem.prm['T']/self.prm['dt']))
+    		#Находим max(c), используя мнимую сетку и 
+    		if isinstance(self.problem.prm['c'], (float,int)):
+    			c_max = self.problem.prm['c']
+    		elif callable(self.problem.prm['c']):
+    			c_max = max([self.problem.prm['c'](x_) for x_ in np.linspace(0,self.problem.prm['L'][1],101)])
+    
+    		# Вычисляем шаг по пространству и генерируем пространственно-временную сетку
+    		h = self.prm['dt']*c_max/(self.prm['stability_safety_factor']*self.prm['gamma'])
+    		self.mesh = Mesh(L=self.problem.prm['L'], T=self.problem.prm['T'], Nt=Nt, d=h)
+    
+    		# Определяем c(x) как сеточную функцию
+    		c = Function(self.mesh)
+    		if isinstance(self.problem.prm['c'], float):
+    			c.u += self.problem.prm['c']
+    		elif callable(self.problem.prm['c']):
+    			c.u = self.problem.prm['c'](self.mesh.x[0])
+    
+    		q = c.u**2
+    		self.q = c.u**2
+    		gamma2 = (self.prm['dt']/h)**2; dt2 = self.prm['dt']*self.prm['dt']
+    
+    		# Делаем хэш всех входных данных
+    		data = str(c) + '_' + \ 
+    		       ('None' if self.problem.prm['ul'] is None else inspect.getsource(self.problem.prm['ul'])) + \ 
+    		       ('None' if self.problem.prm['ur'] is None else inspect.getsource(self.problem.prm['ur'])) + \ 
+    		       '_' + str(self.problem.prm['L']) + str(self.prm['dt']) + '_' +\ 
+    		       str(self.prm['gamma']) + '_' + str(self.problem.prm['T']) + \ 
+    		       '_' + str(self.prm['stability_safety_factor'])
+    		hashed_input = hashlib.sha1(data).hexdigest()
+    		if os.path.isfile('.' + hashed_input + '_archive.npz'):
+    			# Расчет уже запущен
+    			return -1, hashed_input
+    
+    		# Определяем решения как сеточные функции
+    		y = Function(self.mesh)       # Решение на новом слое n+1
+    		y_1 = Function(self.mesh)     # Решение на слое n
+    		y_2 = Function(self.mesh)     # Решение на слое n-1
+    
+    		t0 = time.clock() # Измерение процессорного времени
+    
+    		y_1.u = self.problem.prm['I'](y_1.mesh.x[0]) 
+    
+    		if self.prm['user_action'] is not None:
+    			self.prm['user_action'](y_1.u, y_1.mesh.x[0], y_1.mesh.t, 0)
+    
+    		Ix = range(0, self.mesh.N[0]+1)
+    		It = range(0, self.mesh.Nt+1)
+    		
+    		# Специальная формула для первого слоя
+    		for i in Ix[1:-1]:
+    			y.u[i] = y_1.u[i] + self.prm['dt'] * self.problem.prm['V'](self.mesh.x[0][i]) +\ 
+    			         0.5*gamma2*(0.5*(q[i]+q[i+1])*(y_1.u[i+1] - y_1.u[i]) -\ 
+    			         0.5*(q[i]+q[i-1])*(y_1.u[i] - y_1.u[i-1])) + \ 
+    			         0.5*dt2*self.problem.prm['f'](self.mesh.x[0][i], self.mesh.t[0])
+    		i = Ix[0]
+    		if self.problem.prm['ul'] is None:
+    			ip1 = i+1
+    			im1 = ip1
+    			y.u[i] = y_1.u[i] + self.prm['dt']*self.problem.prm['V'](self.mesh.x[0][i]) + \ 
+    			         0.5*gamma2*(0.5*(q[i]+q[ip1])*(y_1.u[ip1] - y_1.u[i]) -\ 
+    			         0.5*(q[i]+q[im1])*(y_1.u[i] - y_1.u[im1])) + \ 
+    			         0.5*dt2*self.problem.prm['f'](self.mesh.x[0][i], self.mesh.t[0])
+    		else:
+    			y.u[i] = self.problem.prm['ul'](self.prm['dt'])
+    
+    
+    		i = Ix[-1]
+    		if self.problem.prm['ur'] is None:
+    			im1 = i-1
+    			ip1 = im1
+    			y.u[i] = y_1.u[i] + self.prm['dt']*self.problem.prm['V'](self.mesh.x[0][i]) + \ 
+    			         0.5*gamma2*(0.5*(q[i]+q[ip1])*(y_1.u[ip1] - y_1.u[i]) -\ 
+    			         0.5*(q[i]+q[im1])*(y_1.u[i] - y_1.u[im1])) + \ 
+    			         0.5*dt2*self.problem.prm['f'](self.mesh.x[0][i], self.mesh.t[0])
+    		else:
+    			y.u[i] = self.problem.prm['ur'](self.prm['dt'])
+    
+    		if self.prm['user_action'] is not None:
+    			self.prm['user_action'](y.u, y.mesh.x[0], y.mesh.t, 1)
+    
+    		# Обновляем данные для следующего слоя
+    		y_2.u, y_1.u, y.u = y_1.u, y.u, y_2.u
+    
+    		for n in It[1:-1]:
+    			# Расчет во внутренних узлах
+    			y.u[1:-1] = - y_2.u[1:-1] + 2*y_1.u[1:-1] + \ 
+    			gamma2*(0.5*(q[1:-1]+q[2:])*(y_1.u[2:] - y_1.u[1:-1]) - \ 
+    			        0.5*(q[1:-1]+q[:-2])*(y_1.u[1:-1] - y_1.u[:-2])) + \ 
+    			+ dt2*self.problem.prm['f'](self.mesh.x[0][1:-1], self.mesh.t[n])
+    
+    			# Добавляем граничные условия
+    			i = Ix[0]
+    			if self.problem.prm['ul'] is None:
+    				ip1 = i+1
+    				im1 = ip1
+    				y.u[i] = y_1.u[i] + self.prm['dt']*self.problem.prm['V'](self.mesh.x[0][i]) + \ 
+    				0.5*gamma2*(0.5*(q[i]+q[ip1])*(y_1.u[ip1] - y_1.u[i]) -\ 
+    				            0.5*(q[i]+q[im1])*(y_1.u[i] - y_1.u[im1])) + \ 
+    				0.5*dt2*self.problem.prm['f'](self.mesh.x[0][i], self.mesh.t[n])
+    			else:
+    				y.u[i] = self.problem.prm['ul'](self.mesh.t[n+1])
+    
+    
+    			i = Ix[-1]
+    			if self.problem.prm['ur'] is None:
+    				im1 = i-1
+    				ip1 = im1
+    				y.u[i] = y_1.u[i] + self.prm['dt']*self.problem.prm['V'](self.mesh.x[0][i]) + \ 
+    				0.5*gamma2*(0.5*(q[i]+q[ip1])*(y_1.u[ip1] - y_1.u[i]) -\ 
+    				            0.5*(q[i]+q[im1])*(y_1.u[i] - y_1.u[im1])) + \ 
+    				0.5*dt2*self.problem.prm['f'](self.mesh.x[0][i], self.mesh.t[n])
+    			else:
+    				y.u[i] = self.problem.prm['ur'](self.mesh.t[n+1])					
+    
+    			if self.prm['user_action'] is not None:
+    				if self.prm['user_action'](y.u, y.mesh.x[0], y.mesh.t, n+1):
+    					break
+    
+    			y_2.u, y_1.u, y.u = y_1.u, y.u, y_2.u
+    
+    
+    		self.y = y_1
+    		cpu = t0 - time.clock()
+    		return cpu, hashed_input
+    
+    	
+    def merge_zip_archives(individual_archives, archive_name):
+    	"""
+    	Слияние индивидуальных zip-архивов, сделанных с помощью
+    	numpy.savez, в один архив с именем archive_name.
+    	Отдельные архивы могут быть заданы как список имен.
+    	В результате выполнения этой функции все отдельные 
+    	архивы удаляются и создается один новый архив.
+    	"""
+    	import zipfile
+    	archive = zipfile.ZipFile(
+    		archive_name, 'w', zipfile.ZIP_DEFLATED,
+    		allowZip64=True)
+    	if isinstance(individual_archives, (list,tuple)):
+    		filenames = individual_archives
+    	elif isinstance(individual_archives, str):
+    		filenames = glob.glob(individual_archives)
+    
+    	# Открываем каждый архив и пишем его в общий архив
+    	for filename in filenames:
+    		f = zipfile.ZipFile(filename,  'r',
+    		                    zipfile.ZIP_DEFLATED)
+    		for name in f.namelist():
+    			data = f.open(name, 'r')
+    			# Сохраняем под именем без .npy
+    			archive.writestr(name[:-4], data.read())
+    		f.close()
+    		os.remove(filename)
+    	archive.close()
+    
+    class PlotAndStoreSolution:
+    	"""
+    	Класс для функиции user_action в solver.
+    	Только визуализация решения.
+    	"""
+    	def __init__(
+    			self,
+    			casename='tmp',    # Префикс в именах файлов
+    			umin=-1, umax=1,   # Задаются границы по оси y
+    			pause_between_frames=None,  # Скорость видео
+    			backend='matplotlib',       # или 'gnuplot' или None
+    			screen_movie=True, # Показывать видео на экране?
+    			title='',          # Дополнительное сообщение в title
+    			skip_frame=1,      # Пропуск каждого skip_frame кадра
+    			filename=None):    # Имя файла с решением
+    		self.casename = casename
+    		self.yaxis = [umin, umax]
+    		self.pause = pause_between_frames
+    		self.backend = backend
+    		if backend is None:
+    			# Использовать matplotlib
+    			import matplotlib.pyplot as plt
+    		elif backend in ('matplotlib', 'gnuplot'):
+    			module = 'scitools.easyviz.' + backend + '_'
+    			exec('import %s as plt' % module)
+    		self.plt = plt
+    		self.screen_movie = screen_movie
+    		self.title = title
+    		self.skip_frame = skip_frame
+    		self.filename = filename
+    		if filename is not None:
+    			# Сохранение временной сетки, когда y записывается в файл
+    			self.t = []
+    			filenames = glob.glob('.' + self.filename + '*.dat.npz')
+    			for filename in filenames:
+    				os.remove(filename)
+    
+    		# Очистка старых кадров
+    		for filename in glob.glob(self.casename+'_*.png'):
+    			os.remove(filename)
+    
+    	def __call__(self, u, x, t, n):
+    		"""
+    		Функция обратного вызова user_action, вызываемая солвером:
+    		сохранение решения, построение графиков на экране и
+    		и сохранение их в файл.
+    		"""
+    		# Сохраняем решение u в файл, используя numpy.savez
+    		if self.filename is not None:
+    			name = 'u%04d' % n  # имя массива
+    			kwargs = {name: u}
+    			fname = '.' + self.filename + '_' + name + '.dat'
+    			np.savez(fname, **kwargs)
+    			self.t.append(t[n])  # сохранение соответствующего временного знаяения
+    			if n == 0:           # сохранение массива x один раз
+    				np.savez('.' + self.filename + '_x.dat', x=x)
+    
+    		# Анимация
+    		if n % self.skip_frame != 0:
+    			return
+    		title = 't=%.3f' % t[n]
+    		if self.title:
+    			title = self.title + ' ' + title
+    		if self.backend is None:
+    			# анимация matplotlib 
+    			if n == 0:
+    				self.plt.ion()
+    				self.lines = self.plt.plot(x, u, 'r-')
+    				self.plt.axis([x[0], x[-1],
+    				               self.yaxis[0], self.yaxis[1]])
+    				self.plt.xlabel('x')
+    				self.plt.ylabel('u')
+    				self.plt.title(title)
+    				self.plt.legend(['t=%.3f' % t[n]])
+    			else:
+    				# Обновляем решение
+    				self.lines[0].set_ydata(u)
+    				self.plt.legend(['t=%.3f' % t[n]])
+    				self.plt.draw()
+    		else:
+    			# анимация scitools.easyviz 
+    			self.plt.plot(x, u, 'r-',
+    			              xlabel='x', ylabel='u',
+    			              axis=[x[0], x[-1],
+    			                    self.yaxis[0], self.yaxis[1]],
+    			              title=title,
+    			              show=self.screen_movie)
+    		# пауза
+    		if t[n] == 0:
+    			time.sleep(2)  # показываем начальное решение 2 с
+    		else:
+    			if self.pause is None:
+    				pause = 0.2 if u.size < 100 else 0
+    			time.sleep(pause)
+    
+    		self.plt.savefig(self.casename+'_%04d.png' % (n))
+    
+    	def make_movie_file(self):
+    		"""
+    		Создается подкаталог на основе casename, перемещаем все файлы
+    		с кадрами в этот каталог и создаем файл index.html для показа
+    		видео в браузере (как последовательности PNG файлов).
+    		"""
+    		directory = self.casename
+    		if os.path.isdir(directory):
+    			shutil.rmtree(directory)   # rm -rf directory
+    		os.mkdir(directory)            # mkdir directory
+    		# mv frame_*.png directory
+    		for filename in glob.glob(self.casename+'_*.png'):
+    			os.rename(filename, os.path.join(directory, filename))
+    		os.chdir(directory)        # cd directory
+    		fps = 4 # frames per second
+    		if self.backend is not None:
+    			from scitools.std import movie
+    			movie(self.casename+'_*.png', encoder='html',
+    			      output_file='index.html', fps=fps)
+    
+    		# Создаем другие видео форматы: Flash, Webm, Ogg, MP4
+    		codec2ext = dict(flv='flv', libx264='mp4', libvpx='webm',
+    		                 libtheora='ogg')
+    		filespec = self.casename+'_%04d.png'
+    		movie_program = 'ffmpeg' #'avconv' # или 'ffmpeg' 
+    		for codec in codec2ext:
+    			ext = codec2ext[codec]
+    			cmd = '%(movie_program)s -r %(fps)d -i %(filespec)s '\ 
+    			      '-vcodec %(codec)s movie.%(ext)s' % vars()
+    			os.system(cmd)
+    		os.chdir(os.pardir)  # возвращаемся в родительский каталог
+    
+    	def close_file(self, hashed_input):
+    		"""
+    		Сливаем все файлы в один архив.
+    		hashed_input --- строка, отражающая входные данные
+    		для моделирования (создана функцией solver).
+    		"""
+    		if self.filename is not None:
+    			np.savez('.' + self.filename + '_t.dat',
+    			         t=np.array(self.t, dtype=float))
+    
+    			archive_name = '.' + hashed_input + '_archive.npz'
+    			filenames = glob.glob('.' + self.filename + '*.dat.npz')
+    			merge_zip_archives(filenames, archive_name)
+    		print 'Archive name:', archive_name
+    		# data = numpy.load(archive); data.files holds names
+    		# data[name] extract the array
+    
+    def experiment_with_solver():
+    	p = WaveProblem1D()
+    	l = float(p.prm['L'][1])
+    	p.prm['c'] = 0.5
+    	p.prm['T'] = 4
+    	p.prm['I'] = lambda x: np.where(np.abs(x-l/2.) > 0.1,0.,1.)
+    	p.prm['ul'] = None
+    	p.prm['ur'] = None
+    	s = WaveExplicitSolver1D(p)
+    	s.prm['dt'] = (l/10)/p.prm['c']
+    
+    	action = PlotAndStoreSolution(umax=1.1, umin=-1.1, backend=None, screen_movie=False, filename='test')
+    	s.prm['user_action'] = action
+    	cpu, hashed_input =s.solve()
+    	action.make_movie_file()
+    	action.close_file(hashed_input)
+    	
+    if __name__ == '__main__':
+    	experiment_with_solver()
+
+Классы реализованы в сценарии
+`wave1d_dn_solver.py <src-fdm-for-wave/wave1d_dn_solver.py>`__. Кроме
+того, этот сценарий содержит класс ``PlotAndStoreSolution``,
+представленный в :ref:`fdm-for-wave:gen_solver:user_action`.
+
+Пример использования данных классов представлен ниже:
+
+.. code-block:: python
+
+    def experiment_with_solver():
+    	p = WaveProblem1D()
+    	l = float(p.prm['L'][1])
+    	p.prm['c'] = 0.5
+    	p.prm['T'] = 4
+    	p.prm['I'] = lambda x: np.where(np.abs(x-l/2.) > 0.1,0.,1.)
+    	p.prm['ul'] = None
+    	p.prm['ur'] = None
+    	s = WaveExplicitSolver1D(p)
+    	s.prm['dt'] = (l/10)/p.prm['c']
+    
+    	action = PlotAndStoreSolution(umax=1.1, umin=-1.1, backend=None, screen_movie=False, filename='test')
+    	s.prm['user_action'] = action
+    	cpu, hashed_input =s.solve()
+    	action.make_movie_file()
+    	action.close_file(hashed_input)
+    	
+    if __name__ == '__main__':
+    	experiment_with_solver()
+
+.. Local Variables:
+
+.. doconce-chapter-nickname: "fdm-for-wave"
+
+.. doconce-section-nickname: "oop"
+
+.. End:
+
+.. Local Variables:
+
+.. doconce-chapter-nickname: "fdm-for-wave"
+
+.. End:

@@ -183,9 +183,10 @@ def guitar(gamma):
     umin = -1.2*a;  umax = -umin
     cpu = viz(I, 0, 0, c, l, tau, gamma, T, umin, umax,
               animate=True, tool='scitools')
+    return cpu
 
 if __name__ == '__main__':
-    test_quadratic()
+#    test_quadratic()
     import sys
     try:
         gamma = float(sys.argv[1])

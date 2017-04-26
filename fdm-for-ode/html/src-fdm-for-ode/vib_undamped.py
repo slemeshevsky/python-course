@@ -4,21 +4,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def solver(U, omega, tau, T):
-    """
-    Решается задача
-    u'' + omega**2*u = 0 для t из (0,T], u(0)=U и u'(0)=0,
-    конечно-разностным методом с постоянным шагом tau
-    """
-    tau = float(tau)
-    Nt = int(round(T/tau))
-    u = np.zeros(Nt+1)
-    t = np.linspace(0, Nt*tau, Nt+1)
+	"""
+	Решается задача u'' + omega**2*u = 0 для t из (0,T], u(0)=U и u'(0)=0,
+	конечно-разностным методом с постоянным шагом tau
+	"""
+	tau = float(tau)
+	Nt = int(round(T/tau))
+	u = np.zeros(Nt+1)
+	t = np.linspace(0, Nt*tau, Nt+1)
 
-    u[0] = U
-    u[1] = u[0] - 0.5*tau**2*omega**2*u[0]
-    for n in range(1, Nt):
-        u[n+1] = 2*u[n] - u[n-1] - tau**2*omega**2*u[n]
-    return u, t
+	u[0] = U
+	u[1] = u[0] - 0.5*tau**2*omega**2*u[0]
+	for n in range(1, Nt):
+	    u[n+1] = 2*u[n] - u[n-1] - tau**2*omega**2*u[n]
+	return u, t
 
 def u_exact(t, U, omega):
     return U*np.cos(omega*t)

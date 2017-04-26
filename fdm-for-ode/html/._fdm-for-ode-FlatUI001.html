@@ -592,21 +592,20 @@ $$
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
 <div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">solver</span>(U, omega, tau, T):
-    <span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #BA2121; font-style: italic">    Решается задача</span>
-<span style="color: #BA2121; font-style: italic">    u&#39;&#39; + omega**2*u = 0 для t из (0,T], u(0)=U и u&#39;(0)=0,</span>
-<span style="color: #BA2121; font-style: italic">    конечно-разностным методом с постоянным шагом tau</span>
-<span style="color: #BA2121; font-style: italic">    &quot;&quot;&quot;</span>
-    tau <span style="color: #666666">=</span> <span style="color: #008000">float</span>(tau)
-    Nt <span style="color: #666666">=</span> <span style="color: #008000">int</span>(<span style="color: #008000">round</span>(T<span style="color: #666666">/</span>tau))
-    u <span style="color: #666666">=</span> np<span style="color: #666666">.</span>zeros(Nt<span style="color: #666666">+1</span>)
-    t <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace(<span style="color: #666666">0</span>, Nt<span style="color: #666666">*</span>tau, Nt<span style="color: #666666">+1</span>)
+	<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">	Решается задача u&#39;&#39; + omega**2*u = 0 для t из (0,T], u(0)=U и u&#39;(0)=0,</span>
+<span style="color: #BA2121; font-style: italic">	конечно-разностным методом с постоянным шагом tau</span>
+<span style="color: #BA2121; font-style: italic">	&quot;&quot;&quot;</span>
+	tau <span style="color: #666666">=</span> <span style="color: #008000">float</span>(tau)
+	Nt <span style="color: #666666">=</span> <span style="color: #008000">int</span>(<span style="color: #008000">round</span>(T<span style="color: #666666">/</span>tau))
+	u <span style="color: #666666">=</span> np<span style="color: #666666">.</span>zeros(Nt<span style="color: #666666">+1</span>)
+	t <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace(<span style="color: #666666">0</span>, Nt<span style="color: #666666">*</span>tau, Nt<span style="color: #666666">+1</span>)
 
-    u[<span style="color: #666666">0</span>] <span style="color: #666666">=</span> U
-    u[<span style="color: #666666">1</span>] <span style="color: #666666">=</span> u[<span style="color: #666666">0</span>] <span style="color: #666666">-</span> <span style="color: #666666">0.5*</span>tau<span style="color: #666666">**2*</span>omega<span style="color: #666666">**2*</span>u[<span style="color: #666666">0</span>]
-    <span style="color: #008000; font-weight: bold">for</span> n <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #666666">1</span>, Nt):
-        u[n<span style="color: #666666">+1</span>] <span style="color: #666666">=</span> <span style="color: #666666">2*</span>u[n] <span style="color: #666666">-</span> u[n<span style="color: #666666">-1</span>] <span style="color: #666666">-</span> tau<span style="color: #666666">**2*</span>omega<span style="color: #666666">**2*</span>u[n]
-    <span style="color: #008000; font-weight: bold">return</span> u, t
+	u[<span style="color: #666666">0</span>] <span style="color: #666666">=</span> U
+	u[<span style="color: #666666">1</span>] <span style="color: #666666">=</span> u[<span style="color: #666666">0</span>] <span style="color: #666666">-</span> <span style="color: #666666">0.5*</span>tau<span style="color: #666666">**2*</span>omega<span style="color: #666666">**2*</span>u[<span style="color: #666666">0</span>]
+	<span style="color: #008000; font-weight: bold">for</span> n <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #666666">1</span>, Nt):
+	    u[n<span style="color: #666666">+1</span>] <span style="color: #666666">=</span> <span style="color: #666666">2*</span>u[n] <span style="color: #666666">-</span> u[n<span style="color: #666666">-1</span>] <span style="color: #666666">-</span> tau<span style="color: #666666">**2*</span>omega<span style="color: #666666">**2*</span>u[n]
+	<span style="color: #008000; font-weight: bold">return</span> u, t
 </pre></div>
 <p>
 Также будет удобно реализовать функцию для построения графиков точного
@@ -670,7 +669,7 @@ U, omega, tau, num_periods <span style="color: #666666">=</span> a<span style="c
 <p>
 
 <!-- code=bash (!bc shcod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>Terminal&gt; python vib_undamped.py --num_periods <span style="color: #666666">20</span> --tau 0.1
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>Terminal&gt; python vib_undamped.py --num_periods <span style="color: #666666">20</span> --tau <span style="color: #666666">0</span>.1
 </pre></div>
 
 <h2 id="fdm-for-ode:impl:comp_diff" class="anchor">Вычисление производной \( u'(t) \)</h2>
@@ -1112,7 +1111,7 @@ $$
     bokeh_plot(u, t, legends, U<span style="color: #666666">=1</span>, omega<span style="color: #666666">=</span>omega, t_range<span style="color: #666666">=</span>[<span style="color: #666666">0</span>, <span style="color: #666666">4*</span>P],
                filename<span style="color: #666666">=</span><span style="color: #BA2121">&#39;bokeh.html&#39;</span>)
 
-<span style="color: #008000; font-weight: bold">if</span> __name__ <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;__main__&#39;</span>:
+<span style="color: #008000; font-weight: bold">if</span> <span style="color: #19177C">__name__</span> <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;__main__&#39;</span>:
 	main()
 <span style="color: #408080; font-style: italic">#    demo_bokeh()</span>
 <span style="color: #408080; font-style: italic">#    raw_input()</span>
@@ -1127,7 +1126,7 @@ $$
 <p>
 
 <!-- code=bash (!bc shcod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>Terminal&gt; python vib_undamped.py --dt 0.05 --num_periods 40
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>Terminal&gt; python vib_undamped.py --dt <span style="color: #666666">0</span>.05 --num_periods <span style="color: #666666">40</span>
 </pre></div>
 <p>
 Появится окно с движущимся графиком, на котором мы можем видеть
@@ -1316,8 +1315,6 @@ WebM. Соответствующий HTML код представлен ниже
           else document.addEventListener("DOMContentLoaded", fn);
         })();
         </script>
-<div class="bk-embeded">
-<div class="bk-root">
 <div class="bk-plotdiv" id="bc0b20f8-749b-4115-9636-c5ca1af08def"></div>
 </div>
 </div>

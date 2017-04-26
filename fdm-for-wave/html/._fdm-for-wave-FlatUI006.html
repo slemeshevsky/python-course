@@ -1,0 +1,1444 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="description" content="Разностные схемы для волнового уравнения">
+<meta name="keywords" content="Уравнение колебаний струны,Волновое уравнение,Волновое уравнение одномерное,Сетка,Узлы,Узлы  граничные,Узлы  внутренние,Разностная схема  трехслойная,Число Куранта,Волновое уравнение  неоднородное,Массив  срез,Граничные условия Неймана,Граничные условия Дирихле,Мнимые ячейки,Мнимые узлы,Мнимые значения">
+
+<title>Разностные схемы для волнового уравнения</title>
+
+<!-- Bootstrap style: bootstrap_FlatUI -->
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.rawgit.com/hplgit/doconce/master/bundled/html_styles/style_bootstrap/css/bootstrap_FlatUI.css" rel="stylesheet">
+<!-- not necessary
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+/* Let inline verbatim have the same color as the surroundings */
+code { color: inherit; background-color: transparent; }
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:50px;      /* fixed header height for style bootstrap_FlatUI */
+  margin:-50px 0 0; /* negative fixed header height */
+}
+</style>
+
+
+<!-- Tools for embedded Bokeh plots -->
+<link rel=stylesheet 
+      href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
+      type=text/css />
+<script type=text/javascript 
+        src=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js>
+</script>
+<script type=text/javascript>
+  Bokeh.set_log_level("info");
+</script>
+
+<style>
+.bk-embeded {
+    width: 100%;
+    margin: auto;
+    height: 500px;
+    text-align: webkit-left;
+}
+</style>
+
+
+</head>
+
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [('Содержание',
+               1,
+               'table_of_contents',
+               'table_of_contents'),
+              (u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u0430\u044f \u0441\u0445\u0435\u043c\u0430 \u0434\u043b\u044f \u043e\u0434\u043d\u043e\u043c\u0435\u0440\u043d\u043e\u0433\u043e \u0432\u043e\u043b\u043d\u043e\u0432\u043e\u0433\u043e \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:string_eq',
+               u'fdm-for-wave:string_eq'),
+              (u'\u0420\u0430\u0441\u0447\u0435\u0442\u043d\u0430\u044f \u0441\u0435\u0442\u043a\u0430',
+               2,
+               u'fdm-for-wave:string_eq:grid',
+               u'fdm-for-wave:string_eq:grid'),
+              (u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u0430\u044f \u0441\u0445\u0435\u043c\u0430',
+               2,
+               u'fdm-for-wave:string_eq:fdm',
+               u'fdm-for-wave:string_eq:fdm'),
+              (u'\u0410\u043f\u043f\u0440\u043e\u043a\u0441\u0438\u043c\u0430\u0446\u0438\u044f \u0432\u0442\u043e\u0440\u043e\u0433\u043e \u043d\u0430\u0447\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u0443\u0441\u043b\u043e\u0432\u0438\u044f',
+               2,
+               u'fdm-for-wave:string_eq:fds_init',
+               u'fdm-for-wave:string_eq:fds_init'),
+              (u'\u0412\u044b\u0447\u0438\u0441\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0430\u043b\u0433\u043e\u0440\u0438\u0442\u043c',
+               2,
+               u'fdm-for-wave:string_eq:alg',
+               u'fdm-for-wave:string_eq:alg'),
+              (u'\u042d\u0441\u043a\u0438\u0437 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0439 \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438',
+               2,
+               u'fdm-for-wave:string_eq:sketch',
+               u'fdm-for-wave:string_eq:sketch'),
+              (u'\u0412\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u043e\u0439 \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438',
+               1,
+               u'fdm-for-wave:verif',
+               u'fdm-for-wave:verif'),
+              (u'\u041d\u0435\u043e\u0434\u043d\u043e\u0440\u043e\u0434\u043d\u043e\u0435 \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435',
+               2,
+               u'fdm-for-wave:verif:string_unhom',
+               u'fdm-for-wave:verif:string_unhom'),
+              (u'\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0430\u043d\u0430\u043b\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u0440\u0435\u0448\u0435\u043d\u0438\u044f',
+               2,
+               u'fdm-for-wave:verif:analtic',
+               u'fdm-for-wave:verif:analtic'),
+              (u'\u041f\u0440\u043e\u0431\u043d\u044b\u0435 \u0444\u0443\u043d\u043a\u0446\u0438\u0438',
+               2,
+               u'fdm-for-wave:verif:manufact',
+               u'fdm-for-wave:verif:manufact'),
+              (u'\u041f\u043e\u0441\u0442\u0440\u043e\u0435\u043d\u0438\u0435 \u0442\u043e\u0447\u043d\u043e\u0433\u043e \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0434\u0438\u0441\u043a\u0440\u0435\u0442\u043d\u043e\u0439 \u0437\u0430\u0434\u0430\u0447\u0438',
+               2,
+               u'fdm-for-wave:verif:fdm_ex_sol',
+               u'fdm-for-wave:verif:fdm_ex_sol'),
+              (u'\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u0430\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f',
+               1,
+               u'fdm-for-wave:impl',
+               u'fdm-for-wave:impl'),
+              (u'\u0424\u0443\u043d\u043a\u0446\u0438\u044f \u043e\u0431\u0440\u0430\u0442\u043d\u043e\u0433\u043e \u0432\u044b\u0437\u043e\u0432\u0430 \u0434\u043b\u044f \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439, \u0437\u0430\u0434\u0430\u043d\u043d\u044b\u0445 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u043c',
+               2,
+               u'fdm-for-wave:impl:user_action',
+               u'fdm-for-wave:impl:user_action'),
+              (u'\u0424\u0443\u043d\u043a\u0446\u0438\u044f-\u0441\u043e\u043b\u0432\u0435\u0440',
+               2,
+               u'fdm-for-wave:impl:solver',
+               u'fdm-for-wave:impl:solver'),
+              (u'\u0412\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f: \u0442\u043e\u0447\u043d\u043e\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u0435 --- \u043f\u043e\u043b\u0438\u043d\u043e\u043c \u0432\u0442\u043e\u0440\u043e\u0439 \u0441\u0442\u0435\u043f\u0435\u043d\u0438',
+               2,
+               u'fdm-for-wave:impl:ver_quad',
+               u'fdm-for-wave:impl:ver_quad'),
+              (u'\u0412\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f: \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u044f \u0440\u0435\u0448\u0435\u043d\u0438\u044f',
+               2,
+               u'fdm-for-wave:impl:viz',
+               u'fdm-for-wave:impl:viz'),
+              (u'\u0424\u0443\u043d\u043a\u0446\u0438\u044f \u0434\u043b\u044f \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u044f \u0440\u0430\u0441\u0447\u0435\u0442\u043e\u043c',
+               3,
+               u'fdm-for-wave:impl:viz:control',
+               u'fdm-for-wave:impl:viz:control'),
+              (u'\u0410\u043d\u0430\u043b\u0438\u0437 \u043a\u043e\u0434\u0430',
+               3,
+               u'fdm-for-wave:impl:viz:analysis',
+               u'fdm-for-wave:impl:viz:analysis'),
+              (u'\u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u0432\u0438\u0434\u0435\u043e \u0444\u0430\u0439\u043b\u043e\u0432',
+               3,
+               u'fdm-for-wave:impl:viz:movie',
+               u'fdm-for-wave:impl:viz:movie'),
+              (u'\u041f\u0440\u043e\u043f\u0443\u0441\u043a \u043a\u0430\u0434\u0440\u043e\u0432 \u0434\u043b\u044f \u0443\u0441\u043a\u043e\u0440\u0435\u043d\u0438\u044f \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u0438',
+               3,
+               u'fdm-for-wave:impl:viz_skip_fr',
+               u'fdm-for-wave:impl:viz_skip_fr'),
+              (u'\u0417\u0430\u043f\u0443\u0441\u043a \u0432\u0430\u0440\u0438\u0430\u043d\u0442\u0430 \u0440\u0430\u0441\u0447\u0435\u0442\u0430',
+               2,
+               u'fdm-for-wave:impl:running',
+               u'fdm-for-wave:impl:running'),
+              (u'\u0411\u0435\u0437\u0440\u0430\u0437\u043c\u0435\u0440\u043d\u0430\u044f \u043c\u043e\u0434\u0435\u043b\u044c',
+               2,
+               u'fdm-for-wave:impl:scaled',
+               u'fdm-for-wave:impl:scaled'),
+              (u'\u0412\u0435\u043a\u0442\u043e\u0440\u0438\u0437\u0430\u0446\u0438\u044f',
+               1,
+               u'fdm-for-wave:vect',
+               u'fdm-for-wave:vect'),
+              (u'\u041e\u043f\u0435\u0440\u0430\u0446\u0438\u0438 \u043d\u0430 \u0441\u0440\u0435\u0437\u0430\u0445 \u043c\u0430\u0441\u0441\u0438\u0432\u043e\u0432',
+               2,
+               u'fdm-for-wave:vect:op',
+               u'fdm-for-wave:vect:op'),
+              (u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u044b\u0435 \u0441\u0445\u0435\u043c\u044b, \u0432\u044b\u0440\u0430\u0436\u0435\u043d\u043d\u044b\u0435 \u0432 \u0441\u0440\u0435\u0437\u0430\u0445',
+               2,
+               u'fdm-for-wave:vect:slices_fdm',
+               u'fdm-for-wave:vect:slices_fdm'),
+              (u'\u0412\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f',
+               2,
+               u'fdm-for-wave:vect:verif',
+               u'fdm-for-wave:vect:verif'),
+              (u'\u0418\u0437\u043c\u0435\u0440\u0435\u043d\u0438\u0435 \u044d\u0444\u0444\u0435\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u0438',
+               2,
+               u'fdm-for-wave:vect:eff',
+               u'fdm-for-wave:vect:eff'),
+              (u'\u0420\u0435\u0448\u0435\u043d\u0438\u0435 1',
+               3,
+               u'fdm-for-wave:vect:sol1',
+               u'fdm-for-wave:vect:sol1'),
+              (u'\u0420\u0435\u0448\u0435\u043d\u0438\u0435 2',
+               3,
+               u'fdm-for-wave:vect:sol2',
+               u'fdm-for-wave:vect:sol2'),
+              (u'\u042d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u044b \u043f\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0435 \u044d\u0444\u0444\u0435\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u0438',
+               3,
+               u'fdm-for-wave:vect:eff_exp',
+               u'fdm-for-wave:vect:eff_exp'),
+              (u'\u0417\u0430\u043c\u0435\u0447\u0430\u043d\u0438\u0435 \u043e\u0431 \u043e\u0431\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0438 \u043c\u0430\u0441\u0441\u0438\u0432\u043e\u0432',
+               2,
+               u'fdm-for-wave:vect:array_updating',
+               u'fdm-for-wave:vect:array_updating'),
+              (u'\u0423\u043f\u0440\u0430\u0436\u043d\u0435\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:exercises',
+               u'fdm-for-wave:exercises'),
+              (u'Упражнение 1: \u041c\u043e\u0434\u0435\u043b\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u0441\u0442\u043e\u044f\u0447\u0435\u0439 \u0432\u043e\u043b\u043d\u044b',
+               2,
+               u'fdm-for-wave:exercises:1',
+               u'fdm-for-wave:exercises:1'),
+              (u'Замечания', 3, None, '___sec33'),
+              (u'Упражнение 2: \u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435 \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0432 \u0444\u0443\u043d\u043a\u0446\u0438\u0438 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f',
+               2,
+               u'fdm-for-wave:exercises:2',
+               u'fdm-for-wave:exercises:2'),
+              (u'Упражнение 3: \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u043a\u043b\u0430\u0441\u0441\u0430 \u0434\u043b\u044f \u0444\u0443\u043d\u043a\u0446\u0438\u0438 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f',
+               2,
+               u'fdm-for-wave:exercises:3',
+               u'fdm-for-wave:exercises:3'),
+              (u'Упражнение 4: \u0421\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u0438\u0445 \u0447\u0438\u0441\u0435\u043b \u041a\u0443\u0440\u0430\u043d\u0442\u0430 \u043d\u0430 \u043e\u0434\u043d\u043e\u043c \u0432\u0438\u0434\u0435\u043e',
+               2,
+               u'fdm-for-wave:exercises:4',
+               u'fdm-for-wave:exercises:4'),
+              (u'Проект 5: \u0418\u0441\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u044f \u0441 \u043e\u0434\u043d\u043e\u043c\u0435\u0440\u043d\u044b\u043c\u0438 \u0441\u0435\u0442\u043e\u0447\u043d\u044b\u043c\u0438 \u0444\u0443\u043d\u043a\u0446\u0438\u044f\u043c\u0438',
+               2,
+               u'fdm-for-wave:exercises:pr1',
+               u'fdm-for-wave:exercises:pr1'),
+              (u'\u041e\u0431\u043e\u0431\u0449\u0435\u043d\u0438\u044f: \u043e\u0442\u0440\u0430\u0436\u0430\u044e\u0449\u0438\u0435 \u0433\u0440\u0430\u043d\u0438\u0446\u044b',
+               1,
+               u'fdm-for-wave:refl',
+               u'fdm-for-wave:refl'),
+              (u'\u0413\u0440\u0430\u043d\u0438\u0447\u043d\u044b\u0435 \u0443\u0441\u043b\u043e\u0432\u0438\u044f \u041d\u0435\u0439\u043c\u0430\u043d\u0430',
+               2,
+               u'fdm-for-wave:refl:neumann',
+               u'fdm-for-wave:refl:neumann'),
+              (u'\u0410\u043f\u043f\u0440\u043e\u043a\u0441\u0438\u043c\u0430\u0446\u0438\u044f \u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u043d\u043e\u0439 \u043d\u0430 \u0433\u0440\u0430\u043d\u0438\u0446\u0435',
+               2,
+               u'fdm-for-wave:refl:deriv_appr',
+               u'fdm-for-wave:refl:deriv_appr'),
+              (u'\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u0430\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u041d\u0435\u0439\u043c\u0430\u043d\u0430',
+               2,
+               u'fdm-for-wave:refl:impl',
+               u'fdm-for-wave:refl:impl'),
+              (u'\u041e\u0431\u043e\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435 \u043c\u043d\u043e\u0436\u0435\u0441\u0442\u0432 \u0438\u043d\u0434\u0435\u043a\u0441\u043e\u0432',
+               2,
+               u'fdm-for-wave:refl:idx_set',
+               u'fdm-for-wave:refl:idx_set'),
+              (u'\u0412\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438 \u0433\u0440\u0430\u043d\u0438\u0447\u043d\u044b\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u041d\u0435\u0439\u043c\u0430\u043d\u0430',
+               2,
+               u'fdm-for-wave:refl:ver',
+               u'fdm-for-wave:refl:ver'),
+              (u'\u0420\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0433\u0440\u0430\u043d\u0438\u0447\u043d\u044b\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u041d\u0435\u0439\u043c\u0430\u043d\u0430 \u0441 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435\u043c \u043c\u043d\u0438\u043c\u044b\u0445 \u044f\u0447\u0435\u0435\u043a',
+               2,
+               u'fdm-for-wave:refl:ghost',
+               u'fdm-for-wave:refl:ghost'),
+              (u'\u0418\u0434\u0435\u044f',
+               3,
+               u'fdm-for-wave:refl:ghost:idea',
+               u'fdm-for-wave:refl:ghost:idea'),
+              (u'\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u043d\u0430\u044f \u0440\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f',
+               3,
+               u'fdm-for-wave:refl:ghost:impl',
+               u'fdm-for-wave:refl:ghost:impl'),
+              (u'\u041e\u0431\u043e\u0431\u0449\u0435\u043d\u0438\u044f: \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u0430\u044f \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u044c \u0440\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u044f \u0432\u043e\u043b\u043d\u044b',
+               1,
+               u'fdm-for-wave:varvel',
+               u'fdm-for-wave:varvel'),
+              (u'\u041c\u043e\u0434\u0435\u043b\u044c\u043d\u043e\u0435 \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435 \u0441 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u043c\u0438 \u043a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442\u0430\u043c\u0438',
+               2,
+               u'fdm-for-wave:varvel:model',
+               u'fdm-for-wave:varvel:model'),
+              (u'\u0410\u043f\u043f\u0440\u043e\u043a\u0441\u0438\u043c\u0430\u0446\u0438\u044f \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445 \u043a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442\u043e\u0432',
+               2,
+               u'fdm-for-wave:varvel:coeff_appr',
+               u'fdm-for-wave:varvel:coeff_appr'),
+              (u'\u0423\u0441\u043b\u043e\u0432\u0438\u044f \u041d\u0435\u0439\u043c\u0430\u043d\u0430 \u0438 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0435 \u043a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442\u044b',
+               2,
+               u'fdm-for-wave:varvel:neumann',
+               u'fdm-for-wave:varvel:neumann'),
+              (u'\u0411\u043e\u043b\u0435\u0435 \u043e\u0431\u0449\u0435\u0435 \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435 \u0441 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u043c\u0438 \u043a\u043e\u044d\u0444\u0444\u0438\u0446\u0438\u0435\u043d\u0442\u044b',
+               2,
+               u'fdm-for-wave:varvel:more_gen',
+               u'fdm-for-wave:varvel:more_gen'),
+              (u'\u041e\u0431\u043e\u0431\u0449\u0435\u043d\u0438\u044f: \u0437\u0430\u0442\u0443\u0445\u0430\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:damping',
+               u'fdm-for-wave:damping'),
+              (u'\u0420\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0430 \u043e\u0431\u0449\u0435\u0433\u043e \u0441\u043e\u043b\u0432\u0435\u0440\u0430 \u0434\u043b\u044f \u043e\u0434\u043d\u043e\u043c\u0435\u0440\u043d\u043e\u0433\u043e \u0432\u043e\u043b\u043d\u043e\u0432\u043e\u0433\u043e \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:gen_solver',
+               u'fdm-for-wave:gen_solver'),
+              (u'\u0424\u0443\u043d\u043a\u0446\u0438\u044f-\u0441\u043e\u043b\u0432\u0435\u0440',
+               2,
+               u'fdm-for-wave:gen_solver:solver',
+               u'fdm-for-wave:gen_solver:solver'),
+              (u'\u041a\u043e\u0434',
+               3,
+               u'fdm-for-wave:gen_solver:solver_code',
+               u'fdm-for-wave:gen_solver:solver_code'),
+              (u'\u0420\u0430\u0437\u0431\u043e\u0440',
+               3,
+               u'fdm-for-wave:gen_solver:solver_dissect',
+               u'fdm-for-wave:gen_solver:solver_dissect'),
+              (u'\u0412\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f',
+               2,
+               u'fdm-for-wave:gen_solver:verif',
+               u'fdm-for-wave:gen_solver:verif'),
+              (u'\u0421\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435 \u0431\u043e\u043b\u044c\u0448\u0438\u0445 \u0430\u0440\u0445\u0438\u0432\u043e\u0432 \u0432 \u0444\u0430\u0439\u043b\u044b \u0441 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435\u043c `savez`',
+               2,
+               u'fdm-for-wave:gen_solver:save_arrays',
+               u'fdm-for-wave:gen_solver:save_arrays'),
+              (u'\u0421\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435 \u0438\u043d\u0434\u0438\u0432\u0438\u0434\u0443\u0430\u043b\u044c\u043d\u044b\u0445 \u043c\u0430\u0441\u0441\u0438\u0432\u043e\u0432',
+               3,
+               None,
+               '___sec59'),
+              (u'\u0421\u043b\u0438\u044f\u043d\u0438\u0435 zip-\u0430\u0440\u0445\u0438\u0432\u043e\u0432',
+               3,
+               None,
+               '___sec60'),
+              (u'\u0427\u0442\u0435\u043d\u0438\u0435 \u043c\u0430\u0441\u0441\u0438\u0432\u043e\u0432 \u0438\u0437 zip-\u0430\u0440\u0445\u0438\u0432\u0430',
+               3,
+               None,
+               '___sec61'),
+              (u'\u0420\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0444\u0443\u043d\u043a\u0446\u0438\u0438 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439 \u043f\u043e\u043b\u043e\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u0432 \u0432\u0438\u0434\u0435 \u043a\u043b\u0430\u0441\u0441\u0430',
+               2,
+               u'fdm-for-wave:gen_solver:user_action',
+               u'fdm-for-wave:gen_solver:user_action'),
+              (u'\u041a\u043e\u0434',
+               3,
+               u'fdm-for-wave:gen_solver:code',
+               u'fdm-for-wave:gen_solver:code'),
+              (u'\u0420\u0430\u0437\u0431\u043e\u0440',
+               3,
+               u'fdm-for-wave:gen_solver:dissect',
+               u'fdm-for-wave:gen_solver:dissect'),
+              (u'\u0420\u0430\u0441\u043f\u0440\u043e\u0441\u0442\u0440\u0430\u043d\u0435\u043d\u0438\u0435 \u0438\u043c\u043f\u0443\u043b\u044c\u0441\u0430 \u0432 \u0434\u0432\u0443\u0445 \u0441\u0440\u0435\u0434\u0430\u0445',
+               2,
+               u'fdm-for-wave:gen_solver:pulse',
+               u'fdm-for-wave:gen_solver:pulse'),
+              (u'\u0423\u043f\u0440\u0430\u0436\u043d\u0435\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:exercises2',
+               u'fdm-for-wave:exercises2'),
+              (u'Упражнение 6: \u041d\u0430\u0445\u043e\u0436\u0434\u0435\u043d\u0438\u0435 \u0430\u043d\u0430\u043b\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u0440\u0435\u0448\u0435\u043d\u0438\u044f \u0432\u043e\u043b\u043d\u043e\u0432\u043e\u0433\u043e \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u044f \u0441 \u0437\u0430\u0442\u0443\u0445\u0430\u043d\u0438\u0435\u043c',
+               2,
+               u'fdm-for-wave:exercises2:1',
+               u'fdm-for-wave:exercises2:1'),
+              (u'Задача 7: \u0410\u043d\u0430\u043b\u0438\u0437 \u0441\u0438\u043c\u043c\u0435\u0442\u0440\u0438\u0447\u043d\u044b\u0445 \u0433\u0440\u0430\u043d\u0438\u0447\u043d\u044b\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439',
+               2,
+               u'fdm-for-wave:exercises2:2',
+               u'fdm-for-wave:exercises2:2'),
+              (u'Упражнение 8: \u0418\u043c\u0443\u043b\u044c\u0441 \u0447\u0435\u0440\u0435\u0437 \u0441\u043b\u043e\u0438\u0441\u0442\u0443\u044e \u0441\u0440\u0435\u0434\u0443',
+               2,
+               u'fdm-for-wave:exercises2:3',
+               u'fdm-for-wave:exercises2:3'),
+              (u'Упражнение 9: \u041e\u0431\u044a\u044f\u0441\u043d\u0435\u043d\u0438\u0435 \u043f\u043e\u0447\u0435\u043c\u0443 \u0432\u043e\u0437\u043d\u0438\u043a\u0430\u044e\u0442 \u0447\u0438\u0441\u043b\u0435\u043d\u043d\u044b\u0435 \u0448\u0443\u043c\u044b',
+               2,
+               u'fdm-for-wave:exercises2:4',
+               u'fdm-for-wave:exercises2:4'),
+              (u'Упражнение 10: \u0418\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u0435 \u0433\u0430\u0440\u043c\u043e\u043d\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u0441\u0440\u0435\u0434\u043d\u0435\u0433\u043e \u0432 \u043e\u0434\u043d\u043e\u043c\u0435\u0440\u043d\u043e\u0439 \u043c\u043e\u0434\u0435\u043b\u0438',
+               2,
+               u'fdm-for-wave:exercises2:5',
+               u'fdm-for-wave:exercises2:5'),
+              (u'Задача 11: \u0420\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0445 \u0433\u0440\u0430\u043d\u0438\u0446',
+               2,
+               u'fdm-for-wave:exercises2:6',
+               u'fdm-for-wave:exercises2:6'),
+              (u'\u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u041f\u041e \u0441 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435\u043c \u041e\u041e\u041f',
+               1,
+               u'fdm-for-wave:oop',
+               u'fdm-for-wave:oop'),
+              (u'\u041a\u043b\u0430\u0441\u0441 `Mesh`',
+               2,
+               u'fdm-for-wave:oop:mesh',
+               u'fdm-for-wave:oop:mesh'),
+              (u'\u041a\u043b\u0430\u0441\u0441 `Function`',
+               2,
+               u'fdm-for-wave:oop:function',
+               u'fdm-for-wave:oop:function'),
+              (u'\u041a\u043b\u0430\u0441\u0441 `Parameters`',
+               2,
+               u'fdm-for-wave:oop:params',
+               u'fdm-for-wave:oop:params'),
+              (u'\u041a\u043b\u0430\u0441\u0441 `WaveProblem1D`',
+               2,
+               u'fdm-for-wave:oop:problem',
+               u'fdm-for-wave:oop:problem'),
+              (u'\u041a\u043b\u0430\u0441\u0441 `Solver`',
+               2,
+               u'fdm-for-wave:oop:solver',
+               u'fdm-for-wave:oop:solver')]}
+end of tocinfo -->
+
+<body>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "none"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript"
+ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<!-- newcommands_keep.tex -->
+$$
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[3]{\frac{\partial^#1 #2}{\partial #3^#1}}
+$$
+
+
+
+
+    
+<!-- Bootstrap navigation bar -->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="fdm-for-wave-FlatUI.html">Разностные схемы для волнового уравнения</a>
+  </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI000.html#table_of_contents" style="font-size: 80%;"><b>Содержание</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:string_eq" style="font-size: 80%;"><b>Разностная схема для одномерного волнового уравнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:string_eq:grid" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Расчетная сетка</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:string_eq:fdm" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Разностная схема</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:string_eq:fds_init" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Аппроксимация второго начального условия</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:string_eq:alg" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Вычислительный алгоритм</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:string_eq:sketch" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Эскиз программной реализации</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:verif" style="font-size: 80%;"><b>Верификация программной реализации</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:verif:string_unhom" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Неоднородное уравнение</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:verif:analtic" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Использование аналитического решения</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:verif:manufact" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Пробные функции</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI001.html#fdm-for-wave:verif:fdm_ex_sol" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Построение точного решения дискретной задачи</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl" style="font-size: 80%;"><b>Программная реализация</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:user_action" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Функция обратного вызова для действий, заданных пользователем</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:solver" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Функция-солвер</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:ver_quad" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Верификация: точное решение --- полином второй степени</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:viz" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Визуализация: анимация решения</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:viz:control" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Функция для управления расчетом</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:viz:analysis" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Анализ кода</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:viz:movie" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Создание видео файлов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:viz_skip_fr" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Пропуск кадров для ускорения анимации</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:running" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Запуск варианта расчета</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:impl:scaled" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Безразмерная модель</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect" style="font-size: 80%;"><b>Векторизация</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:op" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Операции на срезах массивов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:slices_fdm" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Разностные схемы, выраженные в срезах</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:verif" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Верификация</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:eff" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Измерение эффективности</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:sol1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Решение 1</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:sol2" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Решение 2</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:eff_exp" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Эксперименты по проверке эффективности</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI002.html#fdm-for-wave:vect:array_updating" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Замечание об обновлении массивов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI003.html#fdm-for-wave:exercises" style="font-size: 80%;"><b>Упражнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI003.html#fdm-for-wave:exercises:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 1: Моделирование стоячей волны</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI003.html#___sec33" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Замечания</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI003.html#fdm-for-wave:exercises:2" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 2: Добавить сохранение решения в функции действий пользователя</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI003.html#fdm-for-wave:exercises:3" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 3: Использование класса для функции действий пользователя</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI003.html#fdm-for-wave:exercises:4" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 4: Сравнение нескольких чисел Куранта на одном видео</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI003.html#fdm-for-wave:exercises:pr1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Проект 5: Исчисления с одномерными сеточными функциями</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:refl" style="font-size: 80%;"><b>Обобщения: отражающие границы</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:refl:neumann" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Граничные условия Неймана</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:refl:deriv_appr" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Аппроксимация производной на границе</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:refl:impl" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Программная реализация условий Неймана</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:refl:idx_set" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Обозначение множеств индексов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:refl:ver" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Верификация реализации граничных условий Неймана</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:refl:ghost" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Реализация граничных условий Неймана с использованием мнимых ячеек</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:refl:ghost:idea" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Идея</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:refl:ghost:impl" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Программная реализация</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:varvel" style="font-size: 80%;"><b>Обобщения: переменная скорость распространения волны</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:varvel:model" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Модельное уравнение с переменными коэффициентами</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:varvel:coeff_appr" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Аппроксимация переменных коэффициентов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:varvel:neumann" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Условия Неймана и переменные коэффициенты</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:varvel:more_gen" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Более общее уравнение с переменными коэффициенты</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:damping" style="font-size: 80%;"><b>Обобщения: затухания</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:gen_solver" style="font-size: 80%;"><b>Разработка общего солвера для одномерного волнового уравнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:gen_solver:solver" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Функция-солвер</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:gen_solver:solver_code" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Код</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:gen_solver:solver_dissect" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Разбор</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:gen_solver:verif" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Верификация</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:gen_solver:save_arrays" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Сохранение больших архивов в файлы с использованием <code>savez</code></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#___sec59" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Сохранение индивидуальных массивов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#___sec60" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Слияние zip-архивов</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#___sec61" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Чтение массивов из zip-архива</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:gen_solver:user_action" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Реализация функции действий полозователя в виде класса</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:gen_solver:code" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Код</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:gen_solver:dissect" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Разбор</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:gen_solver:pulse" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Распространение импульса в двух средах</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI005.html#fdm-for-wave:exercises2" style="font-size: 80%;"><b>Упражнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI005.html#fdm-for-wave:exercises2:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 6: Нахождение аналитического решения волнового уравнения с затуханием</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI005.html#fdm-for-wave:exercises2:2" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Задача 7: Анализ симметричных граничных условий</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI005.html#fdm-for-wave:exercises2:3" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 8: Имульс через слоистую среду</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI005.html#fdm-for-wave:exercises2:4" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 9: Объяснение почему возникают численные шумы</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI005.html#fdm-for-wave:exercises2:5" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Упражнение 10: Исследование гармонического среднего в одномерной модели</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-FlatUI005.html#fdm-for-wave:exercises2:6" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Задача 11: Реализация условий открытых границ</a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:oop" style="font-size: 80%;"><b>Создание ПО с использованием ООП</b></a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:oop:mesh" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Класс <code>Mesh</code></a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:oop:function" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Класс <code>Function</code></a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:oop:params" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Класс <code>Parameters</code></a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:oop:problem" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Класс <code>WaveProblem1D</code></a></li>
+     <!-- navigation toc: --> <li><a href="#fdm-for-wave:oop:solver" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Класс <code>Solver</code></a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</div> <!-- end of navigation bar -->
+
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<a name="part0006"></a>
+<!-- !split -->
+
+<h1 id="fdm-for-wave:oop" class="anchor">Создание ПО с использованием ООП</h1>
+
+<p>
+Некоторые разработчики предпочитают использование
+объектно-ориентированное программирование. В данном разделе мы
+покажем как можно использовать классы для решаемой задачи.
+
+<p>
+Мы создадим класс <code>WaveProblem1D</code> для того, чтобы управлять физическими
+параметрами задачи для одномерного волнового уравнения, класс
+<code>WaveExplicitSolver1D</code>, который реализует решение смешанной задачи для
+одномерного волнового уравнения с помощью явной разностной
+схемы. Кроме того, удобно собрать массивы, описывающие сетку, в один
+класс <code>Mesh</code> и создать класс <code>Function</code> реализующий сеточные функции.
+
+<h2 id="fdm-for-wave:oop:mesh" class="anchor">Класс <code>Mesh</code></h2>
+
+<p>
+Мы создадим класс <code>Mesh</code>, который можно использовать для описания
+прямоугольной пространственно-временной сетки \( \omega_{h\tau} \) с любым
+числом пространственных переменных. Для того, чтобы сделать его
+универсальным, конструктор класса будет принимать либо кортеж/список
+числа отрезков в каждом пространственном направлении, либо
+кортеж/список шагов сетки по каждому из пространственных
+направлений. Для одномерных сеток более естественно задавать число
+отрезков или шаг сетки, в не списки. Также нам нужен временной отрезок
+от <code>t0</code> до <code>T</code>. В случае, если не задана дискретизация по
+пространству, то подразумевается только сетка по времени, и
+наоборот. Ниже представлен класс <code>Mesh</code> с использованием строк с
+тестами в описании (для использования <code>doctest</code>):
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Mesh</span>(<span style="color: #008000">object</span>):
+	<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">	Содержит структуру данных для равномерной сетки на гиперкубе в </span>
+<span style="color: #BA2121; font-style: italic">	пространстве и равномерной сетки по времени.</span>
+
+<span style="color: #BA2121; font-style: italic">	======== ===================================================</span>
+<span style="color: #BA2121; font-style: italic">	Параметр         Описание</span>
+<span style="color: #BA2121; font-style: italic">	======== ===================================================</span>
+<span style="color: #BA2121; font-style: italic">	L         Список двухэлементных списков с минимальной и </span>
+<span style="color: #BA2121; font-style: italic">	          максимальной координатами по каждому </span>
+<span style="color: #BA2121; font-style: italic">	          пространственному направлению</span>
+<span style="color: #BA2121; font-style: italic">	T         Конечный момент времени</span>
+<span style="color: #BA2121; font-style: italic">	Nt        Число отрезков по времени</span>
+<span style="color: #BA2121; font-style: italic">	dt        Шаг по времени. Или Nt или dt должно быть задано</span>
+<span style="color: #BA2121; font-style: italic">	N         Список, содержащий количество отрезков</span>
+<span style="color: #BA2121; font-style: italic">	          по каждому пространственному направлению.</span>
+<span style="color: #BA2121; font-style: italic">	d         Список шагов по пространственным переменным.</span>
+<span style="color: #BA2121; font-style: italic">	          Или N или d должен быть задан.</span>
+<span style="color: #BA2121; font-style: italic">	======== ===================================================</span>
+
+<span style="color: #BA2121; font-style: italic">	Пользователь имеет доступ ко всем описанным выше параметрам плюс </span>
+<span style="color: #BA2121; font-style: italic">	к ``x[i]`` и ``t`` для координат в направлении ``i`` и временной </span>
+<span style="color: #BA2121; font-style: italic">	координаты, соответственно.</span>
+
+<span style="color: #BA2121; font-style: italic">	Примеры:</span>
+
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; from UniformFDMesh import Mesh</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt;</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; # Простая пространственная сетка</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; m = Mesh(L=[0,1], N=4)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; print m.dump()</span>
+<span style="color: #BA2121; font-style: italic">	пространство: [0,1] N = 4 d = 0.25</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt;</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; # Простая сетка по времени</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; m = Mesh(T=4, dt=0.5)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; print m.dump()</span>
+<span style="color: #BA2121; font-style: italic">	время: [0,4] Nt = 8 dt = 0.5</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt;</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; # двумерная пространственная сетка</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; m = Mesh(L=[[0,1], [-1,1]], d=[0.5, 1])</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; print m.dump()</span>
+<span style="color: #BA2121; font-style: italic">	пространство: [0,1]x[-1,1] N = 2x2 d = 0.5,1</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt;</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; # двумерная пространственная сетка и сетка по времени</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; m = Mesh(L=[[0,1], [-1,1]], d=[0.5, 1], Nt=10, T=3)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; print m.dump()</span>
+<span style="color: #BA2121; font-style: italic">	пространство: [0,1]x[-1,1] N = 2x2 d = 0.5,1 время: [0,3] Nt = 10 dt = 0.3</span>
+
+<span style="color: #BA2121; font-style: italic">	&quot;&quot;&quot;</span>
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>,
+	             L<span style="color: #666666">=</span><span style="color: #008000">None</span>, T<span style="color: #666666">=</span><span style="color: #008000">None</span>, t0<span style="color: #666666">=0</span>,
+	             N<span style="color: #666666">=</span><span style="color: #008000">None</span>, d<span style="color: #666666">=</span><span style="color: #008000">None</span>,
+	             Nt<span style="color: #666666">=</span><span style="color: #008000">None</span>, dt<span style="color: #666666">=</span><span style="color: #008000">None</span>):
+		<span style="color: #008000; font-weight: bold">if</span> N <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> d <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+			<span style="color: #408080; font-style: italic"># Пространственная сетка отсутсвует</span>
+			<span style="color: #008000; font-weight: bold">if</span> Nt <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> dt <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+				<span style="color: #008000; font-weight: bold">raise</span> <span style="color: #D2413A; font-weight: bold">ValueError</span>(
+					<span style="color: #BA2121">&#39;Коструктор сетки: Должен быть задан либо Nt, либо dt&#39;</span>)
+			<span style="color: #008000; font-weight: bold">if</span> T <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+				<span style="color: #008000; font-weight: bold">raise</span> <span style="color: #D2413A; font-weight: bold">ValueError</span>(
+					<span style="color: #BA2121">&#39;Конструктор сетки: T должен быть задан&#39;</span>)
+		<span style="color: #008000; font-weight: bold">if</span> Nt <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> dt <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+			<span style="color: #408080; font-style: italic"># Отсутствует сетка по времени</span>
+			<span style="color: #008000; font-weight: bold">if</span> N <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> d <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+				<span style="color: #008000; font-weight: bold">raise</span> <span style="color: #D2413A; font-weight: bold">ValueError</span>(
+					<span style="color: #BA2121">&#39;Конструктор сетки: Должен быть задан либо N, либо d&#39;</span>)
+			<span style="color: #008000; font-weight: bold">if</span> L <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+				<span style="color: #008000; font-weight: bold">raise</span> <span style="color: #D2413A; font-weight: bold">ValueError</span>(<span style="color: #BA2121">&#39;Конструктор сетки: L должен быть задан&#39;</span>)
+		
+		<span style="color: #408080; font-style: italic"># Допускаем одномерный интерфейс без использования вложенных списков</span>
+		<span style="color: #008000; font-weight: bold">if</span> L <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> <span style="color: #008000">isinstance</span>(L[<span style="color: #666666">0</span>], (<span style="color: #008000">float</span>,<span style="color: #008000">int</span>)):
+			L<span style="color: #666666">=</span>[L]
+		<span style="color: #008000; font-weight: bold">if</span> N <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> <span style="color: #008000">isinstance</span>(N, (<span style="color: #008000">float</span>,<span style="color: #008000">int</span>)):
+			N<span style="color: #666666">=</span>[N]
+		<span style="color: #008000; font-weight: bold">if</span> d <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> <span style="color: #008000">isinstance</span>(d, (<span style="color: #008000">float</span>,<span style="color: #008000">int</span>)):
+			d<span style="color: #666666">=</span>[d]
+
+		<span style="color: #408080; font-style: italic"># Устанавливаем все атрибуты в None</span>
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>x <span style="color: #666666">=</span> <span style="color: #008000">None</span>
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>t <span style="color: #666666">=</span> <span style="color: #008000">None</span>
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>T <span style="color: #666666">=</span> <span style="color: #008000">None</span>
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>Nt <span style="color: #666666">=</span> <span style="color: #008000">None</span>
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>dt <span style="color: #666666">=</span> <span style="color: #008000">None</span>
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>L <span style="color: #666666">=</span> <span style="color: #008000">None</span>
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>N <span style="color: #666666">=</span> <span style="color: #008000">None</span>
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>d <span style="color: #666666">=</span> <span style="color: #008000">None</span>
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>t0 <span style="color: #666666">=</span> t0
+
+		<span style="color: #008000; font-weight: bold">if</span> N <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> d <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> L <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>L <span style="color: #666666">=</span> L
+			<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">len</span>(d) <span style="color: #666666">!=</span> <span style="color: #008000">len</span>(L):
+				<span style="color: #008000; font-weight: bold">raise</span> <span style="color: #D2413A; font-weight: bold">ValueError</span>(<span style="color: #BA2121">&#39;список d имеет длину отличную от L: </span><span style="color: #BB6688; font-weight: bold">%d</span><span style="color: #BA2121"> - </span><span style="color: #BB6688; font-weight: bold">%d</span><span style="color: #BA2121">&#39;</span>,
+				                 <span style="color: #008000">len</span>(d), <span style="color: #008000">len</span>(L))
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>d <span style="color: #666666">=</span> d
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>N <span style="color: #666666">=</span> [<span style="color: #008000">int</span>(<span style="color: #008000">round</span>(<span style="color: #008000">float</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>L[i][<span style="color: #666666">1</span>] <span style="color: #666666">-</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>L[i][<span style="color: #666666">0</span>])<span style="color: #666666">/</span>d[i]))
+			          <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #008000">len</span>(d))]
+		<span style="color: #008000; font-weight: bold">if</span> d <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> N <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> L <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>L <span style="color: #666666">=</span> L
+			<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">len</span>(N) <span style="color: #666666">!=</span> <span style="color: #008000">len</span>(L):
+				<span style="color: #008000; font-weight: bold">raise</span> <span style="color: #D2413A; font-weight: bold">ValueError</span>(<span style="color: #BA2121">&#39;список N имеет длину отличную от L: </span><span style="color: #BB6688; font-weight: bold">%d</span><span style="color: #BA2121"> - </span><span style="color: #BB6688; font-weight: bold">%d</span><span style="color: #BA2121">&#39;</span>,
+				                 <span style="color: #008000">len</span>(N), <span style="color: #008000">len</span>(L))
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>N <span style="color: #666666">=</span> N
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>d <span style="color: #666666">=</span> [<span style="color: #008000">float</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>L[i][<span style="color: #666666">1</span>] <span style="color: #666666">-</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>L[i][<span style="color: #666666">0</span>])<span style="color: #666666">/</span>N[i]
+			          <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #008000">len</span>(N))]
+
+		<span style="color: #008000; font-weight: bold">if</span> Nt <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> dt <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> T <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>T <span style="color: #666666">=</span> T
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>dt <span style="color: #666666">=</span> dt
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>Nt <span style="color: #666666">=</span> <span style="color: #008000">int</span>(<span style="color: #008000">round</span>(T<span style="color: #666666">/</span>dt))
+		<span style="color: #008000; font-weight: bold">if</span> dt <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> Nt <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span> <span style="color: #AA22FF; font-weight: bold">and</span> T <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>T <span style="color: #666666">=</span> T
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>Nt <span style="color: #666666">=</span> Nt
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>dt <span style="color: #666666">=</span> T<span style="color: #666666">/</span><span style="color: #008000">float</span>(Nt)
+
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>N <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>x <span style="color: #666666">=</span> [np<span style="color: #666666">.</span>linspace(<span style="color: #008000">self</span><span style="color: #666666">.</span>L[i][<span style="color: #666666">0</span>], <span style="color: #008000">self</span><span style="color: #666666">.</span>L[i][<span style="color: #666666">1</span>], <span style="color: #008000">self</span><span style="color: #666666">.</span>N[i]<span style="color: #666666">+1</span>)
+			          <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #008000">len</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>L))]
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>Nt <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>t <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace(<span style="color: #008000">self</span><span style="color: #666666">.</span>t0, <span style="color: #008000">self</span><span style="color: #666666">.</span>T, <span style="color: #008000">self</span><span style="color: #666666">.</span>Nt<span style="color: #666666">+1</span>)
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">get_num_space_dim</span>(<span style="color: #008000">self</span>):
+		<span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">len</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>d) <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>d <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span> <span style="color: #008000; font-weight: bold">else</span> <span style="color: #666666">0</span>
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">has_space</span>(<span style="color: #008000">self</span>):
+		<span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>d <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">has_time</span>(<span style="color: #008000">self</span>):
+		<span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>dt <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">dump</span>(<span style="color: #008000">self</span>):
+		s <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;&#39;</span>
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>has_space():
+			s <span style="color: #666666">+=</span> <span style="color: #BA2121">&#39;пространство: &#39;</span> <span style="color: #666666">+</span> \ 
+			     <span style="color: #BA2121">&#39;x&#39;</span><span style="color: #666666">.</span>join([<span style="color: #BA2121">&#39;[</span><span style="color: #BB6688; font-weight: bold">%g</span><span style="color: #BA2121">,</span><span style="color: #BB6688; font-weight: bold">%g</span><span style="color: #BA2121">]&#39;</span> <span style="color: #666666">%</span> (<span style="color: #008000">self</span><span style="color: #666666">.</span>L[i][<span style="color: #666666">0</span>],<span style="color: #008000">self</span><span style="color: #666666">.</span>L[i][<span style="color: #666666">1</span>])
+			               <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #008000">len</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>L))]) <span style="color: #666666">+</span> <span style="color: #BA2121">&#39; N = &#39;</span>
+			s <span style="color: #666666">+=</span> <span style="color: #BA2121">&#39;x&#39;</span><span style="color: #666666">.</span>join([<span style="color: #008000">str</span>(Ni) <span style="color: #008000; font-weight: bold">for</span> Ni <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>N]) <span style="color: #666666">+</span> <span style="color: #BA2121">&#39; d = &#39;</span>
+			s <span style="color: #666666">+=</span> <span style="color: #BA2121">&#39;,&#39;</span><span style="color: #666666">.</span>join([<span style="color: #008000">str</span>(di) <span style="color: #008000; font-weight: bold">for</span> di <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>d])
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>has_space() <span style="color: #AA22FF; font-weight: bold">and</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>has_time():
+			s<span style="color: #666666">+=</span> <span style="color: #BA2121">&#39; &#39;</span>
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>has_time():
+			s <span style="color: #666666">+=</span> <span style="color: #BA2121">&#39;время: &#39;</span> <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;[</span><span style="color: #BB6688; font-weight: bold">%g</span><span style="color: #BA2121">,</span><span style="color: #BB6688; font-weight: bold">%g</span><span style="color: #BA2121">]&#39;</span> <span style="color: #666666">%</span> (<span style="color: #008000">self</span><span style="color: #666666">.</span>t0, <span style="color: #008000">self</span><span style="color: #666666">.</span>T) <span style="color: #666666">+</span> \ 
+			     <span style="color: #BA2121">&#39; Nt = </span><span style="color: #BB6688; font-weight: bold">%g</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>Nt <span style="color: #666666">+</span> <span style="color: #BA2121">&#39; dt = </span><span style="color: #BB6688; font-weight: bold">%g</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>dt
+		<span style="color: #008000; font-weight: bold">return</span> s
+</pre></div>
+
+<h2 id="fdm-for-wave:oop:function" class="anchor">Класс <code>Function</code></h2>
+
+<p>
+Класс <code>Function</code> удобен для управления сеткой и соответствующими
+значениями на ней скалярных или векторных функций. Так как мы при
+решении разностных задач могут использоваться пространственная,
+временная или пространственно-временная сетки, а функции могут иметь
+одну (скалярная) или несколько (векторная) компонент, то необходимы
+некоторые проверки правильного выделения массивов. Примеры данные в
+строках документации поясняют использование представленного класса
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Function</span>(<span style="color: #008000">object</span>):
+	<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">	Скалярная или векторная сеточная функция (используется класс Mesh)</span>
+<span style="color: #BA2121; font-style: italic">	=========== ==============================================================</span>
+<span style="color: #BA2121; font-style: italic">	Параметр       Описание</span>
+<span style="color: #BA2121; font-style: italic">	=========== ==============================================================</span>
+<span style="color: #BA2121; font-style: italic">	mesh         объект класса Mesh: пространственная и/или временная сетка</span>
+<span style="color: #BA2121; font-style: italic">	num_comp     Количество компонент функции (1 для скалярной функции)</span>
+<span style="color: #BA2121; font-style: italic">	space_only   True, если функция определена только на пространственной</span>
+<span style="color: #BA2121; font-style: italic">	             сетке. False, если функция зависит от пространства и времени</span>
+<span style="color: #BA2121; font-style: italic">	=========== ==============================================================</span>
+
+<span style="color: #BA2121; font-style: italic">	Индексация массива ``u``, который содержит значения функции в узлах сетки,</span>
+<span style="color: #BA2121; font-style: italic">	зависит от того, есть ли у нас пространственная и/или временная сетка.</span>
+
+<span style="color: #BA2121; font-style: italic">	Примеры:</span>
+<span style="color: #BA2121; font-style: italic">	</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; from UniformFDMesh import Mesh, Function</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt;</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; # Простая пространственная сетка</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; m = Mesh(L=[0,1], N=4)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; print m.dump()</span>
+<span style="color: #BA2121; font-style: italic">	пространство: [0,1] N = 4 d = 0.25</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f = Function(m)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.indices</span>
+<span style="color: #BA2121; font-style: italic">	[&#39;x0&#39;]</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.u.shape</span>
+<span style="color: #BA2121; font-style: italic">	(5,)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.u[4]  # значение в узле с номером 4</span>
+<span style="color: #BA2121; font-style: italic">	0.0</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt;</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; # Прострая сетка по времени для двух компонент</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; m = Mesh(T=4, dt=0.5)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; print m.dump()</span>
+<span style="color: #BA2121; font-style: italic">	время: [0,4] Nt = 8 dt = 0.5</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f = Function(m, num_comp=2)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.indices</span>
+<span style="color: #BA2121; font-style: italic">	[&#39;time&#39;, &#39;component&#39;]</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.u.shape</span>
+<span style="color: #BA2121; font-style: italic">	(9, 2)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.u[3,1]  # значение на 3 временном слое, comp=1 (2-я компонента)</span>
+<span style="color: #BA2121; font-style: italic">	0.0</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt;</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; # двумерная пространственная сетка</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; m = Mesh(L=[[0,1], [-1,1]], d=[0.5, 1])</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; print m.dump()</span>
+<span style="color: #BA2121; font-style: italic">	пространство: [0,1]x[-1,1] N = 2x2 d = 0.5,1</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f = Function(m)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.indices</span>
+<span style="color: #BA2121; font-style: italic">	[&#39;x0&#39;, &#39;x1&#39;]</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.u.shape</span>
+<span style="color: #BA2121; font-style: italic">	(3, 3)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.u[1,2]  # значение в узле (1,2)</span>
+<span style="color: #BA2121; font-style: italic">	0.0</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt;</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; # двумерная пространственная сетка и сетка по времени</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; m = Mesh(L=[[0,1],[-1,1]], d=[0.5,1], Nt=10, T=3)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; print m.dump()</span>
+<span style="color: #BA2121; font-style: italic">	пространство: [0,1]x[-1,1] N = 2x2 d = 0.5,1 время: [0,3] Nt = 10 dt = 0.3</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f = Function(m, num_comp=2, space_only=False)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.indices</span>
+<span style="color: #BA2121; font-style: italic">	[&#39;time&#39;, &#39;x0&#39;, &#39;x1&#39;, &#39;component&#39;]</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.u.shape</span>
+<span style="color: #BA2121; font-style: italic">	(11, 3, 3, 2)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.u[2,1,2,0]  # значение на 2-м временном слое, в пространственном узле (1,2), comp=0</span>
+<span style="color: #BA2121; font-style: italic">	0.0</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; # Функция с данными только по вространству</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f = Function(m, num_comp=1, space_only=True)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.indices</span>
+<span style="color: #BA2121; font-style: italic">	[&#39;x0&#39;, &#39;x1&#39;]</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.u.shape</span>
+<span style="color: #BA2121; font-style: italic">	(3, 3)</span>
+<span style="color: #BA2121; font-style: italic">	&gt;&gt;&gt; f.u[1,2]  # значение в узле (1,2)</span>
+<span style="color: #BA2121; font-style: italic">	0.0</span>
+<span style="color: #BA2121; font-style: italic">	&quot;&quot;&quot;</span>
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, mesh, num_comp<span style="color: #666666">=1</span>, space_only<span style="color: #666666">=</span><span style="color: #008000">True</span>):
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh <span style="color: #666666">=</span> mesh
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>num_comp <span style="color: #666666">=</span> num_comp
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>space_only <span style="color: #666666">=</span> space_only
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>indices <span style="color: #666666">=</span> []
+
+		<span style="color: #408080; font-style: italic"># Создаем массив(ы) для хранения значений в узлах сетки</span>
+		<span style="color: #008000; font-weight: bold">if</span> (<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>has_space() <span style="color: #AA22FF; font-weight: bold">and</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>has_time()) <span style="color: #AA22FF; font-weight: bold">or</span> \ 
+		   (<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>has_space() <span style="color: #AA22FF; font-weight: bold">and</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>has_time() <span style="color: #AA22FF; font-weight: bold">and</span> space_only):
+			<span style="color: #408080; font-style: italic"># Только пространственная сетка</span>
+			<span style="color: #008000; font-weight: bold">if</span> num_comp <span style="color: #666666">==</span> <span style="color: #666666">1</span>:
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>u <span style="color: #666666">=</span> np<span style="color: #666666">.</span>zeros([<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>N[i]<span style="color: #666666">+1</span> <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #008000">len</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>N))])
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>indices <span style="color: #666666">=</span> [<span style="color: #BA2121">&#39;x&#39;</span><span style="color: #666666">+</span><span style="color: #008000">str</span>(i) <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #008000">len</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>N))]
+			<span style="color: #008000; font-weight: bold">else</span>:
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>u <span style="color: #666666">=</span> np<span style="color: #666666">.</span>zeros([<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>N[i]<span style="color: #666666">+1</span> <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #008000">len</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>N))] <span style="color: #666666">+</span> [num_comp])
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>indices <span style="color: #666666">=</span> [<span style="color: #BA2121">&#39;x&#39;</span><span style="color: #666666">+</span><span style="color: #008000">str</span>(i) <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #008000">len</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>N))] <span style="color: #666666">+</span> [<span style="color: #BA2121">&#39;component&#39;</span>]
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>has_space() <span style="color: #AA22FF; font-weight: bold">and</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>has_time():
+			<span style="color: #408080; font-style: italic"># Только сетка по времени</span>
+			<span style="color: #008000; font-weight: bold">if</span> num_comp <span style="color: #666666">==</span> <span style="color: #666666">1</span>:
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>u <span style="color: #666666">=</span> np<span style="color: #666666">.</span>zeros(<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>Nt <span style="color: #666666">+</span> <span style="color: #666666">1</span>)
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>indices <span style="color: #666666">=</span> [<span style="color: #BA2121">&#39;time&#39;</span>]
+			<span style="color: #008000; font-weight: bold">else</span>:
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>u <span style="color: #666666">=</span> np<span style="color: #666666">.</span>zeros((<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>Nt<span style="color: #666666">+1</span>, num_comp))
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>indices <span style="color: #666666">=</span> [<span style="color: #BA2121">&#39;time&#39;</span>, <span style="color: #BA2121">&#39;component&#39;</span>]
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>has_space() <span style="color: #AA22FF; font-weight: bold">and</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>has_time() <span style="color: #AA22FF; font-weight: bold">and</span> <span style="color: #AA22FF; font-weight: bold">not</span> space_only:
+			<span style="color: #408080; font-style: italic"># Пространственно-временная сетка</span>
+			size <span style="color: #666666">=</span> [<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>Nt <span style="color: #666666">+</span> <span style="color: #666666">1</span>] <span style="color: #666666">+</span> [<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>N[i]<span style="color: #666666">+1</span> <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #008000">len</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>N))]
+			<span style="color: #008000; font-weight: bold">if</span> num_comp <span style="color: #666666">&gt;</span> <span style="color: #666666">1</span>:
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>indices <span style="color: #666666">=</span> [<span style="color: #BA2121">&#39;time&#39;</span>] <span style="color: #666666">+</span> \ 
+				               [<span style="color: #BA2121">&#39;x&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">str</span>(i) <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #008000">len</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>N))] <span style="color: #666666">+</span> \ 
+				               [<span style="color: #BA2121">&#39;component&#39;</span>]
+				size <span style="color: #666666">+=</span> [num_comp]
+			<span style="color: #008000; font-weight: bold">else</span>:
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>indices <span style="color: #666666">=</span> [<span style="color: #BA2121">&#39;time&#39;</span>] <span style="color: #666666">+</span> \ 
+				               [<span style="color: #BA2121">&#39;x&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">str</span>(i) <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #008000">len</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>N))]
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>u <span style="color: #666666">=</span> np<span style="color: #666666">.</span>zeros(size)
+			
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">norm</span>(<span style="color: #008000">self</span>):
+		<span style="color: #008000; font-weight: bold">return</span> np<span style="color: #666666">.</span>sqrt(<span style="color: #008000">self</span><span style="color: #666666">.</span>u<span style="color: #666666">*</span><span style="color: #008000">self</span><span style="color: #666666">.</span>u)
+</pre></div>
+<p>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+  <h3 class="panel-title">Замечание</h3>
+  </div>
+<div class="panel-body">
+<p> <!-- subsequent paragraphs come in larger fonts, so start with a paragraph -->
+Классы <code>Mesh</code> и <code>Function</code> реализованы в сценарии
+<a href="src-fdm-for-wave/UniformFDMesh.py" target="_self">UniformFDMesh.py</a> .
+В строках документаций представленных классов <code>Mesh</code> и <code>Function</code>
+заданы примеры использования, поясняющие функционал этих классов. Они
+записаны в таком формате, что могут быть использованы для тестирования
+их реализации с помощью модуля <code>doctest</code>. В коде представлено
+простейшее использование. Для того, чтобы выполнить тестирование в
+сценарии <a href="src-fdm-for-wave/UniformFDMesh.py" target="_self">UniformFDMesh.py</a>
+добавлен следующий код:
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">if</span> <span style="color: #19177C">__name__</span> <span style="color: #666666">==</span><span style="color: #BA2121">&#39;__main__&#39;</span>:
+	<span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">doctest</span>
+	failure_count, test_count <span style="color: #666666">=</span> doctest<span style="color: #666666">.</span>testmod()
+</pre></div>
+<p>
+Таким образом, чтобы запустить все тесты представленные в документации
+классов нужно выполнить
+
+<p>
+
+<!-- code=bash (!bc shcod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>Terminal&gt; python UniformFDMesh.py
+</pre></div>
+<p>
+Более подробную информацию по использованию <code>doctest</code> можно найти в
+<a href="https://docs.python.org/2/library/doctest.html" target="_self">документации Python</a>
+</div>
+</div>
+
+
+<h2 id="fdm-for-wave:oop:params" class="anchor">Класс <code>Parameters</code></h2>
+
+<p>
+Для реализации классов, которые должны содержать некоторые аргументы,
+которые можно передавать, например, через командную строку, удобно
+использовать один базовый класс. Ниже представлен класс <code>Parameters</code>,
+который будет использоваться в качестве базового для класса
+<code>WaveProblem1D</code>, содержащего физические параметры задачи, и класса <code>WaveExplicitSolver1D</code>,
+содержащего численные параметры и реализацию алгоритма:
+
+<p>
+
+<!-- code=python (!bc pypro) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #408080; font-style: italic"># -*- coding: utf-8 -*-</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Parameters</span>(<span style="color: #008000">object</span>):
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>):
+		<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">		Подклассы должны инициализировать self.prm параметрами и значениями</span>
+<span style="color: #BA2121; font-style: italic">		по умолчанию, self.type соответствующими типами, и self.help </span>
+<span style="color: #BA2121; font-style: italic">		соответствующими описаниями параметров. self.type и self.help являются </span>
+<span style="color: #BA2121; font-style: italic">		необязательными. self.prm должен быть заполнен и содержать все </span>
+<span style="color: #BA2121; font-style: italic">		параметры</span>
+<span style="color: #BA2121; font-style: italic">		&quot;&quot;&quot;</span>
+		<span style="color: #008000; font-weight: bold">pass</span>
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">ok</span>(<span style="color: #008000">self</span>):
+		<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot; Проверяет определены ли атрибуты класса prm, type и help &quot;&quot;&quot;</span>
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">hasattr</span>(<span style="color: #008000">self</span>, <span style="color: #BA2121">&#39;prm&#39;</span>) <span style="color: #AA22FF; font-weight: bold">and</span> <span style="color: #008000">isinstance</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>prm, <span style="color: #008000">dict</span>) <span style="color: #AA22FF; font-weight: bold">and</span> \
+		   <span style="color: #008000">hasattr</span>(<span style="color: #008000">self</span>, <span style="color: #BA2121">&#39;type&#39;</span>) <span style="color: #AA22FF; font-weight: bold">and</span> <span style="color: #008000">isinstance</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>type, <span style="color: #008000">dict</span>) <span style="color: #AA22FF; font-weight: bold">and</span> \
+		   <span style="color: #008000">hasattr</span>(<span style="color: #008000">self</span>, <span style="color: #BA2121">&#39;help&#39;</span>) <span style="color: #AA22FF; font-weight: bold">and</span> <span style="color: #008000">isinstance</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>help, <span style="color: #008000">dict</span>):
+			<span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">True</span>
+		<span style="color: #008000; font-weight: bold">else</span>:
+			<span style="color: #008000; font-weight: bold">raise</span> <span style="color: #D2413A; font-weight: bold">ValueError</span>(
+				<span style="color: #BA2121">&#39;Конструктор в классе </span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BA2121">  не инициализирует</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&#39;</span>\
+				<span style="color: #BA2121">&#39;словари self.prm, self.type, self.help!&#39;</span> <span style="color: #666666">%</span>
+				<span style="color: #008000">self</span><span style="color: #666666">.</span><span style="color: #19177C">__class__</span><span style="color: #666666">.</span><span style="color: #19177C">__name__</span>)
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">_illegal_parameter</span>(<span style="color: #008000">self</span>, name):
+		<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;Вызывает исключение о недопустимом имени параметра &quot;&quot;&quot;</span>
+		<span style="color: #008000; font-weight: bold">raise</span> <span style="color: #D2413A; font-weight: bold">ValueError</span>(
+			<span style="color: #BA2121">&#39;Параметр &quot;</span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BA2121">&quot; не зарегистрирован.</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BA2121">&#39;</span> \
+			<span style="color: #BA2121">&#39;Допустимые параметры: </span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span>
+			(name, <span style="color: #BA2121">&#39; &#39;</span><span style="color: #666666">.</span>join(<span style="color: #008000">list</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>prm<span style="color: #666666">.</span>keys()))))
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">set</span>(<span style="color: #008000">self</span>, <span style="color: #666666">**</span>parameters):
+		<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot; Устанавливаем значения один или несколько параметров. &quot;&quot;&quot;</span>
+		<span style="color: #008000; font-weight: bold">for</span> name <span style="color: #AA22FF; font-weight: bold">in</span> parameters:
+			<span style="color: #008000; font-weight: bold">if</span> name <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm:
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[name] <span style="color: #666666">=</span> parameters[name]
+			<span style="color: #008000; font-weight: bold">else</span>:
+				slef<span style="color: #666666">.</span>_illegal_parameter(name)
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">get</span>(<span style="color: #008000">self</span>, name):
+		<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot; Возвращает значения одного или нескольких параметров. &quot;&quot;&quot;</span>
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">isinstance</span>(name, (<span style="color: #008000">list</span>, <span style="color: #008000">tuple</span>)):
+			<span style="color: #008000; font-weight: bold">for</span> n <span style="color: #AA22FF; font-weight: bold">in</span> name:
+				<span style="color: #008000; font-weight: bold">if</span> n <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm:
+					<span style="color: #008000">self</span><span style="color: #666666">.</span>_illegal_parameter(n)
+			<span style="color: #008000; font-weight: bold">return</span> [<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[n] <span style="color: #008000; font-weight: bold">for</span> n <span style="color: #AA22FF; font-weight: bold">in</span> name]
+		<span style="color: #008000; font-weight: bold">else</span>:
+			<span style="color: #008000; font-weight: bold">if</span> name <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm:
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>_illegal_parameter(name)
+			<span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[name]
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__getitem__</span>(<span style="color: #008000">self</span>, name):
+		<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot; Разрешает доступ к параметру по obj[name] &quot;&quot;&quot;</span>
+		<span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>get(name)
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__setitem__</span>(<span style="color: #008000">self</span>, name, value):
+		<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot; Допускает синтаксис obj[name] для задания значения параметра &quot;&quot;&quot;</span>
+		<span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>set(name<span style="color: #666666">=</span>value)
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">define_command_line_options</span>(<span style="color: #008000">self</span>, parser<span style="color: #666666">=</span><span style="color: #008000">None</span>):
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>ok()
+		<span style="color: #008000; font-weight: bold">if</span> parser <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">argparse</span>
+			parser <span style="color: #666666">=</span> argparse<span style="color: #666666">.</span>ArgumentParser()
+
+		<span style="color: #008000; font-weight: bold">for</span> name <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm:
+			tp <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>type[name] <span style="color: #008000; font-weight: bold">if</span> name <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>type <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000">str</span>
+			help <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>help[name] <span style="color: #008000; font-weight: bold">if</span> name <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>help <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000">None</span>
+			parser<span style="color: #666666">.</span>add_argument(
+				<span style="color: #BA2121">&#39;--&#39;</span> <span style="color: #666666">+</span> name, default<span style="color: #666666">=</span><span style="color: #008000">self</span><span style="color: #666666">.</span>get(name), metavar<span style="color: #666666">=</span>name,
+				<span style="color: #008000">type</span><span style="color: #666666">=</span>tp, help<span style="color: #666666">=</span>help)
+
+		<span style="color: #008000; font-weight: bold">return</span> parser
+</pre></div>
+
+<h2 id="fdm-for-wave:oop:problem" class="anchor">Класс <code>WaveProblem1D</code></h2>
+
+<p>
+Класс <code>WaveProblem1D</code> является подклассом класса <code>Parameters</code> и
+содержит физические параметры задачи. Они описаны в коде,
+представленном ниже:
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">WaveProblem1D</span>(Parameters):
+	<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">	Входные параметры смешанной задачи для волнового уравнения.</span>
+<span style="color: #BA2121; font-style: italic">	&quot;&quot;&quot;</span>
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>):
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>prm <span style="color: #666666">=</span> <span style="color: #008000">dict</span>(L<span style="color: #666666">=</span>[<span style="color: #666666">0.</span>,<span style="color: #666666">1.</span>], I<span style="color: #666666">=1.0</span>, V<span style="color: #666666">=0.0</span>, f<span style="color: #666666">=0.0</span>, c<span style="color: #666666">=1.</span>,
+		                ul<span style="color: #666666">=</span><span style="color: #008000">None</span>, ur<span style="color: #666666">=</span><span style="color: #008000">None</span>, u_exact<span style="color: #666666">=</span><span style="color: #008000">None</span>, T<span style="color: #666666">=1.0</span>)
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>type <span style="color: #666666">=</span> <span style="color: #008000">dict</span>(L<span style="color: #666666">=</span><span style="color: #008000">list</span>, I<span style="color: #666666">=</span>(<span style="color: #008000">float</span>,<span style="color: #008000">callable</span>), V<span style="color: #666666">=</span>(<span style="color: #008000">float</span>,<span style="color: #008000">callable</span>),
+		                 f<span style="color: #666666">=</span>(<span style="color: #008000">float</span>,<span style="color: #008000">callable</span>), c<span style="color: #666666">=</span>(<span style="color: #008000">float</span>,<span style="color: #008000">callable</span>),
+		                 ul<span style="color: #666666">=</span>(<span style="color: #008000">float</span>,<span style="color: #008000">callable</span>), ur<span style="color: #666666">=</span>(<span style="color: #008000">float</span>,<span style="color: #008000">callable</span>),
+		                 u_exact<span style="color: #666666">=</span>(<span style="color: #008000">float</span>,<span style="color: #008000">callable</span>), T<span style="color: #666666">=</span><span style="color: #008000">float</span>)
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>help <span style="color: #666666">=</span> <span style="color: #008000">dict</span>(L<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Прямоугольная расчетная область&#39;</span>,
+		                 I<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Начальная траектроия&#39;</span>,
+		                 V<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Начальная скорость&#39;</span>, f<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Внешние силы&#39;</span>,
+		                 c<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Скорость распространения волны&#39;</span>,
+		                 ul<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Левое граничное условие&#39;</span>,
+		                 ur<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Правое граниченое условие&#39;</span>,
+		                 u_exact<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Точное решение задачи&#39;</span>,
+		                 T<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Конечный момент времени&#39;</span>)
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>_update()
+		
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">_update</span>(<span style="color: #008000">self</span>):
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;f&#39;</span>] <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;f&#39;</span>] <span style="color: #666666">=</span> (<span style="color: #008000; font-weight: bold">lambda</span> x, t: np<span style="color: #666666">.</span>zeros_like(x))
+		<span style="color: #008000; font-weight: bold">elif</span> <span style="color: #008000">isinstance</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;f&#39;</span>],<span style="color: #008000">float</span>):
+			val <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;f&#39;</span>]
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;f&#39;</span>] <span style="color: #666666">=</span> (<span style="color: #008000; font-weight: bold">lambda</span> x, t: np<span style="color: #666666">.</span>zeros_like(x) <span style="color: #666666">+</span> val)
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;I&#39;</span>] <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;I&#39;</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">lambda</span> x: np<span style="color: #666666">.</span>zeros_like(x)
+		<span style="color: #008000; font-weight: bold">elif</span> <span style="color: #008000">isinstance</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;I&#39;</span>],<span style="color: #008000">float</span>):
+			val <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;I&#39;</span>]
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;I&#39;</span>] <span style="color: #666666">=</span> (<span style="color: #008000; font-weight: bold">lambda</span> x: np<span style="color: #666666">.</span>zeros_like(x) <span style="color: #666666">+</span> val)
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;V&#39;</span>] <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;V&#39;</span>] <span style="color: #666666">=</span> (<span style="color: #008000; font-weight: bold">lambda</span> x: np<span style="color: #666666">.</span>zeros_like(x))
+		<span style="color: #008000; font-weight: bold">elif</span> <span style="color: #008000">isinstance</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;V&#39;</span>],<span style="color: #008000">float</span>):
+			val <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;V&#39;</span>]
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;V&#39;</span>] <span style="color: #666666">=</span> (<span style="color: #008000; font-weight: bold">lambda</span> x: np<span style="color: #666666">.</span>zeros_like(x) <span style="color: #666666">+</span> val)
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ul&#39;</span>] <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">isinstance</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ul&#39;</span>], (<span style="color: #008000">float</span>,<span style="color: #008000">int</span>)):
+				val <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ul&#39;</span>]
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ul&#39;</span>] <span style="color: #666666">=</span> (<span style="color: #008000; font-weight: bold">lambda</span> t: np<span style="color: #666666">.</span>zeros_like(t) <span style="color: #666666">+</span> val)
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ur&#39;</span>] <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">isinstance</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ur&#39;</span>], (<span style="color: #008000">float</span>,<span style="color: #008000">int</span>)):
+				val <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ul&#39;</span>]
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ur&#39;</span>] <span style="color: #666666">=</span> (<span style="color: #008000; font-weight: bold">lambda</span> t: np<span style="color: #666666">.</span>zeros_like(t) <span style="color: #666666">+</span> val)
+
+<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">UniformFDMesh</span> <span style="color: #008000; font-weight: bold">import</span> Mesh, Function
+</pre></div>
+
+<h2 id="fdm-for-wave:oop:solver" class="anchor">Класс <code>Solver</code></h2>
+
+<p>
+Класс <code>WaveExplicitSolver1D</code> также является подклассом класса
+<code>Parameters</code> и содержит численные параметры и реализацию алгоритма
+решения смешанной задачи для одномерного волнового уравнения с
+переменным коэффициентом, основанного на явной схеме:
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">WaveExplicitSolver1D</span>(Parameters):
+	<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">	Численные параметры и алгоритм решения задачи для волнового уравнения.</span>
+<span style="color: #BA2121; font-style: italic">	&quot;&quot;&quot;</span>
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(<span style="color: #008000">self</span>, problem):
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>problem <span style="color: #666666">=</span> problem
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>prm <span style="color: #666666">=</span> <span style="color: #008000">dict</span>(dt<span style="color: #666666">=0.1</span>, gamma<span style="color: #666666">=1.</span>, user_action<span style="color: #666666">=</span><span style="color: #008000">None</span>,
+		                stability_safety_factor<span style="color: #666666">=1.0</span>)
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>type <span style="color: #666666">=</span> <span style="color: #008000">dict</span>(dt<span style="color: #666666">=</span><span style="color: #008000">float</span>, gamma<span style="color: #666666">=</span><span style="color: #008000">float</span>, user_action<span style="color: #666666">=</span><span style="color: #008000">callable</span>,
+		                 stability_safety_factor<span style="color: #666666">=</span><span style="color: #008000">float</span>)
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>help <span style="color: #666666">=</span> <span style="color: #008000">dict</span>(dt<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Шаг сетки по времени&#39;</span>, gamma<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Число Куранта&#39;</span>,
+						 user_action<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Функция действий пользователя&#39;</span>,
+						 stability_safety_factor<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Коэффициент, гарантирующий устойчивость&#39;</span>)
+		
+	
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">solve</span>(<span style="color: #008000">self</span>):
+		<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">		Реализация алгоритма по явной разностной схеме.</span>
+<span style="color: #BA2121; font-style: italic">		&quot;&quot;&quot;</span>
+
+		Nt <span style="color: #666666">=</span> <span style="color: #008000">int</span>(<span style="color: #008000">round</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;T&#39;</span>]<span style="color: #666666">/</span><span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>]))
+		<span style="color: #408080; font-style: italic">#Находим max(c), используя мнимую сетку и </span>
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">isinstance</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;c&#39;</span>], (<span style="color: #008000">float</span>,<span style="color: #008000">int</span>)):
+			c_max <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;c&#39;</span>]
+		<span style="color: #008000; font-weight: bold">elif</span> <span style="color: #008000">callable</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;c&#39;</span>]):
+			c_max <span style="color: #666666">=</span> <span style="color: #008000">max</span>([<span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;c&#39;</span>](x_) <span style="color: #008000; font-weight: bold">for</span> x_ <span style="color: #AA22FF; font-weight: bold">in</span> np<span style="color: #666666">.</span>linspace(<span style="color: #666666">0</span>,<span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;L&#39;</span>][<span style="color: #666666">1</span>],<span style="color: #666666">101</span>)])
+
+		<span style="color: #408080; font-style: italic"># Вычисляем шаг по пространству и генерируем пространственно-временную сетку</span>
+		h <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>]<span style="color: #666666">*</span>c_max<span style="color: #666666">/</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;stability_safety_factor&#39;</span>]<span style="color: #666666">*</span><span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;gamma&#39;</span>])
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh <span style="color: #666666">=</span> Mesh(L<span style="color: #666666">=</span><span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;L&#39;</span>], T<span style="color: #666666">=</span><span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;T&#39;</span>], Nt<span style="color: #666666">=</span>Nt, d<span style="color: #666666">=</span>h)
+
+		<span style="color: #408080; font-style: italic"># Определяем c(x) как сеточную функцию</span>
+		c <span style="color: #666666">=</span> Function(<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh)
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">isinstance</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;c&#39;</span>], <span style="color: #008000">float</span>):
+			c<span style="color: #666666">.</span>u <span style="color: #666666">+=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;c&#39;</span>]
+		<span style="color: #008000; font-weight: bold">elif</span> <span style="color: #008000">callable</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;c&#39;</span>]):
+			c<span style="color: #666666">.</span>u <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;c&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>])
+
+		q <span style="color: #666666">=</span> c<span style="color: #666666">.</span>u<span style="color: #666666">**2</span>
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>q <span style="color: #666666">=</span> c<span style="color: #666666">.</span>u<span style="color: #666666">**2</span>
+		gamma2 <span style="color: #666666">=</span> (<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>]<span style="color: #666666">/</span>h)<span style="color: #666666">**2</span>; dt2 <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>]<span style="color: #666666">*</span><span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>]
+
+		<span style="color: #408080; font-style: italic"># Делаем хэш всех входных данных</span>
+		data <span style="color: #666666">=</span> <span style="color: #008000">str</span>(c) <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_&#39;</span> <span style="color: #666666">+</span> \ 
+		       (<span style="color: #BA2121">&#39;None&#39;</span> <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ul&#39;</span>] <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span> <span style="color: #008000; font-weight: bold">else</span> inspect<span style="color: #666666">.</span>getsource(<span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ul&#39;</span>])) <span style="color: #666666">+</span> \ 
+		       (<span style="color: #BA2121">&#39;None&#39;</span> <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ur&#39;</span>] <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span> <span style="color: #008000; font-weight: bold">else</span> inspect<span style="color: #666666">.</span>getsource(<span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ur&#39;</span>])) <span style="color: #666666">+</span> \ 
+		       <span style="color: #BA2121">&#39;_&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">str</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;L&#39;</span>]) <span style="color: #666666">+</span> <span style="color: #008000">str</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>]) <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_&#39;</span> <span style="color: #666666">+</span>\ 
+		       <span style="color: #008000">str</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;gamma&#39;</span>]) <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">str</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;T&#39;</span>]) <span style="color: #666666">+</span> \ 
+		       <span style="color: #BA2121">&#39;_&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">str</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;stability_safety_factor&#39;</span>])
+		hashed_input <span style="color: #666666">=</span> hashlib<span style="color: #666666">.</span>sha1(data)<span style="color: #666666">.</span>hexdigest()
+		<span style="color: #008000; font-weight: bold">if</span> os<span style="color: #666666">.</span>path<span style="color: #666666">.</span>isfile(<span style="color: #BA2121">&#39;.&#39;</span> <span style="color: #666666">+</span> hashed_input <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_archive.npz&#39;</span>):
+			<span style="color: #408080; font-style: italic"># Расчет уже запущен</span>
+			<span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">-1</span>, hashed_input
+
+		<span style="color: #408080; font-style: italic"># Определяем решения как сеточные функции</span>
+		y <span style="color: #666666">=</span> Function(<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh)       <span style="color: #408080; font-style: italic"># Решение на новом слое n+1</span>
+		y_1 <span style="color: #666666">=</span> Function(<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh)     <span style="color: #408080; font-style: italic"># Решение на слое n</span>
+		y_2 <span style="color: #666666">=</span> Function(<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh)     <span style="color: #408080; font-style: italic"># Решение на слое n-1</span>
+
+		t0 <span style="color: #666666">=</span> time<span style="color: #666666">.</span>clock() <span style="color: #408080; font-style: italic"># Измерение процессорного времени</span>
+
+		y_1<span style="color: #666666">.</span>u <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;I&#39;</span>](y_1<span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>]) 
+
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;user_action&#39;</span>] <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;user_action&#39;</span>](y_1<span style="color: #666666">.</span>u, y_1<span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>], y_1<span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>t, <span style="color: #666666">0</span>)
+
+		Ix <span style="color: #666666">=</span> <span style="color: #008000">range</span>(<span style="color: #666666">0</span>, <span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>N[<span style="color: #666666">0</span>]<span style="color: #666666">+1</span>)
+		It <span style="color: #666666">=</span> <span style="color: #008000">range</span>(<span style="color: #666666">0</span>, <span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>Nt<span style="color: #666666">+1</span>)
+		
+		<span style="color: #408080; font-style: italic"># Специальная формула для первого слоя</span>
+		<span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> Ix[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>]:
+			y<span style="color: #666666">.</span>u[i] <span style="color: #666666">=</span> y_1<span style="color: #666666">.</span>u[i] <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>] <span style="color: #666666">*</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;V&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>][i]) <span style="color: #666666">+</span>\ 
+			         <span style="color: #666666">0.5*</span>gamma2<span style="color: #666666">*</span>(<span style="color: #666666">0.5*</span>(q[i]<span style="color: #666666">+</span>q[i<span style="color: #666666">+1</span>])<span style="color: #666666">*</span>(y_1<span style="color: #666666">.</span>u[i<span style="color: #666666">+1</span>] <span style="color: #666666">-</span> y_1<span style="color: #666666">.</span>u[i]) <span style="color: #666666">-</span>\ 
+			         <span style="color: #666666">0.5*</span>(q[i]<span style="color: #666666">+</span>q[i<span style="color: #666666">-1</span>])<span style="color: #666666">*</span>(y_1<span style="color: #666666">.</span>u[i] <span style="color: #666666">-</span> y_1<span style="color: #666666">.</span>u[i<span style="color: #666666">-1</span>])) <span style="color: #666666">+</span> \ 
+			         <span style="color: #666666">0.5*</span>dt2<span style="color: #666666">*</span><span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;f&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>][i], <span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>t[<span style="color: #666666">0</span>])
+		i <span style="color: #666666">=</span> Ix[<span style="color: #666666">0</span>]
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ul&#39;</span>] <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+			ip1 <span style="color: #666666">=</span> i<span style="color: #666666">+1</span>
+			im1 <span style="color: #666666">=</span> ip1
+			y<span style="color: #666666">.</span>u[i] <span style="color: #666666">=</span> y_1<span style="color: #666666">.</span>u[i] <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>]<span style="color: #666666">*</span><span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;V&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>][i]) <span style="color: #666666">+</span> \ 
+			         <span style="color: #666666">0.5*</span>gamma2<span style="color: #666666">*</span>(<span style="color: #666666">0.5*</span>(q[i]<span style="color: #666666">+</span>q[ip1])<span style="color: #666666">*</span>(y_1<span style="color: #666666">.</span>u[ip1] <span style="color: #666666">-</span> y_1<span style="color: #666666">.</span>u[i]) <span style="color: #666666">-</span>\ 
+			         <span style="color: #666666">0.5*</span>(q[i]<span style="color: #666666">+</span>q[im1])<span style="color: #666666">*</span>(y_1<span style="color: #666666">.</span>u[i] <span style="color: #666666">-</span> y_1<span style="color: #666666">.</span>u[im1])) <span style="color: #666666">+</span> \ 
+			         <span style="color: #666666">0.5*</span>dt2<span style="color: #666666">*</span><span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;f&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>][i], <span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>t[<span style="color: #666666">0</span>])
+		<span style="color: #008000; font-weight: bold">else</span>:
+			y<span style="color: #666666">.</span>u[i] <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ul&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>])
+
+
+		i <span style="color: #666666">=</span> Ix[<span style="color: #666666">-1</span>]
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ur&#39;</span>] <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+			im1 <span style="color: #666666">=</span> i<span style="color: #666666">-1</span>
+			ip1 <span style="color: #666666">=</span> im1
+			y<span style="color: #666666">.</span>u[i] <span style="color: #666666">=</span> y_1<span style="color: #666666">.</span>u[i] <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>]<span style="color: #666666">*</span><span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;V&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>][i]) <span style="color: #666666">+</span> \ 
+			         <span style="color: #666666">0.5*</span>gamma2<span style="color: #666666">*</span>(<span style="color: #666666">0.5*</span>(q[i]<span style="color: #666666">+</span>q[ip1])<span style="color: #666666">*</span>(y_1<span style="color: #666666">.</span>u[ip1] <span style="color: #666666">-</span> y_1<span style="color: #666666">.</span>u[i]) <span style="color: #666666">-</span>\ 
+			         <span style="color: #666666">0.5*</span>(q[i]<span style="color: #666666">+</span>q[im1])<span style="color: #666666">*</span>(y_1<span style="color: #666666">.</span>u[i] <span style="color: #666666">-</span> y_1<span style="color: #666666">.</span>u[im1])) <span style="color: #666666">+</span> \ 
+			         <span style="color: #666666">0.5*</span>dt2<span style="color: #666666">*</span><span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;f&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>][i], <span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>t[<span style="color: #666666">0</span>])
+		<span style="color: #008000; font-weight: bold">else</span>:
+			y<span style="color: #666666">.</span>u[i] <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ur&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>])
+
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;user_action&#39;</span>] <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;user_action&#39;</span>](y<span style="color: #666666">.</span>u, y<span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>], y<span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>t, <span style="color: #666666">1</span>)
+
+		<span style="color: #408080; font-style: italic"># Обновляем данные для следующего слоя</span>
+		y_2<span style="color: #666666">.</span>u, y_1<span style="color: #666666">.</span>u, y<span style="color: #666666">.</span>u <span style="color: #666666">=</span> y_1<span style="color: #666666">.</span>u, y<span style="color: #666666">.</span>u, y_2<span style="color: #666666">.</span>u
+
+		<span style="color: #008000; font-weight: bold">for</span> n <span style="color: #AA22FF; font-weight: bold">in</span> It[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>]:
+			<span style="color: #408080; font-style: italic"># Расчет во внутренних узлах</span>
+			y<span style="color: #666666">.</span>u[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>] <span style="color: #666666">=</span> <span style="color: #666666">-</span> y_2<span style="color: #666666">.</span>u[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>] <span style="color: #666666">+</span> <span style="color: #666666">2*</span>y_1<span style="color: #666666">.</span>u[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>] <span style="color: #666666">+</span> \ 
+			gamma2<span style="color: #666666">*</span>(<span style="color: #666666">0.5*</span>(q[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>]<span style="color: #666666">+</span>q[<span style="color: #666666">2</span>:])<span style="color: #666666">*</span>(y_1<span style="color: #666666">.</span>u[<span style="color: #666666">2</span>:] <span style="color: #666666">-</span> y_1<span style="color: #666666">.</span>u[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>]) <span style="color: #666666">-</span> \ 
+			        <span style="color: #666666">0.5*</span>(q[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>]<span style="color: #666666">+</span>q[:<span style="color: #666666">-2</span>])<span style="color: #666666">*</span>(y_1<span style="color: #666666">.</span>u[<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>] <span style="color: #666666">-</span> y_1<span style="color: #666666">.</span>u[:<span style="color: #666666">-2</span>])) <span style="color: #666666">+</span> \ 
+			<span style="color: #666666">+</span> dt2<span style="color: #666666">*</span><span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;f&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>][<span style="color: #666666">1</span>:<span style="color: #666666">-1</span>], <span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>t[n])
+
+			<span style="color: #408080; font-style: italic"># Добавляем граничные условия</span>
+			i <span style="color: #666666">=</span> Ix[<span style="color: #666666">0</span>]
+			<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ul&#39;</span>] <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+				ip1 <span style="color: #666666">=</span> i<span style="color: #666666">+1</span>
+				im1 <span style="color: #666666">=</span> ip1
+				y<span style="color: #666666">.</span>u[i] <span style="color: #666666">=</span> y_1<span style="color: #666666">.</span>u[i] <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>]<span style="color: #666666">*</span><span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;V&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>][i]) <span style="color: #666666">+</span> \ 
+				<span style="color: #666666">0.5*</span>gamma2<span style="color: #666666">*</span>(<span style="color: #666666">0.5*</span>(q[i]<span style="color: #666666">+</span>q[ip1])<span style="color: #666666">*</span>(y_1<span style="color: #666666">.</span>u[ip1] <span style="color: #666666">-</span> y_1<span style="color: #666666">.</span>u[i]) <span style="color: #666666">-</span>\ 
+				            <span style="color: #666666">0.5*</span>(q[i]<span style="color: #666666">+</span>q[im1])<span style="color: #666666">*</span>(y_1<span style="color: #666666">.</span>u[i] <span style="color: #666666">-</span> y_1<span style="color: #666666">.</span>u[im1])) <span style="color: #666666">+</span> \ 
+				<span style="color: #666666">0.5*</span>dt2<span style="color: #666666">*</span><span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;f&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>][i], <span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>t[n])
+			<span style="color: #008000; font-weight: bold">else</span>:
+				y<span style="color: #666666">.</span>u[i] <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ul&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>t[n<span style="color: #666666">+1</span>])
+
+
+			i <span style="color: #666666">=</span> Ix[<span style="color: #666666">-1</span>]
+			<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ur&#39;</span>] <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+				im1 <span style="color: #666666">=</span> i<span style="color: #666666">-1</span>
+				ip1 <span style="color: #666666">=</span> im1
+				y<span style="color: #666666">.</span>u[i] <span style="color: #666666">=</span> y_1<span style="color: #666666">.</span>u[i] <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>]<span style="color: #666666">*</span><span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;V&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>][i]) <span style="color: #666666">+</span> \ 
+				<span style="color: #666666">0.5*</span>gamma2<span style="color: #666666">*</span>(<span style="color: #666666">0.5*</span>(q[i]<span style="color: #666666">+</span>q[ip1])<span style="color: #666666">*</span>(y_1<span style="color: #666666">.</span>u[ip1] <span style="color: #666666">-</span> y_1<span style="color: #666666">.</span>u[i]) <span style="color: #666666">-</span>\ 
+				            <span style="color: #666666">0.5*</span>(q[i]<span style="color: #666666">+</span>q[im1])<span style="color: #666666">*</span>(y_1<span style="color: #666666">.</span>u[i] <span style="color: #666666">-</span> y_1<span style="color: #666666">.</span>u[im1])) <span style="color: #666666">+</span> \ 
+				<span style="color: #666666">0.5*</span>dt2<span style="color: #666666">*</span><span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;f&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>][i], <span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>t[n])
+			<span style="color: #008000; font-weight: bold">else</span>:
+				y<span style="color: #666666">.</span>u[i] <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>problem<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ur&#39;</span>](<span style="color: #008000">self</span><span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>t[n<span style="color: #666666">+1</span>])					
+
+			<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;user_action&#39;</span>] <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+				<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;user_action&#39;</span>](y<span style="color: #666666">.</span>u, y<span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>x[<span style="color: #666666">0</span>], y<span style="color: #666666">.</span>mesh<span style="color: #666666">.</span>t, n<span style="color: #666666">+1</span>):
+					<span style="color: #008000; font-weight: bold">break</span>
+
+			y_2<span style="color: #666666">.</span>u, y_1<span style="color: #666666">.</span>u, y<span style="color: #666666">.</span>u <span style="color: #666666">=</span> y_1<span style="color: #666666">.</span>u, y<span style="color: #666666">.</span>u, y_2<span style="color: #666666">.</span>u
+
+
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>y <span style="color: #666666">=</span> y_1
+		cpu <span style="color: #666666">=</span> t0 <span style="color: #666666">-</span> time<span style="color: #666666">.</span>clock()
+		<span style="color: #008000; font-weight: bold">return</span> cpu, hashed_input
+
+	
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">merge_zip_archives</span>(individual_archives, archive_name):
+	<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">	Слияние индивидуальных zip-архивов, сделанных с помощью</span>
+<span style="color: #BA2121; font-style: italic">	numpy.savez, в один архив с именем archive_name.</span>
+<span style="color: #BA2121; font-style: italic">	Отдельные архивы могут быть заданы как список имен.</span>
+<span style="color: #BA2121; font-style: italic">	В результате выполнения этой функции все отдельные </span>
+<span style="color: #BA2121; font-style: italic">	архивы удаляются и создается один новый архив.</span>
+<span style="color: #BA2121; font-style: italic">	&quot;&quot;&quot;</span>
+	<span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">zipfile</span>
+	archive <span style="color: #666666">=</span> zipfile<span style="color: #666666">.</span>ZipFile(
+		archive_name, <span style="color: #BA2121">&#39;w&#39;</span>, zipfile<span style="color: #666666">.</span>ZIP_DEFLATED,
+		allowZip64<span style="color: #666666">=</span><span style="color: #008000">True</span>)
+	<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">isinstance</span>(individual_archives, (<span style="color: #008000">list</span>,<span style="color: #008000">tuple</span>)):
+		filenames <span style="color: #666666">=</span> individual_archives
+	<span style="color: #008000; font-weight: bold">elif</span> <span style="color: #008000">isinstance</span>(individual_archives, <span style="color: #008000">str</span>):
+		filenames <span style="color: #666666">=</span> glob<span style="color: #666666">.</span>glob(individual_archives)
+
+	<span style="color: #408080; font-style: italic"># Открываем каждый архив и пишем его в общий архив</span>
+	<span style="color: #008000; font-weight: bold">for</span> filename <span style="color: #AA22FF; font-weight: bold">in</span> filenames:
+		f <span style="color: #666666">=</span> zipfile<span style="color: #666666">.</span>ZipFile(filename,  <span style="color: #BA2121">&#39;r&#39;</span>,
+		                    zipfile<span style="color: #666666">.</span>ZIP_DEFLATED)
+		<span style="color: #008000; font-weight: bold">for</span> name <span style="color: #AA22FF; font-weight: bold">in</span> f<span style="color: #666666">.</span>namelist():
+			data <span style="color: #666666">=</span> f<span style="color: #666666">.</span>open(name, <span style="color: #BA2121">&#39;r&#39;</span>)
+			<span style="color: #408080; font-style: italic"># Сохраняем под именем без .npy</span>
+			archive<span style="color: #666666">.</span>writestr(name[:<span style="color: #666666">-4</span>], data<span style="color: #666666">.</span>read())
+		f<span style="color: #666666">.</span>close()
+		os<span style="color: #666666">.</span>remove(filename)
+	archive<span style="color: #666666">.</span>close()
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">PlotAndStoreSolution</span>:
+	<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">	Класс для функиции user_action в solver.</span>
+<span style="color: #BA2121; font-style: italic">	Только визуализация решения.</span>
+<span style="color: #BA2121; font-style: italic">	&quot;&quot;&quot;</span>
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__init__</span>(
+			<span style="color: #008000">self</span>,
+			casename<span style="color: #666666">=</span><span style="color: #BA2121">&#39;tmp&#39;</span>,    <span style="color: #408080; font-style: italic"># Префикс в именах файлов</span>
+			umin<span style="color: #666666">=-1</span>, umax<span style="color: #666666">=1</span>,   <span style="color: #408080; font-style: italic"># Задаются границы по оси y</span>
+			pause_between_frames<span style="color: #666666">=</span><span style="color: #008000">None</span>,  <span style="color: #408080; font-style: italic"># Скорость видео</span>
+			backend<span style="color: #666666">=</span><span style="color: #BA2121">&#39;matplotlib&#39;</span>,       <span style="color: #408080; font-style: italic"># или &#39;gnuplot&#39; или None</span>
+			screen_movie<span style="color: #666666">=</span><span style="color: #008000">True</span>, <span style="color: #408080; font-style: italic"># Показывать видео на экране?</span>
+			title<span style="color: #666666">=</span><span style="color: #BA2121">&#39;&#39;</span>,          <span style="color: #408080; font-style: italic"># Дополнительное сообщение в title</span>
+			skip_frame<span style="color: #666666">=1</span>,      <span style="color: #408080; font-style: italic"># Пропуск каждого skip_frame кадра</span>
+			filename<span style="color: #666666">=</span><span style="color: #008000">None</span>):    <span style="color: #408080; font-style: italic"># Имя файла с решением</span>
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>casename <span style="color: #666666">=</span> casename
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>yaxis <span style="color: #666666">=</span> [umin, umax]
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>pause <span style="color: #666666">=</span> pause_between_frames
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>backend <span style="color: #666666">=</span> backend
+		<span style="color: #008000; font-weight: bold">if</span> backend <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+			<span style="color: #408080; font-style: italic"># Использовать matplotlib</span>
+			<span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">matplotlib.pyplot</span> <span style="color: #008000; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">plt</span>
+		<span style="color: #008000; font-weight: bold">elif</span> backend <span style="color: #AA22FF; font-weight: bold">in</span> (<span style="color: #BA2121">&#39;matplotlib&#39;</span>, <span style="color: #BA2121">&#39;gnuplot&#39;</span>):
+			module <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;scitools.easyviz.&#39;</span> <span style="color: #666666">+</span> backend <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_&#39;</span>
+			<span style="color: #008000; font-weight: bold">exec</span>(<span style="color: #BA2121">&#39;import </span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BA2121"> as plt&#39;</span> <span style="color: #666666">%</span> module)
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>plt <span style="color: #666666">=</span> plt
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>screen_movie <span style="color: #666666">=</span> screen_movie
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>title <span style="color: #666666">=</span> title
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>skip_frame <span style="color: #666666">=</span> skip_frame
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #666666">=</span> filename
+		<span style="color: #008000; font-weight: bold">if</span> filename <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			<span style="color: #408080; font-style: italic"># Сохранение временной сетки, когда y записывается в файл</span>
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>t <span style="color: #666666">=</span> []
+			filenames <span style="color: #666666">=</span> glob<span style="color: #666666">.</span>glob(<span style="color: #BA2121">&#39;.&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;*.dat.npz&#39;</span>)
+			<span style="color: #008000; font-weight: bold">for</span> filename <span style="color: #AA22FF; font-weight: bold">in</span> filenames:
+				os<span style="color: #666666">.</span>remove(filename)
+
+		<span style="color: #408080; font-style: italic"># Очистка старых кадров</span>
+		<span style="color: #008000; font-weight: bold">for</span> filename <span style="color: #AA22FF; font-weight: bold">in</span> glob<span style="color: #666666">.</span>glob(<span style="color: #008000">self</span><span style="color: #666666">.</span>casename<span style="color: #666666">+</span><span style="color: #BA2121">&#39;_*.png&#39;</span>):
+			os<span style="color: #666666">.</span>remove(filename)
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__call__</span>(<span style="color: #008000">self</span>, u, x, t, n):
+		<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">		Функция обратного вызова user_action, вызываемая солвером:</span>
+<span style="color: #BA2121; font-style: italic">		сохранение решения, построение графиков на экране и</span>
+<span style="color: #BA2121; font-style: italic">		и сохранение их в файл.</span>
+<span style="color: #BA2121; font-style: italic">		&quot;&quot;&quot;</span>
+		<span style="color: #408080; font-style: italic"># Сохраняем решение u в файл, используя numpy.savez</span>
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			name <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;u</span><span style="color: #BB6688; font-weight: bold">%04d</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span> n  <span style="color: #408080; font-style: italic"># имя массива</span>
+			kwargs <span style="color: #666666">=</span> {name: u}
+			fname <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;.&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_&#39;</span> <span style="color: #666666">+</span> name <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;.dat&#39;</span>
+			np<span style="color: #666666">.</span>savez(fname, <span style="color: #666666">**</span>kwargs)
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>t<span style="color: #666666">.</span>append(t[n])  <span style="color: #408080; font-style: italic"># сохранение соответствующего временного знаяения</span>
+			<span style="color: #008000; font-weight: bold">if</span> n <span style="color: #666666">==</span> <span style="color: #666666">0</span>:           <span style="color: #408080; font-style: italic"># сохранение массива x один раз</span>
+				np<span style="color: #666666">.</span>savez(<span style="color: #BA2121">&#39;.&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_x.dat&#39;</span>, x<span style="color: #666666">=</span>x)
+
+		<span style="color: #408080; font-style: italic"># Анимация</span>
+		<span style="color: #008000; font-weight: bold">if</span> n <span style="color: #666666">%</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>skip_frame <span style="color: #666666">!=</span> <span style="color: #666666">0</span>:
+			<span style="color: #008000; font-weight: bold">return</span>
+		title <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;t=</span><span style="color: #BB6688; font-weight: bold">%.3f</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span> t[n]
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>title:
+			title <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>title <span style="color: #666666">+</span> <span style="color: #BA2121">&#39; &#39;</span> <span style="color: #666666">+</span> title
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>backend <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+			<span style="color: #408080; font-style: italic"># анимация matplotlib </span>
+			<span style="color: #008000; font-weight: bold">if</span> n <span style="color: #666666">==</span> <span style="color: #666666">0</span>:
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>ion()
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>lines <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>plot(x, u, <span style="color: #BA2121">&#39;r-&#39;</span>)
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>axis([x[<span style="color: #666666">0</span>], x[<span style="color: #666666">-1</span>],
+				               <span style="color: #008000">self</span><span style="color: #666666">.</span>yaxis[<span style="color: #666666">0</span>], <span style="color: #008000">self</span><span style="color: #666666">.</span>yaxis[<span style="color: #666666">1</span>]])
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>xlabel(<span style="color: #BA2121">&#39;x&#39;</span>)
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>ylabel(<span style="color: #BA2121">&#39;u&#39;</span>)
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>title(title)
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>legend([<span style="color: #BA2121">&#39;t=</span><span style="color: #BB6688; font-weight: bold">%.3f</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span> t[n]])
+			<span style="color: #008000; font-weight: bold">else</span>:
+				<span style="color: #408080; font-style: italic"># Обновляем решение</span>
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>lines[<span style="color: #666666">0</span>]<span style="color: #666666">.</span>set_ydata(u)
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>legend([<span style="color: #BA2121">&#39;t=</span><span style="color: #BB6688; font-weight: bold">%.3f</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span> t[n]])
+				<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>draw()
+		<span style="color: #008000; font-weight: bold">else</span>:
+			<span style="color: #408080; font-style: italic"># анимация scitools.easyviz </span>
+			<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>plot(x, u, <span style="color: #BA2121">&#39;r-&#39;</span>,
+			              xlabel<span style="color: #666666">=</span><span style="color: #BA2121">&#39;x&#39;</span>, ylabel<span style="color: #666666">=</span><span style="color: #BA2121">&#39;u&#39;</span>,
+			              axis<span style="color: #666666">=</span>[x[<span style="color: #666666">0</span>], x[<span style="color: #666666">-1</span>],
+			                    <span style="color: #008000">self</span><span style="color: #666666">.</span>yaxis[<span style="color: #666666">0</span>], <span style="color: #008000">self</span><span style="color: #666666">.</span>yaxis[<span style="color: #666666">1</span>]],
+			              title<span style="color: #666666">=</span>title,
+			              show<span style="color: #666666">=</span><span style="color: #008000">self</span><span style="color: #666666">.</span>screen_movie)
+		<span style="color: #408080; font-style: italic"># пауза</span>
+		<span style="color: #008000; font-weight: bold">if</span> t[n] <span style="color: #666666">==</span> <span style="color: #666666">0</span>:
+			time<span style="color: #666666">.</span>sleep(<span style="color: #666666">2</span>)  <span style="color: #408080; font-style: italic"># показываем начальное решение 2 с</span>
+		<span style="color: #008000; font-weight: bold">else</span>:
+			<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>pause <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
+				pause <span style="color: #666666">=</span> <span style="color: #666666">0.2</span> <span style="color: #008000; font-weight: bold">if</span> u<span style="color: #666666">.</span>size <span style="color: #666666">&lt;</span> <span style="color: #666666">100</span> <span style="color: #008000; font-weight: bold">else</span> <span style="color: #666666">0</span>
+			time<span style="color: #666666">.</span>sleep(pause)
+
+		<span style="color: #008000">self</span><span style="color: #666666">.</span>plt<span style="color: #666666">.</span>savefig(<span style="color: #008000">self</span><span style="color: #666666">.</span>casename<span style="color: #666666">+</span><span style="color: #BA2121">&#39;_</span><span style="color: #BB6688; font-weight: bold">%04d</span><span style="color: #BA2121">.png&#39;</span> <span style="color: #666666">%</span> (n))
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">make_movie_file</span>(<span style="color: #008000">self</span>):
+		<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">		Создается подкаталог на основе casename, перемещаем все файлы</span>
+<span style="color: #BA2121; font-style: italic">		с кадрами в этот каталог и создаем файл index.html для показа</span>
+<span style="color: #BA2121; font-style: italic">		видео в браузере (как последовательности PNG файлов).</span>
+<span style="color: #BA2121; font-style: italic">		&quot;&quot;&quot;</span>
+		directory <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>casename
+		<span style="color: #008000; font-weight: bold">if</span> os<span style="color: #666666">.</span>path<span style="color: #666666">.</span>isdir(directory):
+			shutil<span style="color: #666666">.</span>rmtree(directory)   <span style="color: #408080; font-style: italic"># rm -rf directory</span>
+		os<span style="color: #666666">.</span>mkdir(directory)            <span style="color: #408080; font-style: italic"># mkdir directory</span>
+		<span style="color: #408080; font-style: italic"># mv frame_*.png directory</span>
+		<span style="color: #008000; font-weight: bold">for</span> filename <span style="color: #AA22FF; font-weight: bold">in</span> glob<span style="color: #666666">.</span>glob(<span style="color: #008000">self</span><span style="color: #666666">.</span>casename<span style="color: #666666">+</span><span style="color: #BA2121">&#39;_*.png&#39;</span>):
+			os<span style="color: #666666">.</span>rename(filename, os<span style="color: #666666">.</span>path<span style="color: #666666">.</span>join(directory, filename))
+		os<span style="color: #666666">.</span>chdir(directory)        <span style="color: #408080; font-style: italic"># cd directory</span>
+		fps <span style="color: #666666">=</span> <span style="color: #666666">4</span> <span style="color: #408080; font-style: italic"># frames per second</span>
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>backend <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			<span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">scitools.std</span> <span style="color: #008000; font-weight: bold">import</span> movie
+			movie(<span style="color: #008000">self</span><span style="color: #666666">.</span>casename<span style="color: #666666">+</span><span style="color: #BA2121">&#39;_*.png&#39;</span>, encoder<span style="color: #666666">=</span><span style="color: #BA2121">&#39;html&#39;</span>,
+			      output_file<span style="color: #666666">=</span><span style="color: #BA2121">&#39;index.html&#39;</span>, fps<span style="color: #666666">=</span>fps)
+
+		<span style="color: #408080; font-style: italic"># Создаем другие видео форматы: Flash, Webm, Ogg, MP4</span>
+		codec2ext <span style="color: #666666">=</span> <span style="color: #008000">dict</span>(flv<span style="color: #666666">=</span><span style="color: #BA2121">&#39;flv&#39;</span>, libx264<span style="color: #666666">=</span><span style="color: #BA2121">&#39;mp4&#39;</span>, libvpx<span style="color: #666666">=</span><span style="color: #BA2121">&#39;webm&#39;</span>,
+		                 libtheora<span style="color: #666666">=</span><span style="color: #BA2121">&#39;ogg&#39;</span>)
+		filespec <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>casename<span style="color: #666666">+</span><span style="color: #BA2121">&#39;_</span><span style="color: #BB6688; font-weight: bold">%04d</span><span style="color: #BA2121">.png&#39;</span>
+		movie_program <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;ffmpeg&#39;</span> <span style="color: #408080; font-style: italic">#&#39;avconv&#39; # или &#39;ffmpeg&#39; </span>
+		<span style="color: #008000; font-weight: bold">for</span> codec <span style="color: #AA22FF; font-weight: bold">in</span> codec2ext:
+			ext <span style="color: #666666">=</span> codec2ext[codec]
+			cmd <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;</span><span style="color: #BB6688; font-weight: bold">%(movie_program)s</span><span style="color: #BA2121"> -r </span><span style="color: #BB6688; font-weight: bold">%(fps)d</span><span style="color: #BA2121"> -i </span><span style="color: #BB6688; font-weight: bold">%(filespec)s</span><span style="color: #BA2121"> &#39;</span>\ 
+			      <span style="color: #BA2121">&#39;-vcodec </span><span style="color: #BB6688; font-weight: bold">%(codec)s</span><span style="color: #BA2121"> movie.</span><span style="color: #BB6688; font-weight: bold">%(ext)s</span><span style="color: #BA2121">&#39;</span> <span style="color: #666666">%</span> <span style="color: #008000">vars</span>()
+			os<span style="color: #666666">.</span>system(cmd)
+		os<span style="color: #666666">.</span>chdir(os<span style="color: #666666">.</span>pardir)  <span style="color: #408080; font-style: italic"># возвращаемся в родительский каталог</span>
+
+	<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">close_file</span>(<span style="color: #008000">self</span>, hashed_input):
+		<span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #BA2121; font-style: italic">		Сливаем все файлы в один архив.</span>
+<span style="color: #BA2121; font-style: italic">		hashed_input --- строка, отражающая входные данные</span>
+<span style="color: #BA2121; font-style: italic">		для моделирования (создана функцией solver).</span>
+<span style="color: #BA2121; font-style: italic">		&quot;&quot;&quot;</span>
+		<span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000">None</span>:
+			np<span style="color: #666666">.</span>savez(<span style="color: #BA2121">&#39;.&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_t.dat&#39;</span>,
+			         t<span style="color: #666666">=</span>np<span style="color: #666666">.</span>array(<span style="color: #008000">self</span><span style="color: #666666">.</span>t, dtype<span style="color: #666666">=</span><span style="color: #008000">float</span>))
+
+			archive_name <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;.&#39;</span> <span style="color: #666666">+</span> hashed_input <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_archive.npz&#39;</span>
+			filenames <span style="color: #666666">=</span> glob<span style="color: #666666">.</span>glob(<span style="color: #BA2121">&#39;.&#39;</span> <span style="color: #666666">+</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>filename <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;*.dat.npz&#39;</span>)
+			merge_zip_archives(filenames, archive_name)
+		<span style="color: #008000; font-weight: bold">print</span> <span style="color: #BA2121">&#39;Archive name:&#39;</span>, archive_name
+		<span style="color: #408080; font-style: italic"># data = numpy.load(archive); data.files holds names</span>
+		<span style="color: #408080; font-style: italic"># data[name] extract the array</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">experiment_with_solver</span>():
+	p <span style="color: #666666">=</span> WaveProblem1D()
+	l <span style="color: #666666">=</span> <span style="color: #008000">float</span>(p<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;L&#39;</span>][<span style="color: #666666">1</span>])
+	p<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;c&#39;</span>] <span style="color: #666666">=</span> <span style="color: #666666">0.5</span>
+	p<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;T&#39;</span>] <span style="color: #666666">=</span> <span style="color: #666666">4</span>
+	p<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;I&#39;</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">lambda</span> x: np<span style="color: #666666">.</span>where(np<span style="color: #666666">.</span>abs(x<span style="color: #666666">-</span>l<span style="color: #666666">/2.</span>) <span style="color: #666666">&gt;</span> <span style="color: #666666">0.1</span>,<span style="color: #666666">0.</span>,<span style="color: #666666">1.</span>)
+	p<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ul&#39;</span>] <span style="color: #666666">=</span> <span style="color: #008000">None</span>
+	p<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ur&#39;</span>] <span style="color: #666666">=</span> <span style="color: #008000">None</span>
+	s <span style="color: #666666">=</span> WaveExplicitSolver1D(p)
+	s<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>] <span style="color: #666666">=</span> (l<span style="color: #666666">/10</span>)<span style="color: #666666">/</span>p<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;c&#39;</span>]
+
+	action <span style="color: #666666">=</span> PlotAndStoreSolution(umax<span style="color: #666666">=1.1</span>, umin<span style="color: #666666">=-1.1</span>, backend<span style="color: #666666">=</span><span style="color: #008000">None</span>, screen_movie<span style="color: #666666">=</span><span style="color: #008000">False</span>, filename<span style="color: #666666">=</span><span style="color: #BA2121">&#39;test&#39;</span>)
+	s<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;user_action&#39;</span>] <span style="color: #666666">=</span> action
+	cpu, hashed_input <span style="color: #666666">=</span>s<span style="color: #666666">.</span>solve()
+	action<span style="color: #666666">.</span>make_movie_file()
+	action<span style="color: #666666">.</span>close_file(hashed_input)
+	
+<span style="color: #008000; font-weight: bold">if</span> <span style="color: #19177C">__name__</span> <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;__main__&#39;</span>:
+	experiment_with_solver()
+</pre></div>
+<p>
+Классы реализованы в сценарии
+<a href="src-fdm-for-wave/wave1d_dn_solver.py" target="_self">wave1d_dn_solver.py</a>. Кроме
+того, этот сценарий содержит класс <code>PlotAndStoreSolution</code>,
+представленный в <a href="._fdm-for-wave-FlatUI004.html#fdm-for-wave:gen_solver:user_action">Реализация функции действий полозователя в виде класса</a>.
+
+<p>
+Пример использования данных классов представлен ниже:
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">experiment_with_solver</span>():
+	p <span style="color: #666666">=</span> WaveProblem1D()
+	l <span style="color: #666666">=</span> <span style="color: #008000">float</span>(p<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;L&#39;</span>][<span style="color: #666666">1</span>])
+	p<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;c&#39;</span>] <span style="color: #666666">=</span> <span style="color: #666666">0.5</span>
+	p<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;T&#39;</span>] <span style="color: #666666">=</span> <span style="color: #666666">4</span>
+	p<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;I&#39;</span>] <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">lambda</span> x: np<span style="color: #666666">.</span>where(np<span style="color: #666666">.</span>abs(x<span style="color: #666666">-</span>l<span style="color: #666666">/2.</span>) <span style="color: #666666">&gt;</span> <span style="color: #666666">0.1</span>,<span style="color: #666666">0.</span>,<span style="color: #666666">1.</span>)
+	p<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ul&#39;</span>] <span style="color: #666666">=</span> <span style="color: #008000">None</span>
+	p<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;ur&#39;</span>] <span style="color: #666666">=</span> <span style="color: #008000">None</span>
+	s <span style="color: #666666">=</span> WaveExplicitSolver1D(p)
+	s<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;dt&#39;</span>] <span style="color: #666666">=</span> (l<span style="color: #666666">/10</span>)<span style="color: #666666">/</span>p<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;c&#39;</span>]
+
+	action <span style="color: #666666">=</span> PlotAndStoreSolution(umax<span style="color: #666666">=1.1</span>, umin<span style="color: #666666">=-1.1</span>, backend<span style="color: #666666">=</span><span style="color: #008000">None</span>, screen_movie<span style="color: #666666">=</span><span style="color: #008000">False</span>, filename<span style="color: #666666">=</span><span style="color: #BA2121">&#39;test&#39;</span>)
+	s<span style="color: #666666">.</span>prm[<span style="color: #BA2121">&#39;user_action&#39;</span>] <span style="color: #666666">=</span> action
+	cpu, hashed_input <span style="color: #666666">=</span>s<span style="color: #666666">.</span>solve()
+	action<span style="color: #666666">.</span>make_movie_file()
+	action<span style="color: #666666">.</span>close_file(hashed_input)
+	
+<span style="color: #008000; font-weight: bold">if</span> <span style="color: #19177C">__name__</span> <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;__main__&#39;</span>:
+	experiment_with_solver()
+</pre></div>
+<p>
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "fdm-for-wave" -->
+<!-- doconce-section-nickname: "oop" -->
+<!-- End: -->
+
+<p>
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "fdm-for-wave" -->
+<!-- End: -->
+
+<p>
+<!-- navigation buttons at the bottom of the page -->
+<ul class="pager">
+  <li class="previous">
+    <a href="._fdm-for-wave-FlatUI005.html">&larr; Prev</a>
+  </li>
+</ul>
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+

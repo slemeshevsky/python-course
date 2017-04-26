@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -50,7 +52,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Разностные схемы для волнового уравнения" href="#"/>
+    <link rel="top" title="Разностные схемы для волнового уравнения 1.0 documentation" href="#"/>
         <link rel="next" title="Разностные схемы для волнового уравнения" href="._main_fdm-for-wave000.html"/>
  
 
@@ -69,6 +71,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -109,7 +112,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave000.html">Разностные схемы для волнового уравнения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html">Разностная схема для одномерного волнового уравнения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif">Верификация программной реализации</a></li>
@@ -121,6 +127,7 @@
 <li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-damping">Обобщения: затухания</a></li>
 <li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver">Разработка общего солвера для одномерного волнового уравнения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave005.html">Упражнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave006.html">Создание ПО с использованием ООП</a></li>
 </ul>
 
             
@@ -133,8 +140,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="#">Разностные схемы для волнового уравнения</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Разностные схемы для волнового уравнения</a>
+        
       </nav>
 
 
@@ -143,23 +152,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="#">Docs</a> &raquo;</li>
-      
-    <li>Разностные схемы для волнового уравнения</li>
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Разностные схемы для волнового уравнения</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -229,6 +255,9 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-damping">Обобщения: затухания</a></li>
 <li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver">Разработка общего солвера для одномерного волнового уравнения</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver-solver">Функция-солвер</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver-verif">Верификация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#savez">Сохранение больших архивов в файлы с использованием <code class="docutils literal"><span class="pre">savez</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver-user-action">Реализация функции действий полозователя в виде класса</a></li>
 <li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver-pulse">Распространение импульса в двух средах</a></li>
 </ul>
@@ -240,6 +269,14 @@
 <li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave005.html#exercise-9">Exercise 9: Объяснение почему возникают численные шумы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave005.html#exercise-10">Exercise 10: Исследование гармонического среднего в одномерной модели</a></li>
 <li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave005.html#problem-11">Problem 11: Реализация условий открытых границ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave006.html">Создание ПО с использованием ООП</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave006.html#mesh">Класс <code class="docutils literal"><span class="pre">Mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave006.html#function">Класс <code class="docutils literal"><span class="pre">Function</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave006.html#parameters">Класс <code class="docutils literal"><span class="pre">Parameters</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave006.html#waveproblem1d">Класс <code class="docutils literal"><span class="pre">WaveProblem1D</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="._main_fdm-for-wave006.html#solver">Класс <code class="docutils literal"><span class="pre">Solver</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -254,12 +291,15 @@
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="._main_fdm-for-wave000.html" class="btn btn-neutral float-right" title="Разностные схемы для волнового уравнения" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="._main_fdm-for-wave000.html" class="btn btn-neutral float-right" title="Разностные схемы для волнового уравнения" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -294,13 +334,14 @@
             VERSION:'1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

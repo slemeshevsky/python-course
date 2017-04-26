@@ -1,0 +1,1113 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Создание ПО с использованием ООП</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+
+        <script src="http://sagecell.sagemath.org/static/jquery.min.js"></script>
+        <script src="http://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+
+        <script>sagecell.makeSagecell({inputLocation: ".sage"});</script>
+
+        <style type="text/css">
+                .sagecell .CodeMirror-scroll {
+                        overflow-y: hidden;
+                        overflow-x: auto;
+                }
+                .sagecell .CodeMirror {
+                        height: auto;
+                }
+        </style>
+
+    
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Разностные схемы для волнового уравнения 1.0 documentation" href="index.html"/>
+        <link rel="prev" title="Упражнения" href="._main_fdm-for-wave005.html"/>
+ 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+
+       <style type="text/css">
+         div.admonition {
+           background-color: whiteSmoke;
+           border: 1px solid #bababa;
+         }
+       </style>
+      </head>
+    
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Разностные схемы для волнового уравнения
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave000.html">Разностные схемы для волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html">Разностная схема для одномерного волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif">Верификация программной реализации</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html">Программная реализация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-vect">Векторизация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave003.html">Упражнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html">Обобщения: отражающие границы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-varvel">Обобщения: переменная скорость распространения волны</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-damping">Обобщения: затухания</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver">Разработка общего солвера для одномерного волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave005.html">Упражнения</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Создание ПО с использованием ООП</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mesh">Класс <code class="docutils literal"><span class="pre">Mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#function">Класс <code class="docutils literal"><span class="pre">Function</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parameters">Класс <code class="docutils literal"><span class="pre">Parameters</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#waveproblem1d">Класс <code class="docutils literal"><span class="pre">WaveProblem1D</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#solver">Класс <code class="docutils literal"><span class="pre">Solver</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Разностные схемы для волнового уравнения</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Создание ПО с использованием ООП</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/._main_fdm-for-wave006.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fdm-for-wave-oop">
+<span id="id1"></span><h1>Создание ПО с использованием ООП<a class="headerlink" href="#fdm-for-wave-oop" title="Permalink to this headline">¶</a></h1>
+<p>Некоторые разработчики предпочитают использование
+объектно-ориентированное программирование. В данном разделе мы
+покажем как можно использовать классы для решаемой задачи.</p>
+<p>Мы создадим класс <code class="docutils literal"><span class="pre">WaveProblem1D</span></code> для того, чтобы управлять физическими
+параметрами задачи для одномерного волнового уравнения, класс
+<code class="docutils literal"><span class="pre">WaveExplicitSolver1D</span></code>, который реализует решение смешанной задачи для
+одномерного волнового уравнения с помощью явной разностной
+схемы. Кроме того, удобно собрать массивы, описывающие сетку, в один
+класс <code class="docutils literal"><span class="pre">Mesh</span></code> и создать класс <code class="docutils literal"><span class="pre">Function</span></code> реализующий сеточные функции.</p>
+<div class="section" id="mesh">
+<span id="fdm-for-wave-oop-mesh"></span><h2>Класс <code class="docutils literal"><span class="pre">Mesh</span></code><a class="headerlink" href="#mesh" title="Permalink to this headline">¶</a></h2>
+<p>Мы создадим класс <code class="docutils literal"><span class="pre">Mesh</span></code>, который можно использовать для описания
+прямоугольной пространственно-временной сетки <span class="math">\(\omega_{h\tau}\)</span> с любым
+числом пространственных переменных. Для того, чтобы сделать его
+универсальным, конструктор класса будет принимать либо кортеж/список
+числа отрезков в каждом пространственном направлении, либо
+кортеж/список шагов сетки по каждому из пространственных
+направлений. Для одномерных сеток более естественно задавать число
+отрезков или шаг сетки, в не списки. Также нам нужен временной отрезок
+от <code class="docutils literal"><span class="pre">t0</span></code> до <code class="docutils literal"><span class="pre">T</span></code>. В случае, если не задана дискретизация по
+пространству, то подразумевается только сетка по времени, и
+наоборот. Ниже представлен класс <code class="docutils literal"><span class="pre">Mesh</span></code> с использованием строк с
+тестами в описании (для использования <code class="docutils literal"><span class="pre">doctest</span></code>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Mesh</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Содержит структуру данных для равномерной сетки на гиперкубе в</span>
+<span class="sd">    пространстве и равномерной сетки по времени.</span>
+
+<span class="sd">    ======== ===================================================</span>
+<span class="sd">    Параметр         Описание</span>
+<span class="sd">    ======== ===================================================</span>
+<span class="sd">    L         Список двухэлементных списков с минимальной и</span>
+<span class="sd">              максимальной координатами по каждому</span>
+<span class="sd">              пространственному направлению</span>
+<span class="sd">    T         Конечный момент времени</span>
+<span class="sd">    Nt        Число отрезков по времени</span>
+<span class="sd">    dt        Шаг по времени. Или Nt или dt должно быть задано</span>
+<span class="sd">    N         Список, содержащий количество отрезков</span>
+<span class="sd">              по каждому пространственному направлению.</span>
+<span class="sd">    d         Список шагов по пространственным переменным.</span>
+<span class="sd">              Или N или d должен быть задан.</span>
+<span class="sd">    ======== ===================================================</span>
+
+<span class="sd">    Пользователь имеет доступ ко всем описанным выше параметрам плюс</span>
+<span class="sd">    к ``x[i]`` и ``t`` для координат в направлении ``i`` и временной</span>
+<span class="sd">    координаты, соответственно.</span>
+
+<span class="sd">    Примеры:</span>
+
+<span class="sd">    &gt;&gt;&gt; from UniformFDMesh import Mesh</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Простая пространственная сетка</span>
+<span class="sd">    &gt;&gt;&gt; m = Mesh(L=[0,1], N=4)</span>
+<span class="sd">    &gt;&gt;&gt; print m.dump()</span>
+<span class="sd">    пространство: [0,1] N = 4 d = 0.25</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Простая сетка по времени</span>
+<span class="sd">    &gt;&gt;&gt; m = Mesh(T=4, dt=0.5)</span>
+<span class="sd">    &gt;&gt;&gt; print m.dump()</span>
+<span class="sd">    время: [0,4] Nt = 8 dt = 0.5</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # двумерная пространственная сетка</span>
+<span class="sd">    &gt;&gt;&gt; m = Mesh(L=[[0,1], [-1,1]], d=[0.5, 1])</span>
+<span class="sd">    &gt;&gt;&gt; print m.dump()</span>
+<span class="sd">    пространство: [0,1]x[-1,1] N = 2x2 d = 0.5,1</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # двумерная пространственная сетка и сетка по времени</span>
+<span class="sd">    &gt;&gt;&gt; m = Mesh(L=[[0,1], [-1,1]], d=[0.5, 1], Nt=10, T=3)</span>
+<span class="sd">    &gt;&gt;&gt; print m.dump()</span>
+<span class="sd">    пространство: [0,1]x[-1,1] N = 2x2 d = 0.5,1 время: [0,3] Nt = 10 dt = 0.3</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">L</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">t0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                 <span class="n">N</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">Nt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">N</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">d</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="c1"># Пространственная сетка отсутсвует</span>
+                    <span class="k">if</span> <span class="n">Nt</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">dt</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                                    <span class="s1">&#39;Коструктор сетки: Должен быть задан либо Nt, либо dt&#39;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">T</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                                    <span class="s1">&#39;Конструктор сетки: T должен быть задан&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">Nt</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">dt</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="c1"># Отсутствует сетка по времени</span>
+                    <span class="k">if</span> <span class="n">N</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">d</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                                    <span class="s1">&#39;Конструктор сетки: Должен быть задан либо N, либо d&#39;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">L</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Конструктор сетки: L должен быть задан&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Допускаем одномерный интерфейс без использования вложенных списков</span>
+            <span class="k">if</span> <span class="n">L</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">)):</span>
+                    <span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="n">L</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">N</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">)):</span>
+                    <span class="n">N</span><span class="o">=</span><span class="p">[</span><span class="n">N</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">)):</span>
+                    <span class="n">d</span><span class="o">=</span><span class="p">[</span><span class="n">d</span><span class="p">]</span>
+
+            <span class="c1"># Устанавливаем все атрибуты в None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Nt</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="n">t0</span>
+
+            <span class="k">if</span> <span class="n">N</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">d</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">L</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="n">L</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;список d имеет длину отличную от L: </span><span class="si">%d</span><span class="s1"> - </span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span>
+                                             <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">))]</span>
+            <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">N</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">L</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="n">L</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;список N имеет длину отличную от L: </span><span class="si">%d</span><span class="s1"> - </span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span>
+                                             <span class="nb">len</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="n">N</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">N</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">N</span><span class="p">))]</span>
+
+            <span class="k">if</span> <span class="n">Nt</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">dt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">T</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">T</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">Nt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">dt</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">Nt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">T</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">T</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">Nt</span> <span class="o">=</span> <span class="n">Nt</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">T</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">Nt</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+                              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">))]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nt</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_num_space_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">has_space</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">has_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_space</span><span class="p">():</span>
+                    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;пространство: &#39;</span> <span class="o">+</span> \
+                         <span class="s1">&#39;x&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;[</span><span class="si">%g</span><span class="s1">,</span><span class="si">%g</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+                                   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">))])</span> <span class="o">+</span> <span class="s1">&#39; N = &#39;</span>
+                    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;x&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">Ni</span><span class="p">)</span> <span class="k">for</span> <span class="n">Ni</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39; d = &#39;</span>
+                    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">di</span><span class="p">)</span> <span class="k">for</span> <span class="n">di</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">])</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_space</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_time</span><span class="p">():</span>
+                    <span class="n">s</span><span class="o">+=</span> <span class="s1">&#39; &#39;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_time</span><span class="p">():</span>
+                    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;время: &#39;</span> <span class="o">+</span> <span class="s1">&#39;[</span><span class="si">%g</span><span class="s1">,</span><span class="si">%g</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> \
+                         <span class="s1">&#39; Nt = </span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nt</span> <span class="o">+</span> <span class="s1">&#39; dt = </span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span>
+            <span class="k">return</span> <span class="n">s</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="function">
+<span id="fdm-for-wave-oop-function"></span><h2>Класс <code class="docutils literal"><span class="pre">Function</span></code><a class="headerlink" href="#function" title="Permalink to this headline">¶</a></h2>
+<p>Класс <code class="docutils literal"><span class="pre">Function</span></code> удобен для управления сеткой и соответствующими
+значениями на ней скалярных или векторных функций. Так как мы при
+решении разностных задач могут использоваться пространственная,
+временная или пространственно-временная сетки, а функции могут иметь
+одну (скалярная) или несколько (векторная) компонент, то необходимы
+некоторые проверки правильного выделения массивов. Примеры данные в
+строках документации поясняют использование представленного класса</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Function</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Скалярная или векторная сеточная функция (используется класс Mesh)</span>
+<span class="sd">    =========== ==============================================================</span>
+<span class="sd">    Параметр       Описание</span>
+<span class="sd">    =========== ==============================================================</span>
+<span class="sd">    mesh         объект класса Mesh: пространственная и/или временная сетка</span>
+<span class="sd">    num_comp     Количество компонент функции (1 для скалярной функции)</span>
+<span class="sd">    space_only   True, если функция определена только на пространственной</span>
+<span class="sd">                 сетке. False, если функция зависит от пространства и времени</span>
+<span class="sd">    =========== ==============================================================</span>
+
+<span class="sd">    Индексация массива ``u``, который содержит значения функции в узлах сетки,</span>
+<span class="sd">    зависит от того, есть ли у нас пространственная и/или временная сетка.</span>
+
+<span class="sd">    Примеры:</span>
+
+<span class="sd">    &gt;&gt;&gt; from UniformFDMesh import Mesh, Function</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Простая пространственная сетка</span>
+<span class="sd">    &gt;&gt;&gt; m = Mesh(L=[0,1], N=4)</span>
+<span class="sd">    &gt;&gt;&gt; print m.dump()</span>
+<span class="sd">    пространство: [0,1] N = 4 d = 0.25</span>
+<span class="sd">    &gt;&gt;&gt; f = Function(m)</span>
+<span class="sd">    &gt;&gt;&gt; f.indices</span>
+<span class="sd">    [&#39;x0&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; f.u.shape</span>
+<span class="sd">    (5,)</span>
+<span class="sd">    &gt;&gt;&gt; f.u[4]  # значение в узле с номером 4</span>
+<span class="sd">    0.0</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Прострая сетка по времени для двух компонент</span>
+<span class="sd">    &gt;&gt;&gt; m = Mesh(T=4, dt=0.5)</span>
+<span class="sd">    &gt;&gt;&gt; print m.dump()</span>
+<span class="sd">    время: [0,4] Nt = 8 dt = 0.5</span>
+<span class="sd">    &gt;&gt;&gt; f = Function(m, num_comp=2)</span>
+<span class="sd">    &gt;&gt;&gt; f.indices</span>
+<span class="sd">    [&#39;time&#39;, &#39;component&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; f.u.shape</span>
+<span class="sd">    (9, 2)</span>
+<span class="sd">    &gt;&gt;&gt; f.u[3,1]  # значение на 3 временном слое, comp=1 (2-я компонента)</span>
+<span class="sd">    0.0</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # двумерная пространственная сетка</span>
+<span class="sd">    &gt;&gt;&gt; m = Mesh(L=[[0,1], [-1,1]], d=[0.5, 1])</span>
+<span class="sd">    &gt;&gt;&gt; print m.dump()</span>
+<span class="sd">    пространство: [0,1]x[-1,1] N = 2x2 d = 0.5,1</span>
+<span class="sd">    &gt;&gt;&gt; f = Function(m)</span>
+<span class="sd">    &gt;&gt;&gt; f.indices</span>
+<span class="sd">    [&#39;x0&#39;, &#39;x1&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; f.u.shape</span>
+<span class="sd">    (3, 3)</span>
+<span class="sd">    &gt;&gt;&gt; f.u[1,2]  # значение в узле (1,2)</span>
+<span class="sd">    0.0</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # двумерная пространственная сетка и сетка по времени</span>
+<span class="sd">    &gt;&gt;&gt; m = Mesh(L=[[0,1],[-1,1]], d=[0.5,1], Nt=10, T=3)</span>
+<span class="sd">    &gt;&gt;&gt; print m.dump()</span>
+<span class="sd">    пространство: [0,1]x[-1,1] N = 2x2 d = 0.5,1 время: [0,3] Nt = 10 dt = 0.3</span>
+<span class="sd">    &gt;&gt;&gt; f = Function(m, num_comp=2, space_only=False)</span>
+<span class="sd">    &gt;&gt;&gt; f.indices</span>
+<span class="sd">    [&#39;time&#39;, &#39;x0&#39;, &#39;x1&#39;, &#39;component&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; f.u.shape</span>
+<span class="sd">    (11, 3, 3, 2)</span>
+<span class="sd">    &gt;&gt;&gt; f.u[2,1,2,0]  # значение на 2-м временном слое, в пространственном узле (1,2), comp=0</span>
+<span class="sd">    0.0</span>
+<span class="sd">    &gt;&gt;&gt; # Функция с данными только по вространству</span>
+<span class="sd">    &gt;&gt;&gt; f = Function(m, num_comp=1, space_only=True)</span>
+<span class="sd">    &gt;&gt;&gt; f.indices</span>
+<span class="sd">    [&#39;x0&#39;, &#39;x1&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; f.u.shape</span>
+<span class="sd">    (3, 3)</span>
+<span class="sd">    &gt;&gt;&gt; f.u[1,2]  # значение в узле (1,2)</span>
+<span class="sd">    0.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">num_comp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">space_only</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_comp</span> <span class="o">=</span> <span class="n">num_comp</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">space_only</span> <span class="o">=</span> <span class="n">space_only</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="c1"># Создаем массив(ы) для хранения значений в узлах сетки</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">has_space</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">has_time</span><span class="p">())</span> <span class="ow">or</span> \
+               <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">has_space</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">has_time</span><span class="p">()</span> <span class="ow">and</span> <span class="n">space_only</span><span class="p">):</span>
+                    <span class="c1"># Только пространственная сетка</span>
+                    <span class="k">if</span> <span class="n">num_comp</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="p">))])</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="p">))]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="p">))]</span> <span class="o">+</span> <span class="p">[</span><span class="n">num_comp</span><span class="p">])</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="p">))]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;component&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">has_space</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">has_time</span><span class="p">():</span>
+                    <span class="c1"># Только сетка по времени</span>
+                    <span class="k">if</span> <span class="n">num_comp</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">Nt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">Nt</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_comp</span><span class="p">))</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;component&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">has_space</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">has_time</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">space_only</span><span class="p">:</span>
+                    <span class="c1"># Пространственно-временная сетка</span>
+                    <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">Nt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="p">))]</span>
+                    <span class="k">if</span> <span class="n">num_comp</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">+</span> \
+                                           <span class="p">[</span><span class="s1">&#39;x&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="p">))]</span> <span class="o">+</span> \
+                                           <span class="p">[</span><span class="s1">&#39;component&#39;</span><span class="p">]</span>
+                            <span class="n">size</span> <span class="o">+=</span> <span class="p">[</span><span class="n">num_comp</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">+</span> \
+                                           <span class="p">[</span><span class="s1">&#39;x&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="p">))]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Классы <code class="docutils literal"><span class="pre">Mesh</span></code> и <code class="docutils literal"><span class="pre">Function</span></code> реализованы в сценарии
+<a class="reference external" href="src-fdm-for-wave/UniformFDMesh.py">UniformFDMesh.py</a> .
+В строках документаций представленных классов <code class="docutils literal"><span class="pre">Mesh</span></code> и <code class="docutils literal"><span class="pre">Function</span></code>
+заданы примеры использования, поясняющие функционал этих классов. Они
+записаны в таком формате, что могут быть использованы для тестирования
+их реализации с помощью модуля <code class="docutils literal"><span class="pre">doctest</span></code>. В коде представлено
+простейшее использование. Для того, чтобы выполнить тестирование в
+сценарии <a class="reference external" href="src-fdm-for-wave/UniformFDMesh.py">UniformFDMesh.py</a>
+добавлен следующий код:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+ <span class="kn">import</span> <span class="nn">doctest</span>
+ <span class="n">failure_count</span><span class="p">,</span> <span class="n">test_count</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Таким образом, чтобы запустить все тесты представленные в документации
+классов нужно выполнить</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>Terminal&gt; python UniformFDMesh.py
+</pre></div>
+</div>
+<p class="last">Более подробную информацию по использованию <code class="docutils literal"><span class="pre">doctest</span></code> можно найти в
+<a class="reference external" href="https://docs.python.org/2/library/doctest.html">документации Python</a></p>
+</div>
+</div>
+<div class="section" id="parameters">
+<span id="fdm-for-wave-oop-params"></span><h2>Класс <code class="docutils literal"><span class="pre">Parameters</span></code><a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<p>Для реализации классов, которые должны содержать некоторые аргументы,
+которые можно передавать, например, через командную строку, удобно
+использовать один базовый класс. Ниже представлен класс <code class="docutils literal"><span class="pre">Parameters</span></code>,
+который будет использоваться в качестве базового для класса
+<code class="docutils literal"><span class="pre">WaveProblem1D</span></code>, содержащего физические параметры задачи, и класса <code class="docutils literal"><span class="pre">WaveExplicitSolver1D</span></code>,
+содержащего численные параметры и реализацию алгоритма:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="k">class</span> <span class="nc">Parameters</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Подклассы должны инициализировать self.prm параметрами и значениями</span>
+<span class="sd">            по умолчанию, self.type соответствующими типами, и self.help</span>
+<span class="sd">            соответствующими описаниями параметров. self.type и self.help являются</span>
+<span class="sd">            необязательными. self.prm должен быть заполнен и содержать все</span>
+<span class="sd">            параметры</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">ok</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Проверяет определены ли атрибуты класса prm, type и help &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;prm&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> \
+               <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> \
+               <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;help&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">help</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="s1">&#39;Конструктор в классе </span><span class="si">%s</span><span class="s1">  не инициализирует</span><span class="se">\n</span><span class="s1">&#39;</span>\
+                            <span class="s1">&#39;словари self.prm, self.type, self.help!&#39;</span> <span class="o">%</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_illegal_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Вызывает исключение о недопустимом имени параметра &quot;&quot;&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s1">&#39;Параметр &quot;</span><span class="si">%s</span><span class="s1">&quot; не зарегистрирован.</span><span class="se">\n</span><span class="s1">&#39;</span> \
+                    <span class="s1">&#39;Допустимые параметры: </span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">keys</span><span class="p">()))))</span>
+
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">parameters</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Устанавливаем значения один или несколько параметров. &quot;&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                            <span class="n">slef</span><span class="o">.</span><span class="n">_illegal_parameter</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Возвращает значения одного или нескольких параметров. &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">:</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">_illegal_parameter</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">name</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_illegal_parameter</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Разрешает доступ к параметру по obj[name] &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Допускает синтаксис obj[name] для задания значения параметра &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">define_command_line_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ok</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">parser</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="kn">import</span> <span class="nn">argparse</span>
+                    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">:</span>
+                    <span class="n">tp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="k">else</span> <span class="nb">str</span>
+                    <span class="n">help</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">help</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help</span> <span class="k">else</span> <span class="bp">None</span>
+                    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+                            <span class="s1">&#39;--&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">metavar</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                            <span class="nb">type</span><span class="o">=</span><span class="n">tp</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">help</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">parser</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="waveproblem1d">
+<span id="fdm-for-wave-oop-problem"></span><h2>Класс <code class="docutils literal"><span class="pre">WaveProblem1D</span></code><a class="headerlink" href="#waveproblem1d" title="Permalink to this headline">¶</a></h2>
+<p>Класс <code class="docutils literal"><span class="pre">WaveProblem1D</span></code> является подклассом класса <code class="docutils literal"><span class="pre">Parameters</span></code> и
+содержит физические параметры задачи. Они описаны в коде,
+представленном ниже:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">WaveProblem1D</span><span class="p">(</span><span class="n">Parameters</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Входные параметры смешанной задачи для волнового уравнения.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prm</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">],</span> <span class="n">I</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">V</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
+                            <span class="n">ul</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ur</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">u_exact</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="nb">list</span><span class="p">,</span> <span class="n">I</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">callable</span><span class="p">),</span> <span class="n">V</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">callable</span><span class="p">),</span>
+                             <span class="n">f</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">callable</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">callable</span><span class="p">),</span>
+                             <span class="n">ul</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">callable</span><span class="p">),</span> <span class="n">ur</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">callable</span><span class="p">),</span>
+                             <span class="n">u_exact</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">callable</span><span class="p">),</span> <span class="n">T</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">help</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="s1">&#39;Прямоугольная расчетная область&#39;</span><span class="p">,</span>
+                             <span class="n">I</span><span class="o">=</span><span class="s1">&#39;Начальная траектроия&#39;</span><span class="p">,</span>
+                             <span class="n">V</span><span class="o">=</span><span class="s1">&#39;Начальная скорость&#39;</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="s1">&#39;Внешние силы&#39;</span><span class="p">,</span>
+                             <span class="n">c</span><span class="o">=</span><span class="s1">&#39;Скорость распространения волны&#39;</span><span class="p">,</span>
+                             <span class="n">ul</span><span class="o">=</span><span class="s1">&#39;Левое граничное условие&#39;</span><span class="p">,</span>
+                             <span class="n">ur</span><span class="o">=</span><span class="s1">&#39;Правое граниченое условие&#39;</span><span class="p">,</span>
+                             <span class="n">u_exact</span><span class="o">=</span><span class="s1">&#39;Точное решение задачи&#39;</span><span class="p">,</span>
+                             <span class="n">T</span><span class="o">=</span><span class="s1">&#39;Конечный момент времени&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">],</span><span class="nb">float</span><span class="p">):</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">],</span><span class="nb">float</span><span class="p">):</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span><span class="nb">float</span><span class="p">):</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">)):</span>
+                            <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">]</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">)):</span>
+                            <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">]</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">UniformFDMesh</span> <span class="kn">import</span> <span class="n">Mesh</span><span class="p">,</span> <span class="n">Function</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="solver">
+<span id="fdm-for-wave-oop-solver"></span><h2>Класс <code class="docutils literal"><span class="pre">Solver</span></code><a class="headerlink" href="#solver" title="Permalink to this headline">¶</a></h2>
+<p>Класс <code class="docutils literal"><span class="pre">WaveExplicitSolver1D</span></code> также является подклассом класса
+<code class="docutils literal"><span class="pre">Parameters</span></code> и содержит численные параметры и реализацию алгоритма
+решения смешанной задачи для одномерного волнового уравнения с
+переменным коэффициентом, основанного на явной схеме:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">WaveExplicitSolver1D</span><span class="p">(</span><span class="n">Parameters</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Численные параметры и алгоритм решения задачи для волнового уравнения.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">problem</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">problem</span> <span class="o">=</span> <span class="n">problem</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prm</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">user_action</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                            <span class="n">stability_safety_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">user_action</span><span class="o">=</span><span class="nb">callable</span><span class="p">,</span>
+                             <span class="n">stability_safety_factor</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">help</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="s1">&#39;Шаг сетки по времени&#39;</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="s1">&#39;Число Куранта&#39;</span><span class="p">,</span>
+                                             <span class="n">user_action</span><span class="o">=</span><span class="s1">&#39;Функция действий пользователя&#39;</span><span class="p">,</span>
+                                             <span class="n">stability_safety_factor</span><span class="o">=</span><span class="s1">&#39;Коэффициент, гарантирующий устойчивость&#39;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Реализация алгоритма по явной разностной схеме.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+
+            <span class="n">Nt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">]</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]))</span>
+            <span class="c1">#Находим max(c), используя мнимую сетку и</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">)):</span>
+                    <span class="n">c_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]):</span>
+                    <span class="n">c_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">](</span><span class="n">x_</span><span class="p">)</span> <span class="k">for</span> <span class="n">x_</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="mi">101</span><span class="p">)])</span>
+
+            <span class="c1"># Вычисляем шаг по пространству и генерируем пространственно-временную сетку</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">c_max</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;stability_safety_factor&#39;</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">],</span> <span class="n">T</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">],</span> <span class="n">Nt</span><span class="o">=</span><span class="n">Nt</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
+
+            <span class="c1"># Определяем c(x) как сеточную функцию</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">],</span> <span class="nb">float</span><span class="p">):</span>
+                    <span class="n">c</span><span class="o">.</span><span class="n">u</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]):</span>
+                    <span class="n">c</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="n">q</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">u</span><span class="o">**</span><span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">u</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">gamma2</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">h</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">;</span> <span class="n">dt2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span>
+
+            <span class="c1"># Делаем хэш всех входных данных</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> \
+                   <span class="p">(</span><span class="s1">&#39;None&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">]))</span> <span class="o">+</span> \
+                   <span class="p">(</span><span class="s1">&#39;None&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">]))</span> <span class="o">+</span> \
+                   <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span>\
+                   <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">])</span> <span class="o">+</span> \
+                   <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;stability_safety_factor&#39;</span><span class="p">])</span>
+            <span class="n">hashed_input</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">hashed_input</span> <span class="o">+</span> <span class="s1">&#39;_archive.npz&#39;</span><span class="p">):</span>
+                    <span class="c1"># Расчет уже запущен</span>
+                    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">hashed_input</span>
+
+            <span class="c1"># Определяем решения как сеточные функции</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="p">)</span>       <span class="c1"># Решение на новом слое n+1</span>
+            <span class="n">y_1</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="p">)</span>     <span class="c1"># Решение на слое n</span>
+            <span class="n">y_2</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="p">)</span>     <span class="c1"># Решение на слое n-1</span>
+
+            <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> <span class="c1"># Измерение процессорного времени</span>
+
+            <span class="n">y_1</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">](</span><span class="n">y_1</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;user_action&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;user_action&#39;</span><span class="p">](</span><span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="n">y_1</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_1</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+            <span class="n">Ix</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">It</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">Nt</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># Специальная формула для первого слоя</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">y</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span>\
+                             <span class="mf">0.5</span><span class="o">*</span><span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span>\
+                             <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span> <span class="o">+</span> \
+                             <span class="mf">0.5</span><span class="o">*</span><span class="n">dt2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">ip1</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+                    <span class="n">im1</span> <span class="o">=</span> <span class="n">ip1</span>
+                    <span class="n">y</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> \
+                             <span class="mf">0.5</span><span class="o">*</span><span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">q</span><span class="p">[</span><span class="n">ip1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">ip1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span>\
+                             <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">q</span><span class="p">[</span><span class="n">im1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">im1</span><span class="p">]))</span> <span class="o">+</span> \
+                             <span class="mf">0.5</span><span class="o">*</span><span class="n">dt2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                    <span class="n">y</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">])</span>
+
+
+            <span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">im1</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span>
+                    <span class="n">ip1</span> <span class="o">=</span> <span class="n">im1</span>
+                    <span class="n">y</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> \
+                             <span class="mf">0.5</span><span class="o">*</span><span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">q</span><span class="p">[</span><span class="n">ip1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">ip1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span>\
+                             <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">q</span><span class="p">[</span><span class="n">im1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">im1</span><span class="p">]))</span> <span class="o">+</span> \
+                             <span class="mf">0.5</span><span class="o">*</span><span class="n">dt2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                    <span class="n">y</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;user_action&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;user_action&#39;</span><span class="p">](</span><span class="n">y</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># Обновляем данные для следующего слоя</span>
+            <span class="n">y_2</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="n">y_2</span><span class="o">.</span><span class="n">u</span>
+
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">It</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="c1"># Расчет во внутренних узлах</span>
+                    <span class="n">y</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span> <span class="n">y_2</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
+                    <span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="o">-</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> \
+                            <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">q</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]))</span> <span class="o">+</span> \
+                    <span class="o">+</span> <span class="n">dt2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+
+                    <span class="c1"># Добавляем граничные условия</span>
+                    <span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                            <span class="n">ip1</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+                            <span class="n">im1</span> <span class="o">=</span> <span class="n">ip1</span>
+                            <span class="n">y</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> \
+                            <span class="mf">0.5</span><span class="o">*</span><span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">q</span><span class="p">[</span><span class="n">ip1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">ip1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span>\
+                                        <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">q</span><span class="p">[</span><span class="n">im1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">im1</span><span class="p">]))</span> <span class="o">+</span> \
+                            <span class="mf">0.5</span><span class="o">*</span><span class="n">dt2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                            <span class="n">y</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+
+
+                    <span class="n">i</span> <span class="o">=</span> <span class="n">Ix</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                            <span class="n">im1</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span>
+                            <span class="n">ip1</span> <span class="o">=</span> <span class="n">im1</span>
+                            <span class="n">y</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> \
+                            <span class="mf">0.5</span><span class="o">*</span><span class="n">gamma2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">q</span><span class="p">[</span><span class="n">ip1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">ip1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span>\
+                                        <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">q</span><span class="p">[</span><span class="n">im1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">im1</span><span class="p">]))</span> <span class="o">+</span> \
+                            <span class="mf">0.5</span><span class="o">*</span><span class="n">dt2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                            <span class="n">y</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">problem</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;user_action&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;user_action&#39;</span><span class="p">](</span><span class="n">y</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                                    <span class="k">break</span>
+
+                    <span class="n">y_2</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">y_1</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="n">y_2</span><span class="o">.</span><span class="n">u</span>
+
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y_1</span>
+            <span class="n">cpu</span> <span class="o">=</span> <span class="n">t0</span> <span class="o">-</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">cpu</span><span class="p">,</span> <span class="n">hashed_input</span>
+
+
+<span class="k">def</span> <span class="nf">merge_zip_archives</span><span class="p">(</span><span class="n">individual_archives</span><span class="p">,</span> <span class="n">archive_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Слияние индивидуальных zip-архивов, сделанных с помощью</span>
+<span class="sd">    numpy.savez, в один архив с именем archive_name.</span>
+<span class="sd">    Отдельные архивы могут быть заданы как список имен.</span>
+<span class="sd">    В результате выполнения этой функции все отдельные</span>
+<span class="sd">    архивы удаляются и создается один новый архив.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">zipfile</span>
+    <span class="n">archive</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span>
+            <span class="n">archive_name</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZIP_DEFLATED</span><span class="p">,</span>
+            <span class="n">allowZip64</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">individual_archives</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">filenames</span> <span class="o">=</span> <span class="n">individual_archives</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">individual_archives</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">individual_archives</span><span class="p">)</span>
+
+    <span class="c1"># Открываем каждый архив и пишем его в общий архив</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span>  <span class="s1">&#39;r&#39;</span><span class="p">,</span>
+                                <span class="n">zipfile</span><span class="o">.</span><span class="n">ZIP_DEFLATED</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">namelist</span><span class="p">():</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+                    <span class="c1"># Сохраняем под именем без .npy</span>
+                    <span class="n">archive</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">name</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">archive</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">PlotAndStoreSolution</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Класс для функиции user_action в solver.</span>
+<span class="sd">    Только визуализация решения.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="p">,</span>
+                    <span class="n">casename</span><span class="o">=</span><span class="s1">&#39;tmp&#39;</span><span class="p">,</span>    <span class="c1"># Префикс в именах файлов</span>
+                    <span class="n">umin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">umax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>   <span class="c1"># Задаются границы по оси y</span>
+                    <span class="n">pause_between_frames</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>  <span class="c1"># Скорость видео</span>
+                    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">,</span>       <span class="c1"># или &#39;gnuplot&#39; или None</span>
+                    <span class="n">screen_movie</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="c1"># Показывать видео на экране?</span>
+                    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>          <span class="c1"># Дополнительное сообщение в title</span>
+                    <span class="n">skip_frame</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>      <span class="c1"># Пропуск каждого skip_frame кадра</span>
+                    <span class="n">filename</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>    <span class="c1"># Имя файла с решением</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">casename</span> <span class="o">=</span> <span class="n">casename</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">yaxis</span> <span class="o">=</span> <span class="p">[</span><span class="n">umin</span><span class="p">,</span> <span class="n">umax</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pause</span> <span class="o">=</span> <span class="n">pause_between_frames</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span>
+            <span class="k">if</span> <span class="n">backend</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="c1"># Использовать matplotlib</span>
+                    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+            <span class="k">elif</span> <span class="n">backend</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">,</span> <span class="s1">&#39;gnuplot&#39;</span><span class="p">):</span>
+                    <span class="n">module</span> <span class="o">=</span> <span class="s1">&#39;scitools.easyviz.&#39;</span> <span class="o">+</span> <span class="n">backend</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span>
+                    <span class="k">exec</span><span class="p">(</span><span class="s1">&#39;import </span><span class="si">%s</span><span class="s1"> as plt&#39;</span> <span class="o">%</span> <span class="n">module</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span> <span class="o">=</span> <span class="n">plt</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">screen_movie</span> <span class="o">=</span> <span class="n">screen_movie</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">skip_frame</span> <span class="o">=</span> <span class="n">skip_frame</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+            <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="c1"># Сохранение временной сетки, когда y записывается в файл</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;*.dat.npz&#39;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+                            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+            <span class="c1"># Очистка старых кадров</span>
+            <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">casename</span><span class="o">+</span><span class="s1">&#39;_*.png&#39;</span><span class="p">):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Функция обратного вызова user_action, вызываемая солвером:</span>
+<span class="sd">            сохранение решения, построение графиков на экране и</span>
+<span class="sd">            и сохранение их в файл.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="c1"># Сохраняем решение u в файл, используя numpy.savez</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;u</span><span class="si">%04d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">n</span>  <span class="c1"># имя массива</span>
+                    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">u</span><span class="p">}</span>
+                    <span class="n">fname</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.dat&#39;</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>  <span class="c1"># сохранение соответствующего временного знаяения</span>
+                    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>           <span class="c1"># сохранение массива x один раз</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;_x.dat&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+
+            <span class="c1"># Анимация</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_frame</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">return</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;t=</span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
+                    <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">title</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="c1"># анимация matplotlib</span>
+                    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">yaxis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaxis</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;t=</span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># Обновляем решение</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;t=</span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]])</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># анимация scitools.easyviz</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span>
+                                  <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;u&#39;</span><span class="p">,</span>
+                                  <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                        <span class="bp">self</span><span class="o">.</span><span class="n">yaxis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaxis</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                                  <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                                  <span class="n">show</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">screen_movie</span><span class="p">)</span>
+            <span class="c1"># пауза</span>
+            <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># показываем начальное решение 2 с</span>
+            <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pause</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                            <span class="n">pause</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="k">if</span> <span class="n">u</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">100</span> <span class="k">else</span> <span class="mi">0</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">pause</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">casename</span><span class="o">+</span><span class="s1">&#39;_</span><span class="si">%04d</span><span class="s1">.png&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">make_movie_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Создается подкаталог на основе casename, перемещаем все файлы</span>
+<span class="sd">            с кадрами в этот каталог и создаем файл index.html для показа</span>
+<span class="sd">            видео в браузере (как последовательности PNG файлов).</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">casename</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>   <span class="c1"># rm -rf directory</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>            <span class="c1"># mkdir directory</span>
+            <span class="c1"># mv frame_*.png directory</span>
+            <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">casename</span><span class="o">+</span><span class="s1">&#39;_*.png&#39;</span><span class="p">):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>        <span class="c1"># cd directory</span>
+            <span class="n">fps</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># frames per second</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="kn">from</span> <span class="nn">scitools.std</span> <span class="kn">import</span> <span class="n">movie</span>
+                    <span class="n">movie</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">casename</span><span class="o">+</span><span class="s1">&#39;_*.png&#39;</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="s1">&#39;html&#39;</span><span class="p">,</span>
+                          <span class="n">output_file</span><span class="o">=</span><span class="s1">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">fps</span><span class="p">)</span>
+
+            <span class="c1"># Создаем другие видео форматы: Flash, Webm, Ogg, MP4</span>
+            <span class="n">codec2ext</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">flv</span><span class="o">=</span><span class="s1">&#39;flv&#39;</span><span class="p">,</span> <span class="n">libx264</span><span class="o">=</span><span class="s1">&#39;mp4&#39;</span><span class="p">,</span> <span class="n">libvpx</span><span class="o">=</span><span class="s1">&#39;webm&#39;</span><span class="p">,</span>
+                             <span class="n">libtheora</span><span class="o">=</span><span class="s1">&#39;ogg&#39;</span><span class="p">)</span>
+            <span class="n">filespec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">casename</span><span class="o">+</span><span class="s1">&#39;_</span><span class="si">%04d</span><span class="s1">.png&#39;</span>
+            <span class="n">movie_program</span> <span class="o">=</span> <span class="s1">&#39;ffmpeg&#39;</span> <span class="c1">#&#39;avconv&#39; # или &#39;ffmpeg&#39;</span>
+            <span class="k">for</span> <span class="n">codec</span> <span class="ow">in</span> <span class="n">codec2ext</span><span class="p">:</span>
+                    <span class="n">ext</span> <span class="o">=</span> <span class="n">codec2ext</span><span class="p">[</span><span class="n">codec</span><span class="p">]</span>
+                    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%(movie_program)s</span><span class="s1"> -r </span><span class="si">%(fps)d</span><span class="s1"> -i </span><span class="si">%(filespec)s</span><span class="s1"> &#39;</span>\
+                          <span class="s1">&#39;-vcodec </span><span class="si">%(codec)s</span><span class="s1"> movie.</span><span class="si">%(ext)s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">vars</span><span class="p">()</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)</span>  <span class="c1"># возвращаемся в родительский каталог</span>
+
+    <span class="k">def</span> <span class="nf">close_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hashed_input</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Сливаем все файлы в один архив.</span>
+<span class="sd">            hashed_input --- строка, отражающая входные данные</span>
+<span class="sd">            для моделирования (создана функцией solver).</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;_t.dat&#39;</span><span class="p">,</span>
+                             <span class="n">t</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
+
+                    <span class="n">archive_name</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">hashed_input</span> <span class="o">+</span> <span class="s1">&#39;_archive.npz&#39;</span>
+                    <span class="n">filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;*.dat.npz&#39;</span><span class="p">)</span>
+                    <span class="n">merge_zip_archives</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="n">archive_name</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s1">&#39;Archive name:&#39;</span><span class="p">,</span> <span class="n">archive_name</span>
+            <span class="c1"># data = numpy.load(archive); data.files holds names</span>
+            <span class="c1"># data[name] extract the array</span>
+
+<span class="k">def</span> <span class="nf">experiment_with_solver</span><span class="p">():</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">WaveProblem1D</span><span class="p">()</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">l</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">WaveExplicitSolver1D</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="n">p</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>
+
+    <span class="n">action</span> <span class="o">=</span> <span class="n">PlotAndStoreSolution</span><span class="p">(</span><span class="n">umax</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">umin</span><span class="o">=-</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">screen_movie</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;user_action&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span>
+    <span class="n">cpu</span><span class="p">,</span> <span class="n">hashed_input</span> <span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+    <span class="n">action</span><span class="o">.</span><span class="n">make_movie_file</span><span class="p">()</span>
+    <span class="n">action</span><span class="o">.</span><span class="n">close_file</span><span class="p">(</span><span class="n">hashed_input</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">experiment_with_solver</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Классы реализованы в сценарии
+<a class="reference external" href="src-fdm-for-wave/wave1d_dn_solver.py">wave1d_dn_solver.py</a>. Кроме
+того, этот сценарий содержит класс <code class="docutils literal"><span class="pre">PlotAndStoreSolution</span></code>,
+представленный в <a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver-user-action"><span class="std std-ref">Реализация функции действий полозователя в виде класса</span></a>.</p>
+<p>Пример использования данных классов представлен ниже:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">experiment_with_solver</span><span class="p">():</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">WaveProblem1D</span><span class="p">()</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">l</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ul&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;ur&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">WaveExplicitSolver1D</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="n">p</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>
+
+    <span class="n">action</span> <span class="o">=</span> <span class="n">PlotAndStoreSolution</span><span class="p">(</span><span class="n">umax</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">umin</span><span class="o">=-</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">screen_movie</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">prm</span><span class="p">[</span><span class="s1">&#39;user_action&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span>
+    <span class="n">cpu</span><span class="p">,</span> <span class="n">hashed_input</span> <span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+    <span class="n">action</span><span class="o">.</span><span class="n">make_movie_file</span><span class="p">()</span>
+    <span class="n">action</span><span class="o">.</span><span class="n">close_file</span><span class="p">(</span><span class="n">hashed_input</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">experiment_with_solver</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="._main_fdm-for-wave005.html" class="btn btn-neutral" title="Упражнения" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, С.В. Лемешевский.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
