@@ -1,0 +1,259 @@
+.. !split
+
+.. _fdm-for-wave:multidim:
+
+Разностные схемы для многомерного волнового уравнения
+=====================================================
+
+Рассмотрим использование разностных схем для двумерного (2D) и
+трехмерного (3D) уравнения.
+
+.. _fdm-for-wave:multidim:wave:
+
+Многомерное волновое уравнение
+------------------------------
+
+Общее волновое уравнение в пространстве размерности :math:`d` с постоянной
+скоростью распространения волны :math:`c` можно записать в компактном виде
+
+.. _Eq:fdm-for-wave:multidim:eq:const_vel:
+
+.. math::
+
+    \tag{56}
+    \frac{\partial^2 u}{\partial t^2} = c^2 \Delta u \quad \textrm{для}\ \boldsymbol{x} \in
+        \Omega\subset\mathbb{R}^d, \quad t\in (0,T],
+        
+
+где :math:`\Delta` оператор Лапласса:
+
+.. math::
+        
+        	\Delta u = \sum_{\alpha=1}^{d} \frac{\partial^2 u}{\partial x_\alpha^2}
+        
+
+Во многих приложениях коэффициенты уравнения зависят от точки
+пространства. В этом случае волновое уравнение имеет вид:
+
+.. _Eq:fdm-for-wave:multidim:eq:var_vel:
+
+.. math::
+
+    \tag{57}
+    \varrho(\boldsymbol{x}) \frac{\partial^2 u}{\partial t^2} = \sum_{\alpha=1}^{d}\pd{}{x_\alpha}\left(
+        k_\alpha(\boldsymbol{x}) \frac{\partial u}{\partial x_\alpha} \right) + f(\boldsymbol{x})\quad \textrm{для}\ 
+        \boldsymbol{x}\in\Omega\subset\mathbb{R}^d,\quad t \in (0,T].
+        
+
+В *каждой точке* границы :math:`\partial\Omega` (области :math:`\Omega`)
+необходимо задать *одно* условие, включающее в себя неизвестное
+решение :math:`u`. Граничные условия задаются трех видов:
+
+1. :math:`u` задано (:math:`u = 0` или заданная функции от :math:`t` в точках границы,
+  например, моделирующее входящую волну);
+
+2. :math:`\displaystyle\frac{\partial u}{\partial \mathbf{n}} = \mathbf{n}\cdot {\mathrm{grad}\,u}` задана (ноль для
+  отражающих границ)
+
+3. открытое граничное условие (также называемое условием
+  излучения). См. :ref:`fdm-for-wave:exercises2:6`.
+
+Все приведенные уравнения со *второй производной* по времени должны
+быть дополнены *двумя* начальными условиями:
+
+1. :math:`u = I`;
+
+2. :math:`\displaystyle\frac{\partial u}{\partial t} = V`.
+
+.. _fdm-for-wave:multidim:mesh:
+
+Сетка
+-----
+
+Введем сетки по времени и по пространству. Сетка с постоянным шагом по
+времени
+
+.. math::
+        
+        	\bar{\omega}_{\tau} = \{ t_n = n \tau,\ n = 0,1, \ldots, N_t, \ N_t\tau
+        	= T \}.
+        
+
+Разностные схемы легко реализовать в простых прямоугольных
+областях. Более сложные формы областей требуют существенно более
+совершенных методов и усилий по реализации. В прямоугольных областях
+можно ввести отдельные сетки по каждому направлению:
+
+.. math::
+        
+        	\bar{\omega}_{\alpha} = \{ x_{\alpha}^{(i_\alpha)} = i_\alpha h_\alpha, \ i_\alpha = 0, 1,
+        	\ldots, N_\alpha, \ N_\alpha h_\alpha = l_\alpha \}, \quad k = 1, 2, \ldots, d.
+        
+
+Также можно ввести сетки (с использованием множеств индексов)
+
+.. math::
+        
+        \begin{split}
+        	\omega_\alpha &= \{ x_{\alpha}^{(i_\alpha)} = i_\alpha h_\alpha, \ i_\alpha \in
+        	\mathcal{I}_{x_\alpha}^i \},\\ 
+        	\omega_\alpha^{+} &= \{ x_{\alpha}^{(i_\alpha)} = i_\alpha h_\alpha, \ i_\alpha \in
+        	\mathcal{I}_{x_\alpha}^+ \},\\ 
+        	\omega_\alpha^{-} &= \{ x_{\alpha}^{(i_\alpha)} = i_\alpha h_\alpha, \ i_\alpha \in
+        	\mathcal{I}_{x_\alpha}^- \}.
+        \end{split}
+        
+
+Таким образом сетка по пространству в области :math:`\Omega`:
+
+.. math::
+        
+        \begin{split}
+        	\bar\omega_h &= \prod_{\alpha=1}^{d} \bar\omega_\alpha = \{ \boldsymbol{x} =
+        	\boldsymbol{x}^{(i_1i_2\dots i_d)} = (x_1^{i_1}, x_2^{(i_2)}, \dots, x_d^{(i_d)}), \ x_\alpha^{(i_\alpha)} \in
+        	\omega_\alpha, \ k = 1, 2, \dots, d\},\\ 
+        	\omega_h &= \prod_{\alpha=1}^{d} \omega_\alpha.
+        \end{split}
+        
+
+Для значений приближенного решения в узлах сетки будем использовать
+следующие обозначения:
+
+.. math::
+        
+        \begin{split}
+        	y^n &= y_{(i_1i_2\dots i_d)}^n = y(\boldsymbol{x}^{(i_1i_2\dots i_d)},t_n), \\ 
+        	y_{(\pm 1_\alpha)}^n &= y_{(i_1\dots i \pm 1\dots i_d)}^n =
+        	y(\boldsymbol{x}^{(i_1\dots i_\alpha \pm 1\dots i_d)},t_n) =
+        	y(x_1^{(i_1)},\dots, x_\alpha^{(i_\alpha)}+h_\alpha, \dots, x_d^{(i_d)},t_n),
+        	\quad n\in \mathcal{I}_t,\ i_\alpha \in \mathcal{I}_{x_\alpha}, \ k = 1, 2,
+        	\ldots, d.
+        \end{split}
+        
+
+.. _fdm-for-wave:multidim:fdd:
+
+Явная разностная схема
+----------------------
+
+Многомерные уравнения аппроксимируются путем сборки одномерных
+дискретизаций, так как многомерное уравнение просто содержит слагаемые
+того же типа, что и одномерное уравнение.
+
+.. _fdm-for-wave:multidim:fdd_eq:
+
+Дискретизация уравнения
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Уравнение :ref:`(57) <Eq:fdm-for-wave:multidim:eq:var_vel>` аппроксимируем явной
+разностной схемой (используем безындексные обозначения):
+
+.. _Eq:fdm-for-wave:multidim:eq:fdd:
+
+.. math::
+
+    \tag{58}
+    \varrho y_{\bar{t}t} = \sum_{\alpha=1}^{d} (a_\alpha y_{\bar{x}_\alpha})_{x_\alpha} + \varphi,
+        \quad \boldsymbol{x} \in \omega,\ t \in \omega_\tau.
+        
+
+Шаблонные функционалы для коэффициентов и правой части используем,
+например, следующие:
+
+.. math::
+        
+        \begin{split}
+        	a_\alpha &= a_\alpha(\boldsymbol{x}^{(i_1\dots i_\alpha+0.5\dots i_d)}) =
+        	a(x_1, \dots, x_{\alpha}+0.5h_\alpha, \dots, x_d), \quad \alpha = 1, 2,
+        	\ldots, d, \\ 
+        	\varphi &= f(\boldsymbol{x}, t),\quad \boldsymbol{x} \in \omega, \ t \in \omega_\tau. 
+        \end{split}
+        
+
+Выражая :math:`y^{n+1}` (см. обозначения), получим рекуррентную формулу:
+
+.. _Eq:fdm-for-wave:multidim:eq:fdd_rec:
+
+.. math::
+
+    \tag{59}
+    y^{n+1} = -y^{n-1} + 2 y^{n} +
+        	\frac{1}{\varrho} \sum_{\alpha=1}^{d} \frac{1}{h_k^2}
+        	\left(a_{\alpha(+1_k)} \left(y_{(+1_k)}^n - y^n\right)
+        	- a_{\alpha} \left(y^n - y_{(-1_k)}^n \right)\right) +
+        	\tau^2 \varphi.
+        
+
+Также необходимо получить специальную формулу для :math:`y^{1}`, объединив 
+:ref:`(59) <Eq:fdm-for-wave:multidim:eq:fdd_rec>` при :math:`n=0` и дискретное
+начальное условие, которое дает :math:`y^{-1} = y^{1} - 2\tau V`.
+
+.. _fdm-for-wave:multidim:dirichlet:
+
+Обработка граничных условий Дирихле
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Разностные схемы 
+:ref:`(58) <Eq:fdm-for-wave:multidim:eq:fdd>` и 
+:ref:`(59) <Eq:fdm-for-wave:multidim:eq:fdd_rec>` справедливы для внутренних
+узлов пространственной сетки. После вычисления значений во внутренних
+узлах, нужно установить заданные значения :math:`y` во всех граничных узлах
+сетки.
+
+.. _fdm-for-wave:multidim:neumann:
+
+Дискретизация условий Неймана
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Условие :math:`\displaystyle\frac{\partial u}{\partial \mathbf{n}} = 0` в одномерном случае мы
+аппроксимировали центральной разностной производной, а затем исключали
+значение :math:`y` в фиктивном узле вне сетки, используя аппроксимацию
+уравнения вблизи границы. Другой способ заключался в использовании
+мнимых ячеек. Точно такие же подходы можно использовать в многомерном
+случае.
+
+Рассмотрим условие :math:`\displaystyle\frac{\partial u}{\partial \mathbf{n}} = 0` на границе
+:math:`x_\alpha = 0` прямоугольной области :math:`\Omega = \prod_{k=1}^{d}[0,
+l_k]`. Направление нормали к этой границе — это направление в
+отрицательную часть :math:`x_\alpha`. Следовательно,
+
+.. math::
+        \frac{\partial u}{\partial \mathbf{n}} = - \frac{\partial u}{\partial x_\alpha}.
+
+Положим
+
+.. math::
+        
+        	-y_{\mathring{x}_\alpha} = 0 \quad \Rightarrow \quad
+        	\frac{y_{i_1\dots 1\dots i_d}-y_{i_1\dots -1\dots i_d}}{2h_\alpha}
+        	= 0.
+        
+
+Отсюда следует, что :math:`y_{i_1\dots 1\dots i_d} = y_{i_1\ldots -1\ldots
+i_d}`. Затем, подставляя :math:`y_{i_1\dots 1\dots i_d}` вместо :math:`y_{i_1\ldots -1\ldots
+i_d}` в рекуррентную формулу 
+:ref:`(59) <Eq:fdm-for-wave:multidim:eq:fdd_rec>`, записанную в граничных узлах
+:math:`i_\alpha = 0`, получаем формулу для :math:`y_{i_1\dots 0 \dots i_d}^{n+1}`
+аналогично как в одномерном случае.
+
+Из приведенных рассуждений мы можем использовать такой подход:
+общее рекуррентное соотношение 
+:ref:`(59) <Eq:fdm-for-wave:multidim:eq:fdd_rec>` может использоваться и в
+граничных узлах :math:`i_\alpha = 0`, если заменить :math:`i_\alpha - 1` на
+:math:`i_\alpha + 1`. Такой поход полезен при программной реализации. Детали
+для одномерного случая можно увидеть в разделе
+:ref:`fdm-for-wave:refl:impl`. 
+
+.. Local Variables:
+
+.. doconce-chapter-nickname: "fdm-for-wave"
+
+.. doconce-section-nickname: "multidim"
+
+.. End:
+
+.. Local Variables:
+
+.. doconce-chapter-nickname: "fdm-for-wave"
+
+.. End:

@@ -382,7 +382,35 @@ code { color: inherit; background-color: transparent; }
               (u'\u041a\u043b\u0430\u0441\u0441 `Solver`',
                2,
                u'fdm-for-wave:oop:solver',
-               u'fdm-for-wave:oop:solver')]}
+               u'fdm-for-wave:oop:solver'),
+              (u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u044b\u0435 \u0441\u0445\u0435\u043c\u044b \u0434\u043b\u044f \u043c\u043d\u043e\u0433\u043e\u043c\u0435\u0440\u043d\u043e\u0433\u043e \u0432\u043e\u043b\u043d\u043e\u0432\u043e\u0433\u043e \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u044f',
+               1,
+               u'fdm-for-wave:multidim',
+               u'fdm-for-wave:multidim'),
+              (u'\u041c\u043d\u043e\u0433\u043e\u043c\u0435\u0440\u043d\u043e\u0435 \u0432\u043e\u043b\u043d\u043e\u0432\u043e\u0435 \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435',
+               2,
+               u'fdm-for-wave:multidim:wave',
+               u'fdm-for-wave:multidim:wave'),
+              (u'\u0421\u0435\u0442\u043a\u0430',
+               2,
+               u'fdm-for-wave:multidim:mesh',
+               u'fdm-for-wave:multidim:mesh'),
+              (u'\u042f\u0432\u043d\u0430\u044f \u0440\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u0430\u044f \u0441\u0445\u0435\u043c\u0430',
+               2,
+               u'fdm-for-wave:multidim:fdd',
+               u'fdm-for-wave:multidim:fdd'),
+              (u'\u0414\u0438\u0441\u043a\u0440\u0435\u0442\u0438\u0437\u0430\u0446\u0438\u044f \u0443\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u044f',
+               3,
+               u'fdm-for-wave:multidim:fdd_eq',
+               u'fdm-for-wave:multidim:fdd_eq'),
+              (u'\u041e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0430 \u0433\u0440\u0430\u043d\u0438\u0447\u043d\u044b\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u0414\u0438\u0440\u0438\u0445\u043b\u0435',
+               3,
+               u'fdm-for-wave:multidim:dirichlet',
+               u'fdm-for-wave:multidim:dirichlet'),
+              (u'\u0414\u0438\u0441\u043a\u0440\u0435\u0442\u0438\u0437\u0430\u0446\u0438\u044f \u0443\u0441\u043b\u043e\u0432\u0438\u0439 \u041d\u0435\u0439\u043c\u0430\u043d\u0430',
+               3,
+               u'fdm-for-wave:multidim:neumann',
+               u'fdm-for-wave:multidim:neumann')]}
 end of tocinfo -->
 
 <body>
@@ -405,6 +433,9 @@ MathJax.Hub.Config({
 $$
 \newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
 \newcommand{\pdd}[3]{\frac{\partial^#1 #2}{\partial #3^#1}}
+\newcommand{\grad}[1]{\mathrm{grad}\,#1}
+\newcommand{\p}[1]{\boldsymbol{#1}}
+\newcommand{\vec}[1]{\mathbf{#1}}
 $$
 
 
@@ -507,6 +538,13 @@ $$
      <!-- navigation toc: --> <li><a href="#fdm-for-wave:oop:params" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Класс <code>Parameters</code></a></li>
      <!-- navigation toc: --> <li><a href="#fdm-for-wave:oop:problem" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Класс <code>WaveProblem1D</code></a></li>
      <!-- navigation toc: --> <li><a href="#fdm-for-wave:oop:solver" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Класс <code>Solver</code></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable007.html#fdm-for-wave:multidim" style="font-size: 80%;"><b>Разностные схемы для многомерного волнового уравнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable007.html#fdm-for-wave:multidim:wave" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Многомерное волновое уравнение</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable007.html#fdm-for-wave:multidim:mesh" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Сетка</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable007.html#fdm-for-wave:multidim:fdd" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Явная разностная схема</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable007.html#fdm-for-wave:multidim:fdd_eq" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Дискретизация уравнения</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable007.html#fdm-for-wave:multidim:dirichlet" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Обработка граничных условий Дирихле</a></li>
+     <!-- navigation toc: --> <li><a href="._fdm-for-wave-readable007.html#fdm-for-wave:multidim:neumann" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Дискретизация условий Неймана</a></li>
 
         </ul>
       </li>
@@ -1410,17 +1448,14 @@ $$
 <!-- doconce-chapter-nickname: "fdm-for-wave" -->
 <!-- doconce-section-nickname: "oop" -->
 <!-- End: -->
-
-<p>
-<!-- Local Variables: -->
-<!-- doconce-chapter-nickname: "fdm-for-wave" -->
-<!-- End: -->
-
 <p>
 <!-- navigation buttons at the bottom of the page -->
 <ul class="pager">
   <li class="previous">
     <a href="._fdm-for-wave-readable005.html">&larr; Prev</a>
+  </li>
+  <li class="next">
+    <a href="._fdm-for-wave-readable007.html">Next &rarr;</a>
   </li>
 </ul>
 <!-- ------------------- end of main content --------------- -->

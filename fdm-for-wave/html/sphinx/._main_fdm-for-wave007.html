@@ -1,0 +1,446 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Разностные схемы для многомерного волнового уравнения</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+
+        <script src="http://sagecell.sagemath.org/static/jquery.min.js"></script>
+        <script src="http://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+
+        <script>sagecell.makeSagecell({inputLocation: ".sage"});</script>
+
+        <style type="text/css">
+                .sagecell .CodeMirror-scroll {
+                        overflow-y: hidden;
+                        overflow-x: auto;
+                }
+                .sagecell .CodeMirror {
+                        height: auto;
+                }
+        </style>
+
+    
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Разностные схемы для волнового уравнения 1.0 documentation" href="index.html"/>
+        <link rel="prev" title="Создание ПО с использованием ООП" href="._main_fdm-for-wave006.html"/>
+ 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+
+       <style type="text/css">
+         div.admonition {
+           background-color: whiteSmoke;
+           border: 1px solid #bababa;
+         }
+       </style>
+      </head>
+    
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Разностные схемы для волнового уравнения
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave000.html">Разностные схемы для волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html">Разностная схема для одномерного волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif">Верификация программной реализации</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html">Программная реализация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-vect">Векторизация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave003.html">Упражнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html">Обобщения: отражающие границы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-varvel">Обобщения: переменная скорость распространения волны</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-damping">Обобщения: затухания</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver">Разработка общего солвера для одномерного волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave005.html">Упражнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave006.html">Создание ПО с использованием ООП</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Разностные схемы для многомерного волнового уравнения</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-multidim-wave">Многомерное волновое уравнение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-multidim-mesh">Сетка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-multidim-fdd">Явная разностная схема</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fdm-for-wave-multidim-fdd-eq">Дискретизация уравнения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fdm-for-wave-multidim-dirichlet">Обработка граничных условий Дирихле</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fdm-for-wave-multidim-neumann">Дискретизация условий Неймана</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Разностные схемы для волнового уравнения</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Разностные схемы для многомерного волнового уравнения</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/._main_fdm-for-wave007.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fdm-for-wave-multidim">
+<span id="id1"></span><h1>Разностные схемы для многомерного волнового уравнения<a class="headerlink" href="#fdm-for-wave-multidim" title="Permalink to this headline">¶</a></h1>
+<p>Рассмотрим использование разностных схем для двумерного (2D) и
+трехмерного (3D) уравнения.</p>
+<div class="section" id="fdm-for-wave-multidim-wave">
+<span id="id2"></span><h2>Многомерное волновое уравнение<a class="headerlink" href="#fdm-for-wave-multidim-wave" title="Permalink to this headline">¶</a></h2>
+<p>Общее волновое уравнение в пространстве размерности <span class="math">\(d\)</span> с постоянной
+скоростью распространения волны <span class="math">\(c\)</span> можно записать в компактном виде</p>
+<div class="math" id="eq-fdm-for-wave-multidim-eq-const-vel">
+\[\tag{56}
+\frac{\partial^2 u}{\partial t^2} = c^2 \Delta u \quad \textrm{для}\ \boldsymbol{x} \in
+    \Omega\subset\mathbb{R}^d, \quad t\in (0,T],\]</div>
+<p>где <span class="math">\(\Delta\)</span> оператор Лапласса:</p>
+<div class="math">
+\[\Delta u = \sum_{\alpha=1}^{d} \frac{\partial^2 u}{\partial x_\alpha^2}\]</div>
+<p>Во многих приложениях коэффициенты уравнения зависят от точки
+пространства. В этом случае волновое уравнение имеет вид:</p>
+<div class="math" id="eq-fdm-for-wave-multidim-eq-var-vel">
+\[\tag{57}
+\varrho(\boldsymbol{x}) \frac{\partial^2 u}{\partial t^2} = \sum_{\alpha=1}^{d}\pd{}{x_\alpha}\left(
+    k_\alpha(\boldsymbol{x}) \frac{\partial u}{\partial x_\alpha} \right) + f(\boldsymbol{x})\quad \textrm{для}\
+    \boldsymbol{x}\in\Omega\subset\mathbb{R}^d,\quad t \in (0,T].\]</div>
+<p>В <em>каждой точке</em> границы <span class="math">\(\partial\Omega\)</span> (области <span class="math">\(\Omega\)</span>)
+необходимо задать <em>одно</em> условие, включающее в себя неизвестное
+решение <span class="math">\(u\)</span>. Граничные условия задаются трех видов:</p>
+<ol class="arabic simple">
+<li><span class="math">\(u\)</span> задано (<span class="math">\(u = 0\)</span> или заданная функции от <span class="math">\(t\)</span> в точках границы,</li>
+</ol>
+<blockquote>
+<div>например, моделирующее входящую волну);</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><span class="math">\(\displaystyle\frac{\partial u}{\partial \mathbf{n}} = \mathbf{n}\cdot {\mathrm{grad}\,u}\)</span> задана (ноль для</li>
+</ol>
+<blockquote>
+<div>отражающих границ)</div></blockquote>
+<ol class="arabic simple" start="3">
+<li>открытое граничное условие (также называемое условием</li>
+</ol>
+<blockquote>
+<div>излучения). См. <a class="reference internal" href="._main_fdm-for-wave005.html#fdm-for-wave-exercises2-6"><span class="std std-ref">Problem 11: Реализация условий открытых границ</span></a>.</div></blockquote>
+<p>Все приведенные уравнения со <em>второй производной</em> по времени должны
+быть дополнены <em>двумя</em> начальными условиями:</p>
+<ol class="arabic simple">
+<li><span class="math">\(u = I\)</span>;</li>
+<li><span class="math">\(\displaystyle\frac{\partial u}{\partial t} = V\)</span>.</li>
+</ol>
+</div>
+<div class="section" id="fdm-for-wave-multidim-mesh">
+<span id="id3"></span><h2>Сетка<a class="headerlink" href="#fdm-for-wave-multidim-mesh" title="Permalink to this headline">¶</a></h2>
+<p>Введем сетки по времени и по пространству. Сетка с постоянным шагом по
+времени</p>
+<div class="math">
+\[\bar{\omega}_{\tau} = \{ t_n = n \tau,\ n = 0,1, \ldots, N_t, \ N_t\tau
+= T \}.\]</div>
+<p>Разностные схемы легко реализовать в простых прямоугольных
+областях. Более сложные формы областей требуют существенно более
+совершенных методов и усилий по реализации. В прямоугольных областях
+можно ввести отдельные сетки по каждому направлению:</p>
+<div class="math">
+\[\bar{\omega}_{\alpha} = \{ x_{\alpha}^{(i_\alpha)} = i_\alpha h_\alpha, \ i_\alpha = 0, 1,
+\ldots, N_\alpha, \ N_\alpha h_\alpha = l_\alpha \}, \quad k = 1, 2, \ldots, d.\]</div>
+<p>Также можно ввести сетки (с использованием множеств индексов)</p>
+<div class="math">
+\[\begin{split}\begin{split}
+        \omega_\alpha &amp;= \{ x_{\alpha}^{(i_\alpha)} = i_\alpha h_\alpha, \ i_\alpha \in
+        \mathcal{I}_{x_\alpha}^i \},\\
+        \omega_\alpha^{+} &amp;= \{ x_{\alpha}^{(i_\alpha)} = i_\alpha h_\alpha, \ i_\alpha \in
+        \mathcal{I}_{x_\alpha}^+ \},\\
+        \omega_\alpha^{-} &amp;= \{ x_{\alpha}^{(i_\alpha)} = i_\alpha h_\alpha, \ i_\alpha \in
+        \mathcal{I}_{x_\alpha}^- \}.
+\end{split}\end{split}\]</div>
+<p>Таким образом сетка по пространству в области <span class="math">\(\Omega\)</span>:</p>
+<div class="math">
+\[\begin{split}\begin{split}
+        \bar\omega_h &amp;= \prod_{\alpha=1}^{d} \bar\omega_\alpha = \{ \boldsymbol{x} =
+        \boldsymbol{x}^{(i_1i_2\dots i_d)} = (x_1^{i_1}, x_2^{(i_2)}, \dots, x_d^{(i_d)}), \ x_\alpha^{(i_\alpha)} \in
+        \omega_\alpha, \ k = 1, 2, \dots, d\},\\
+        \omega_h &amp;= \prod_{\alpha=1}^{d} \omega_\alpha.
+\end{split}\end{split}\]</div>
+<p>Для значений приближенного решения в узлах сетки будем использовать
+следующие обозначения:</p>
+<div class="math">
+\[\begin{split}\begin{split}
+        y^n &amp;= y_{(i_1i_2\dots i_d)}^n = y(\boldsymbol{x}^{(i_1i_2\dots i_d)},t_n), \\
+        y_{(\pm 1_\alpha)}^n &amp;= y_{(i_1\dots i \pm 1\dots i_d)}^n =
+        y(\boldsymbol{x}^{(i_1\dots i_\alpha \pm 1\dots i_d)},t_n) =
+        y(x_1^{(i_1)},\dots, x_\alpha^{(i_\alpha)}+h_\alpha, \dots, x_d^{(i_d)},t_n),
+        \quad n\in \mathcal{I}_t,\ i_\alpha \in \mathcal{I}_{x_\alpha}, \ k = 1, 2,
+        \ldots, d.
+\end{split}\end{split}\]</div>
+</div>
+<div class="section" id="fdm-for-wave-multidim-fdd">
+<span id="id4"></span><h2>Явная разностная схема<a class="headerlink" href="#fdm-for-wave-multidim-fdd" title="Permalink to this headline">¶</a></h2>
+<p>Многомерные уравнения аппроксимируются путем сборки одномерных
+дискретизаций, так как многомерное уравнение просто содержит слагаемые
+того же типа, что и одномерное уравнение.</p>
+<div class="section" id="fdm-for-wave-multidim-fdd-eq">
+<span id="id5"></span><h3>Дискретизация уравнения<a class="headerlink" href="#fdm-for-wave-multidim-fdd-eq" title="Permalink to this headline">¶</a></h3>
+<p>Уравнение <a class="reference internal" href="#eq-fdm-for-wave-multidim-eq-var-vel"><span class="std std-ref">(57)</span></a> аппроксимируем явной
+разностной схемой (используем безындексные обозначения):</p>
+<div class="math" id="eq-fdm-for-wave-multidim-eq-fdd">
+\[\tag{58}
+\varrho y_{\bar{t}t} = \sum_{\alpha=1}^{d} (a_\alpha y_{\bar{x}_\alpha})_{x_\alpha} + \varphi,
+    \quad \boldsymbol{x} \in \omega,\ t \in \omega_\tau.\]</div>
+<p>Шаблонные функционалы для коэффициентов и правой части используем,
+например, следующие:</p>
+<div class="math">
+\[\begin{split}\begin{split}
+        a_\alpha &amp;= a_\alpha(\boldsymbol{x}^{(i_1\dots i_\alpha+0.5\dots i_d)}) =
+        a(x_1, \dots, x_{\alpha}+0.5h_\alpha, \dots, x_d), \quad \alpha = 1, 2,
+        \ldots, d, \\
+        \varphi &amp;= f(\boldsymbol{x}, t),\quad \boldsymbol{x} \in \omega, \ t \in \omega_\tau.
+\end{split}\end{split}\]</div>
+<p>Выражая <span class="math">\(y^{n+1}\)</span> (см. обозначения), получим рекуррентную формулу:</p>
+<div class="math" id="eq-fdm-for-wave-multidim-eq-fdd-rec">
+\[\tag{59}
+y^{n+1} = -y^{n-1} + 2 y^{n} +
+            \frac{1}{\varrho} \sum_{\alpha=1}^{d} \frac{1}{h_k^2}
+            \left(a_{\alpha(+1_k)} \left(y_{(+1_k)}^n - y^n\right)
+            - a_{\alpha} \left(y^n - y_{(-1_k)}^n \right)\right) +
+            \tau^2 \varphi.\]</div>
+<p>Также необходимо получить специальную формулу для <span class="math">\(y^{1}\)</span>, объединив
+<a class="reference internal" href="#eq-fdm-for-wave-multidim-eq-fdd-rec"><span class="std std-ref">(59)</span></a> при <span class="math">\(n=0\)</span> и дискретное
+начальное условие, которое дает <span class="math">\(y^{-1} = y^{1} - 2\tau V\)</span>.</p>
+</div>
+<div class="section" id="fdm-for-wave-multidim-dirichlet">
+<span id="id6"></span><h3>Обработка граничных условий Дирихле<a class="headerlink" href="#fdm-for-wave-multidim-dirichlet" title="Permalink to this headline">¶</a></h3>
+<p>Разностные схемы
+<a class="reference internal" href="#eq-fdm-for-wave-multidim-eq-fdd"><span class="std std-ref">(58)</span></a> и
+<a class="reference internal" href="#eq-fdm-for-wave-multidim-eq-fdd-rec"><span class="std std-ref">(59)</span></a> справедливы для внутренних
+узлов пространственной сетки. После вычисления значений во внутренних
+узлах, нужно установить заданные значения <span class="math">\(y\)</span> во всех граничных узлах
+сетки.</p>
+</div>
+<div class="section" id="fdm-for-wave-multidim-neumann">
+<span id="id7"></span><h3>Дискретизация условий Неймана<a class="headerlink" href="#fdm-for-wave-multidim-neumann" title="Permalink to this headline">¶</a></h3>
+<p>Условие <span class="math">\(\displaystyle\frac{\partial u}{\partial \mathbf{n}} = 0\)</span> в одномерном случае мы
+аппроксимировали центральной разностной производной, а затем исключали
+значение <span class="math">\(y\)</span> в фиктивном узле вне сетки, используя аппроксимацию
+уравнения вблизи границы. Другой способ заключался в использовании
+мнимых ячеек. Точно такие же подходы можно использовать в многомерном
+случае.</p>
+<p>Рассмотрим условие <span class="math">\(\displaystyle\frac{\partial u}{\partial \mathbf{n}} = 0\)</span> на границе
+<span class="math">\(x_\alpha = 0\)</span> прямоугольной области <span class="math">\(\Omega = \prod_{k=1}^{d}[0,
+l_k]\)</span>. Направление нормали к этой границе — это направление в
+отрицательную часть <span class="math">\(x_\alpha\)</span>. Следовательно,</p>
+<div class="math">
+\[\frac{\partial u}{\partial \mathbf{n}} = - \frac{\partial u}{\partial x_\alpha}.\]</div>
+<p>Положим</p>
+<div class="math">
+\[-y_{\mathring{x}_\alpha} = 0 \quad \Rightarrow \quad
+\frac{y_{i_1\dots 1\dots i_d}-y_{i_1\dots -1\dots i_d}}{2h_\alpha}
+= 0.\]</div>
+<p>Отсюда следует, что <span class="math">\(y_{i_1\dots 1\dots i_d} = y_{i_1\ldots -1\ldots
+i_d}\)</span>. Затем, подставляя <span class="math">\(y_{i_1\dots 1\dots i_d}\)</span> вместо <span class="math">\(y_{i_1\ldots -1\ldots
+i_d}\)</span> в рекуррентную формулу
+<a class="reference internal" href="#eq-fdm-for-wave-multidim-eq-fdd-rec"><span class="std std-ref">(59)</span></a>, записанную в граничных узлах
+<span class="math">\(i_\alpha = 0\)</span>, получаем формулу для <span class="math">\(y_{i_1\dots 0 \dots i_d}^{n+1}\)</span>
+аналогично как в одномерном случае.</p>
+<p>Из приведенных рассуждений мы можем использовать такой подход:
+общее рекуррентное соотношение
+<a class="reference internal" href="#eq-fdm-for-wave-multidim-eq-fdd-rec"><span class="std std-ref">(59)</span></a> может использоваться и в
+граничных узлах <span class="math">\(i_\alpha = 0\)</span>, если заменить <span class="math">\(i_\alpha - 1\)</span> на
+<span class="math">\(i_\alpha + 1\)</span>. Такой поход полезен при программной реализации. Детали
+для одномерного случая можно увидеть в разделе
+<a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-refl-impl"><span class="std std-ref">Программная реализация условий Неймана</span></a>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="._main_fdm-for-wave006.html" class="btn btn-neutral" title="Создание ПО с использованием ООП" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, С.В. Лемешевский.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

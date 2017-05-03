@@ -882,8 +882,3 @@
 
 .. End:
 
-.. Local Variables:
-
-.. doconce-chapter-nickname: "fdm-for-wave"
-
-.. End:
