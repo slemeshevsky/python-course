@@ -252,8 +252,16 @@ i_d}` в рекуррентную формулу
 
 .. End:
 
+.. _fdm-for-wave:2d_impl:
+
+Программная реализация в двумерном случае
+=========================================
+
 .. Local Variables:
 
 .. doconce-chapter-nickname: "fdm-for-wave"
 
+.. doconce-section-nickname: "2d_impl"
+
 .. End:
+

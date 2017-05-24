@@ -1,0 +1,242 @@
+.. !split
+
+.. _fdm-for-wave:problems:
+
+Задачи
+======
+
+.. --- begin exercise ---
+
+.. _fdm-for-wave:problems:1:
+
+Problem 12: Моделирование волн на неоднородной струне
+-----------------------------------------------------
+
+**1)** Написать функцию-решатель смешанной задачи
+
+.. _Eq:fdm-for-wave:problems:eq:1-1:
+
+.. math::
+
+    \tag{60}
+    \rho(x) \frac{\partial^2 u}{\partial t^2} =  S \frac{\partial^2 u}{\partial x^2}, \quad 0 < t \leq T,
+        	\quad 0 < x < l, \quad S = \textrm{const},
+        
+
+.. _Eq:fdm-for-wave:problems:eq:1-2:
+
+.. math::
+
+    \tag{61}
+    u(0, t) = u(l,t) = 0,\quad 0 < t \leq T,
+        
+
+.. _Eq:fdm-for-wave:problems:eq:1-3:
+
+.. math::
+
+    \tag{62}
+    u(x, 0) = I(x), \quad \frac{\partial u(x,0)}{\partial t} = V(x), \quad 0 < x < l,
+        
+
+где
+
+.. _Eq:fdm-for-wave:problems:eq:1-1-1:
+
+.. math::
+
+    \tag{63}
+    \rho(x) = \begin{cases}
+        	\rho_1, & 0 < x < l/2;\\ 
+        	\rho_2, & l/2 < x < l.
+        	\end{cases}
+        
+
+**2)** Написать тестовые функции для проверки реализации алгоритма.
+
+**3)** Реализовать сохранение результатов на диск.
+
+**4)** Реализовать анимацию для визуализации результатов.
+
+.. --- end exercise ---
+
+.. --- begin exercise ---
+
+.. _fdm-for-wave:problems:2:
+
+Problem 13: Моделирование затухающих волн на струне
+---------------------------------------------------
+
+**1)** Написать функцию-решатель смешанной задачи
+
+.. math::
+        \begin{gather}
+        
+        	\rho \frac{\partial^2 u}{\partial t^2} + b \frac{\partial u}{\partial t} =  S \frac{\partial^2 u}{\partial x^2}, \quad 0 < t \leq T,
+        	\quad 0 < x < l, \quad \rho, S = \textrm{const}, \quad b \geq 0,\\ 
+        
+        	u(0, t) = u(l,t) = 0,\quad 0 < t \leq T,\\ 
+        
+        	u(x, 0) = I(x), \quad \frac{\partial u(x,0)}{\partial t} = V(x), \quad 0 < x < l,
+        \end{gather}
+
+**2)** Написать тестовые функции для проверки реализации алгоритма.
+
+**3)** Реализовать сохранение результатов на диск.
+
+**4)** Реализовать анимацию для визуализации результатов.
+
+.. --- end exercise ---
+
+.. --- begin exercise ---
+
+.. _fdm-for-wave:problems:3:
+
+Problem 14: Моделирование упругих волн в стержне
+------------------------------------------------
+
+**1)** Написать функцию-решатель смешанной задачи
+
+.. math::
+        \begin{gather}
+        
+        	\rho \frac{\partial^2 u}{\partial t^2}  =  \frac{\partial }{x}\left( E \frac{\partial u}{\partial \partial x} \right), \quad 0 < t \leq T,
+        	\quad 0 < x < l, \quad \rho = \textrm{const},\\ 
+        
+        	\frac{\partial u(0, t)}{\partial x} = 0,\quad
+        	\frac{\partial u(l,t)}{\partial x} = \sigma_{xx}(t), \quad 0 < t \leq T,\\ 
+        
+        	u(x, 0) = 0, \quad \frac{\partial u(x,0)}{\partial t} = V(x), \quad 0 < x < l,
+        \end{gather}
+
+где
+
+.. _Eq:fdm-for-wave:problems:eq:3-2-1:
+
+.. math::
+
+    \tag{64}
+    \sigma_{xx}(t) = 
+        	\begin{cases}
+        		S/E, & 0 < t < t_s,\\ 
+        			0,  & t > t_s
+        	\end{cases}
+        
+
+**2)** Написать тестовые функции для проверки реализации алгоритма.
+
+**3)** Реализовать сохранение результатов на диск.
+
+**4)** Реализовать анимацию для визуализации результатов.
+
+.. --- end exercise ---
+
+.. --- begin exercise ---
+
+.. _fdm-for-wave:problems:4:
+
+Problem 15: Моделирование сферических волн
+------------------------------------------
+
+_1)_Написать функцию-решатель смешанной задачи
+
+.. math::
+        \begin{gather}
+        
+        	\frac{\partial^2 u}{\partial t^2}  =  \frac{1}{r^2} \frac{\partial }{r}\left( c^2(r) r^2 \frac{\partial u}{\partial \partial r} \right), \quad 0 < t \leq T,
+        	\quad 0 < r < R,\\ 
+        
+        	\frac{\partial u(0, t)}{\partial r} = 0,\quad
+        	u(R,t = 0, \quad 0 < t \leq T,\\ 
+        
+        	u(x, 0) = 0, \quad \frac{\partial u(x,0)}{\partial t} = V(x), \quad 0 < x < l,
+        \end{gather}
+
+**2)** Написать тестовые функции для проверки реализации алгоритма.
+
+**3)** Реализовать сохранение результатов на диск.
+
+**4)** Реализовать анимацию для визуализации результатов.
+
+.. --- end exercise ---
+
+.. --- begin exercise ---
+
+.. _fdm-for-wave:problems:5:
+
+Problem 16: Моделирование двумерной сейсмической волны
+------------------------------------------------------
+
+**1)** Написать функцию-решатель смешанной задачи
+
+.. math::
+        \begin{gather}
+        
+        	\frac{\partial^2 p}{\partial t^2}  =  c_z^2 \frac{\partial^2 p}{\partial z^2} + c_h^2(\frac{\partial^2 p}{\partial x^2} +
+        	\frac{\partial^2 p}{\partial y^2}) + s(x,y,t), \quad 0 < t \leq T,
+        	\quad (x,y) \in [0,l_1]\times [0, l_2],\\ 
+        
+        	p(x,y) = p_0, \quad x = 0, \ x= l_1, \ y = 0, \ y = l_2,\\ 
+        
+        	p(x, 0) = p_0, \quad \frac{\partial u(x,0)}{\partial t} = V(x), \quad 0 < x < l,
+        \end{gather}
+
+где
+
+.. _Eq:fdm-for-wave:problems:eq:5-1-1:
+
+.. math::
+
+    \tag{65}
+    s(x,y,t) = \sin(t) e^{\frac{(x-x_c)^2 + (y-y_c)^2}{2\sigma^2}},
+        
+
+**2)** Написать тестовые функции для проверки реализации алгоритма.
+
+**3)** Реализовать сохранение результатов на диск.
+
+**4)** Реализовать анимацию для визуализации результатов.
+
+.. --- end exercise ---
+
+.. --- begin exercise ---
+
+.. _fdm-for-wave:problems:6:
+
+Problem 17: Решение одномерного уравнения переноса
+--------------------------------------------------
+
+**1)** Написать функцию-решатель смешанной задачи
+
+.. math::
+        \begin{gather}
+        
+        	\frac{\partial u}{\partial t} + c \frac{\partial u}{\partial x} = 0 , \quad 0 < t \leq T,
+        	\quad 0 < x < l\\ 
+        
+        	u(0,t) = u(l,t), 0 < t \leq T,\\ 
+        
+        	u(x, 0) = I(x), \quad 0 < x < l.
+        \end{gather}
+
+**2)** Написать тестовые функции для проверки реализации алгоритма.
+
+**3)** Реализовать сохранение результатов на диск.
+
+**4)** Реализовать анимацию для визуализации результатов.
+
+.. Local Variables:
+
+.. doconce-chapter-nickname: "fdm-for-wave"
+
+.. doconce-section-nickname: "problems"
+
+.. End:
+
+.. Local Variables:
+
+.. doconce-chapter-nickname: "fdm-for-wave"
+
+.. End:
+
+.. --- end exercise ---

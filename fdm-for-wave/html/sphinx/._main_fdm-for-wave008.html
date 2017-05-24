@@ -1,0 +1,374 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Задачи</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+
+        <script src="http://sagecell.sagemath.org/static/jquery.min.js"></script>
+        <script src="http://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+
+        <script>sagecell.makeSagecell({inputLocation: ".sage"});</script>
+
+        <style type="text/css">
+                .sagecell .CodeMirror-scroll {
+                        overflow-y: hidden;
+                        overflow-x: auto;
+                }
+                .sagecell .CodeMirror {
+                        height: auto;
+                }
+        </style>
+
+    
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Разностные схемы для волнового уравнения 1.0 documentation" href="index.html"/>
+        <link rel="prev" title="Разностные схемы для многомерного волнового уравнения" href="._main_fdm-for-wave007.html"/>
+ 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+
+       <style type="text/css">
+         div.admonition {
+           background-color: whiteSmoke;
+           border: 1px solid #bababa;
+         }
+       </style>
+      </head>
+    
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Разностные схемы для волнового уравнения
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave000.html">Разностные схемы для волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html">Разностная схема для одномерного волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave001.html#fdm-for-wave-verif">Верификация программной реализации</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html">Программная реализация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave002.html#fdm-for-wave-vect">Векторизация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave003.html">Упражнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html">Обобщения: отражающие границы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-varvel">Обобщения: переменная скорость распространения волны</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-damping">Обобщения: затухания</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave004.html#fdm-for-wave-gen-solver">Разработка общего солвера для одномерного волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave005.html">Упражнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave006.html">Создание ПО с использованием ООП</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave007.html">Разностные схемы для многомерного волнового уравнения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="._main_fdm-for-wave007.html#fdm-for-wave-2d-impl">Программная реализация в двумерном случае</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Задачи</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#problem-12">Problem 12: Моделирование волн на неоднородной струне</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problem-13">Problem 13: Моделирование затухающих волн на струне</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problem-14">Problem 14: Моделирование упругих волн в стержне</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problem-15">Problem 15: Моделирование сферических волн</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problem-16">Problem 16: Моделирование двумерной сейсмической волны</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problem-17">Problem 17: Решение одномерного уравнения переноса</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Разностные схемы для волнового уравнения</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Задачи</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/._main_fdm-for-wave008.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fdm-for-wave-problems">
+<span id="id1"></span><h1>Задачи<a class="headerlink" href="#fdm-for-wave-problems" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="problem-12">
+<span id="fdm-for-wave-problems-1"></span><h2>Problem 12: Моделирование волн на неоднородной струне<a class="headerlink" href="#problem-12" title="Permalink to this headline">¶</a></h2>
+<p><strong>1)</strong> Написать функцию-решатель смешанной задачи</p>
+<div class="math" id="eq-fdm-for-wave-problems-eq-1-1">
+\[\tag{60}
+\rho(x) \frac{\partial^2 u}{\partial t^2} =  S \frac{\partial^2 u}{\partial x^2}, \quad 0 &lt; t \leq T,
+            \quad 0 &lt; x &lt; l, \quad S = \textrm{const},\]</div>
+<div class="math" id="eq-fdm-for-wave-problems-eq-1-2">
+\[\tag{61}
+u(0, t) = u(l,t) = 0,\quad 0 &lt; t \leq T,\]</div>
+<div class="math" id="eq-fdm-for-wave-problems-eq-1-3">
+\[\tag{62}
+u(x, 0) = I(x), \quad \frac{\partial u(x,0)}{\partial t} = V(x), \quad 0 &lt; x &lt; l,\]</div>
+<p>где</p>
+<div class="math" id="eq-fdm-for-wave-problems-eq-1-1-1">
+\[\begin{split}\tag{63}
+\rho(x) = \begin{cases}
+            \rho_1, &amp; 0 &lt; x &lt; l/2;\\
+            \rho_2, &amp; l/2 &lt; x &lt; l.
+            \end{cases}\end{split}\]</div>
+<p><strong>2)</strong> Написать тестовые функции для проверки реализации алгоритма.</p>
+<p><strong>3)</strong> Реализовать сохранение результатов на диск.</p>
+<p><strong>4)</strong> Реализовать анимацию для визуализации результатов.</p>
+</div>
+<div class="section" id="problem-13">
+<span id="fdm-for-wave-problems-2"></span><h2>Problem 13: Моделирование затухающих волн на струне<a class="headerlink" href="#problem-13" title="Permalink to this headline">¶</a></h2>
+<p><strong>1)</strong> Написать функцию-решатель смешанной задачи</p>
+<div class="math">
+\[ \begin{align}\begin{aligned}\begin{gather}\\\begin{split}        \rho \frac{\partial^2 u}{\partial t^2} + b \frac{\partial u}{\partial t} =  S \frac{\partial^2 u}{\partial x^2}, \quad 0 &lt; t \leq T,
+        \quad 0 &lt; x &lt; l, \quad \rho, S = \textrm{const}, \quad b \geq 0,\\\end{split}\\\begin{split}        u(0, t) = u(l,t) = 0,\quad 0 &lt; t \leq T,\\\end{split}\\        u(x, 0) = I(x), \quad \frac{\partial u(x,0)}{\partial t} = V(x), \quad 0 &lt; x &lt; l,
+\end{gather}\end{aligned}\end{align} \]</div>
+<p><strong>2)</strong> Написать тестовые функции для проверки реализации алгоритма.</p>
+<p><strong>3)</strong> Реализовать сохранение результатов на диск.</p>
+<p><strong>4)</strong> Реализовать анимацию для визуализации результатов.</p>
+</div>
+<div class="section" id="problem-14">
+<span id="fdm-for-wave-problems-3"></span><h2>Problem 14: Моделирование упругих волн в стержне<a class="headerlink" href="#problem-14" title="Permalink to this headline">¶</a></h2>
+<p><strong>1)</strong> Написать функцию-решатель смешанной задачи</p>
+<div class="math">
+\[ \begin{align}\begin{aligned}\begin{gather}\\\begin{split}        \rho \frac{\partial^2 u}{\partial t^2}  =  \frac{\partial }{x}\left( E \frac{\partial u}{\partial \partial x} \right), \quad 0 &lt; t \leq T,
+        \quad 0 &lt; x &lt; l, \quad \rho = \textrm{const},\\\end{split}\\\begin{split}        \frac{\partial u(0, t)}{\partial x} = 0,\quad
+        \frac{\partial u(l,t)}{\partial x} = \sigma_{xx}(t), \quad 0 &lt; t \leq T,\\\end{split}\\        u(x, 0) = 0, \quad \frac{\partial u(x,0)}{\partial t} = V(x), \quad 0 &lt; x &lt; l,
+\end{gather}\end{aligned}\end{align} \]</div>
+<p>где</p>
+<div class="math" id="eq-fdm-for-wave-problems-eq-3-2-1">
+\[\begin{split}\tag{64}
+\sigma_{xx}(t) =
+            \begin{cases}
+                    S/E, &amp; 0 &lt; t &lt; t_s,\\
+                            0,  &amp; t &gt; t_s
+            \end{cases}\end{split}\]</div>
+<p><strong>2)</strong> Написать тестовые функции для проверки реализации алгоритма.</p>
+<p><strong>3)</strong> Реализовать сохранение результатов на диск.</p>
+<p><strong>4)</strong> Реализовать анимацию для визуализации результатов.</p>
+</div>
+<div class="section" id="problem-15">
+<span id="fdm-for-wave-problems-4"></span><h2>Problem 15: Моделирование сферических волн<a class="headerlink" href="#problem-15" title="Permalink to this headline">¶</a></h2>
+<p>_1)_Написать функцию-решатель смешанной задачи</p>
+<div class="math">
+\[ \begin{align}\begin{aligned}\begin{gather}\\\begin{split}        \frac{\partial^2 u}{\partial t^2}  =  \frac{1}{r^2} \frac{\partial }{r}\left( c^2(r) r^2 \frac{\partial u}{\partial \partial r} \right), \quad 0 &lt; t \leq T,
+        \quad 0 &lt; r &lt; R,\\\end{split}\\\begin{split}        \frac{\partial u(0, t)}{\partial r} = 0,\quad
+        u(R,t = 0, \quad 0 &lt; t \leq T,\\\end{split}\\        u(x, 0) = 0, \quad \frac{\partial u(x,0)}{\partial t} = V(x), \quad 0 &lt; x &lt; l,
+\end{gather}\end{aligned}\end{align} \]</div>
+<p><strong>2)</strong> Написать тестовые функции для проверки реализации алгоритма.</p>
+<p><strong>3)</strong> Реализовать сохранение результатов на диск.</p>
+<p><strong>4)</strong> Реализовать анимацию для визуализации результатов.</p>
+</div>
+<div class="section" id="problem-16">
+<span id="fdm-for-wave-problems-5"></span><h2>Problem 16: Моделирование двумерной сейсмической волны<a class="headerlink" href="#problem-16" title="Permalink to this headline">¶</a></h2>
+<p><strong>1)</strong> Написать функцию-решатель смешанной задачи</p>
+<div class="math">
+\[ \begin{align}\begin{aligned}\begin{gather}\\\begin{split}        \frac{\partial^2 p}{\partial t^2}  =  c_z^2 \frac{\partial^2 p}{\partial z^2} + c_h^2(\frac{\partial^2 p}{\partial x^2} +
+        \frac{\partial^2 p}{\partial y^2}) + s(x,y,t), \quad 0 &lt; t \leq T,
+        \quad (x,y) \in [0,l_1]\times [0, l_2],\\\end{split}\\\begin{split}        p(x,y) = p_0, \quad x = 0, \ x= l_1, \ y = 0, \ y = l_2,\\\end{split}\\        p(x, 0) = p_0, \quad \frac{\partial u(x,0)}{\partial t} = V(x), \quad 0 &lt; x &lt; l,
+\end{gather}\end{aligned}\end{align} \]</div>
+<p>где</p>
+<div class="math" id="eq-fdm-for-wave-problems-eq-5-1-1">
+\[\tag{65}
+s(x,y,t) = \sin(t) e^{\frac{(x-x_c)^2 + (y-y_c)^2}{2\sigma^2}},\]</div>
+<p><strong>2)</strong> Написать тестовые функции для проверки реализации алгоритма.</p>
+<p><strong>3)</strong> Реализовать сохранение результатов на диск.</p>
+<p><strong>4)</strong> Реализовать анимацию для визуализации результатов.</p>
+</div>
+<div class="section" id="problem-17">
+<span id="fdm-for-wave-problems-6"></span><h2>Problem 17: Решение одномерного уравнения переноса<a class="headerlink" href="#problem-17" title="Permalink to this headline">¶</a></h2>
+<p><strong>1)</strong> Написать функцию-решатель смешанной задачи</p>
+<div class="math">
+\[ \begin{align}\begin{aligned}\begin{gather}\\\begin{split}        \frac{\partial u}{\partial t} + c \frac{\partial u}{\partial x} = 0 , \quad 0 &lt; t \leq T,
+        \quad 0 &lt; x &lt; l\\\end{split}\\\begin{split}        u(0,t) = u(l,t), 0 &lt; t \leq T,\\\end{split}\\        u(x, 0) = I(x), \quad 0 &lt; x &lt; l.
+\end{gather}\end{aligned}\end{align} \]</div>
+<p><strong>2)</strong> Написать тестовые функции для проверки реализации алгоритма.</p>
+<p><strong>3)</strong> Реализовать сохранение результатов на диск.</p>
+<p><strong>4)</strong> Реализовать анимацию для визуализации результатов.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="._main_fdm-for-wave007.html" class="btn btn-neutral" title="Разностные схемы для многомерного волнового уравнения" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, С.В. Лемешевский.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
