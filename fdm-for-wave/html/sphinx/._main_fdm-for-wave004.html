@@ -157,7 +157,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#id22">Чтение массивов из zip-архива</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-gen-solver-user-action">Реализация функции действий полозователя в виде класса</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fdm-for-wave-gen-solver-user-action">Реализация функции действий пользователя в виде класса</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#fdm-for-wave-gen-solver-code">Код</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fdm-for-wave-gen-solver-dissect">Разбор</a></li>
 </ul>
@@ -1128,7 +1128,7 @@ u(0,t) = U_l(t)\ \textrm{или}\ \frac{\partial u(l,t)}{\partial x}=0, \quad t 
 время <code class="docutils literal"><span class="pre">cpu</span></code> и <code class="docutils literal"><span class="pre">hashed_input</span></code>, при этом отрицательное значение <code class="docutils literal"><span class="pre">cpu</span></code>
 означает, что расчет не был запущен. В этом случае мы не должны
 запускать метод <code class="docutils literal"><span class="pre">close_file</span></code> объекта класса <code class="docutils literal"><span class="pre">PlotAndStoreSolution</span></code>
-(см. раздел <a class="reference internal" href="#fdm-for-wave-gen-solver-user-action"><span class="std std-ref">Реализация функции действий полозователя в виде класса</span></a>). Типичное
+(см. раздел <a class="reference internal" href="#fdm-for-wave-gen-solver-user-action"><span class="std std-ref">Реализация функции действий пользователя в виде класса</span></a>). Типичное
 использование переменных <code class="docutils literal"><span class="pre">hashed_input</span></code> и <code class="docutils literal"><span class="pre">cpu</span></code> выглядит следующим
 образом:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">action</span> <span class="o">=</span> <span class="n">PlotAndStoreSolution</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
@@ -1231,7 +1231,7 @@ u(0,t) = U_l(t)\ \textrm{или}\ \frac{\partial u(l,t)}{\partial x}=0, \quad t 
 </pre></div>
 </div>
 <p>Этот подход используется в разделе
-<a class="reference internal" href="#fdm-for-wave-gen-solver-user-action"><span class="std std-ref">Реализация функции действий полозователя в виде класса</span></a> в методе <code class="docutils literal"><span class="pre">close_file</span></code>.</p>
+<a class="reference internal" href="#fdm-for-wave-gen-solver-user-action"><span class="std std-ref">Реализация функции действий пользователя в виде класса</span></a> в методе <code class="docutils literal"><span class="pre">close_file</span></code>.</p>
 </div>
 <div class="section" id="id22">
 <h3>Чтение массивов из zip-архива<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
@@ -1248,7 +1248,7 @@ u(0,t) = U_l(t)\ \textrm{или}\ \frac{\partial u(l,t)}{\partial x}=0, \quad t 
 </div>
 </div>
 <div class="section" id="fdm-for-wave-gen-solver-user-action">
-<span id="id23"></span><h2>Реализация функции действий полозователя в виде класса<a class="headerlink" href="#fdm-for-wave-gen-solver-user-action" title="Permalink to this headline">¶</a></h2>
+<span id="id23"></span><h2>Реализация функции действий пользователя в виде класса<a class="headerlink" href="#fdm-for-wave-gen-solver-user-action" title="Permalink to this headline">¶</a></h2>
 <p>Полезная особенность сценария
 <a class="reference external" href="src-fdm-for-wave/wave1d_dn_vc.py">wave1d_dn_vc.py</a> &#8212; это
 реализация функции действия пользователя в виде класса. Эта часть
