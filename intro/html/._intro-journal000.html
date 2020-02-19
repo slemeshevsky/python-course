@@ -1,0 +1,231 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Введение">
+
+<title>Введение</title>
+
+<!-- Bootstrap style: bootswatch_journal -->
+<link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/journal/bootstrap.min.css" rel="stylesheet">
+<!-- not necessary
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+/* Let inline verbatim have the same color as the surroundings */
+code { color: inherit; background-color: transparent; }
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:60px;      /* fixed header height for style bootswatch_journal */
+  margin:-60px 0 0; /* negative fixed header height */
+}
+</style>
+
+
+<!-- Tools for embedded Bokeh plots -->
+<link rel=stylesheet 
+      href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
+      type=text/css />
+<script type=text/javascript 
+        src=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js>
+</script>
+<script type=text/javascript>
+  Bokeh.set_log_level("info");
+</script>
+
+<style>
+.bk-embeded {
+    width: 100%;
+    margin: auto;
+    height: 500px;
+    text-align: webkit-left;
+}
+</style>
+
+
+</head>
+
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [('Установка', 1, 'intro:install', 'intro:install'),
+              ('Версии Python', 2, 'intro:install:vers', 'intro:install:vers'),
+              ('Установка Python',
+               2,
+               'intro:install:python',
+               'intro:install:python'),
+              ('Установка Python в Windows',
+               3,
+               'intro:install:python:windows',
+               'intro:install:python:windows'),
+              ('Установка Python в Linux',
+               3,
+               'intro:install:python:linux',
+               'intro:install:python:linux'),
+              ('Установка Anaconda',
+               2,
+               'intro:install:anaconda',
+               'intro:install:anaconda'),
+              ('Установка Anaconda в Windows',
+               3,
+               'intro:install:anaconda:windows',
+               'intro:install:anaconda:windows'),
+              ('Установка Anaconda в Linux',
+               3,
+               'intro:install:anaconda:linux',
+               'intro:install:anaconda:linux'),
+              ('Проверка работоспособности',
+               2,
+               'intro:install:check',
+               'intro:install:check'),
+              ('Проверка интерпретатора Python',
+               3,
+               'intro:install:check:python',
+               'intro:install:check:python'),
+              ('Проверка Anaconda',
+               3,
+               'intro:install:check:anaconda',
+               'intro:install:check:anaconda'),
+              ('Запуск программ на Python', 1, 'intro:run', 'intro:run'),
+              ('Интерактивный режим работы',
+               2,
+               'intro:run:interact',
+               'intro:run:interact'),
+              ('Пакетный режим работы',
+               2,
+               'intro:run:interact:pack',
+               'intro:run:interact:pack')]}
+end of tocinfo -->
+
+<body>
+
+    
+<!-- Bootstrap navigation bar -->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="intro-journal.html">Введение</a>
+  </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+     <!-- navigation toc: --> <li><a href="._intro-journal001.html#intro:install" style="font-size: 80%;"><b>Установка</b></a></li>
+     <!-- navigation toc: --> <li><a href="._intro-journal001.html#intro:install:vers" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Версии Python</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-journal001.html#intro:install:python" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Установка Python</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-journal001.html#intro:install:python:windows" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Установка Python в Windows</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-journal001.html#intro:install:python:linux" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Установка Python в Linux</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-journal001.html#intro:install:anaconda" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Установка Anaconda</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-journal001.html#intro:install:anaconda:windows" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Установка Anaconda в Windows</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-journal001.html#intro:install:anaconda:linux" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Установка Anaconda в Linux</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-journal001.html#intro:install:check" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Проверка работоспособности</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-journal001.html#intro:install:check:python" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Проверка интерпретатора Python</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-journal001.html#intro:install:check:anaconda" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Проверка Anaconda</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-journal001.html#intro:run" style="font-size: 80%;"><b>Запуск программ на Python</b></a></li>
+     <!-- navigation toc: --> <li><a href="._intro-journal001.html#intro:run:interact" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Интерактивный режим работы</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-journal001.html#intro:run:interact:pack" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Пакетный режим работы</a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</div> <!-- end of navigation bar -->
+
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<a name="part0000"></a>
+<!-- ------------------- main content ---------------------- -->
+
+
+
+<div class="jumbotron">
+<center><h1>&#1042;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1077;</h1></center>  <!-- document title -->
+
+<p>
+<!-- author(s): &#1057;.&#1042;. &#1051;&#1077;&#1084;&#1077;&#1096;&#1077;&#1074;&#1089;&#1082;&#1080;&#1081; -->
+
+<center>
+<b>&#1057;.&#1042;. &#1051;&#1077;&#1084;&#1077;&#1096;&#1077;&#1074;&#1089;&#1082;&#1080;&#1081;</b>  (<tt>sergey.lemeshevsky at gmail.com</tt>)
+</center>
+
+<p>
+<!-- institution -->
+
+<center><b>&#1048;&#1085;&#1089;&#1090;&#1080;&#1090;&#1091;&#1090; &#1084;&#1072;&#1090;&#1077;&#1084;&#1072;&#1090;&#1080;&#1082;&#1080; &#1053;&#1040;&#1053; &#1041;&#1077;&#1083;&#1072;&#1088;&#1091;&#1089;&#1080;</b></center>
+<br>
+<p>
+<center><h4>Feb 18, 2020</h4></center> <!-- date -->
+<br>
+<p>
+</div> <!-- end jumbotron -->
+
+<h1 id="table_of_contents">Содержание</h2>
+
+<p>
+<a href="._intro-journal001.html#intro:install"> &#1059;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._intro-journal001.html#intro:install:vers"> &#1042;&#1077;&#1088;&#1089;&#1080;&#1080; Python </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._intro-journal001.html#intro:install:python"> &#1059;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072; Python </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._intro-journal001.html#intro:install:anaconda"> &#1059;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072; Anaconda </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._intro-journal001.html#intro:install:check"> &#1055;&#1088;&#1086;&#1074;&#1077;&#1088;&#1082;&#1072; &#1088;&#1072;&#1073;&#1086;&#1090;&#1086;&#1089;&#1087;&#1086;&#1089;&#1086;&#1073;&#1085;&#1086;&#1089;&#1090;&#1080; </a><br>
+<a href="._intro-journal001.html#intro:run"> &#1047;&#1072;&#1087;&#1091;&#1089;&#1082; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084; &#1085;&#1072; Python </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._intro-journal001.html#intro:run:interact"> &#1048;&#1085;&#1090;&#1077;&#1088;&#1072;&#1082;&#1090;&#1080;&#1074;&#1085;&#1099;&#1081; &#1088;&#1077;&#1078;&#1080;&#1084; &#1088;&#1072;&#1073;&#1086;&#1090;&#1099; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._intro-journal001.html#intro:run:interact:pack"> &#1055;&#1072;&#1082;&#1077;&#1090;&#1085;&#1099;&#1081; &#1088;&#1077;&#1078;&#1080;&#1084; &#1088;&#1072;&#1073;&#1086;&#1090;&#1099; </a><br>
+</p>
+<p>
+<!-- Common Mako variable and functions -->
+<!-- -<em>- coding: utf-8 -</em>- -->
+
+<p>
+<p>
+<!-- navigation buttons at the bottom of the page -->
+<ul class="pager">
+
+  <li class="next">
+    <a href="._intro-journal001.html">Next &rarr;</a>
+  </li>
+</ul>
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+

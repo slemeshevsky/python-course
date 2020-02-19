@@ -6,15 +6,15 @@ Automatically generated HTML file from DocOnce source
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
-<meta name="description" content="Численное решение уравнений в частных производных">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Язык программирования Python">
 
-<title>Численное решение уравнений в частных производных</title>
+<title>Язык программирования Python</title>
 
-<!-- Bootstrap style: bootstrap_FlatUI -->
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.rawgit.com/hplgit/doconce/master/bundled/html_styles/style_bootstrap/css/bootstrap_FlatUI.css" rel="stylesheet">
+<!-- Bootstrap style: bootswatch_readable -->
+<link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/readable/bootstrap.min.css" rel="stylesheet">
 <!-- not necessary
-<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 -->
 
 <style type="text/css">
@@ -31,8 +31,8 @@ Automatically generated HTML file from DocOnce source
 .anchor::before {
   content:"";
   display:block;
-  height:50px;      /* fixed header height for style bootstrap_FlatUI */
-  margin:-50px 0 0; /* negative fixed header height */
+  height:64px;      /* fixed header height for style bootswatch_readable */
+  margin:-64px 0 0; /* negative fixed header height */
 }
 </style>
 
@@ -40,19 +40,10 @@ Automatically generated HTML file from DocOnce source
 </head>
 
 <!-- tocinfo
-{'highest level': 1,
- 'sections': [(u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u044b\u0435 \u0441\u0445\u0435\u043c\u044b \u0434\u043b\u044f \u041e\u0414\u0423 \u043a\u043e\u043b\u0435\u0431\u0430\u043d\u0438\u0439',
-               2,
-               None,
-               '___sec0'),
-              (u'\u041c\u0435\u0442\u043e\u0434\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u043f\u043e\u0441\u043e\u0431\u0438\u044f (\u0441\u043b\u0430\u0439\u0434\u044b \u0434\u043b\u044f \u043b\u0435\u043a\u0446\u0438\u0439)',
-               1,
-               None,
-               '___sec1'),
-              (u'\u0420\u0430\u0437\u043d\u043e\u0441\u0442\u043d\u044b\u0435 \u0441\u0445\u0435\u043c\u044b \u0434\u043b\u044f \u041e\u0414\u0423 \u043a\u043e\u043b\u0435\u0431\u0430\u043d\u0438\u0439',
-               2,
-               None,
-               '___sec2')]}
+{'highest level': 2,
+ 'sections': [('Введение', 2, None, '___sec0'),
+              ('Типы и модель данных', 2, None, '___sec1'),
+              ('Арифметические операции', 2, None, '___sec2')]}
 end of tocinfo -->
 
 <body>
@@ -71,22 +62,22 @@ end of tocinfo -->
 
 
 <div class="jumbotron">
-<center><h1>Численное решение уравнений в частных производных</h1></center>  <!-- document title -->
+<center><h1>&#1071;&#1079;&#1099;&#1082; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; Python</h1></center>  <!-- document title -->
 
 <p>
-<!-- author(s): С. Лемешевский -->
+<!-- author(s): &#1057;. &#1051;&#1077;&#1084;&#1077;&#1096;&#1077;&#1074;&#1089;&#1082;&#1080;&#1081; -->
 
 <center>
-<b>С. Лемешевский</b>  (<tt>sergey.lemeshevsky at gmail.com</tt>)
+<b>&#1057;. &#1051;&#1077;&#1084;&#1077;&#1096;&#1077;&#1074;&#1089;&#1082;&#1080;&#1081;</b>  (<tt>sergey.lemeshevsky at gmail.com</tt>)
 </center>
 
 <p>
 <!-- institution -->
 
-<center><b>Институт математики НАН Беларуси</b></center>
+<center><b>&#1048;&#1085;&#1089;&#1090;&#1080;&#1090;&#1091;&#1090; &#1084;&#1072;&#1090;&#1077;&#1084;&#1072;&#1090;&#1080;&#1082;&#1080; &#1053;&#1040;&#1053; &#1041;&#1077;&#1083;&#1072;&#1088;&#1091;&#1089;&#1080;</b></center>
 <br>
 <p>
-<center><h4>Mar 10, 2017</h4></center> <!-- date -->
+<center><h4>Feb 19, 2020</h4></center> <!-- date -->
 <br>
 <p>
 <!-- potential-jumbotron-button -->
@@ -94,52 +85,41 @@ end of tocinfo -->
 
 <!-- !split -->
 
-<h2 id="___sec0" class="anchor">Разностные схемы для ОДУ колебаний </h2>
+<h2 id="___sec0" class="anchor">&#1042;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1077; </h2>
 
 <ul>
  <li> LaTeX PDF:
-   <a href="./fdm-for-ode/pdf/fdm-for-ode-4print.pdf" target="_blank">Для печати на A4</a>,
-   <a href="./fdm-for-ode/pdf/fdm-for-ode.pdf" target="_blank">Для чтения на экране</a></li>
- <li> HTML:
-   <a href="./fdm-for-ode/html/fdm-for-ode-bootstrap.html" target="_blank">Стиль bootstrap</a>,
-   <a href="./fdm-for-ode/html/fdm-for-ode-readable.html" target="_blank">Стиль readable</a>,</li>
+   <a href="./intro/pdf/intro-4print.pdf" target="_blank">&#1044;&#1083;&#1103; &#1087;&#1077;&#1095;&#1072;&#1090;&#1080; &#1085;&#1072; A4</a>, 
+   <a href="./intro/pdf/intro.pdf" target="_blank">&#1044;&#1083;&#1103; &#1095;&#1090;&#1077;&#1085;&#1080;&#1103; &#1085;&#1072; &#1101;&#1082;&#1088;&#1072;&#1085;&#1077;</a></li>
+ <li> <a href="./intro/html/intro-flatly.html" target="_blank">HTML</a></li>
 </ul>
 
-<h1 id="___sec1" class="anchor">Методические пособия (слайды для лекций) </h1>
-
-<p>
-В методических материалах кратко отражены основные моменты курса. Они
-могут использоваться качестве слайдов для чтения лекций.
-
-<h2 id="___sec2" class="anchor">Разностные схемы для ОДУ колебаний </h2>
+<h2 id="___sec1" class="anchor">&#1058;&#1080;&#1087;&#1099; &#1080; &#1084;&#1086;&#1076;&#1077;&#1083;&#1100; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; </h2>
 
 <ul>
- <li> HTML5:
-   <a href="./fdm-for-ode/html/slides_fdm-for-ode-reveal.html" target="_blank">Темная тема reveal.js</a>,
-   <a href="./fdm-for-ode/html/slides_fdm-for-ode-remark.html" target="_blank">remark</a>,</li>
- <li> LaTeX Beamer:
-   <a href="./fdm-for-ode/pdf/slides_fdm-for-ode-beamer.pdf" target="_blank">Cлайд для чтения на экране</a>,
-   <a href="./fdm-for-ode/pdf/slides_fdm-for-ode-beamer-handouts2x3.pdf" target="_blank">Раздаточный материал</a></li>
+ <li> LaTeX PDF:
+   <a href="./datatype/pdf/datatype-4print.pdf" target="_blank">&#1044;&#1083;&#1103; &#1087;&#1077;&#1095;&#1072;&#1090;&#1080; &#1085;&#1072; A4</a>, 
+   <a href="./datatype/pdf/datatype.pdf" target="_blank">&#1044;&#1083;&#1103; &#1095;&#1090;&#1077;&#1085;&#1080;&#1103; &#1085;&#1072; &#1101;&#1082;&#1088;&#1072;&#1085;&#1077;</a></li>
+ <li> <a href="./datatype/html/datatype-flatly.html" target="_blank">HTML</a></li>
 </ul>
 
-<div class="alert alert-block alert-danger alert-text-normal"><b>Предупреждение.</b>
-Файлы в формате PDF получены с помощью LaTeX и практически не имееют
-технических ошибок при отображении формул. Однако HTML файлы
-используют MathJax для отрисовки математических LaTeX-формул, и иногда
-эта технология вызывает неожиданные сбои (например, неправильное
-отображение на веб-странице, несмотря на правильность синтаксиса LaTeX
-в формулах). Обратитесь к соответствующему файлу PDF, если вы
-обнаружите, что в HTML отсутствуют или неправильно отображены
-формулы.
-</div>
+<h2 id="___sec2" class="anchor">&#1040;&#1088;&#1080;&#1092;&#1084;&#1077;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1077; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080; </h2>
+
+<ul>
+ <li> LaTeX PDF:
+   <a href="./arithmetic/pdf/arithmetic-4print.pdf" target="_blank">&#1044;&#1083;&#1103; &#1087;&#1077;&#1095;&#1072;&#1090;&#1080; &#1085;&#1072; A4</a>, 
+   <a href="./arithmetic/pdf/arithmetic.pdf" target="_blank">&#1044;&#1083;&#1103; &#1095;&#1090;&#1077;&#1085;&#1080;&#1103; &#1085;&#1072; &#1101;&#1082;&#1088;&#1072;&#1085;&#1077;</a></li>
+ <li> <a href="./arithmetic/html/arithmetic-flatly.html" target="_blank">HTML</a></li>
+ <li> <a href="./arithmetic/ipynb/arithmetic.ipynb" target="_blank">Jupyter Notebook</a></li>
+</ul>
 
 
 <!-- ------------------- end of main content --------------- -->
 
 </div>  <!-- end container -->
 <!-- include javascript, jQuery *first* -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 
 <!-- Bootstrap footer
 <footer>
