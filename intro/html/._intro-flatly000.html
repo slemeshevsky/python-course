@@ -106,18 +106,127 @@ body { font-size:20px; }
                3,
                'intro:install:check:anaconda',
                'intro:install:check:anaconda'),
-              ('Запуск программ на Python', 1, 'intro:run', 'intro:run'),
-              ('Интерактивный режим работы',
+              ('Установка библиотек', 1, 'intro:libs', 'intro:libs'),
+              ('Способы обновления библиотек',
                2,
-               'intro:run:interact',
-               'intro:run:interact'),
-              ('Пакетный режим работы',
+               'intro:libs:update',
+               'intro:libs:update'),
+              ('Среды для вычислений в Python',
+               1,
+               'intro:environments',
+               'intro:environments'),
+              ('Интерпретатор',
                2,
-               'intro:run:interact:pack',
-               'intro:run:interact:pack')]}
+               'intro:environments:interpret',
+               'intro:environments:interpret'),
+              ('Консоль IPython',
+               2,
+               'intro:environments:ipython',
+               'intro:environments:ipython'),
+              ('Кэширование ввода и вывода',
+               3,
+               'intro:environments:ipython:caching',
+               'intro:environments:ipython:caching'),
+              ('Автодополнение и самоанализ объектов',
+               3,
+               'intro:environments:ipython:autocompl',
+               'intro:environments:ipython:autocompl'),
+              ('Документация', 3, 'intro:environments:', 'intro:environments:'),
+              ('Взаимодействие с оболочкой системы',
+               3,
+               'intro:environments:ipython:sysshell',
+               'intro:environments:ipython:sysshell'),
+              ('Расширения IPython',
+               3,
+               'intro:environments:ipython:ext',
+               'intro:environments:ipython:ext'),
+              ('Навигация по файловой системе',
+               3,
+               'intro:environments:ipython:nav',
+               'intro:environments:ipython:nav'),
+              ('Запуск сценариев из консоли IPython',
+               3,
+               'intro:environments:ipython:runscr',
+               'intro:environments:ipython:runscr'),
+              ('Отладчик',
+               3,
+               'intro:environments:ipython:debugger',
+               'intro:environments:ipython:debugger'),
+              ('Сброс пространства имен',
+               3,
+               'intro:environments:ipython:reset',
+               'intro:environments:ipython:reset'),
+              ('Расчет времени выполнения и профилирование кода',
+               3,
+               'intro:environments:ipython:timing',
+               'intro:environments:ipython:timing'),
+              ('Интерпретатор и текстовый редактор как среда разработки',
+               2,
+               'intro:environments:de',
+               'intro:environments:de'),
+              ('Jupyter',
+               2,
+               'intro:environments:jupyter',
+               'intro:environments:jupyter'),
+              ('Jupyter QtConsole',
+               3,
+               'intro:environments:jupyter:qtconsole',
+               'intro:environments:jupyter:qtconsole'),
+              ('Jupyter Notebook',
+               3,
+               'intro:environments:jupyter:notebook',
+               'intro:environments:jupyter:notebook'),
+              ('Jupyter Lab',
+               3,
+               'intro:environments:jupyter:lab',
+               'intro:environments:jupyter:lab'),
+              ('Типы ячеек',
+               3,
+               'intro:environments:jupyter:cell-types',
+               'intro:environments:jupyter:cell-types'),
+              ('Редактирование ячеек',
+               3,
+               'intro:environments:jupyter:edit',
+               'intro:environments:jupyter:edit'),
+              ('Ячейки Markdown',
+               3,
+               'intro:environments:jupyter:markdown',
+               'intro:environments:jupyter:markdown'),
+              ('Spyder: Интегрированная среда разработки',
+               2,
+               'intro:environments:spyder',
+               'intro:environments:spyder'),
+              ('Редактор исходного кода',
+               3,
+               'intro:environments:spyder:editor',
+               'intro:environments:spyder:editor'),
+              ('Консоли',
+               3,
+               'intro:environments:spyder:console',
+               'intro:environments:spyder:console'),
+              ('Инспектор объектов',
+               3,
+               'intro:environments:spyder:inspector',
+               'intro:environments:spyder:inspector')]}
 end of tocinfo -->
 
 <body>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "none"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript" async
+ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
 
     
 <!-- Bootstrap navigation bar -->
@@ -147,9 +256,33 @@ end of tocinfo -->
      <!-- navigation toc: --> <li><a href="._intro-flatly001.html#intro:install:check" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Проверка работоспособности</a></li>
      <!-- navigation toc: --> <li><a href="._intro-flatly001.html#intro:install:check:python" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Проверка интерпретатора Python</a></li>
      <!-- navigation toc: --> <li><a href="._intro-flatly001.html#intro:install:check:anaconda" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Проверка Anaconda</a></li>
-     <!-- navigation toc: --> <li><a href="._intro-flatly001.html#intro:run" style="font-size: 80%;"><b>Запуск программ на Python</b></a></li>
-     <!-- navigation toc: --> <li><a href="._intro-flatly001.html#intro:run:interact" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Интерактивный режим работы</a></li>
-     <!-- navigation toc: --> <li><a href="._intro-flatly001.html#intro:run:interact:pack" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Пакетный режим работы</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly001.html#intro:libs" style="font-size: 80%;"><b>Установка библиотек</b></a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly001.html#intro:libs:update" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Способы обновления библиотек</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly002.html#intro:environments" style="font-size: 80%;"><b>Среды для вычислений в Python</b></a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly002.html#intro:environments:interpret" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Интерпретатор</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly003.html#intro:environments:ipython" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Консоль IPython</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly003.html#intro:environments:ipython:caching" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Кэширование ввода и вывода</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly003.html#intro:environments:ipython:autocompl" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Автодополнение и самоанализ объектов</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly003.html#intro:environments:" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Документация</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly003.html#intro:environments:ipython:sysshell" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Взаимодействие с оболочкой системы</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly003.html#intro:environments:ipython:ext" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Расширения IPython</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly003.html#intro:environments:ipython:nav" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Навигация по файловой системе</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly003.html#intro:environments:ipython:runscr" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Запуск сценариев из консоли IPython</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly003.html#intro:environments:ipython:debugger" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Отладчик</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly003.html#intro:environments:ipython:reset" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Сброс пространства имен</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly003.html#intro:environments:ipython:timing" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Расчет времени выполнения и профилирование кода</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly003.html#intro:environments:de" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Интерпретатор и текстовый редактор как среда разработки</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly004.html#intro:environments:jupyter" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Jupyter</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly004.html#intro:environments:jupyter:qtconsole" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jupyter QtConsole</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly004.html#intro:environments:jupyter:notebook" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jupyter Notebook</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly004.html#intro:environments:jupyter:lab" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jupyter Lab</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly004.html#intro:environments:jupyter:cell-types" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Типы ячеек</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly004.html#intro:environments:jupyter:edit" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Редактирование ячеек</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly004.html#intro:environments:jupyter:markdown" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ячейки Markdown</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly005.html#intro:environments:spyder" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Spyder: Интегрированная среда разработки</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly005.html#intro:environments:spyder:editor" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Редактор исходного кода</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly005.html#intro:environments:spyder:console" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Консоли</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly005.html#intro:environments:spyder:inspector" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Инспектор объектов</a></li>
 
         </ul>
       </li>
@@ -183,7 +316,7 @@ end of tocinfo -->
 <center><b>&#1048;&#1085;&#1089;&#1090;&#1080;&#1090;&#1091;&#1090; &#1084;&#1072;&#1090;&#1077;&#1084;&#1072;&#1090;&#1080;&#1082;&#1080; &#1053;&#1040;&#1053; &#1041;&#1077;&#1083;&#1072;&#1088;&#1091;&#1089;&#1080;</b></center>
 <br>
 <p>
-<center><h4>Feb 19, 2020</h4></center> <!-- date -->
+<center><h4>Feb 22, 2020</h4></center> <!-- date -->
 <br>
 <p>
 </div> <!-- end jumbotron -->
@@ -196,9 +329,14 @@ end of tocinfo -->
 &nbsp; &nbsp; &nbsp; <a href="._intro-flatly001.html#intro:install:python"> &#1059;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072; Python </a><br>
 &nbsp; &nbsp; &nbsp; <a href="._intro-flatly001.html#intro:install:anaconda"> &#1059;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072; Anaconda </a><br>
 &nbsp; &nbsp; &nbsp; <a href="._intro-flatly001.html#intro:install:check"> &#1055;&#1088;&#1086;&#1074;&#1077;&#1088;&#1082;&#1072; &#1088;&#1072;&#1073;&#1086;&#1090;&#1086;&#1089;&#1087;&#1086;&#1089;&#1086;&#1073;&#1085;&#1086;&#1089;&#1090;&#1080; </a><br>
-<a href="._intro-flatly001.html#intro:run"> &#1047;&#1072;&#1087;&#1091;&#1089;&#1082; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084; &#1085;&#1072; Python </a><br>
-&nbsp; &nbsp; &nbsp; <a href="._intro-flatly001.html#intro:run:interact"> &#1048;&#1085;&#1090;&#1077;&#1088;&#1072;&#1082;&#1090;&#1080;&#1074;&#1085;&#1099;&#1081; &#1088;&#1077;&#1078;&#1080;&#1084; &#1088;&#1072;&#1073;&#1086;&#1090;&#1099; </a><br>
-&nbsp; &nbsp; &nbsp; <a href="._intro-flatly001.html#intro:run:interact:pack"> &#1055;&#1072;&#1082;&#1077;&#1090;&#1085;&#1099;&#1081; &#1088;&#1077;&#1078;&#1080;&#1084; &#1088;&#1072;&#1073;&#1086;&#1090;&#1099; </a><br>
+<a href="._intro-flatly001.html#intro:libs"> &#1059;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072; &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._intro-flatly001.html#intro:libs:update"> &#1057;&#1087;&#1086;&#1089;&#1086;&#1073;&#1099; &#1086;&#1073;&#1085;&#1086;&#1074;&#1083;&#1077;&#1085;&#1080;&#1103; &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082; </a><br>
+<a href="._intro-flatly002.html#intro:environments"> &#1057;&#1088;&#1077;&#1076;&#1099; &#1076;&#1083;&#1103; &#1074;&#1099;&#1095;&#1080;&#1089;&#1083;&#1077;&#1085;&#1080;&#1081; &#1074; Python </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._intro-flatly002.html#intro:environments:interpret"> &#1048;&#1085;&#1090;&#1077;&#1088;&#1087;&#1088;&#1077;&#1090;&#1072;&#1090;&#1086;&#1088;  </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._intro-flatly003.html#intro:environments:ipython"> &#1050;&#1086;&#1085;&#1089;&#1086;&#1083;&#1100; IPython </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._intro-flatly003.html#intro:environments:de"> &#1048;&#1085;&#1090;&#1077;&#1088;&#1087;&#1088;&#1077;&#1090;&#1072;&#1090;&#1086;&#1088; &#1080; &#1090;&#1077;&#1082;&#1089;&#1090;&#1086;&#1074;&#1099;&#1081; &#1088;&#1077;&#1076;&#1072;&#1082;&#1090;&#1086;&#1088; &#1082;&#1072;&#1082; &#1089;&#1088;&#1077;&#1076;&#1072; &#1088;&#1072;&#1079;&#1088;&#1072;&#1073;&#1086;&#1090;&#1082;&#1080; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._intro-flatly004.html#intro:environments:jupyter"> Jupyter </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._intro-flatly005.html#intro:environments:spyder"> Spyder: &#1048;&#1085;&#1090;&#1077;&#1075;&#1088;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1085;&#1072;&#1103; &#1089;&#1088;&#1077;&#1076;&#1072; &#1088;&#1072;&#1079;&#1088;&#1072;&#1073;&#1086;&#1090;&#1082;&#1080; </a><br>
 </p>
 <p>
 <!-- Common Mako variable and functions -->
