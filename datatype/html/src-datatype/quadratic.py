@@ -18,6 +18,7 @@ def get_float(msg, allow_zero):
     return x
 # End get_float
 
+
 # Start 1st block
 print("ax\N{SUPERSCRIPT TWO} + bx + c = 0")
 a = get_float("enter a: ", False)
@@ -34,7 +35,7 @@ if discriminant == 0:
 else:
     if discriminant > 0:
         root = math.sqrt(discriminant)
-    else: # discriminant < 0
+    else:       # discriminant < 0
         root = cmath.sqrt(discriminant)
         x1 = (-b + root) / (2 * a)
         x2 = (-b - root) / (2 * a)

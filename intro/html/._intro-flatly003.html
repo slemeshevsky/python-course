@@ -42,6 +42,8 @@ body { font-size:20px; }
 </style>
 
 
+
+
 <!-- Tools for embedded Bokeh plots -->
 <link rel=stylesheet 
       href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
@@ -173,7 +175,7 @@ body { font-size:20px; }
                'intro:environments:jupyter:qtconsole',
                'intro:environments:jupyter:qtconsole'),
               ('Jupyter Notebook',
-               3,
+               2,
                'intro:environments:jupyter:notebook',
                'intro:environments:jupyter:notebook'),
               ('Jupyter Lab',
@@ -274,7 +276,7 @@ MathJax.Hub.Config({
      <!-- navigation toc: --> <li><a href="#intro:environments:de" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Интерпретатор и текстовый редактор как среда разработки</a></li>
      <!-- navigation toc: --> <li><a href="._intro-flatly004.html#intro:environments:jupyter" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Jupyter</a></li>
      <!-- navigation toc: --> <li><a href="._intro-flatly004.html#intro:environments:jupyter:qtconsole" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jupyter QtConsole</a></li>
-     <!-- navigation toc: --> <li><a href="._intro-flatly004.html#intro:environments:jupyter:notebook" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jupyter Notebook</a></li>
+     <!-- navigation toc: --> <li><a href="._intro-flatly004.html#intro:environments:jupyter:notebook" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Jupyter Notebook</a></li>
      <!-- navigation toc: --> <li><a href="._intro-flatly004.html#intro:environments:jupyter:lab" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jupyter Lab</a></li>
      <!-- navigation toc: --> <li><a href="._intro-flatly004.html#intro:environments:jupyter:cell-types" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Типы ячеек</a></li>
      <!-- navigation toc: --> <li><a href="._intro-flatly004.html#intro:environments:jupyter:edit" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Редактирование ячеек</a></li>
@@ -339,21 +341,21 @@ IPython. &#1047;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103; &#1082;&#1072;
 &#1103;&#1095;&#1077;&#1081;&#1082;&#1080;. &#1053;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;, &#1088;&#1072;&#1089;&#1089;&#1084;&#1086;&#1090;&#1088;&#1080;&#1084; &#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1091;&#1102; &#1089;&#1077;&#1089;&#1089;&#1080;&#1102; IPython:
 <p>
 
-<!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>In [<span style="color: #666666">1</span>]: <span style="color: #666666">3*3</span>
-Out[<span style="color: #666666">1</span>]: <span style="color: #666666">9</span>
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [1]: </span><span style="color: #666666">3*3</span>
+<span style="color: #000080; font-weight: bold">Out[1]: </span><span style="color: #888888">9</span>
 
-In [<span style="color: #666666">2</span>]: In[<span style="color: #666666">1</span>]
-Out[<span style="color: #666666">2</span>]: <span style="color: #BA2121">&#39;3*3&#39;</span>
+<span style="color: #000080; font-weight: bold">In [2]: </span>In[<span style="color: #666666">1</span>]
+<span style="color: #000080; font-weight: bold">Out[2]: </span><span style="color: #888888">&#39;3*3&#39;</span>
 
-In [<span style="color: #666666">3</span>]: Out[<span style="color: #666666">1</span>]
-Out[<span style="color: #666666">3</span>]: <span style="color: #666666">9</span>
+<span style="color: #000080; font-weight: bold">In [3]: </span>Out[<span style="color: #666666">1</span>]
+<span style="color: #000080; font-weight: bold">Out[3]: </span><span style="color: #888888">9</span>
 
-In [<span style="color: #666666">4</span>]: In
-Out[<span style="color: #666666">4</span>]: [<span style="color: #BA2121">&#39;&#39;</span>, <span style="color: #BA2121">&#39;3*3&#39;</span>, <span style="color: #BA2121">&#39;In[1]&#39;</span>, <span style="color: #BA2121">&#39;Out[1]&#39;</span>, <span style="color: #BA2121">&#39;In&#39;</span>]
+<span style="color: #000080; font-weight: bold">In [4]: </span>In
+<span style="color: #000080; font-weight: bold">Out[4]: </span><span style="color: #888888">[&#39;&#39;, &#39;3*3&#39;, &#39;In[1]&#39;, &#39;Out[1]&#39;, &#39;In&#39;]</span>
 
-In [<span style="color: #666666">5</span>]: Out
-Out[<span style="color: #666666">5</span>]: {<span style="color: #666666">1</span>: <span style="color: #666666">9</span>, <span style="color: #666666">2</span>: <span style="color: #BA2121">&#39;3*3&#39;</span>, <span style="color: #666666">3</span>: <span style="color: #666666">9</span>, <span style="color: #666666">4</span>: [<span style="color: #BA2121">&#39;&#39;</span>, <span style="color: #BA2121">&#39;3*3&#39;</span>, <span style="color: #BA2121">&#39;In[1]&#39;</span>, <span style="color: #BA2121">&#39;Out[1]&#39;</span>, <span style="color: #BA2121">&#39;In&#39;</span>, <span style="color: #BA2121">&#39;Out&#39;</span>]}
+<span style="color: #000080; font-weight: bold">In [5]: </span>Out
+<span style="color: #000080; font-weight: bold">Out[5]: </span><span style="color: #888888">{1: 9, 2: &#39;3*3&#39;, 3: 9, 4: [&#39;&#39;, &#39;3*3&#39;, &#39;In[1]&#39;, &#39;Out[1]&#39;, &#39;In&#39;, &#39;Out&#39;]}</span>
 </pre></div>
 <p>
 &#1050;&#1101;&#1096;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; &#1074;&#1074;&#1086;&#1076;&#1072; &#1080; &#1074;&#1099;&#1074;&#1086;&#1076;&#1072; &#1095;&#1072;&#1089;&#1090;&#1086; &#1087;&#1086;&#1083;&#1077;&#1079;&#1085;&#1086; &#1087;&#1088;&#1080; &#1080;&#1085;&#1090;&#1077;&#1088;&#1072;&#1082;&#1090;&#1080;&#1074;&#1085;&#1099;&#1093; &#1080;
@@ -368,16 +370,16 @@ Out[<span style="color: #666666">5</span>]: {<span style="color: #666666">1</spa
 &#1082;&#1086;&#1085;&#1094;&#1077; &#1080;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1080;:
 <p>
 
-<!-- code=python (!bc ipy) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>In [<span style="color: #666666">6</span>]: <span style="color: #666666">1+2</span>
-Out[<span style="color: #666666">6</span>]: <span style="color: #666666">3</span>
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [6]: </span><span style="color: #666666">1+2</span>
+<span style="color: #000080; font-weight: bold">Out[6]: </span><span style="color: #888888">3</span>
 
-In [<span style="color: #666666">7</span>]: <span style="color: #666666">1+2</span>;
+<span style="color: #000080; font-weight: bold">In [7]: </span><span style="color: #666666">1+2</span>;
 
-In [<span style="color: #666666">8</span>]: x<span style="color: #666666">=1</span>
+<span style="color: #000080; font-weight: bold">In [8]: </span>x<span style="color: #666666">=1</span>
 
-In [<span style="color: #666666">9</span>]: x<span style="color: #666666">=2</span>; x
-Out[<span style="color: #666666">9</span>]: <span style="color: #666666">2</span>
+<span style="color: #000080; font-weight: bold">In [9]: </span>x<span style="color: #666666">=2</span>; x
+<span style="color: #000080; font-weight: bold">Out[9]: </span><span style="color: #888888">2</span>
 </pre></div>
 
 <h3 id="intro:environments:ipython:autocompl" class="anchor">&#1040;&#1074;&#1090;&#1086;&#1076;&#1086;&#1087;&#1086;&#1083;&#1085;&#1077;&#1085;&#1080;&#1077; &#1080; &#1089;&#1072;&#1084;&#1086;&#1072;&#1085;&#1072;&#1083;&#1080;&#1079; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1086;&#1074;</h3>
@@ -412,13 +414,13 @@ Python-&#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080; <code>help</code>. &#10
 &#1089;&#1076;&#1077;&#1083;&#1072;&#1090;&#1100; &#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1077;&#1077;:
 <p>
 
-<!-- code=python (!bc pyshell) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>In [<span style="color: #666666">10</span>]: <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">math</span>
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [10]: </span><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">math</span>
 
-In [<span style="color: #666666">11</span>]: math<span style="color: #666666">.</span>cos?
-Signature: math<span style="color: #666666">.</span>cos(x, <span style="color: #666666">/</span>)
-Docstring: Return the cosine of x (measured <span style="color: #AA22FF; font-weight: bold">in</span> radians)<span style="color: #666666">.</span>
-Type:      builtin_function_or_method
+<span style="color: #000080; font-weight: bold">In [11]: </span>math.cos<span style="color: #666666">?</span>
+<span style="color: #888888">Signature: math.cos(x, /)</span>
+<span style="color: #888888">Docstring: Return the cosine of x (measured in radians).</span>
+<span style="color: #888888">Type:      builtin_function_or_method</span>
 </pre></div>
 <p>
 &#1057;&#1090;&#1088;&#1086;&#1082;&#1080; &#1076;&#1086;&#1082;&#1091;&#1084;&#1077;&#1085;&#1090;&#1072;&#1094;&#1080;&#1080; &#1084;&#1086;&#1075;&#1091;&#1090; &#1073;&#1099;&#1090;&#1100; &#1079;&#1072;&#1076;&#1072;&#1085;&#1099; &#1076;&#1083;&#1103; &#1084;&#1086;&#1076;&#1091;&#1083;&#1077;&#1081;, &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1081;, &#1082;&#1083;&#1072;&#1089;&#1089;&#1086;&#1074; &#1080;
@@ -436,9 +438,9 @@ IPython &#1087;&#1088;&#1077;&#1076;&#1086;&#1089;&#1090;&#1072;&#1074;&#1083;&#
 &#1082;&#1072;&#1090;&#1072;&#1083;&#1086;&#1075;&#1072; &#1084;&#1086;&#1078;&#1085;&#1086; &#1087;&#1086;&#1083;&#1091;&#1095;&#1080;&#1090;&#1100; &#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1080;&#1084; &#1086;&#1073;&#1088;&#1072;&#1079;&#1086;&#1084;:
 <p>
 
-<!-- code=python (!bc ipy) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>In [<span style="color: #666666">12</span>]: !ls                                                                                                                                                                                                                                    
-hello<span style="color: #666666">.</span>py  test<span style="color: #666666">.</span>py
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [12]: </span><span style="color: #666666">!</span>ls                                                                                                                                                                                                                                    
+<span style="color: #888888">hello.py  test.py</span>
 </pre></div>
 <p>
 &#1042; Windows &#1101;&#1082;&#1074;&#1080;&#1074;&#1072;&#1083;&#1077;&#1085;&#1090;&#1085;&#1072;&#1103; &#1082;&#1086;&#1084;&#1072;&#1085;&#1076;&#1072; &#8212; <code>!dir</code>. &#1069;&#1090;&#1086;&#1090; &#1084;&#1077;&#1090;&#1086;&#1076; &#1074;&#1079;&#1072;&#1080;&#1084;&#1086;&#1076;&#1077;&#1081;&#1089;&#1090;&#1074;&#1080;&#1103; &#1089;
@@ -450,25 +452,25 @@ IPython &#1074; &#1082;&#1072;&#1095;&#1077;&#1089;&#1090;&#1074;&#1077; &#1082;
 &#1084;&#1086;&#1078;&#1085;&#1086; &#1089;&#1086;&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; &#1074; &#1089;&#1087;&#1080;&#1089;&#1086;&#1082; &#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1080;&#1084; &#1086;&#1073;&#1088;&#1072;&#1079;&#1086;&#1084;:
 <p>
 
-<!-- code=python (!bc ipy) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>In [<span style="color: #666666">13</span>]: files <span style="color: #666666">=</span> !ls                                                                                                                                                                                                                            
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [13]: </span>files <span style="color: #666666">=</span> <span style="color: #666666">!</span>ls
 
-In [<span style="color: #666666">14</span>]: <span style="color: #008000">len</span>(files)                                                                                                                                                                                                                             
-Out[<span style="color: #666666">14</span>]: <span style="color: #666666">2</span>
+<span style="color: #000080; font-weight: bold">In [14]: </span><span style="color: #008000">len</span>(files)
+<span style="color: #000080; font-weight: bold">Out[14]: </span><span style="color: #888888">2</span>
 
-In [<span style="color: #666666">15</span>]: files                                                                                                                                                                                                                                  
-Out[<span style="color: #666666">15</span>]: [<span style="color: #BA2121">&#39;hello.py&#39;</span>, <span style="color: #BA2121">&#39;test.py&#39;</span>]
+<span style="color: #000080; font-weight: bold">In [15]: </span>files
+<span style="color: #000080; font-weight: bold">Out[15]: </span><span style="color: #888888">[&#39;hello.py&#39;, &#39;test.py&#39;]</span>
 </pre></div>
 <p>
 &#1040;&#1085;&#1072;&#1083;&#1086;&#1075;&#1080;&#1095;&#1085;&#1086;, &#1084;&#1099; &#1084;&#1086;&#1078;&#1077;&#1084; &#1087;&#1077;&#1088;&#1077;&#1076;&#1072;&#1090;&#1100; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103; &#1087;&#1077;&#1088;&#1077;&#1084;&#1077;&#1085;&#1085;&#1099;&#1093; Python &#1082;&#1086;&#1084;&#1072;&#1085;&#1076;&#1072;&#1084;
 &#1086;&#1073;&#1086;&#1083;&#1086;&#1095;&#1082;&#1080;, &#1087;&#1086;&#1089;&#1090;&#1072;&#1074;&#1080;&#1074; &#1087;&#1077;&#1088;&#1077;&#1076; &#1080;&#1084;&#1077;&#1085;&#1077;&#1084; &#1087;&#1077;&#1088;&#1077;&#1084;&#1077;&#1085;&#1085;&#1086;&#1081; &#1079;&#1085;&#1072;&#1082; <code>$</code>: 
 <p>
 
-<!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>In [<span style="color: #666666">16</span>]: file <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;test.py&quot;</span>
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [16]: </span>file <span style="color: #666666">=</span> <span style="color: #BA2121">&quot;test.py&quot;</span>
 
-In [<span style="color: #666666">17</span>]: !ls <span style="color: #666666">-</span>l $file
-<span style="color: #666666">-</span>rw<span style="color: #666666">-</span>r<span style="color: #666666">--</span>r<span style="color: #666666">--</span> <span style="color: #666666">1</span> svl users <span style="color: #666666">29</span> фев <span style="color: #666666">17</span> <span style="color: #666666">13</span>:<span style="color: #666666">59</span> test<span style="color: #666666">.</span>py
+<span style="color: #000080; font-weight: bold">In [17]: </span><span style="color: #666666">!</span>ls -l <span style="color: #19177C">$file</span>
+<span style="color: #888888">-rw-r--r-- 1 svl users 29 фев 17 13:59 test.py</span>
 </pre></div>
 <p>
 &#1058;&#1072;&#1082;&#1086;&#1077; &#1076;&#1074;&#1091;&#1093;&#1089;&#1090;&#1086;&#1088;&#1086;&#1085;&#1085;&#1077;&#1077; &#1074;&#1079;&#1072;&#1080;&#1084;&#1086;&#1076;&#1077;&#1081;&#1089;&#1090;&#1074;&#1080;&#1077; &#1084;&#1077;&#1078;&#1076;&#1091; &#1082;&#1086;&#1085;&#1089;&#1086;&#1083;&#1100;&#1102; IPython &#1080; &#1089;&#1080;&#1089;&#1090;&#1077;&#1084;&#1085;&#1086;&#1081;
@@ -487,10 +489,10 @@ IPython &#1087;&#1088;&#1077;&#1076;&#1086;&#1089;&#1090;&#1072;&#1074;&#1083;&#
 &#1079;&#1072;&#1082;&#1072;&#1085;&#1095;&#1080;&#1074;&#1072;&#1103; &#1084;&#1072;&#1075;&#1080;&#1095;&#1077;&#1089;&#1082;&#1091;&#1102; &#1082;&#1086;&#1084;&#1072;&#1085;&#1076;&#1091; &#1079;&#1085;&#1072;&#1082;&#1086;&#1084; &#1074;&#1086;&#1087;&#1088;&#1086;&#1089;&#1072;:
 <p>
 
-<!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>In [<span style="color: #666666">10</span>]: <span style="color: #666666">%</span>lsmagic?
-Docstring: List currently available magic functions<span style="color: #666666">.</span>
-File:      <span style="color: #666666">/</span>usr<span style="color: #666666">/</span>lib<span style="color: #666666">/</span>python3<span style="color: #666666">.8/</span>site<span style="color: #666666">-</span>packages<span style="color: #666666">/</span>IPython<span style="color: #666666">/</span>core<span style="color: #666666">/</span>magics<span style="color: #666666">/</span>basic<span style="color: #666666">.</span>py
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [10]: </span><span style="color: #666666">%</span><span style="color: #008000; font-weight: bold">lsmagic</span><span style="color: #666666">?</span>
+<span style="color: #888888">Docstring: List currently available magic functions.</span>
+<span style="color: #888888">File:      /usr/lib/python3.8/site-packages/IPython/core/magics/basic.py</span>
 </pre></div>
 
 <h3 id="intro:environments:ipython:nav" class="anchor">&#1053;&#1072;&#1074;&#1080;&#1075;&#1072;&#1094;&#1080;&#1103; &#1087;&#1086; &#1092;&#1072;&#1081;&#1083;&#1086;&#1074;&#1086;&#1081; &#1089;&#1080;&#1089;&#1090;&#1077;&#1084;&#1077;</h3>
@@ -551,15 +553,15 @@ IPython, &#1082;&#1086;&#1090;&#1086;&#1088;&#1072;&#1103; &#1074;&#1099;&#1087;
 &#1074;&#1099;&#1087;&#1086;&#1083;&#1085;&#1077;&#1085;&#1080;&#1103; &#1082;&#1086;&#1084;&#1072;&#1085;&#1076;&#1099; <code>%run</code>.
 <p>
 
-<!-- code=python (!bc ipy) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>In [<span style="color: #666666">1</span>]: <span style="color: #666666">%</span>run fib<span style="color: #666666">.</span>py
-[<span style="color: #666666">1</span>, <span style="color: #666666">1</span>, <span style="color: #666666">2</span>, <span style="color: #666666">3</span>, <span style="color: #666666">5</span>, <span style="color: #666666">8</span>, <span style="color: #666666">13</span>, <span style="color: #666666">21</span>, <span style="color: #666666">34</span>, <span style="color: #666666">55</span>]
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [1]: </span><span style="color: #666666">%</span><span style="color: #008000; font-weight: bold">run</span> fib.py
+<span style="color: #888888">[1, 1, 2, 3, 5, 8, 13, 21, 34, 55]</span>
 
-In [<span style="color: #666666">2</span>]: <span style="color: #666666">%</span>who
-fib	 
+<span style="color: #000080; font-weight: bold">In [2]: </span><span style="color: #666666">%</span><span style="color: #008000; font-weight: bold">who</span>
+<span style="color: #888888">fib	 </span>
 
-In [<span style="color: #666666">3</span>]: fib(<span style="color: #666666">6</span>)
-Out[<span style="color: #666666">3</span>]: [<span style="color: #666666">1</span>, <span style="color: #666666">1</span>, <span style="color: #666666">2</span>, <span style="color: #666666">3</span>, <span style="color: #666666">5</span>, <span style="color: #666666">8</span>]
+<span style="color: #000080; font-weight: bold">In [3]: </span>fib(<span style="color: #666666">6</span>)
+<span style="color: #000080; font-weight: bold">Out[3]: </span><span style="color: #888888">[1, 1, 2, 3, 5, 8]</span>
 </pre></div>
 <p>
 &#1042; &#1087;&#1088;&#1077;&#1076;&#1099;&#1076;&#1091;&#1097;&#1077;&#1084; &#1087;&#1088;&#1080;&#1084;&#1077;&#1088;&#1077; &#1084;&#1099; &#1090;&#1072;&#1082;&#1078;&#1077; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1083;&#1080; &#1082;&#1086;&#1084;&#1072;&#1085;&#1076;&#1091; <code>%who</code>, &#1082;&#1086;&#1090;&#1086;&#1088;&#1072;&#1103;
@@ -589,21 +591,21 @@ IPythob &#1073;&#1099;&#1083;&#1086; &#1085;&#1072;&#1087;&#1077;&#1095;&#1072;&
 
 <p>
 
-<!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>In [<span style="color: #666666">4</span>]: fib(<span style="color: #666666">1.0</span>)
-<span style="color: #666666">---------------------------------------------------------------------------</span>
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [4]: </span>fib(<span style="color: #666666">1.0</span>)
+<span style="color: #0044DD">---------------------------------------------------------------------------</span>
 <span style="color: #D2413A; font-weight: bold">TypeError</span>                                 Traceback (most recent call last)
 <span style="color: #666666">&lt;</span>ipython<span style="color: #666666">-</span><span style="color: #008000">input</span><span style="color: #666666">-4-</span>da4664af34ee<span style="color: #666666">&gt;</span> <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #666666">&lt;</span>module<span style="color: #666666">&gt;</span>
-<span style="color: #666666">----&gt;</span> <span style="color: #666666">1</span> fib(<span style="color: #666666">1.0</span>)
+<span style="color: #D2413A; font-weight: bold">----&gt; </span><span style="color: #666666">1</span> fib(<span style="color: #666666">1.0</span>)
 
-<span style="color: #666666">~/</span>Projects<span style="color: #666666">/</span>Doconce<span style="color: #666666">/</span>python<span style="color: #666666">-</span>course<span style="color: #666666">/</span>src<span style="color: #666666">/</span>chapters<span style="color: #666666">/</span>intro<span style="color: #666666">/</span>src<span style="color: #666666">-</span>intro<span style="color: #666666">/</span>fib<span style="color: #666666">.</span>py <span style="color: #AA22FF; font-weight: bold">in</span> fib(n)
+<span style="color: #0000FF; font-weight: bold">~/Projects/Doconce/python-course/src/chapters/intro/src-intro/fib.py</span> in <span style="color: #999999; font-weight: bold">fib</span><span style="color: #008000; font-weight: bold">(n)</span>
       <span style="color: #666666">5</span>     <span style="color: #BA2121">&quot;&quot;&quot;</span>
-<span style="color: #BA2121">      6     f0, f1 = 0, 1</span>
-<span style="color: #BA2121">----&gt; 7     f = [1]*n</span>
-<span style="color: #BA2121">      8     for i in range(1, n):</span>
-<span style="color: #BA2121">      9         f[i] = f0 + f1</span>
+      <span style="color: #666666">6</span><span style="color: #BA2121">     f0, f1 = 0, 1</span>
+<span style="color: #D2413A; font-weight: bold">----&gt; </span><span style="color: #666666">7</span><span style="color: #BA2121">     f = [1]*n</span>
+      <span style="color: #666666">8</span><span style="color: #BA2121">     for i in range(1, n):</span>
+      <span style="color: #666666">9</span><span style="color: #BA2121">         f[i] = f0 + f1</span>
 
-<span style="color: #BA2121">TypeError: can&#39;t multiply sequence by non-int of type &#39;float&#39;</span>
+<span style="color: #D2413A; font-weight: bold">TypeError</span>: can&#39;t multiply sequence by non-int of type &#39;float&#39;
 </pre></div>
 <p>
 &#1042; &#1089;&#1090;&#1088;&#1086;&#1082;&#1077; &#1089; &#1085;&#1086;&#1084;&#1077;&#1088;&#1086;&#1084; 7 &#1082;&#1086;&#1076; &#1089;&#1090;&#1072;&#1083;&#1082;&#1080;&#1074;&#1072;&#1077;&#1090;&#1089;&#1103; &#1089; &#1086;&#1096;&#1080;&#1073;&#1082;&#1086;&#1081; &#1090;&#1080;&#1087;&#1072;, &#1080; &#1080;&#1085;&#1090;&#1077;&#1088;&#1087;&#1088;&#1077;&#1090;&#1072;&#1090;&#1086;&#1088;
@@ -616,17 +618,17 @@ Python &#1074;&#1099;&#1079;&#1099;&#1074;&#1072;&#1077;&#1090; &#1080;&#1089;&#
 
 <p>
 
-<!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>In [<span style="color: #666666">5</span>]: <span style="color: #666666">%</span>debug
-<span style="color: #666666">&gt;</span> <span style="color: #666666">/</span>home<span style="color: #666666">/</span>svl<span style="color: #666666">/</span>Projects<span style="color: #666666">/</span>Doconce<span style="color: #666666">/</span>python<span style="color: #666666">-</span>course<span style="color: #666666">/</span>src<span style="color: #666666">/</span>chapters<span style="color: #666666">/</span>intro<span style="color: #666666">/</span>src<span style="color: #666666">-</span>intro<span style="color: #666666">/</span>fib<span style="color: #666666">.</span>py(<span style="color: #666666">7</span>)fib()
-      <span style="color: #666666">5</span>     <span style="color: #BA2121">&quot;&quot;&quot;</span>
-<span style="color: #BA2121">      6     f0, f1 = 0, 1</span>
-<span style="color: #BA2121">----&gt; 7     f = [1]*n</span>
-<span style="color: #BA2121">      8     for i in range(1, n):</span>
-<span style="color: #BA2121">      9         f[i] = f0 + f1</span>
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [5]: </span><span style="color: #666666">%</span><span style="color: #008000; font-weight: bold">debug</span>
+<span style="color: #888888">&gt; /home/svl/Projects/Doconce/python-course/src/chapters/intro/src-intro/fib.py(7)fib()</span>
+<span style="color: #888888">      5     &quot;&quot;&quot;</span>
+<span style="color: #888888">      6     f0, f1 = 0, 1</span>
+<span style="color: #888888">----&gt; 7     f = [1]*n</span>
+<span style="color: #888888">      8     for i in range(1, n):</span>
+<span style="color: #888888">      9         f[i] = f0 + f1</span>
 
-<span style="color: #BA2121">ipdb&gt; print(n)  </span>
-<span style="color: #BA2121">1.0</span>
+<span style="color: #888888">ipdb&gt; print(n)  </span>
+<span style="color: #888888">1.0</span>
 </pre></div>
 <p>
 <div class="panel panel-primary">
@@ -639,8 +641,8 @@ Python &#1074;&#1099;&#1079;&#1099;&#1074;&#1072;&#1077;&#1090; &#1080;&#1089;&#
 &#1087;&#1086;&#1076;&#1089;&#1082;&#1072;&#1079;&#1082;&#1091; &#1089;  &#1087;&#1077;&#1088;&#1077;&#1095;&#1080;&#1089;&#1083;&#1077;&#1085;&#1080;&#1077;&#1084; &#1076;&#1086;&#1089;&#1090;&#1091;&#1087;&#1085;&#1099;&#1093; &#1082;&#1086;&#1084;&#1072;&#1085;&#1076;.
 <p>
 
-<!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>ipydb<span style="color: #666666">&gt;</span> ? 
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>ipydb<span style="color: #666666">&gt;</span> <span style="color: #666666">?</span> 
 </pre></div>
 <p>
 &#1041;&#1086;&#1083;&#1100;&#1096;&#1077; &#1080;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1080; &#1086;&#1073; &#1086;&#1090;&#1083;&#1072;&#1076;&#1095;&#1080;&#1082;&#1077; Python &#1080; &#1077;&#1075;&#1086; &#1074;&#1086;&#1079;&#1084;&#1086;&#1078;&#1085;&#1086;&#1089;&#1090;&#1103;&#1093; &#1084;&#1086;&#1078;&#1085;&#1086;
@@ -692,16 +694,16 @@ Python &#1074;&#1099;&#1079;&#1099;&#1074;&#1072;&#1077;&#1090; &#1080;&#1089;&#
 
 <p>
 
-<!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>In [<span style="color: #666666">6</span>]: <span style="color: #666666">%</span>timeit fib(<span style="color: #666666">100</span>)
-<span style="color: #666666">8.15</span> µs ± <span style="color: #666666">196</span> ns per loop (mean ± std<span style="color: #666666">.</span> dev<span style="color: #666666">.</span> of <span style="color: #666666">7</span> runs, <span style="color: #666666">100000</span> loops each)
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [6]: </span><span style="color: #666666">%</span><span style="color: #008000; font-weight: bold">timeit</span> fib(100)
+<span style="color: #888888">8.15 µs ± 196 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)</span>
 </pre></div>
 <p>
 
-<!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>In [<span style="color: #666666">7</span>]: result <span style="color: #666666">=</span> <span style="color: #666666">%</span>time fib(<span style="color: #666666">100</span>)                                                                                                                                                                                                                
-CPU times: user <span style="color: #666666">19</span> µs, sys: <span style="color: #666666">0</span> ns, total: <span style="color: #666666">19</span> µs
-Wall time: <span style="color: #666666">23.1</span> µs
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [7]: </span>result <span style="color: #666666">=</span> <span style="color: #666666">%</span><span style="color: #008000; font-weight: bold">time</span> fib(100)                                                                                                                                                                                                                
+<span style="color: #888888">CPU times: user 19 µs, sys: 0 ns, total: 19 µs</span>
+<span style="color: #888888">Wall time: 23.1 µs</span>
 </pre></div>
 <p>
 &#1061;&#1086;&#1090;&#1103; &#1082;&#1086;&#1084;&#1072;&#1085;&#1076;&#1099; <code>%timeit</code> &#1080; <code>%time</code> &#1087;&#1086;&#1083;&#1077;&#1079;&#1085;&#1099; &#1076;&#1083;&#1103; &#1080;&#1079;&#1084;&#1077;&#1088;&#1077;&#1085;&#1080;&#1103; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1080;
@@ -740,28 +742,28 @@ Wall time: <span style="color: #666666">23.1</span> µs
 
 <p>
 
-<!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>In [<span style="color: #666666">15</span>]: <span style="color: #666666">%</span>prun random_walker_max_distance(<span style="color: #666666">400</span>, <span style="color: #666666">10000</span>)
-         <span style="color: #666666">20013</span> function calls <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #666666">0.257</span> seconds
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [15]: </span><span style="color: #666666">%</span><span style="color: #008000; font-weight: bold">prun</span> random_walker_max_distance(400, 10000)
+<span style="color: #888888">         20013 function calls in 0.257 seconds</span>
 
-   Ordered by: internal time
+<span style="color: #888888">   Ordered by: internal time</span>
 
-   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-    <span style="color: #666666">10000</span>    <span style="color: #666666">0.145</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.145</span>    <span style="color: #666666">0.000</span> {method <span style="color: #BA2121">&#39;randn&#39;</span> of <span style="color: #BA2121">&#39;numpy.random.mtrand.RandomState&#39;</span> objects}
-        <span style="color: #666666">1</span>    <span style="color: #666666">0.056</span>    <span style="color: #666666">0.056</span>    <span style="color: #666666">0.254</span>    <span style="color: #666666">0.254</span> walkers<span style="color: #666666">.</span>py:<span style="color: #666666">4</span>(random_walker_max_distance)
-    <span style="color: #666666">10000</span>    <span style="color: #666666">0.042</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.042</span>    <span style="color: #666666">0.000</span> {method <span style="color: #BA2121">&#39;cumsum&#39;</span> of <span style="color: #BA2121">&#39;numpy.ndarray&#39;</span> objects}
-        <span style="color: #666666">1</span>    <span style="color: #666666">0.008</span>    <span style="color: #666666">0.008</span>    <span style="color: #666666">0.195</span>    <span style="color: #666666">0.195</span> walkers<span style="color: #666666">.</span>py:<span style="color: #666666">5</span>(<span style="color: #666666">&lt;</span>listcomp<span style="color: #666666">&gt;</span>)
-        <span style="color: #666666">1</span>    <span style="color: #666666">0.003</span>    <span style="color: #666666">0.003</span>    <span style="color: #666666">0.003</span>    <span style="color: #666666">0.003</span> {method <span style="color: #BA2121">&#39;reduce&#39;</span> of <span style="color: #BA2121">&#39;numpy.ufunc&#39;</span> objects}
-        <span style="color: #666666">1</span>    <span style="color: #666666">0.003</span>    <span style="color: #666666">0.003</span>    <span style="color: #666666">0.257</span>    <span style="color: #666666">0.257</span> <span style="color: #666666">&lt;</span>string<span style="color: #666666">&gt;</span>:<span style="color: #666666">1</span>(<span style="color: #666666">&lt;</span>module<span style="color: #666666">&gt;</span>)
-        <span style="color: #666666">1</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.257</span>    <span style="color: #666666">0.257</span> {built<span style="color: #666666">-</span><span style="color: #AA22FF; font-weight: bold">in</span> method builtins<span style="color: #666666">.</span>exec}
-        <span style="color: #666666">1</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.003</span>    <span style="color: #666666">0.003</span> fromnumeric<span style="color: #666666">.</span>py:<span style="color: #666666">73</span>(_wrapreduction)
-        <span style="color: #666666">1</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.003</span>    <span style="color: #666666">0.003</span> <span style="color: #666666">&lt;</span>__array_function__ internals<span style="color: #666666">&gt;</span>:<span style="color: #666666">2</span>(amax)
-        <span style="color: #666666">1</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.003</span>    <span style="color: #666666">0.003</span> fromnumeric<span style="color: #666666">.</span>py:<span style="color: #666666">2551</span>(amax)
-        <span style="color: #666666">1</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.003</span>    <span style="color: #666666">0.003</span> {built<span style="color: #666666">-</span><span style="color: #AA22FF; font-weight: bold">in</span> method numpy<span style="color: #666666">.</span>core<span style="color: #666666">.</span>_multiarray_umath<span style="color: #666666">.</span>implement_array_function}
-        <span style="color: #666666">1</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span> fromnumeric<span style="color: #666666">.</span>py:<span style="color: #666666">74</span>(<span style="color: #666666">&lt;</span>dictcomp<span style="color: #666666">&gt;</span>)
-        <span style="color: #666666">1</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span> fromnumeric<span style="color: #666666">.</span>py:<span style="color: #666666">2546</span>(_amax_dispatcher)
-        <span style="color: #666666">1</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span> {method <span style="color: #BA2121">&#39;items&#39;</span> of <span style="color: #BA2121">&#39;dict&#39;</span> objects}
-        <span style="color: #666666">1</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span>    <span style="color: #666666">0.000</span> {method <span style="color: #BA2121">&#39;disable&#39;</span> of <span style="color: #BA2121">&#39;_lsprof.Profiler&#39;</span> objects}
+<span style="color: #888888">   ncalls  tottime  percall  cumtime  percall filename:lineno(function)</span>
+<span style="color: #888888">    10000    0.145    0.000    0.145    0.000 {method &#39;randn&#39; of &#39;numpy.random.mtrand.RandomState&#39; objects}</span>
+<span style="color: #888888">        1    0.056    0.056    0.254    0.254 walkers.py:4(random_walker_max_distance)</span>
+<span style="color: #888888">    10000    0.042    0.000    0.042    0.000 {method &#39;cumsum&#39; of &#39;numpy.ndarray&#39; objects}</span>
+<span style="color: #888888">        1    0.008    0.008    0.195    0.195 walkers.py:5(&lt;listcomp&gt;)</span>
+<span style="color: #888888">        1    0.003    0.003    0.003    0.003 {method &#39;reduce&#39; of &#39;numpy.ufunc&#39; objects}</span>
+<span style="color: #888888">        1    0.003    0.003    0.257    0.257 &lt;string&gt;:1(&lt;module&gt;)</span>
+<span style="color: #888888">        1    0.000    0.000    0.257    0.257 {built-in method builtins.exec}</span>
+<span style="color: #888888">        1    0.000    0.000    0.003    0.003 fromnumeric.py:73(_wrapreduction)</span>
+<span style="color: #888888">        1    0.000    0.000    0.003    0.003 &lt;__array_function__ internals&gt;:2(amax)</span>
+<span style="color: #888888">        1    0.000    0.000    0.003    0.003 fromnumeric.py:2551(amax)</span>
+<span style="color: #888888">        1    0.000    0.000    0.003    0.003 {built-in method numpy.core._multiarray_umath.implement_array_function}</span>
+<span style="color: #888888">        1    0.000    0.000    0.000    0.000 fromnumeric.py:74(&lt;dictcomp&gt;)</span>
+<span style="color: #888888">        1    0.000    0.000    0.000    0.000 fromnumeric.py:2546(_amax_dispatcher)</span>
+<span style="color: #888888">        1    0.000    0.000    0.000    0.000 {method &#39;items&#39; of &#39;dict&#39; objects}</span>
+<span style="color: #888888">        1    0.000    0.000    0.000    0.000 {method &#39;disable&#39; of &#39;_lsprof.Profiler&#39; objects}</span>
 </pre></div>
 
 <h2 id="intro:environments:de" class="anchor">&#1048;&#1085;&#1090;&#1077;&#1088;&#1087;&#1088;&#1077;&#1090;&#1072;&#1090;&#1086;&#1088; &#1080; &#1090;&#1077;&#1082;&#1089;&#1090;&#1086;&#1074;&#1099;&#1081; &#1088;&#1077;&#1076;&#1072;&#1082;&#1090;&#1086;&#1088; &#1082;&#1072;&#1082; &#1089;&#1088;&#1077;&#1076;&#1072; &#1088;&#1072;&#1079;&#1088;&#1072;&#1073;&#1086;&#1090;&#1082;&#1080;</h2>
