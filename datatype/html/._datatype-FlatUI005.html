@@ -128,11 +128,11 @@ body { font-size:20px; }
                2,
                'datatype:examples:print-unicode',
                'datatype:examples:print-unicode'),
-              ('`quadratic.py`',
+              ('Решение квадратного уравнения',
                2,
                'datatype:examples:quadratic',
                'datatype:examples:quadratic'),
-              ('`csv2html.py`',
+              ('Представление таблицы `csv` в HTML',
                2,
                'datatype:examples:csv2html',
                'datatype:examples:csv2html'),
@@ -209,8 +209,8 @@ MathJax.Hub.Config({
      <!-- navigation toc: --> <li><a href="._datatype-FlatUI004.html#datatype:strings:format" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Форматирование строк с помощью метода <code>str.format()</code></a></li>
      <!-- navigation toc: --> <li><a href="#datatype:examples" style="font-size: 80%;"><b>Примеры</b></a></li>
      <!-- navigation toc: --> <li><a href="#datatype:examples:print-unicode" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Печать символов Юникода</a></li>
-     <!-- navigation toc: --> <li><a href="#datatype:examples:quadratic" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;`quadratic.py`</a></li>
-     <!-- navigation toc: --> <li><a href="#datatype:examples:csv2html" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;`csv2html.py`</a></li>
+     <!-- navigation toc: --> <li><a href="#datatype:examples:quadratic" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Решение квадратного уравнения</a></li>
+     <!-- navigation toc: --> <li><a href="#datatype:examples:csv2html" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Представление таблицы <code>csv</code> в HTML</a></li>
      <!-- navigation toc: --> <li><a href="._datatype-FlatUI006.html#datatype:exercises" style="font-size: 80%;"><b>Упражнения</b></a></li>
      <!-- navigation toc: --> <li><a href="._datatype-FlatUI006.html#datatype:exercises:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Изменение вывода символов Юникода</a></li>
      <!-- navigation toc: --> <li><a href="._datatype-FlatUI006.html#datatype:exercises:2" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Изменение <code>quadratic.py</code></a></li>
@@ -410,7 +410,7 @@ word <span style="color: #666666">=</span> <span style="color: #008000; font-wei
 <code>str.title()</code>, &#1074; &#1088;&#1077;&#1079;&#1091;&#1083;&#1100;&#1090;&#1072;&#1090;&#1077; &#1082;&#1086;&#1090;&#1086;&#1088;&#1086;&#1075;&#1086; &#1087;&#1077;&#1088;&#1074;&#1099;&#1081; &#1089;&#1080;&#1084;&#1074;&#1086;&#1083; &#1082;&#1072;&#1078;&#1076;&#1086;&#1075;&#1086; &#1089;&#1083;&#1086;&#1074;&#1072;
 &#1087;&#1088;&#1077;&#1086;&#1073;&#1088;&#1072;&#1079;&#1091;&#1077;&#1090;&#1089;&#1103; &#1082; &#1074;&#1077;&#1088;&#1093;&#1085;&#1077;&#1084;&#1091; &#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1091;, &#1072; &#1086;&#1089;&#1090;&#1072;&#1083;&#1100;&#1085;&#1099;&#1077; &#1089;&#1080;&#1084;&#1074;&#1086;&#1083;&#1099; &#8211; &#1082; &#1085;&#1080;&#1078;&#1085;&#1077;&#1084;&#1091;.
 
-<h2 id="datatype:examples:quadratic" class="anchor"><code>quadratic.py</code></h2>
+<h2 id="datatype:examples:quadratic" class="anchor">&#1056;&#1077;&#1096;&#1077;&#1085;&#1080;&#1077; &#1082;&#1074;&#1072;&#1076;&#1088;&#1072;&#1090;&#1085;&#1086;&#1075;&#1086; &#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1103;</h2>
 
 <p>
 &#1050;&#1074;&#1072;&#1076;&#1088;&#1072;&#1090;&#1085;&#1099;&#1077; &#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1103; &#8211; &#1101;&#1090;&#1086; &#1091;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1103; &#1074;&#1080;&#1076;&#1072; \( ax^2 + bx + c = 0 \), &#1075;&#1076;&#1077; \( a \ne 0 \),
@@ -448,8 +448,16 @@ enter c: -7.25
 <div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>Terminal&gt; 1.5x 2 + -3.0x + 6.0 = 0 → x = (1+1.7320508j) or x = (1-1.7320508j)
 </pre></div>
 <p>
-&#1058;&#1077;&#1087;&#1077;&#1088;&#1100; &#1086;&#1073;&#1088;&#1072;&#1090;&#1080;&#1084;&#1089;&#1103; &#1082; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1085;&#1086;&#1084;&#1091; &#1082;&#1086;&#1076;&#1091;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1081; &#1085;&#1072;&#1095;&#1080;&#1085;&#1072;&#1077;&#1090;&#1089;&#1103; &#1090;&#1088;&#1077;&#1084;&#1103; &#1080;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1103;&#1084;&#1080; <code>import</code>:
+&#1058;&#1077;&#1087;&#1077;&#1088;&#1100; &#1086;&#1073;&#1088;&#1072;&#1090;&#1080;&#1084;&#1089;&#1103; &#1082; <a href="src-datatype/quadratic.py" target="_self">&#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1085;&#1086;&#1084;&#1091; &#1082;&#1086;&#1076;&#1091;</a>,
+&#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1081; &#1085;&#1072;&#1095;&#1080;&#1085;&#1072;&#1077;&#1090;&#1089;&#1103; &#1090;&#1088;&#1077;&#1084;&#1103; &#1080;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1103;&#1084;&#1080; <code>import</code>:
 
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">cmath</span>
+<span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">math</span>
+<span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">sys</span>
+</pre></div>
 <p>
 &#1053;&#1072;&#1084; &#1085;&#1077;&#1086;&#1073;&#1093;&#1086;&#1076;&#1080;&#1084;&#1099; &#1086;&#1073;&#1077; &#1084;&#1072;&#1090;&#1077;&#1084;&#1072;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1077; &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082;&#1080; &#1076;&#1083;&#1103; &#1088;&#1072;&#1073;&#1086;&#1090;&#1099; &#1089; &#1095;&#1080;&#1089;&#1083;&#1072;&#1084;&#1080; &#1090;&#1080;&#1087;&#1072;
 <code>float</code> &#1080; <code>complex</code>, &#1090;&#1072;&#1082; &#1082;&#1072;&#1082; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080;, &#1074;&#1099;&#1095;&#1080;&#1089;&#1083;&#1103;&#1102;&#1097;&#1080;&#1077; &#1082;&#1074;&#1072;&#1076;&#1088;&#1072;&#1090;&#1085;&#1099;&#1081; 
@@ -465,8 +473,7 @@ enter c: -7.25
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #408080; font-style: italic"># Start get_float</span>
-<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">get_float</span>(msg, allow_zero):
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">get_float</span>(msg, allow_zero):
     x <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
     <span style="color: #008000; font-weight: bold">while</span> x <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000; font-weight: bold">None</span>:
         <span style="color: #008000; font-weight: bold">try</span>:
@@ -490,8 +497,7 @@ enter c: -7.25
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #408080; font-style: italic"># Start 1st block</span>
-<span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;ax</span><span style="color: #BB6622; font-weight: bold">\N{SUPERSCRIPT TWO}</span><span style="color: #BA2121"> + bx + c = 0&quot;</span>)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;ax</span><span style="color: #BB6622; font-weight: bold">\N{SUPERSCRIPT TWO}</span><span style="color: #BA2121"> + bx + c = 0&quot;</span>)
 a <span style="color: #666666">=</span> get_float(<span style="color: #BA2121">&quot;enter a: &quot;</span>, <span style="color: #008000; font-weight: bold">False</span>)
 b <span style="color: #666666">=</span> get_float(<span style="color: #BA2121">&quot;enter b: &quot;</span>, <span style="color: #008000; font-weight: bold">False</span>)
 c <span style="color: #666666">=</span> get_float(<span style="color: #BA2121">&quot;enter c: &quot;</span>, <span style="color: #008000; font-weight: bold">False</span>)
@@ -504,8 +510,7 @@ c <span style="color: #666666">=</span> get_float(<span style="color: #BA2121">&
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #408080; font-style: italic"># Start 2d block</span>
-x1 <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>x1 <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
 x2 <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">None</span>
 discriminant <span style="color: #666666">=</span> (b <span style="color: #666666">**</span> <span style="color: #666666">2</span>) <span style="color: #666666">-</span> (<span style="color: #666666">4</span> <span style="color: #666666">*</span> a <span style="color: #666666">*</span> c)
 <span style="color: #008000; font-weight: bold">if</span> discriminant <span style="color: #666666">==</span> <span style="color: #666666">0</span>:
@@ -529,8 +534,7 @@ discriminant <span style="color: #666666">=</span> (b <span style="color: #66666
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #408080; font-style: italic"># Start 3d block</span>
-equation <span style="color: #666666">=</span> (<span style="color: #BA2121">&quot;</span><span style="color: #BB6688; font-weight: bold">{0}</span><span style="color: #BA2121">x</span><span style="color: #BB6622; font-weight: bold">\N{SUPERSCRIPT TWO}</span><span style="color: #BA2121"> + </span><span style="color: #BB6688; font-weight: bold">{1}</span><span style="color: #BA2121">x + </span><span style="color: #BB6688; font-weight: bold">{2}</span><span style="color: #BA2121"> = 0&quot;</span>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>equation <span style="color: #666666">=</span> (<span style="color: #BA2121">&quot;</span><span style="color: #BB6688; font-weight: bold">{0}</span><span style="color: #BA2121">x</span><span style="color: #BB6622; font-weight: bold">\N{SUPERSCRIPT TWO}</span><span style="color: #BA2121"> + </span><span style="color: #BB6688; font-weight: bold">{1}</span><span style="color: #BA2121">x + </span><span style="color: #BB6688; font-weight: bold">{2}</span><span style="color: #BA2121"> = 0&quot;</span>
             <span style="color: #BA2121">&quot; </span><span style="color: #BB6622; font-weight: bold">\N{RIGHTWARDS ARROW}</span><span style="color: #BA2121"> x = </span><span style="color: #BB6688; font-weight: bold">{3}</span><span style="color: #BA2121">&quot;</span>)<span style="color: #666666">.</span>format(a, b, c, x1)
 <span style="color: #008000; font-weight: bold">if</span> x2 <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #008000; font-weight: bold">None</span>:
     equation <span style="color: #666666">+=</span> <span style="color: #BA2121">&quot; or x = </span><span style="color: #BB6688; font-weight: bold">{0}</span><span style="color: #BA2121">&quot;</span><span style="color: #666666">.</span>format(x2)
@@ -543,7 +547,7 @@ equation <span style="color: #666666">=</span> (<span style="color: #BA2121">&qu
 &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1083;&#1080; &#1085;&#1077;&#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1077; &#1080;&#1084;&#1077;&#1085;&#1072; &#1070;&#1085;&#1080;&#1082;&#1086;&#1076;&#1072; &#1076;&#1083;&#1103; &#1074;&#1099;&#1074;&#1086;&#1076;&#1072; &#1087;&#1072;&#1088;&#1099; &#1089;&#1087;&#1077;&#1094;&#1080;&#1072;&#1083;&#1100;&#1085;&#1099;&#1093;
 &#1089;&#1080;&#1084;&#1074;&#1086;&#1083;&#1086;&#1074;.
 
-<h2 id="datatype:examples:csv2html" class="anchor"><code>csv2html.py</code></h2>
+<h2 id="datatype:examples:csv2html" class="anchor">&#1055;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077; &#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1099; <code>csv</code> &#1074; HTML</h2>
 
 <p>
 &#1063;&#1072;&#1089;&#1090;&#1086; &#1073;&#1099;&#1074;&#1072;&#1077;&#1090; &#1085;&#1077;&#1086;&#1073;&#1093;&#1086;&#1076;&#1080;&#1084;&#1086; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1080;&#1090;&#1100; &#1076;&#1072;&#1085;&#1085;&#1099;&#1077; &#1074; &#1092;&#1086;&#1088;&#1084;&#1072;&#1090;&#1077; HTML. &#1042; &#1101;&#1090;&#1086;&#1084;
@@ -579,8 +583,7 @@ equation <span style="color: #666666">=</span> (<span style="color: #BA2121">&qu
 &quot;BAHRAIN&quot;,5,6,6,6,6
 </pre></div>
 <p>
-&#1055;&#1088;&#1077;&#1076;&#1087;&#1086;&#1083;&#1086;&#1078;&#1080;&#1084;, &#1095;&#1090;&#1086; &#1076;&#1072;&#1085;&#1085;&#1099;&#1077; &#1085;&#1072;&#1093;&#1086;&#1076;&#1103;&#1090;&#1089;&#1103; &#1074; &#1092;&#1072;&#1081;&#1083;&#1077;
-"sample.csv": "src-datatype/sample.csv" &#1080; &#1074;&#1099;&#1087;&#1086;&#1083;&#1085;&#1077;&#1085;&#1072; &#1082;&#1086;&#1084;&#1072;&#1076;&#1085;&#1072; 
+&#1055;&#1088;&#1077;&#1076;&#1087;&#1086;&#1083;&#1086;&#1078;&#1080;&#1084;, &#1095;&#1090;&#1086; &#1076;&#1072;&#1085;&#1085;&#1099;&#1077; &#1085;&#1072;&#1093;&#1086;&#1076;&#1103;&#1090;&#1089;&#1103; &#1074; &#1092;&#1072;&#1081;&#1083;&#1077; <a href="src-datatype/sample.csv.txt" target="_self">sample.csv</a> &#1080; &#1074;&#1099;&#1087;&#1086;&#1083;&#1085;&#1077;&#1085;&#1072; &#1082;&#1086;&#1084;&#1072;&#1076;&#1085;&#1072; 
 <p>
 
 <!-- code=text (!bc sys) typeset with pygments style "default" -->
@@ -642,7 +645,7 @@ equation <span style="color: #666666">=</span> (<span style="color: #BA2121">&qu
 <p>
 <center> <!-- figure label: --> <div id="datatype:examples:fig:1"></div> <!-- FIGURE -->
 <hr class="figure">
-<center><p class="caption">Рисунок 5:  &#1058;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072;, &#1087;&#1088;&#1086;&#1080;&#1079;&#1074;&#1077;&#1076;&#1077;&#1085;&#1085;&#1072;&#1103; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1086;&#1081; csv2html.py, &#1074; &#1073;&#1088;&#1086;&#1091;&#1079;&#1077;&#1088;&#1077;  <!-- caption label: datatype:examples:fig:1 --> </p></center>
+<center><p class="caption">Рисунок 5:  &#1058;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072;, &#1087;&#1088;&#1086;&#1080;&#1079;&#1074;&#1077;&#1076;&#1077;&#1085;&#1085;&#1072;&#1103; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1086;&#1081; <a href="src-datatype/csv2html.py" target="_self">csv2html.py</a>, &#1074; &#1073;&#1088;&#1086;&#1091;&#1079;&#1077;&#1088;&#1077;  <!-- caption label: datatype:examples:fig:1 --> </p></center>
 <p><img src="fig-datatype/example_1.png" align="bottom" width=400></p>
 </center>
 
@@ -669,10 +672,10 @@ equation <span style="color: #666666">=</span> (<span style="color: #BA2121">&qu
 &#1080;&#1084;&#1077;&#1077;&#1090; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103;.
 
 <p>
-&#1042; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1077; <code>csv2html.py</code> &#1087;&#1077;&#1088;&#1074;&#1086;&#1081; &#1074;&#1099;&#1079;&#1099;&#1074;&#1072;&#1077;&#1084;&#1086;&#1081; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1077;&#1081; &#1103;&#1074;&#1083;&#1103;&#1077;&#1090;&#1089;&#1103; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103;
-<code>main()</code>, &#1082;&#1086;&#1090;&#1086;&#1088;&#1072;&#1103; &#1074; &#1089;&#1074;&#1086;&#1102; &#1086;&#1095;&#1077;&#1088;&#1077;&#1076;&#1100; &#1074;&#1099;&#1079;&#1099;&#1074;&#1072;&#1077;&#1090; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080; <code>print_start()</code> &#1080;
-<code>print_line()</code>. &#1060;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103; <code>print_line()</code> &#1074;&#1099;&#1079;&#1099;&#1074;&#1072;&#1077;&#1090; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080;
-<code>extract_fields()</code> &#1080; <code>escape_html()</code>.
+&#1042; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1077; <a href="src-datatype/csv2html.py" target="_self">csv2html.py</a> &#1087;&#1077;&#1088;&#1074;&#1086;&#1081;
+&#1074;&#1099;&#1079;&#1099;&#1074;&#1072;&#1077;&#1084;&#1086;&#1081; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1077;&#1081; &#1103;&#1074;&#1083;&#1103;&#1077;&#1090;&#1089;&#1103; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103; <code>main()</code>, &#1082;&#1086;&#1090;&#1086;&#1088;&#1072;&#1103; &#1074; &#1089;&#1074;&#1086;&#1102; &#1086;&#1095;&#1077;&#1088;&#1077;&#1076;&#1100;
+&#1074;&#1099;&#1079;&#1099;&#1074;&#1072;&#1077;&#1090; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080; <code>print_start()</code> &#1080; <code>print_line()</code>. &#1060;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103;
+<code>print_line()</code> &#1074;&#1099;&#1079;&#1099;&#1074;&#1072;&#1077;&#1090; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080; <code>extract_fields()</code> &#1080; <code>escape_html()</code>.
 
 <p>
 &#1050;&#1086;&#1075;&#1076;&#1072; &#1080;&#1085;&#1090;&#1077;&#1088;&#1087;&#1088;&#1077;&#1090;&#1072;&#1090;&#1086;&#1088; Python &#1095;&#1080;&#1090;&#1072;&#1077;&#1090; &#1092;&#1072;&#1081;&#1083;, &#1086;&#1085; &#1085;&#1072;&#1095;&#1080;&#1085;&#1072;&#1077;&#1090; &#1076;&#1077;&#1083;&#1072;&#1090;&#1100; &#1101;&#1090;&#1086; &#1089;
