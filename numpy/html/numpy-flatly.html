@@ -1,0 +1,399 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Основы NumPy: массивы и векторные вычисления">
+
+<title>Основы NumPy: массивы и векторные вычисления</title>
+
+<!-- Bootstrap style: bootswatch_flatly -->
+<link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/flatly/bootstrap.min.css" rel="stylesheet">
+<!-- not necessary
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+/* Let inline verbatim have the same color as the surroundings */
+code { color: inherit; background-color: transparent; }
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:60px;      /* fixed header height for style bootswatch_flatly */
+  margin:-60px 0 0; /* negative fixed header height */
+}
+
+body { font-size:20px; }
+</style>
+
+
+
+
+<!-- Tools for embedded Bokeh plots -->
+<link rel=stylesheet 
+      href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
+      type=text/css />
+<script type=text/javascript 
+        src=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js>
+</script>
+<script type=text/javascript>
+  Bokeh.set_log_level("info");
+</script>
+
+<style>
+.bk-embeded {
+    width: 100%;
+    margin: auto;
+    height: 500px;
+    text-align: webkit-left;
+}
+</style>
+
+
+</head>
+
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [('Объект многомерных массивов `ndarray`',
+               1,
+               'numpy:ndarray',
+               'numpy:ndarray'),
+              ('Создание массива',
+               2,
+               'numpy:ndarray:create',
+               'numpy:ndarray:create'),
+              ('Арифметические операции с массивами NumPy',
+               2,
+               'numpy:ndarray:arithm',
+               'numpy:ndarray:arithm'),
+              ('Основы индексирования и срезы',
+               2,
+               'numpy:ndarray:index',
+               'numpy:ndarray:index'),
+              ('Индексирование с помощью срезов',
+               3,
+               'numpy:ndarray:index:slices',
+               'numpy:ndarray:index:slices'),
+              ('Логическое (Boolean) индексирование',
+               2,
+               'numpy:ndarray:index:boolean',
+               'numpy:ndarray:index:boolean'),
+              ('Необычное индексирование',
+               2,
+               'numpy:ndarray:fancy',
+               'numpy:ndarray:fancy'),
+              ('Транспонирование массивов и замена осей',
+               2,
+               'numpy:ndarray:transp',
+               'numpy:ndarray:transp'),
+              ('Универсальные функции: быстрые поэлементные функции от '
+               'массивов',
+               1,
+               'numpy:ufuncs',
+               'numpy:ufuncs'),
+              ('Программирование с использованием массивов',
+               1,
+               'numpy:prog-with-array',
+               'numpy:prog-with-array'),
+              ('Выражение условной логики в операциях с массивами',
+               2,
+               'numpy:prog-with-array:cond',
+               'numpy:prog-with-array:cond'),
+              ('Математические и статистические методы',
+               2,
+               'numpy:prog-with-array:math-stat',
+               'numpy:prog-with-array:math-stat'),
+              ('Методы для булевых массивов',
+               2,
+               'numpy:prog-with-array:bool',
+               'numpy:prog-with-array:bool'),
+              ('Сортировка',
+               2,
+               'numpy:prog-with-array:sorting',
+               'numpy:prog-with-array:sorting'),
+              ('Основные операции над множествами для массивов',
+               2,
+               'numpy:prog-with-array:unique',
+               'numpy:prog-with-array:unique'),
+              ('Чтение и запись в/из файлы массивов',
+               1,
+               'numpy:input-output',
+               'numpy:input-output'),
+              ('Линейная алгебра', 1, 'numpy:linear-alg', 'numpy:linear-alg'),
+              ('Генерация псевдослучайных числел',
+               1,
+               'numpy:pseudornd',
+               'numpy:pseudornd'),
+              ('Пример: Случайное блуждание',
+               1,
+               'numpy:example',
+               'numpy:example'),
+              ('Упражнения', 1, 'numpy:exer', 'numpy:exer'),
+              ('Матрица из нулей и единиц',
+               2,
+               'numpy:exer:decor-matr',
+               'numpy:exer:decor-matr'),
+              ('Моделирование нескольких случайных блужданий за раз',
+               2,
+               'numpy:exer:rnd-walk',
+               'numpy:exer:rnd-walk')]}
+end of tocinfo -->
+
+<body>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "none"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript" async
+ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+    
+<!-- Bootstrap navigation bar -->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="numpy-flatly.html">Основы NumPy: массивы и векторные вычисления</a>
+  </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray" style="font-size: 80%;"><b>Объект многомерных массивов <code>ndarray</code></b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:create" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Создание массива</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:arithm" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Арифметические операции с массивами NumPy</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:index" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Основы индексирования и срезы</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:index:slices" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Индексирование с помощью срезов</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:index:boolean" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Логическое (Boolean) индексирование</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:fancy" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Необычное индексирование</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:transp" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Транспонирование массивов и замена осей</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly002.html#numpy:ufuncs" style="font-size: 80%;"><b>Универсальные функции: быстрые поэлементные функции от массивов</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array" style="font-size: 80%;"><b>Программирование с использованием массивов</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:cond" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Выражение условной логики в операциях с массивами</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:math-stat" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Математические и статистические методы</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:bool" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Методы для булевых массивов</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:sorting" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Сортировка</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:unique" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Основные операции над множествами для массивов</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly004.html#numpy:input-output" style="font-size: 80%;"><b>Чтение и запись в/из файлы массивов</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly005.html#numpy:linear-alg" style="font-size: 80%;"><b>Линейная алгебра</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly006.html#numpy:pseudornd" style="font-size: 80%;"><b>Генерация псевдослучайных числел</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly007.html#numpy:example" style="font-size: 80%;"><b>Пример: Случайное блуждание</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly008.html#numpy:exer" style="font-size: 80%;"><b>Упражнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly008.html#numpy:exer:decor-matr" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Матрица из нулей и единиц</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly008.html#numpy:exer:rnd-walk" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Моделирование нескольких случайных блужданий за раз</a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</div> <!-- end of navigation bar -->
+
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<a name="part0000"></a>
+<!-- ------------------- main content ---------------------- -->
+
+
+
+<div class="jumbotron">
+<center><h1>&#1054;&#1089;&#1085;&#1086;&#1074;&#1099; NumPy: &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1099; &#1080; &#1074;&#1077;&#1082;&#1090;&#1086;&#1088;&#1085;&#1099;&#1077; &#1074;&#1099;&#1095;&#1080;&#1089;&#1083;&#1077;&#1085;&#1080;&#1103;</h1></center>  <!-- document title -->
+
+<p>
+<!-- author(s): &#1057;.&#1042;. &#1051;&#1077;&#1084;&#1077;&#1096;&#1077;&#1074;&#1089;&#1082;&#1080;&#1081; -->
+
+<center>
+<b>&#1057;.&#1042;. &#1051;&#1077;&#1084;&#1077;&#1096;&#1077;&#1074;&#1089;&#1082;&#1080;&#1081;</b>  (<tt>sergey.lemeshevsky at gmail.com</tt>)
+</center>
+
+<p>
+<!-- institution -->
+
+<center><b>&#1048;&#1085;&#1089;&#1090;&#1080;&#1090;&#1091;&#1090; &#1084;&#1072;&#1090;&#1077;&#1084;&#1072;&#1090;&#1080;&#1082;&#1080; &#1053;&#1040;&#1053; &#1041;&#1077;&#1083;&#1072;&#1088;&#1091;&#1089;&#1080;</b></center>
+<br>
+<p>
+<center><h4>Mar 18, 2020</h4></center> <!-- date -->
+<br>
+<p>
+</div> <!-- end jumbotron -->
+
+<h1 id="table_of_contents">Содержание</h2>
+
+<p>
+<a href="._numpy-flatly001.html#numpy:ndarray"> &#1054;&#1073;&#1098;&#1077;&#1082;&#1090; &#1084;&#1085;&#1086;&#1075;&#1086;&#1084;&#1077;&#1088;&#1085;&#1099;&#1093; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1086;&#1074; <code>ndarray</code> </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._numpy-flatly001.html#numpy:ndarray:create"> &#1057;&#1086;&#1079;&#1076;&#1072;&#1085;&#1080;&#1077; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1072; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._numpy-flatly001.html#numpy:ndarray:arithm"> &#1040;&#1088;&#1080;&#1092;&#1084;&#1077;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1077; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080; &#1089; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1072;&#1084;&#1080; NumPy </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._numpy-flatly001.html#numpy:ndarray:index"> &#1054;&#1089;&#1085;&#1086;&#1074;&#1099; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; &#1080; &#1089;&#1088;&#1077;&#1079;&#1099; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._numpy-flatly001.html#numpy:ndarray:index:boolean"> &#1051;&#1086;&#1075;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1077; (Boolean) &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._numpy-flatly001.html#numpy:ndarray:fancy"> &#1053;&#1077;&#1086;&#1073;&#1099;&#1095;&#1085;&#1086;&#1077; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._numpy-flatly001.html#numpy:ndarray:transp"> &#1058;&#1088;&#1072;&#1085;&#1089;&#1087;&#1086;&#1085;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1086;&#1074; &#1080; &#1079;&#1072;&#1084;&#1077;&#1085;&#1072; &#1086;&#1089;&#1077;&#1081; </a><br>
+<a href="._numpy-flatly002.html#numpy:ufuncs"> &#1059;&#1085;&#1080;&#1074;&#1077;&#1088;&#1089;&#1072;&#1083;&#1100;&#1085;&#1099;&#1077; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080;: &#1073;&#1099;&#1089;&#1090;&#1088;&#1099;&#1077; &#1087;&#1086;&#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;&#1085;&#1099;&#1077; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080; &#1086;&#1090; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1086;&#1074; </a><br>
+<a href="._numpy-flatly003.html#numpy:prog-with-array"> &#1055;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; &#1089; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;&#1084; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1086;&#1074; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._numpy-flatly003.html#numpy:prog-with-array:cond"> &#1042;&#1099;&#1088;&#1072;&#1078;&#1077;&#1085;&#1080;&#1077; &#1091;&#1089;&#1083;&#1086;&#1074;&#1085;&#1086;&#1081; &#1083;&#1086;&#1075;&#1080;&#1082;&#1080; &#1074; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;&#1093; &#1089; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1072;&#1084;&#1080; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._numpy-flatly003.html#numpy:prog-with-array:math-stat"> &#1052;&#1072;&#1090;&#1077;&#1084;&#1072;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1077; &#1080; &#1089;&#1090;&#1072;&#1090;&#1080;&#1089;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1077; &#1084;&#1077;&#1090;&#1086;&#1076;&#1099; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._numpy-flatly003.html#numpy:prog-with-array:bool"> &#1052;&#1077;&#1090;&#1086;&#1076;&#1099; &#1076;&#1083;&#1103; &#1073;&#1091;&#1083;&#1077;&#1074;&#1099;&#1093; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1086;&#1074; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._numpy-flatly003.html#numpy:prog-with-array:sorting"> &#1057;&#1086;&#1088;&#1090;&#1080;&#1088;&#1086;&#1074;&#1082;&#1072; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._numpy-flatly003.html#numpy:prog-with-array:unique"> &#1054;&#1089;&#1085;&#1086;&#1074;&#1085;&#1099;&#1077; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080; &#1085;&#1072;&#1076; &#1084;&#1085;&#1086;&#1078;&#1077;&#1089;&#1090;&#1074;&#1072;&#1084;&#1080; &#1076;&#1083;&#1103; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1086;&#1074; </a><br>
+<a href="._numpy-flatly004.html#numpy:input-output"> &#1063;&#1090;&#1077;&#1085;&#1080;&#1077; &#1080; &#1079;&#1072;&#1087;&#1080;&#1089;&#1100; &#1074;/&#1080;&#1079; &#1092;&#1072;&#1081;&#1083;&#1099; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1086;&#1074; </a><br>
+<a href="._numpy-flatly005.html#numpy:linear-alg"> &#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;&#1103; &#1072;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072; </a><br>
+<a href="._numpy-flatly006.html#numpy:pseudornd"> &#1043;&#1077;&#1085;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; &#1087;&#1089;&#1077;&#1074;&#1076;&#1086;&#1089;&#1083;&#1091;&#1095;&#1072;&#1081;&#1085;&#1099;&#1093; &#1095;&#1080;&#1089;&#1083;&#1077;&#1083; </a><br>
+<a href="._numpy-flatly007.html#numpy:example"> &#1055;&#1088;&#1080;&#1084;&#1077;&#1088;: &#1057;&#1083;&#1091;&#1095;&#1072;&#1081;&#1085;&#1086;&#1077; &#1073;&#1083;&#1091;&#1078;&#1076;&#1072;&#1085;&#1080;&#1077; </a><br>
+<a href="._numpy-flatly008.html#numpy:exer"> &#1059;&#1087;&#1088;&#1072;&#1078;&#1085;&#1077;&#1085;&#1080;&#1103; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._numpy-flatly008.html#numpy:exer:decor-matr"> &#1052;&#1072;&#1090;&#1088;&#1080;&#1094;&#1072; &#1080;&#1079; &#1085;&#1091;&#1083;&#1077;&#1081; &#1080; &#1077;&#1076;&#1080;&#1085;&#1080;&#1094; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._numpy-flatly008.html#numpy:exer:rnd-walk"> &#1052;&#1086;&#1076;&#1077;&#1083;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; &#1085;&#1077;&#1089;&#1082;&#1086;&#1083;&#1100;&#1082;&#1080;&#1093; &#1089;&#1083;&#1091;&#1095;&#1072;&#1081;&#1085;&#1099;&#1093; &#1073;&#1083;&#1091;&#1078;&#1076;&#1072;&#1085;&#1080;&#1081; &#1079;&#1072; &#1088;&#1072;&#1079; </a><br>
+</p>
+<p>
+<!-- Common Mako variable and functions -->
+<!-- -<em>- coding: utf-8 -</em>- -->
+
+<p>
+&#1056;&#1072;&#1089;&#1089;&#1084;&#1072;&#1090;&#1088;&#1080;&#1074;&#1072;&#1077;&#1090;&#1089;&#1103; &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082;&#1072; NumPy. NumPy (&#1089;&#1086;&#1082;&#1088;&#1072;&#1097;&#1077;&#1085;&#1080;&#1077; &#1086;&#1090; <em>Numerical
+Python</em>) &#1087;&#1088;&#1077;&#1076;&#1086;&#1089;&#1090;&#1072;&#1074;&#1083;&#1103;&#1077;&#1090; &#1101;&#1092;&#1092;&#1077;&#1082;&#1090;&#1080;&#1074;&#1085;&#1099;&#1081; &#1080;&#1085;&#1090;&#1077;&#1088;&#1092;&#1077;&#1081;&#1089; &#1076;&#1083;&#1103; &#1093;&#1088;&#1072;&#1085;&#1077;&#1085;&#1080;&#1103; &#1080; &#1088;&#1072;&#1073;&#1086;&#1090;&#1099; &#1089;
+&#1076;&#1072;&#1085;&#1085;&#1099;&#1084;&#1080;. &#1042; &#1082;&#1072;&#1082;&#1086;&#1081;-&#1090;&#1086; &#1089;&#1090;&#1077;&#1087;&#1077;&#1085;&#1080; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1099; NumPy &#1072;&#1085;&#1072;&#1083;&#1086;&#1075;&#1080;&#1095;&#1085;&#1099; &#1089;&#1087;&#1080;&#1089;&#1082;&#1072;&#1084; Python,
+&#1085;&#1086; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1099; NumPy &#1086;&#1073;&#1077;&#1089;&#1087;&#1077;&#1095;&#1080;&#1074;&#1072;&#1102;&#1090; &#1075;&#1086;&#1088;&#1072;&#1079;&#1076;&#1086; &#1073;&#1086;&#1083;&#1077;&#1077; &#1101;&#1092;&#1092;&#1077;&#1082;&#1090;&#1080;&#1074;&#1085;&#1086;&#1077; &#1093;&#1088;&#1072;&#1085;&#1077;&#1085;&#1080;&#1077; &#1080;
+&#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080; &#1089; &#1076;&#1072;&#1085;&#1085;&#1099;&#1084;&#1080; &#1087;&#1088;&#1080; &#1091;&#1074;&#1077;&#1083;&#1080;&#1095;&#1077;&#1085;&#1080;&#1080; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1086;&#1074; &#1074; &#1088;&#1072;&#1079;&#1084;&#1077;&#1088;&#1077;. &#1045;&#1089;&#1083;&#1080; NumPy
+&#1091;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1083;&#1077;&#1085; &#1077;&#1075;&#1086; &#1084;&#1086;&#1078;&#1085;&#1086; &#1080;&#1084;&#1087;&#1086;&#1088;&#1090;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1077;&#1081; &#1082;&#1086;&#1084;&#1072;&#1085;&#1076;&#1086;&#1081;:
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">numpy</span>
+</pre></div>
+<p>
+&#1041;&#1086;&#1083;&#1100;&#1096;&#1080;&#1085;&#1089;&#1090;&#1074;&#1086; &#1083;&#1102;&#1076;&#1077;&#1081; &#1074; &#1084;&#1080;&#1088;&#1077; &#1085;&#1072;&#1091;&#1095;&#1085;&#1086;&#1075;&#1086; Python &#1080;&#1084;&#1087;&#1086;&#1088;&#1090;&#1080;&#1088;&#1091;&#1102;&#1090; NumPy, &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1103;
+<code>np</code> &#1074; &#1082;&#1072;&#1095;&#1077;&#1089;&#1090;&#1074;&#1077; &#1087;&#1089;&#1077;&#1074;&#1076;&#1086;&#1085;&#1080;&#1084;&#1072;:
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">numpy</span> <span style="color: #008000; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">np</span>
+</pre></div>
+<p>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+  <h3 class="panel-title">&#1054; &#1074;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1085;&#1086;&#1081; &#1076;&#1086;&#1082;&#1091;&#1084;&#1077;&#1085;&#1090;&#1072;&#1094;&#1080;&#1080;</h3>
+  </div>
+<div class="panel-body">
+<p> <!-- subsequent paragraphs come in larger fonts, so start with a paragraph -->
+&#1050;&#1072;&#1082; &#1073;&#1099;&#1083;&#1086; &#1088;&#1072;&#1089;&#1089;&#1082;&#1072;&#1079;&#1072;&#1085;&#1086; &#1074;&#1099;&#1096;&#1077; IPython &#1076;&#1072;&#1077;&#1090; &#1074;&#1086;&#1079;&#1084;&#1086;&#1078;&#1085;&#1086;&#1089;&#1090;&#1100; &#1073;&#1099;&#1089;&#1090;&#1088;&#1086; &#1087;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;&#1077;&#1090;&#1100;
+&#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1085;&#1080;&#1077; &#1087;&#1072;&#1082;&#1077;&#1090;&#1072;, &#1072; &#1090;&#1072;&#1082;&#1078;&#1077; &#1076;&#1086;&#1082;&#1091;&#1084;&#1077;&#1085;&#1090;&#1072;&#1094;&#1080;&#1102; &#1087;&#1086; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103;&#1084;.
+
+<p>
+&#1053;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;, &#1076;&#1083;&#1103; &#1090;&#1086;&#1075;&#1086; &#1095;&#1090;&#1086;&#1073;&#1099; &#1086;&#1090;&#1086;&#1073;&#1088;&#1072;&#1079;&#1080;&#1090;&#1100; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1085;&#1080;&#1077; &#1087;&#1088;&#1086;&#1089;&#1090;&#1088;&#1072;&#1085;&#1089;&#1090;&#1074;&#1072; &#1080;&#1084;&#1077;&#1085;
+<code>numpy</code>, &#1084;&#1086;&#1078;&#1085;&#1086; &#1074;&#1099;&#1087;&#1086;&#1083;&#1085;&#1080;&#1090;&#1100; &#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1077;&#1077;:
+
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [1]: </span>np<span style="color: #666666">.&lt;</span>TAB<span style="color: #666666">&gt;</span>
+</pre></div>
+<p>
+&#1044;&#1083;&#1103; &#1086;&#1090;&#1086;&#1073;&#1088;&#1072;&#1078;&#1077;&#1085;&#1080;&#1103; &#1074;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1085;&#1086;&#1081; &#1076;&#1086;&#1082;&#1091;&#1084;&#1077;&#1085;&#1090;&#1072;&#1094;&#1080;&#1080; NumPy &#1084;&#1086;&#1078;&#1085;&#1086; &#1085;&#1072;&#1073;&#1088;&#1072;&#1090;&#1100;
+&#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1077;&#1077;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [2]: </span>np<span style="color: #666666">?</span>
+</pre></div>
+<p>
+&#1041;&#1086;&#1083;&#1077;&#1077; &#1076;&#1077;&#1090;&#1072;&#1083;&#1100;&#1085;&#1091;&#1102; &#1076;&#1086;&#1082;&#1091;&#1084;&#1077;&#1085;&#1090;&#1072;&#1094;&#1080;&#1102; &#1074;&#1084;&#1077;&#1089;&#1090;&#1077; &#1089; &#1091;&#1095;&#1077;&#1073;&#1085;&#1080;&#1082;&#1072;&#1084;&#1080; &#1080; &#1076;&#1088;&#1091;&#1075;&#1080;&#1084;&#1080; &#1088;&#1077;&#1089;&#1091;&#1088;&#1089;&#1072;&#1084;&#1080;
+&#1084;&#1086;&#1078;&#1085;&#1086; &#1085;&#1072;&#1081;&#1090;&#1080; &#1087;&#1086; &#1072;&#1076;&#1088;&#1077;&#1089;&#1091;: <a href="https://numpy.org/" target="_self"><tt>https://numpy.org/</tt></a>
+</div>
+</div>
+
+
+<p>
+&#1054;&#1076;&#1085;&#1072; &#1080;&#1079; &#1087;&#1088;&#1080;&#1095;&#1080;&#1085; &#1090;&#1086;&#1075;&#1086;, &#1087;&#1086;&#1095;&#1077;&#1084;&#1091; NumPy &#1085;&#1072;&#1089;&#1090;&#1086;&#1083;&#1100;&#1082;&#1086; &#1074;&#1072;&#1078;&#1077;&#1085; &#1076;&#1083;&#1103; &#1095;&#1080;&#1089;&#1083;&#1077;&#1085;&#1085;&#1099;&#1093;
+&#1088;&#1072;&#1089;&#1095;&#1077;&#1090;&#1086;&#1074; &#1074; Python, &#1079;&#1072;&#1082;&#1083;&#1102;&#1095;&#1072;&#1077;&#1090;&#1089;&#1103; &#1074; &#1090;&#1086;&#1084;, &#1095;&#1090;&#1086; &#1086;&#1085; &#1088;&#1072;&#1079;&#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1085;, &#1082;&#1072;&#1082; &#1091;&#1078;&#1077;
+&#1091;&#1087;&#1086;&#1084;&#1080;&#1085;&#1072;&#1083;&#1086;&#1089;&#1100; &#1074;&#1099;&#1096;&#1077;, &#1076;&#1083;&#1103; &#1073;&#1086;&#1083;&#1077;&#1077; &#1101;&#1092;&#1092;&#1077;&#1082;&#1090;&#1080;&#1074;&#1085;&#1086;&#1081; &#1088;&#1072;&#1073;&#1086;&#1090;&#1099; &#1089; &#1073;&#1086;&#1083;&#1100;&#1096;&#1080;&#1084;&#1080; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1072;&#1084;&#1080;
+&#1076;&#1072;&#1085;&#1085;&#1099;&#1093;, &#1072; &#1080;&#1084;&#1077;&#1085;&#1085;&#1086;:
+
+<ul>
+<li> NumPy &#1093;&#1088;&#1072;&#1085;&#1080;&#1090; &#1076;&#1072;&#1085;&#1085;&#1099;&#1077; &#1074; &#1085;&#1077;&#1087;&#1088;&#1077;&#1088;&#1099;&#1074;&#1085;&#1099;&#1093; &#1073;&#1083;&#1086;&#1082;&#1072;&#1093; &#1087;&#1072;&#1084;&#1103;&#1090;&#1080;, &#1085;&#1077;&#1079;&#1072;&#1074;&#1080;&#1089;&#1080;&#1084;&#1086; &#1086;&#1090; &#1076;&#1088;&#1091;&#1075;&#1080;&#1093; &#1074;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1085;&#1099;&#1093; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1086;&#1074; Python. &#1041;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082;&#1072; &#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1086;&#1074; NumPy, &#1085;&#1072;&#1087;&#1080;&#1089;&#1072;&#1085;&#1085;&#1072;&#1103; &#1085;&#1072; &#1103;&#1079;&#1099;&#1082;&#1077; C, &#1084;&#1086;&#1078;&#1077;&#1090; &#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1090;&#1100; &#1085;&#1072; &#1101;&#1090;&#1086;&#1081; &#1087;&#1072;&#1084;&#1103;&#1090;&#1080; &#1073;&#1077;&#1079; &#1087;&#1088;&#1086;&#1074;&#1077;&#1088;&#1082;&#1080; &#1090;&#1080;&#1087;&#1086;&#1074; &#1080;&#1083;&#1080; &#1076;&#1088;&#1091;&#1075;&#1080;&#1093; &#1085;&#1072;&#1082;&#1083;&#1072;&#1076;&#1085;&#1099;&#1093; &#1088;&#1072;&#1089;&#1093;&#1086;&#1076;&#1086;&#1074;. &#1052;&#1072;&#1089;&#1089;&#1080;&#1074;&#1099; NumPy &#1090;&#1072;&#1082;&#1078;&#1077; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1102;&#1090; &#1085;&#1072;&#1084;&#1085;&#1086;&#1075;&#1086; &#1084;&#1077;&#1085;&#1100;&#1096;&#1077; &#1087;&#1072;&#1084;&#1103;&#1090;&#1080;, &#1095;&#1077;&#1084; &#1074;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1085;&#1099;&#1077; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1099; Python.</li>
+<li> &#1054;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080; NumPy &#1074;&#1099;&#1087;&#1086;&#1083;&#1085;&#1103;&#1102;&#1090; &#1089;&#1083;&#1086;&#1078;&#1085;&#1099;&#1077; &#1074;&#1099;&#1095;&#1080;&#1089;&#1083;&#1077;&#1085;&#1080;&#1103; &#1085;&#1072;&#1076; &#1074;&#1089;&#1077;&#1084; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1086;&#1084; &#1073;&#1077;&#1079; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; &#1094;&#1080;&#1082;&#1083;&#1072; <code>for</code>.</li>
+</ul>
+
+&#1044;&#1083;&#1103; &#1090;&#1086;&#1075;&#1086; &#1095;&#1090;&#1086;&#1073;&#1099; &#1087;&#1086;&#1082;&#1072;&#1079;&#1072;&#1090;&#1100; &#1088;&#1072;&#1079;&#1085;&#1080;&#1094;&#1091; &#1074; &#1087;&#1088;&#1086;&#1080;&#1079;&#1074;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;&#1089;&#1090;&#1080;, &#1088;&#1072;&#1089;&#1089;&#1084;&#1086;&#1090;&#1088;&#1080;&#1084;
+&#1084;&#1072;&#1089;&#1089;&#1080;&#1074; NumPy &#1080;&#1079; &#1086;&#1076;&#1085;&#1086;&#1075;&#1086; &#1084;&#1080;&#1083;&#1083;&#1080;&#1086;&#1085;&#1072; &#1094;&#1077;&#1083;&#1099;&#1093; &#1095;&#1080;&#1089;&#1077;&#1083; &#1080; &#1101;&#1082;&#1074;&#1080;&#1074;&#1072;&#1083;&#1077;&#1085;&#1090;&#1085;&#1099;&#1081; &#1089;&#1087;&#1080;&#1089;&#1086;&#1082;:
+
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [1]: </span><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">numpy</span> <span style="color: #008000; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">np</span>
+
+<span style="color: #000080; font-weight: bold">In [2]: </span>my_arr <span style="color: #666666">=</span> np<span style="color: #666666">.</span>arange(<span style="color: #666666">1000000</span>)
+
+<span style="color: #000080; font-weight: bold">In [3]: </span>my_list <span style="color: #666666">=</span> <span style="color: #008000">list</span>(<span style="color: #008000">range</span>(<span style="color: #666666">1000000</span>))
+</pre></div>
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [4]: </span><span style="color: #666666">%%time</span> for _ in range(10): my_arr2 = my_arr*2
+<span style="color: #888888">CPU times: user 18 ms, sys: 26.4 ms, total: 44.4 ms</span>
+<span style="color: #888888">Wall time: 86.1 ms</span>
+</pre></div>
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [5]: </span><span style="color: #666666">%%time</span> for _ in range(10): my_list2 = [x * 2 for x in my_list]
+<span style="color: #888888">CPU times: user 544 ms, sys: 105 ms, total: 650 ms</span>
+<span style="color: #888888">Wall time: 655 ms</span>
+</pre></div>
+<p>
+<p>
+<!-- navigation buttons at the bottom of the page -->
+<ul class="pager">
+
+  <li class="next">
+    <a href="._numpy-flatly001.html">Next &rarr;</a>
+  </li>
+</ul>
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+

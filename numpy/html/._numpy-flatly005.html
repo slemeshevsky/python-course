@@ -1,0 +1,413 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Основы NumPy: массивы и векторные вычисления">
+
+<title>Основы NumPy: массивы и векторные вычисления</title>
+
+<!-- Bootstrap style: bootswatch_flatly -->
+<link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/flatly/bootstrap.min.css" rel="stylesheet">
+<!-- not necessary
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+/* Let inline verbatim have the same color as the surroundings */
+code { color: inherit; background-color: transparent; }
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:60px;      /* fixed header height for style bootswatch_flatly */
+  margin:-60px 0 0; /* negative fixed header height */
+}
+
+body { font-size:20px; }
+</style>
+
+
+
+
+<!-- Tools for embedded Bokeh plots -->
+<link rel=stylesheet 
+      href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
+      type=text/css />
+<script type=text/javascript 
+        src=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js>
+</script>
+<script type=text/javascript>
+  Bokeh.set_log_level("info");
+</script>
+
+<style>
+.bk-embeded {
+    width: 100%;
+    margin: auto;
+    height: 500px;
+    text-align: webkit-left;
+}
+</style>
+
+
+</head>
+
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [('Объект многомерных массивов `ndarray`',
+               1,
+               'numpy:ndarray',
+               'numpy:ndarray'),
+              ('Создание массива',
+               2,
+               'numpy:ndarray:create',
+               'numpy:ndarray:create'),
+              ('Арифметические операции с массивами NumPy',
+               2,
+               'numpy:ndarray:arithm',
+               'numpy:ndarray:arithm'),
+              ('Основы индексирования и срезы',
+               2,
+               'numpy:ndarray:index',
+               'numpy:ndarray:index'),
+              ('Индексирование с помощью срезов',
+               3,
+               'numpy:ndarray:index:slices',
+               'numpy:ndarray:index:slices'),
+              ('Логическое (Boolean) индексирование',
+               2,
+               'numpy:ndarray:index:boolean',
+               'numpy:ndarray:index:boolean'),
+              ('Необычное индексирование',
+               2,
+               'numpy:ndarray:fancy',
+               'numpy:ndarray:fancy'),
+              ('Транспонирование массивов и замена осей',
+               2,
+               'numpy:ndarray:transp',
+               'numpy:ndarray:transp'),
+              ('Универсальные функции: быстрые поэлементные функции от '
+               'массивов',
+               1,
+               'numpy:ufuncs',
+               'numpy:ufuncs'),
+              ('Программирование с использованием массивов',
+               1,
+               'numpy:prog-with-array',
+               'numpy:prog-with-array'),
+              ('Выражение условной логики в операциях с массивами',
+               2,
+               'numpy:prog-with-array:cond',
+               'numpy:prog-with-array:cond'),
+              ('Математические и статистические методы',
+               2,
+               'numpy:prog-with-array:math-stat',
+               'numpy:prog-with-array:math-stat'),
+              ('Методы для булевых массивов',
+               2,
+               'numpy:prog-with-array:bool',
+               'numpy:prog-with-array:bool'),
+              ('Сортировка',
+               2,
+               'numpy:prog-with-array:sorting',
+               'numpy:prog-with-array:sorting'),
+              ('Основные операции над множествами для массивов',
+               2,
+               'numpy:prog-with-array:unique',
+               'numpy:prog-with-array:unique'),
+              ('Чтение и запись в/из файлы массивов',
+               1,
+               'numpy:input-output',
+               'numpy:input-output'),
+              ('Линейная алгебра', 1, 'numpy:linear-alg', 'numpy:linear-alg'),
+              ('Генерация псевдослучайных числел',
+               1,
+               'numpy:pseudornd',
+               'numpy:pseudornd'),
+              ('Пример: Случайное блуждание',
+               1,
+               'numpy:example',
+               'numpy:example'),
+              ('Упражнения', 1, 'numpy:exer', 'numpy:exer'),
+              ('Матрица из нулей и единиц',
+               2,
+               'numpy:exer:decor-matr',
+               'numpy:exer:decor-matr'),
+              ('Моделирование нескольких случайных блужданий за раз',
+               2,
+               'numpy:exer:rnd-walk',
+               'numpy:exer:rnd-walk')]}
+end of tocinfo -->
+
+<body>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "none"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript" async
+ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+    
+<!-- Bootstrap navigation bar -->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="numpy-flatly.html">Основы NumPy: массивы и векторные вычисления</a>
+  </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray" style="font-size: 80%;"><b>Объект многомерных массивов <code>ndarray</code></b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:create" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Создание массива</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:arithm" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Арифметические операции с массивами NumPy</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:index" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Основы индексирования и срезы</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:index:slices" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Индексирование с помощью срезов</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:index:boolean" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Логическое (Boolean) индексирование</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:fancy" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Необычное индексирование</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:transp" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Транспонирование массивов и замена осей</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly002.html#numpy:ufuncs" style="font-size: 80%;"><b>Универсальные функции: быстрые поэлементные функции от массивов</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array" style="font-size: 80%;"><b>Программирование с использованием массивов</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:cond" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Выражение условной логики в операциях с массивами</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:math-stat" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Математические и статистические методы</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:bool" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Методы для булевых массивов</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:sorting" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Сортировка</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:unique" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Основные операции над множествами для массивов</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly004.html#numpy:input-output" style="font-size: 80%;"><b>Чтение и запись в/из файлы массивов</b></a></li>
+     <!-- navigation toc: --> <li><a href="#numpy:linear-alg" style="font-size: 80%;"><b>Линейная алгебра</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly006.html#numpy:pseudornd" style="font-size: 80%;"><b>Генерация псевдослучайных числел</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly007.html#numpy:example" style="font-size: 80%;"><b>Пример: Случайное блуждание</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly008.html#numpy:exer" style="font-size: 80%;"><b>Упражнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly008.html#numpy:exer:decor-matr" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Матрица из нулей и единиц</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly008.html#numpy:exer:rnd-walk" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Моделирование нескольких случайных блужданий за раз</a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</div> <!-- end of navigation bar -->
+
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<a name="part0005"></a>
+<!-- !split -->
+
+<h1 id="numpy:linear-alg" class="anchor">&#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;&#1103; &#1072;&#1083;&#1075;&#1077;&#1073;&#1088;&#1072;</h1>
+
+<p>
+&#1052;&#1072;&#1090;&#1088;&#1080;&#1095;&#1085;&#1099;&#1077; &#1074;&#1099;&#1095;&#1080;&#1089;&#1083;&#1077;&#1085;&#1080;&#1103;, &#1090;&#1072;&#1082;&#1080;&#1077; &#1082;&#1072;&#1082; &#1091;&#1084;&#1085;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;, &#1087;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077;
+&#1088;&#1072;&#1079;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1081; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;, &#1074;&#1099;&#1095;&#1080;&#1089;&#1083;&#1077;&#1085;&#1080;&#1077; &#1086;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1080;&#1090;&#1077;&#1083;&#1103; &#1080; &#1076;&#1088;. &#1103;&#1074;&#1083;&#1103;&#1102;&#1090;&#1089;&#1103; &#1074;&#1072;&#1078;&#1085;&#1086;&#1081;
+&#1095;&#1072;&#1089;&#1090;&#1100;&#1102; &#1083;&#1102;&#1073;&#1086;&#1081; &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082;&#1080; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084; &#1076;&#1083;&#1103; &#1095;&#1080;&#1089;&#1083;&#1077;&#1085;&#1085;&#1099;&#1093; &#1088;&#1072;&#1089;&#1095;&#1077;&#1090;&#1086;&#1074;. &#1042; &#1086;&#1090;&#1083;&#1080;&#1095;&#1080;&#1077; &#1086;&#1090;
+&#1085;&#1077;&#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1093; &#1103;&#1079;&#1099;&#1082;&#1086;&#1074; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103;, &#1090;&#1072;&#1082;&#1080;&#1093; &#1082;&#1072;&#1082; MATLAB, &#1074; NumPy &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;
+<code>*</code> &#8212; &#1101;&#1090;&#1086; &#1087;&#1086;&#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;&#1085;&#1086;&#1077; &#1091;&#1084;&#1085;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;, &#1072; &#1085;&#1077; &#1089;&#1090;&#1072;&#1085;&#1076;&#1072;&#1088;&#1090;&#1085;&#1086;&#1077; &#1091;&#1084;&#1085;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;
+&#1084;&#1072;&#1090;&#1088;&#1080;&#1094; &#1080;&#1079; &#1083;&#1080;&#1085;&#1077;&#1081;&#1085;&#1086;&#1081; &#1072;&#1083;&#1075;&#1077;&#1073;&#1088;&#1099;. &#1042; &#1089;&#1074;&#1103;&#1079;&#1080; &#1089; &#1101;&#1090;&#1080;&#1084; &#1074; NumPy &#1076;&#1083;&#1103; &#1091;&#1084;&#1085;&#1086;&#1078;&#1077;&#1085;&#1080;&#1103;
+&#1084;&#1072;&#1090;&#1088;&#1080;&#1094; &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1086;&#1074;&#1072;&#1085;&#1072; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103; <code>dot</code> &#1082;&#1072;&#1082; &#1074; &#1074;&#1080;&#1076;&#1077; &#1084;&#1077;&#1090;&#1086;&#1076;&#1072; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1072; &#1090;&#1080;&#1087;&#1072;
+<code>ndarray</code>, &#1090;&#1072;&#1082; &#1080; &#1074; &#1074;&#1080;&#1076;&#1077; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080; &#1080;&#1079; &#1087;&#1088;&#1086;&#1089;&#1090;&#1088;&#1072;&#1085;&#1089;&#1090;&#1074;&#1072; &#1080;&#1084;&#1077;&#1085; <code>numpy</code>:
+
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [156]: </span>x <span style="color: #666666">=</span> np<span style="color: #666666">.</span>array([[<span style="color: #666666">1.</span>, <span style="color: #666666">2.</span>, <span style="color: #666666">3.</span>], [<span style="color: #666666">4.</span>, <span style="color: #666666">5.</span>, <span style="color: #666666">6.</span>]])
+
+<span style="color: #000080; font-weight: bold">In [157]: </span>y <span style="color: #666666">=</span> np<span style="color: #666666">.</span>array([[<span style="color: #666666">6.</span>, <span style="color: #666666">23.</span>], [<span style="color: #666666">-1</span>, <span style="color: #666666">7</span>], [<span style="color: #666666">8</span>, <span style="color: #666666">9</span>]])
+
+<span style="color: #000080; font-weight: bold">In [158]: </span>x
+<span style="color: #000080; font-weight: bold">Out[158]: </span><span style="color: #888888"></span>
+<span style="color: #888888">array([[1., 2., 3.],</span>
+<span style="color: #888888">       [4., 5., 6.]])</span>
+
+<span style="color: #000080; font-weight: bold">In [159]: </span>y
+<span style="color: #000080; font-weight: bold">Out[159]: </span><span style="color: #888888"></span>
+<span style="color: #888888">array([[ 6., 23.],</span>
+<span style="color: #888888">       [-1.,  7.],</span>
+<span style="color: #888888">       [ 8.,  9.]])</span>
+
+<span style="color: #000080; font-weight: bold">In [160]: </span>x<span style="color: #666666">.</span>dot(y)
+<span style="color: #000080; font-weight: bold">Out[160]: </span><span style="color: #888888"></span>
+<span style="color: #888888">array([[ 28.,  64.],</span>
+<span style="color: #888888">       [ 67., 181.]])</span>
+</pre></div>
+<p>
+&#1042;&#1099;&#1088;&#1072;&#1078;&#1077;&#1085;&#1080;&#1077; <code>x.dot(y)</code> &#1101;&#1082;&#1074;&#1080;&#1074;&#1072;&#1083;&#1077;&#1085;&#1090;&#1085;&#1086; <code>np.dot(x, y)</code>:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [161]: </span>np<span style="color: #666666">.</span>dot(x, y)
+<span style="color: #000080; font-weight: bold">Out[161]: </span><span style="color: #888888"></span>
+<span style="color: #888888">array([[ 28.,  64.],</span>
+<span style="color: #888888">       [ 67., 181.]])</span>
+</pre></div>
+<p>
+&#1055;&#1088;&#1086;&#1080;&#1079;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1077; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1099; &#1085;&#1072; &#1089;&#1086;&#1075;&#1083;&#1072;&#1089;&#1086;&#1074;&#1072;&#1085;&#1085;&#1099;&#1081; &#1086;&#1076;&#1085;&#1086;&#1084;&#1077;&#1088;&#1085;&#1099;&#1081; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074; &#1076;&#1072;&#1077;&#1090;
+&#1086;&#1076;&#1085;&#1086;&#1084;&#1077;&#1088;&#1085;&#1099;&#1081; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [162]: </span>np<span style="color: #666666">.</span>dot(x, np<span style="color: #666666">.</span>ones(<span style="color: #666666">3</span>))
+<span style="color: #000080; font-weight: bold">Out[162]: </span><span style="color: #888888">array([ 6., 15.])</span>
+</pre></div>
+<p>
+&#1054;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; <code>@</code> &#1090;&#1072;&#1082;&#1078;&#1077; &#1074;&#1099;&#1087;&#1086;&#1083;&#1085;&#1103;&#1077;&#1090; &#1091;&#1084;&#1085;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [163]: </span>x <span style="color: #666666">@</span> np<span style="color: #666666">.</span>ones(<span style="color: #666666">3</span>)
+<span style="color: #000080; font-weight: bold">Out[163]: </span><span style="color: #888888">array([ 6., 15.])</span>
+</pre></div>
+<p>
+&#1052;&#1086;&#1076;&#1091;&#1083;&#1100; <code>numpy.linalg</code> &#1089;&#1090;&#1072;&#1085;&#1076;&#1072;&#1088;&#1090;&#1085;&#1099;&#1081; &#1085;&#1072;&#1073;&#1086;&#1088; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1081; &#1076;&#1083;&#1103; &#1088;&#1072;&#1079;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1103; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;, &#1072;
+&#1090;&#1072;&#1082;&#1078;&#1077; &#1074;&#1099;&#1095;&#1080;&#1089;&#1083;&#1077;&#1085;&#1080;&#1103; &#1086;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1080;&#1090;&#1077;&#1083;&#1103; &#1080; &#1086;&#1073;&#1088;&#1072;&#1090;&#1085;&#1086;&#1081; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1099;. &#1054;&#1085;&#1080; &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1091;&#1102;&#1090;&#1089;&#1103; &#1089;
+&#1087;&#1086;&#1084;&#1086;&#1097;&#1100;&#1102; &#1090;&#1077;&#1093; &#1078;&#1077; &#1089;&#1090;&#1072;&#1085;&#1076;&#1072;&#1088;&#1090;&#1085;&#1099;&#1093; &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082; &#1083;&#1080;&#1085;&#1077;&#1081;&#1085;&#1086;&#1081; &#1072;&#1083;&#1075;&#1077;&#1073;&#1088;&#1099;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1077;
+&#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1102;&#1090;&#1089;&#1103; &#1074; &#1076;&#1088;&#1091;&#1075;&#1080;&#1093; &#1103;&#1079;&#1099;&#1082;&#1072;&#1093; (&#1085;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;, MATLAB &#1080; R), &#1090;&#1072;&#1082;&#1080;&#1093; &#1082;&#1072;&#1082; BLAS,
+LAPACK, &#1080;&#1083;&#1080;, &#1074;&#1086;&#1079;&#1084;&#1086;&#1078;&#1085;&#1086; (&#1074; &#1079;&#1072;&#1074;&#1080;&#1089;&#1080;&#1084;&#1086;&#1089;&#1090;&#1080; &#1086;&#1090; &#1074;&#1072;&#1096;&#1077;&#1081; &#1089;&#1073;&#1086;&#1088;&#1082;&#1080; NumPy),
+&#1087;&#1088;&#1086;&#1087;&#1088;&#1080;&#1077;&#1090;&#1072;&#1088;&#1085;&#1086;&#1081; Intel MKL (Math Kernel Library):
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [164]: </span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">numpy.linalg</span> <span style="color: #008000; font-weight: bold">import</span> inv, qr
+
+<span style="color: #000080; font-weight: bold">In [165]: </span>X <span style="color: #666666">=</span> np<span style="color: #666666">.</span>random<span style="color: #666666">.</span>randn(<span style="color: #666666">5</span>, <span style="color: #666666">5</span>)
+
+<span style="color: #000080; font-weight: bold">In [166]: </span>mat <span style="color: #666666">=</span> X<span style="color: #666666">.</span>T<span style="color: #666666">.</span>dot(X)
+
+<span style="color: #000080; font-weight: bold">In [167]: </span>inv(mat)
+<span style="color: #000080; font-weight: bold">Out[167]: </span><span style="color: #888888"></span>
+<span style="color: #888888">array([[  1.17126787,   0.63442101,  -0.43366495,   0.12451843,</span>
+<span style="color: #888888">         -0.43842659],</span>
+<span style="color: #888888">       [  0.63442101,  20.97155103,   4.85020898,   1.20337434,</span>
+<span style="color: #888888">        -25.85438743],</span>
+<span style="color: #888888">       [ -0.43366495,   4.85020898,   1.82425292,   0.15709542,</span>
+<span style="color: #888888">         -6.39429734],</span>
+<span style="color: #888888">       [  0.12451843,   1.20337434,   0.15709542,   0.33177322,</span>
+<span style="color: #888888">         -1.54477735],</span>
+<span style="color: #888888">       [ -0.43842659, -25.85438743,  -6.39429734,  -1.54477735,</span>
+<span style="color: #888888">         32.3946724 ]])</span>
+
+<span style="color: #000080; font-weight: bold">In [168]: </span>mat<span style="color: #666666">.</span>dot(inv(mat))
+<span style="color: #000080; font-weight: bold">Out[168]: </span><span style="color: #888888"></span>
+<span style="color: #888888">array([[ 1.00000000e+00,  4.44089210e-16,  0.00000000e+00,</span>
+<span style="color: #888888">        -1.38777878e-17, -4.44089210e-16],</span>
+<span style="color: #888888">       [ 0.00000000e+00,  1.00000000e+00,  7.10542736e-15,</span>
+<span style="color: #888888">         0.00000000e+00, -2.84217094e-14],</span>
+<span style="color: #888888">       [ 0.00000000e+00,  0.00000000e+00,  1.00000000e+00,</span>
+<span style="color: #888888">         8.88178420e-16, -1.42108547e-14],</span>
+<span style="color: #888888">       [-4.44089210e-16, -1.42108547e-14, -3.55271368e-15,</span>
+<span style="color: #888888">         1.00000000e+00,  1.42108547e-14],</span>
+<span style="color: #888888">       [ 0.00000000e+00, -1.42108547e-14, -3.55271368e-15,</span>
+<span style="color: #888888">         8.88178420e-16,  1.00000000e+00]])</span>
+
+<span style="color: #000080; font-weight: bold">In [169]: </span>q, r <span style="color: #666666">=</span> qr(mat)
+
+<span style="color: #000080; font-weight: bold">In [170]: </span>r
+<span style="color: #000080; font-weight: bold">Out[170]: </span><span style="color: #888888"></span>
+<span style="color: #888888">array([[-1.98177521, -1.01858515, -3.90022484, -1.74739689, -1.69358168],</span>
+<span style="color: #888888">       [ 0.        , -8.4068366 , -5.93064791, -5.55543324, -8.16388208],</span>
+<span style="color: #888888">       [ 0.        ,  0.        , -1.63499732, -2.80467309, -0.45129639],</span>
+<span style="color: #888888">       [ 0.        ,  0.        ,  0.        , -3.17546169, -0.14914608],</span>
+<span style="color: #888888">       [ 0.        ,  0.        ,  0.        ,  0.        ,  0.02382757]])</span>
+</pre></div>
+<p>
+&#1042; &#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1077; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1083;&#1077;&#1085;&#1099; &#1085;&#1072;&#1080;&#1073;&#1086;&#1083;&#1077;&#1077; &#1095;&#1072;&#1089;&#1090;&#1086; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1077;&#1084;&#1099;&#1077; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080; &#1083;&#1080;&#1085;&#1077;&#1081;&#1085;&#1086;&#1081;
+&#1072;&#1083;&#1075;&#1077;&#1073;&#1088;&#1099;.
+
+<p>
+<p class='env-table'><em>&#1058;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072; 6. &#1063;&#1072;&#1089;&#1090;&#1086; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1077;&#1084;&#1099;&#1077; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080; &#1084;&#1086;&#1076;&#1091;&#1083;&#1103; <code>numpy.linalg</code> <div id="numpy:linear-alg:tbl:1"></div></em>
+
+<p>
+
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table table-striped table-hover table-condensed">
+<thead>
+<tr><td align="left"><b>&#1060;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103;</b></td> <td align="left"><b>                                                                                                                                                                                                                                                                                                                                                                                                                                                                             &#1054;&#1087;&#1080;&#1089;&#1072;&#1085;&#1080;&#1077;                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </b></td> </tr>
+</thead>
+<tbody>
+<tr><td align="left">   <code>diag</code>                                    </td> <td align="left">   &#1042;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1090; &#1076;&#1080;&#1072;&#1075;&#1086;&#1085;&#1072;&#1083;&#1100;&#1085;&#1099;&#1077; &#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;&#1099; &#1082;&#1074;&#1072;&#1076;&#1088;&#1072;&#1090;&#1085;&#1086;&#1081; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1099; &#1074; &#1074;&#1080;&#1076;&#1077; &#1086;&#1076;&#1085;&#1086;&#1084;&#1077;&#1088;&#1085;&#1086;&#1075;&#1086; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1072; &#1080;&#1083;&#1080; &#1087;&#1088;&#1077;&#1086;&#1073;&#1088;&#1072;&#1079;&#1091;&#1077;&#1090; &#1086;&#1076;&#1085;&#1086;&#1084;&#1077;&#1088;&#1085;&#1099;&#1081; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074; &#1074; &#1082;&#1074;&#1072;&#1076;&#1088;&#1072;&#1090;&#1085;&#1091;&#1102; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1091; &#1089; &#1085;&#1091;&#1083;&#1103;&#1084;&#1080; &#1074;&#1085;&#1077; &#1076;&#1080;&#1072;&#1075;&#1086;&#1085;&#1072;&#1083;&#1080;    </td> </tr>
+<tr><td align="left">   <code>dot</code>                                     </td> <td align="left">   &#1059;&#1084;&#1085;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </td> </tr>
+<tr><td align="left">   <code>trace</code>                                   </td> <td align="left">   &#1057;&#1083;&#1077;&#1076; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1099; &#8212; &#1089;&#1091;&#1084;&#1084;&#1072; &#1076;&#1080;&#1072;&#1075;&#1086;&#1085;&#1072;&#1083;&#1100;&#1085;&#1099;&#1093; &#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;&#1086;&#1074;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </td> </tr>
+<tr><td align="left">   <code>det</code>                                     </td> <td align="left">   &#1054;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1080;&#1090;&#1077;&#1083;&#1100; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1099;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </td> </tr>
+<tr><td align="left">   <code>eig</code>                                     </td> <td align="left">   &#1042;&#1099;&#1095;&#1080;&#1089;&#1083;&#1103;&#1077;&#1090; &#1089;&#1086;&#1073;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1077; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103; &#1080; &#1089;&#1086;&#1073;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1077; &#1074;&#1077;&#1082;&#1090;&#1086;&#1088;&#1099; &#1082;&#1074;&#1072;&#1076;&#1088;&#1072;&#1090;&#1085;&#1086;&#1081; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1099;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </td> </tr>
+<tr><td align="left">   <code>inv</code>                                     </td> <td align="left">   &#1042;&#1099;&#1095;&#1080;&#1089;&#1083;&#1103;&#1077;&#1090; &#1086;&#1073;&#1088;&#1072;&#1090;&#1085;&#1091;&#1102; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1091;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </td> </tr>
+<tr><td align="left">   <code>pinv</code>                                    </td> <td align="left">   &#1042;&#1099;&#1095;&#1080;&#1089;&#1083;&#1103;&#1077;&#1090; &#1087;&#1089;&#1077;&#1074;&#1076;&#1086;&#1086;&#1073;&#1088;&#1072;&#1090;&#1085;&#1091;&#1102; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1091; &#1052;&#1091;&#1088;&#1072;&#8212;&#1055;&#1077;&#1085;&#1088;&#1086;&#1091;&#1079;&#1072;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </td> </tr>
+<tr><td align="left">   <code>qr</code>                                      </td> <td align="left">   &#1042;&#1099;&#1095;&#1080;&#1089;&#1083;&#1103;&#1077;&#1090; \( QR \) &#1088;&#1072;&#1079;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1099;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </td> </tr>
+<tr><td align="left">   <code>svd</code>                                     </td> <td align="left">   &#1042;&#1099;&#1095;&#1080;&#1089;&#1083;&#1103;&#1077;&#1090; &#1089;&#1080;&#1085;&#1075;&#1091;&#1083;&#1103;&#1088;&#1085;&#1086;&#1077; &#1088;&#1072;&#1079;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1099; (SVD)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </td> </tr>
+<tr><td align="left">   <code>solve</code>                                   </td> <td align="left">   &#1056;&#1077;&#1096;&#1072;&#1077;&#1090; &#1083;&#1080;&#1085;&#1077;&#1081;&#1085;&#1091;&#1102; &#1089;&#1080;&#1089;&#1090;&#1077;&#1084;&#1091; \( A x = b \), &#1075;&#1076;&#1077; \( A \) &#8212; &#1082;&#1074;&#1072;&#1076;&#1088;&#1072;&#1090;&#1085;&#1072;&#1103; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1072;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </td> </tr>
+<tr><td align="left">   <code>lstsq</code>                                   </td> <td align="left">   &#1053;&#1072;&#1093;&#1086;&#1076;&#1080;&#1090; &#1088;&#1077;&#1096;&#1077;&#1085;&#1080;&#1077; &#1083;&#1080;&#1085;&#1077;&#1081;&#1085;&#1086;&#1081; &#1089;&#1080;&#1089;&#1090;&#1077;&#1084;&#1099; \( Ax = b \) &#1084;&#1077;&#1090;&#1086;&#1076;&#1086;&#1084; &#1085;&#1072;&#1080;&#1084;&#1077;&#1085;&#1100;&#1096;&#1080;&#1093; &#1082;&#1074;&#1072;&#1076;&#1088;&#1072;&#1090;&#1086;&#1074;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </td> </tr>
+</tbody>
+    </table>
+  </div> <!-- col-xs-12 -->
+</div> <!-- cell row -->
+</p>
+
+<p>
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "numpy" -->
+<!-- doconce-section-nickname: "linear-alg" -->
+<!-- End: -->
+
+<p>
+<p>
+<!-- navigation buttons at the bottom of the page -->
+<ul class="pager">
+
+  <li class="previous">
+    <a href="._numpy-flatly004.html">&larr; Prev</a>
+  </li>
+
+  <li class="next">
+    <a href="._numpy-flatly006.html">Next &rarr;</a>
+  </li>
+</ul>
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+

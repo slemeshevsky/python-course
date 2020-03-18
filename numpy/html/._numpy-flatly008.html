@@ -1,0 +1,296 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Основы NumPy: массивы и векторные вычисления">
+
+<title>Основы NumPy: массивы и векторные вычисления</title>
+
+<!-- Bootstrap style: bootswatch_flatly -->
+<link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/flatly/bootstrap.min.css" rel="stylesheet">
+<!-- not necessary
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+/* Let inline verbatim have the same color as the surroundings */
+code { color: inherit; background-color: transparent; }
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:60px;      /* fixed header height for style bootswatch_flatly */
+  margin:-60px 0 0; /* negative fixed header height */
+}
+
+body { font-size:20px; }
+</style>
+
+
+
+
+<!-- Tools for embedded Bokeh plots -->
+<link rel=stylesheet 
+      href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
+      type=text/css />
+<script type=text/javascript 
+        src=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js>
+</script>
+<script type=text/javascript>
+  Bokeh.set_log_level("info");
+</script>
+
+<style>
+.bk-embeded {
+    width: 100%;
+    margin: auto;
+    height: 500px;
+    text-align: webkit-left;
+}
+</style>
+
+
+</head>
+
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [('Объект многомерных массивов `ndarray`',
+               1,
+               'numpy:ndarray',
+               'numpy:ndarray'),
+              ('Создание массива',
+               2,
+               'numpy:ndarray:create',
+               'numpy:ndarray:create'),
+              ('Арифметические операции с массивами NumPy',
+               2,
+               'numpy:ndarray:arithm',
+               'numpy:ndarray:arithm'),
+              ('Основы индексирования и срезы',
+               2,
+               'numpy:ndarray:index',
+               'numpy:ndarray:index'),
+              ('Индексирование с помощью срезов',
+               3,
+               'numpy:ndarray:index:slices',
+               'numpy:ndarray:index:slices'),
+              ('Логическое (Boolean) индексирование',
+               2,
+               'numpy:ndarray:index:boolean',
+               'numpy:ndarray:index:boolean'),
+              ('Необычное индексирование',
+               2,
+               'numpy:ndarray:fancy',
+               'numpy:ndarray:fancy'),
+              ('Транспонирование массивов и замена осей',
+               2,
+               'numpy:ndarray:transp',
+               'numpy:ndarray:transp'),
+              ('Универсальные функции: быстрые поэлементные функции от '
+               'массивов',
+               1,
+               'numpy:ufuncs',
+               'numpy:ufuncs'),
+              ('Программирование с использованием массивов',
+               1,
+               'numpy:prog-with-array',
+               'numpy:prog-with-array'),
+              ('Выражение условной логики в операциях с массивами',
+               2,
+               'numpy:prog-with-array:cond',
+               'numpy:prog-with-array:cond'),
+              ('Математические и статистические методы',
+               2,
+               'numpy:prog-with-array:math-stat',
+               'numpy:prog-with-array:math-stat'),
+              ('Методы для булевых массивов',
+               2,
+               'numpy:prog-with-array:bool',
+               'numpy:prog-with-array:bool'),
+              ('Сортировка',
+               2,
+               'numpy:prog-with-array:sorting',
+               'numpy:prog-with-array:sorting'),
+              ('Основные операции над множествами для массивов',
+               2,
+               'numpy:prog-with-array:unique',
+               'numpy:prog-with-array:unique'),
+              ('Чтение и запись в/из файлы массивов',
+               1,
+               'numpy:input-output',
+               'numpy:input-output'),
+              ('Линейная алгебра', 1, 'numpy:linear-alg', 'numpy:linear-alg'),
+              ('Генерация псевдослучайных числел',
+               1,
+               'numpy:pseudornd',
+               'numpy:pseudornd'),
+              ('Пример: Случайное блуждание',
+               1,
+               'numpy:example',
+               'numpy:example'),
+              ('Упражнения', 1, 'numpy:exer', 'numpy:exer'),
+              ('Матрица из нулей и единиц',
+               2,
+               'numpy:exer:decor-matr',
+               'numpy:exer:decor-matr'),
+              ('Моделирование нескольких случайных блужданий за раз',
+               2,
+               'numpy:exer:rnd-walk',
+               'numpy:exer:rnd-walk')]}
+end of tocinfo -->
+
+<body>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "none"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript" async
+ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+    
+<!-- Bootstrap navigation bar -->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="numpy-flatly.html">Основы NumPy: массивы и векторные вычисления</a>
+  </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray" style="font-size: 80%;"><b>Объект многомерных массивов <code>ndarray</code></b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:create" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Создание массива</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:arithm" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Арифметические операции с массивами NumPy</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:index" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Основы индексирования и срезы</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:index:slices" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Индексирование с помощью срезов</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:index:boolean" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Логическое (Boolean) индексирование</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:fancy" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Необычное индексирование</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly001.html#numpy:ndarray:transp" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Транспонирование массивов и замена осей</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly002.html#numpy:ufuncs" style="font-size: 80%;"><b>Универсальные функции: быстрые поэлементные функции от массивов</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array" style="font-size: 80%;"><b>Программирование с использованием массивов</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:cond" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Выражение условной логики в операциях с массивами</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:math-stat" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Математические и статистические методы</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:bool" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Методы для булевых массивов</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:sorting" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Сортировка</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly003.html#numpy:prog-with-array:unique" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Основные операции над множествами для массивов</a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly004.html#numpy:input-output" style="font-size: 80%;"><b>Чтение и запись в/из файлы массивов</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly005.html#numpy:linear-alg" style="font-size: 80%;"><b>Линейная алгебра</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly006.html#numpy:pseudornd" style="font-size: 80%;"><b>Генерация псевдослучайных числел</b></a></li>
+     <!-- navigation toc: --> <li><a href="._numpy-flatly007.html#numpy:example" style="font-size: 80%;"><b>Пример: Случайное блуждание</b></a></li>
+     <!-- navigation toc: --> <li><a href="#numpy:exer" style="font-size: 80%;"><b>Упражнения</b></a></li>
+     <!-- navigation toc: --> <li><a href="#numpy:exer:decor-matr" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Матрица из нулей и единиц</a></li>
+     <!-- navigation toc: --> <li><a href="#numpy:exer:rnd-walk" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Моделирование нескольких случайных блужданий за раз</a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</div> <!-- end of navigation bar -->
+
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<a name="part0008"></a>
+<!-- !split -->
+
+<h1 id="numpy:exer" class="anchor">&#1059;&#1087;&#1088;&#1072;&#1078;&#1085;&#1077;&#1085;&#1080;&#1103;</h1>
+
+<p>
+<!-- --- begin exercise --- -->
+
+<h2 id="numpy:exer:decor-matr" class="anchor">&#1052;&#1072;&#1090;&#1088;&#1080;&#1094;&#1072; &#1080;&#1079; &#1085;&#1091;&#1083;&#1077;&#1081; &#1080; &#1077;&#1076;&#1080;&#1085;&#1080;&#1094;</h2>
+
+<p>
+&#1053;&#1072;&#1087;&#1080;&#1096;&#1080;&#1090;&#1077; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1102; <code>decorate_matrix</code>, &#1082;&#1086;&#1090;&#1086;&#1088;&#1072;&#1103; &#1087;&#1086;&#1083;&#1091;&#1095;&#1072;&#1077;&#1090; &#1085;&#1072; &#1074;&#1093;&#1086;&#1076; &#1086;&#1076;&#1085;&#1086; &#1094;&#1077;&#1083;&#1086;&#1077;
+&#1095;&#1080;&#1089;&#1083;&#1086; &#1073;&#1086;&#1083;&#1100;&#1096;&#1077; &#1077;&#1076;&#1080;&#1085;&#1080;&#1094;&#1099;. &#1060;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103; &#1076;&#1086;&#1083;&#1078;&#1085;&#1072; &#1074;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1090;&#1100; &#1084;&#1072;&#1090;&#1088;&#1080;&#1094;&#1091; \( N\times N \), &#1091;
+&#1082;&#1086;&#1090;&#1086;&#1088;&#1086;&#1081; &#1085;&#1072; &#1075;&#1088;&#1072;&#1085;&#1080;&#1094;&#1072;&#1093; &#1089;&#1090;&#1086;&#1103;&#1090; &#1077;&#1076;&#1080;&#1085;&#1080;&#1094;&#1099;, &#1072; &#1085;&#1072; &#1074;&#1089;&#1077;&#1093; &#1086;&#1089;&#1090;&#1072;&#1083;&#1100;&#1085;&#1099;&#1093; &#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1103;&#1093;(&#1077;&#1089;&#1083;&#1080;
+&#1086;&#1089;&#1090;&#1072;&#1083;&#1080;&#1089;&#1100; &#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1080; &#1085;&#1077; &#1085;&#1072; &#1075;&#1088;&#1072;&#1085;&#1080;&#1094;&#1072;&#1093;) &#1089;&#1090;&#1086;&#1103;&#1090; &#1085;&#1091;&#1083;&#1080;.
+
+<p>
+<!-- --- end exercise --- -->
+
+<p>
+<!-- --- begin exercise --- -->
+
+<h2 id="numpy:exer:rnd-walk" class="anchor">&#1052;&#1086;&#1076;&#1077;&#1083;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; &#1085;&#1077;&#1089;&#1082;&#1086;&#1083;&#1100;&#1082;&#1080;&#1093; &#1089;&#1083;&#1091;&#1095;&#1072;&#1081;&#1085;&#1099;&#1093; &#1073;&#1083;&#1091;&#1078;&#1076;&#1072;&#1085;&#1080;&#1081; &#1079;&#1072; &#1088;&#1072;&#1079;</h2>
+
+<p>
+&#1053;&#1072;&#1087;&#1080;&#1089;&#1072;&#1090;&#1100; &#1089;&#1094;&#1077;&#1085;&#1072;&#1088;&#1080;&#1081;, &#1074; &#1082;&#1086;&#1090;&#1086;&#1088;&#1086;&#1084; &#1074;&#1099;&#1087;&#1086;&#1083;&#1085;&#1103;&#1077;&#1090;&#1089;&#1103; &#1084;&#1086;&#1076;&#1077;&#1083;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; &#1084;&#1085;&#1086;&#1075;&#1080;&#1093;
+&#1089;&#1083;&#1091;&#1095;&#1072;&#1081;&#1085;&#1099;&#1093; &#1073;&#1083;&#1091;&#1078;&#1076;&#1072;&#1085;&#1080;&#1081; (&#1087;&#1091;&#1090;&#1077;&#1081;) (&#1085;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;, 5000 &#1087;&#1091;&#1090;&#1077;&#1081;). &#1050;&#1088;&#1086;&#1084;&#1077; &#1090;&#1086;&#1075;&#1086;,
+&#1074;&#1099;&#1095;&#1080;&#1089;&#1083;&#1080;&#1090;&#1100; &#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1077; &#1080; &#1084;&#1080;&#1085;&#1080;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1077; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103;, &#1087;&#1086;&#1083;&#1091;&#1095;&#1077;&#1085;&#1085;&#1099;&#1077; &#1087;&#1086; &#1074;&#1089;&#1077;&#1084;
+&#1087;&#1091;&#1090;&#1103;&#1084;. &#1042;&#1099;&#1095;&#1080;&#1089;&#1083;&#1080;&#1090;&#1100; &#1084;&#1080;&#1085;&#1080;&#1084;&#1072;&#1083;&#1100;&#1085;&#1086;&#1077; &#1074;&#1088;&#1077;&#1084;&#1103; &#1087;&#1077;&#1088;&#1077;&#1093;&#1086;&#1076;&#1072; &#1095;&#1077;&#1088;&#1077;&#1079; \( 30 \) &#1080;&#1083;&#1080; \( -30 \).
+&#1048;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1081;&#1090;&#1077; &#1088;&#1072;&#1079;&#1085;&#1099;&#1077; &#1075;&#1077;&#1085;&#1077;&#1088;&#1072;&#1090;&#1086;&#1088;&#1099; &#1089;&#1083;&#1091;&#1095;&#1072;&#1081;&#1085;&#1099;&#1093; &#1095;&#1080;&#1089;&#1077;&#1083;.
+Имя файла: <code>many_random_walk_ans.py</code>.
+
+<p>
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "numpy" -->
+<!-- doconce-section-nickname: "exer" -->
+<!-- End: -->
+
+<p>
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "numpy" -->
+<!-- End: -->
+<!-- --- end exercise --- -->
+
+<p>
+<!-- navigation buttons at the bottom of the page -->
+<ul class="pager">
+
+  <li class="previous">
+    <a href="._numpy-flatly007.html">&larr; Prev</a>
+  </li>
+</ul>
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+

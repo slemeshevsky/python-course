@@ -1,0 +1,239 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Управляющие структуры и функции">
+
+<title>Управляющие структуры и функции</title>
+
+<!-- Bootstrap style: bootswatch_flatly -->
+<link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/flatly/bootstrap.min.css" rel="stylesheet">
+<!-- not necessary
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+/* Let inline verbatim have the same color as the surroundings */
+code { color: inherit; background-color: transparent; }
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:60px;      /* fixed header height for style bootswatch_flatly */
+  margin:-60px 0 0; /* negative fixed header height */
+}
+
+body { font-size:20px; }
+</style>
+
+
+<!-- Tools for embedded Bokeh plots -->
+<link rel=stylesheet 
+      href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
+      type=text/css />
+<script type=text/javascript 
+        src=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js>
+</script>
+<script type=text/javascript>
+  Bokeh.set_log_level("info");
+</script>
+
+<style>
+.bk-embeded {
+    width: 100%;
+    margin: auto;
+    height: 500px;
+    text-align: webkit-left;
+}
+</style>
+
+
+</head>
+
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [('Управляющие структуры',
+               1,
+               'control:ifcycle',
+               'control:ifcycle'),
+              ('Условное ветвление',
+               2,
+               'control:ifcycle:if',
+               'control:ifcycle:if'),
+              ('Циклы', 2, 'control:ifcycle:cycle', 'control:ifcycle:cycle'),
+              ('Циклы `while`',
+               3,
+               'control:ifcycle:cycle:while',
+               'control:ifcycle:cycle:while'),
+              ('Циклы `for`',
+               2,
+               'control:ifcycle:cycle:for',
+               'control:ifcycle:cycle:for'),
+              ('Обработка исключений', 1, 'control:except', 'control:except'),
+              ('Перехват и возбуждение исключений',
+               2,
+               'control:except:tryexept',
+               'control:except:tryexept'),
+              ('Возбуждение исключений',
+               1,
+               'control:except:tryexept:1',
+               'control:except:tryexept:1'),
+              ('Собственные функции', 1, 'control:funcs', 'control:funcs'),
+              ('Распаковывание аргументов и параметров',
+               2,
+               'control:funcs:unpack',
+               'control:funcs:unpack'),
+              ('Доступ к переменным в глобальной области видимости',
+               2,
+               'control:funcs:global',
+               'control:funcs:global'),
+              ('Лямбда-функции',
+               2,
+               'control:funcs:lambda',
+               'control:funcs:lambda'),
+              ('Утверждения',
+               1,
+               'control:funcs:assert',
+               'control:funcs:assert')]}
+end of tocinfo -->
+
+<body>
+
+    
+<!-- Bootstrap navigation bar -->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="control-flatly.html">Управляющие структуры и функции</a>
+  </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+     <!-- navigation toc: --> <li><a href="._control-flatly001.html#control:ifcycle" style="font-size: 80%;"><b>Управляющие структуры</b></a></li>
+     <!-- navigation toc: --> <li><a href="._control-flatly001.html#control:ifcycle:if" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Условное ветвление</a></li>
+     <!-- navigation toc: --> <li><a href="._control-flatly001.html#control:ifcycle:cycle" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Циклы</a></li>
+     <!-- navigation toc: --> <li><a href="._control-flatly001.html#control:ifcycle:cycle:while" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Циклы <code>while</code></a></li>
+     <!-- navigation toc: --> <li><a href="._control-flatly001.html#control:ifcycle:cycle:for" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Циклы <code>for</code></a></li>
+     <!-- navigation toc: --> <li><a href="._control-flatly002.html#control:except" style="font-size: 80%;"><b>Обработка исключений</b></a></li>
+     <!-- navigation toc: --> <li><a href="._control-flatly002.html#control:except:tryexept" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Перехват и возбуждение исключений</a></li>
+     <!-- navigation toc: --> <li><a href="._control-flatly002.html#control:except:tryexept:1" style="font-size: 80%;"><b>Возбуждение исключений</b></a></li>
+     <!-- navigation toc: --> <li><a href="._control-flatly003.html#control:funcs" style="font-size: 80%;"><b>Собственные функции</b></a></li>
+     <!-- navigation toc: --> <li><a href="._control-flatly003.html#control:funcs:unpack" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Распаковывание аргументов и параметров</a></li>
+     <!-- navigation toc: --> <li><a href="._control-flatly003.html#control:funcs:global" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Доступ к переменным в глобальной области видимости</a></li>
+     <!-- navigation toc: --> <li><a href="._control-flatly003.html#control:funcs:lambda" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Лямбда-функции</a></li>
+     <!-- navigation toc: --> <li><a href="._control-flatly003.html#control:funcs:assert" style="font-size: 80%;"><b>Утверждения</b></a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</div> <!-- end of navigation bar -->
+
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<a name="part0000"></a>
+<!-- ------------------- main content ---------------------- -->
+
+
+
+<div class="jumbotron">
+<center><h1>&#1059;&#1087;&#1088;&#1072;&#1074;&#1083;&#1103;&#1102;&#1097;&#1080;&#1077; &#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1099; &#1080; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080;</h1></center>  <!-- document title -->
+
+<p>
+<!-- author(s): &#1057;.&#1042;. &#1051;&#1077;&#1084;&#1077;&#1096;&#1077;&#1074;&#1089;&#1082;&#1080;&#1081; -->
+
+<center>
+<b>&#1057;.&#1042;. &#1051;&#1077;&#1084;&#1077;&#1096;&#1077;&#1074;&#1089;&#1082;&#1080;&#1081;</b>  (<tt>sergey.lemeshevsky at gmail.com</tt>)
+</center>
+
+<p>
+<!-- institution -->
+
+<center><b>&#1048;&#1085;&#1089;&#1090;&#1080;&#1090;&#1091;&#1090; &#1084;&#1072;&#1090;&#1077;&#1084;&#1072;&#1090;&#1080;&#1082;&#1080; &#1053;&#1040;&#1053; &#1041;&#1077;&#1083;&#1072;&#1088;&#1091;&#1089;&#1080;</b></center>
+<br>
+<p>
+<center><h4>Mar 18, 2020</h4></center> <!-- date -->
+<br>
+<p>
+<!-- Common Mako variable and functions -->
+<!-- -<em>- coding: utf-8 -</em>- -->
+
+<p>
+&#1056;&#1072;&#1089;&#1089;&#1084;&#1072;&#1090;&#1088;&#1080;&#1074;&#1072;&#1090;&#1100;&#1089;&#1103; &#1091;&#1087;&#1088;&#1072;&#1074;&#1083;&#1103;&#1102;&#1097;&#1080;&#1077; &#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1099; &#1103;&#1079;&#1099;&#1082;&#1072; Python: &#1091;&#1089;&#1083;&#1086;&#1074;&#1085;&#1099;&#1077;
+&#1080;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1080; &#1080; &#1094;&#1080;&#1082;&#1083;&#1099;, &#1080;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1080; &#1086;&#1073;&#1088;&#1072;&#1073;&#1086;&#1090;&#1082;&#1080; &#1080;&#1089;&#1082;&#1083;&#1102;&#1095;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1099;&#1093; &#1089;&#1080;&#1090;&#1091;&#1072;&#1094;&#1080;&#1081;.
+&#1050;&#1088;&#1086;&#1084;&#1077; &#1090;&#1086;&#1075;&#1086; &#1088;&#1072;&#1089;&#1089;&#1084;&#1072;&#1090;&#1088;&#1080;&#1074;&#1072;&#1077;&#1090;&#1089;&#1103; &#1089;&#1086;&#1079;&#1076;&#1072;&#1085;&#1080;&#1077; &#1089;&#1086;&#1073;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1093; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1081;, &#1080; &#1079;&#1076;&#1077;&#1089;&#1100; &#1073;&#1091;&#1076;&#1077;&#1090;
+&#1087;&#1086;&#1076;&#1088;&#1086;&#1073;&#1085;&#1086; &#1088;&#1072;&#1089;&#1089;&#1084;&#1072;&#1090;&#1088;&#1080;&#1074;&#1072;&#1090;&#1100;&#1089;&#1103; &#1095;&#1088;&#1077;&#1079;&#1074;&#1099;&#1095;&#1072;&#1081;&#1085;&#1086; &#1075;&#1080;&#1073;&#1082;&#1080;&#1081; &#1084;&#1077;&#1093;&#1072;&#1085;&#1080;&#1079;&#1084; &#1088;&#1072;&#1073;&#1086;&#1090;&#1099; &#1089;
+&#1072;&#1088;&#1075;&#1091;&#1084;&#1077;&#1085;&#1090;&#1072;&#1084;&#1080; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1081;.
+
+<p>
+</div> <!-- end jumbotron -->
+
+<h1 id="table_of_contents">Содержание</h2>
+
+<p>
+<a href="._control-flatly001.html#control:ifcycle"> &#1059;&#1087;&#1088;&#1072;&#1074;&#1083;&#1103;&#1102;&#1097;&#1080;&#1077; &#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1099; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._control-flatly001.html#control:ifcycle:if"> &#1059;&#1089;&#1083;&#1086;&#1074;&#1085;&#1086;&#1077; &#1074;&#1077;&#1090;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._control-flatly001.html#control:ifcycle:cycle"> &#1062;&#1080;&#1082;&#1083;&#1099; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._control-flatly001.html#control:ifcycle:cycle:for"> &#1062;&#1080;&#1082;&#1083;&#1099; <code>for</code> </a><br>
+<a href="._control-flatly002.html#control:except"> &#1054;&#1073;&#1088;&#1072;&#1073;&#1086;&#1090;&#1082;&#1072; &#1080;&#1089;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1081; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._control-flatly002.html#control:except:tryexept"> &#1055;&#1077;&#1088;&#1077;&#1093;&#1074;&#1072;&#1090; &#1080; &#1074;&#1086;&#1079;&#1073;&#1091;&#1078;&#1076;&#1077;&#1085;&#1080;&#1077; &#1080;&#1089;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1081; </a><br>
+<a href="._control-flatly002.html#control:except:tryexept:1"> &#1042;&#1086;&#1079;&#1073;&#1091;&#1078;&#1076;&#1077;&#1085;&#1080;&#1077; &#1080;&#1089;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1081; </a><br>
+<a href="._control-flatly003.html#control:funcs"> &#1057;&#1086;&#1073;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1077; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._control-flatly003.html#control:funcs:unpack"> &#1056;&#1072;&#1089;&#1087;&#1072;&#1082;&#1086;&#1074;&#1099;&#1074;&#1072;&#1085;&#1080;&#1077; &#1072;&#1088;&#1075;&#1091;&#1084;&#1077;&#1085;&#1090;&#1086;&#1074; &#1080; &#1087;&#1072;&#1088;&#1072;&#1084;&#1077;&#1090;&#1088;&#1086;&#1074; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._control-flatly003.html#control:funcs:global"> &#1044;&#1086;&#1089;&#1090;&#1091;&#1087; &#1082; &#1087;&#1077;&#1088;&#1077;&#1084;&#1077;&#1085;&#1085;&#1099;&#1084; &#1074; &#1075;&#1083;&#1086;&#1073;&#1072;&#1083;&#1100;&#1085;&#1086;&#1081; &#1086;&#1073;&#1083;&#1072;&#1089;&#1090;&#1080; &#1074;&#1080;&#1076;&#1080;&#1084;&#1086;&#1089;&#1090;&#1080; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._control-flatly003.html#control:funcs:lambda"> &#1051;&#1103;&#1084;&#1073;&#1076;&#1072;-&#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080; </a><br>
+<a href="._control-flatly003.html#control:funcs:assert"> &#1059;&#1090;&#1074;&#1077;&#1088;&#1078;&#1076;&#1077;&#1085;&#1080;&#1103; </a><br>
+</p>
+<p>
+<p>
+<!-- navigation buttons at the bottom of the page -->
+<ul class="pager">
+
+  <li class="next">
+    <a href="._control-flatly001.html">Next &rarr;</a>
+  </li>
+</ul>
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+
