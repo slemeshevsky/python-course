@@ -1,0 +1,1037 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Введение в библиотеку `pandas`">
+
+<title>Введение в библиотеку `pandas`</title>
+
+<!-- Bootstrap style: bootswatch_readable -->
+<link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/readable/bootstrap.min.css" rel="stylesheet">
+<!-- not necessary
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:64px;      /* fixed header height for style bootswatch_readable */
+  margin:-64px 0 0; /* negative fixed header height */
+}
+
+body { font-size:20px; }
+</style>
+
+
+
+
+<!-- Tools for embedded Bokeh plots -->
+<link rel=stylesheet 
+      href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
+      type=text/css />
+<script type=text/javascript 
+        src=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js>
+</script>
+<script type=text/javascript>
+  Bokeh.set_log_level("info");
+</script>
+
+<style>
+.bk-embeded {
+    width: 100%;
+    margin: auto;
+    height: 500px;
+    text-align: webkit-left;
+}
+</style>
+
+
+</head>
+
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [('Содержание',
+               1,
+               'table_of_contents',
+               'table_of_contents'),
+              ('Структуры данных в `pandas`',
+               1,
+               'pandas:data-struct',
+               'pandas:data-struct'),
+              ('Класс `Series`',
+               2,
+               'pandas:data-struct:series',
+               'pandas:data-struct:series'),
+              ('Класс `DataFrame`',
+               2,
+               'pandas:data-struct:df',
+               'pandas:data-struct:df'),
+              ('Объекты типа `Index`',
+               2,
+               'pandas:data-struct:index',
+               'pandas:data-struct:index'),
+              ('Основная функциональность',
+               1,
+               'pandas:functionality',
+               'pandas:functionality'),
+              ('Переиндексация',
+               2,
+               'pandas:functionality:reindex',
+               'pandas:functionality:reindex'),
+              ('Удаление записей с оси',
+               2,
+               'pandas:functionality:drop',
+               'pandas:functionality:drop'),
+              ('Арифметические операции и выравнивание данных',
+               2,
+               'pandas:functionality:arithm',
+               'pandas:functionality:arithm'),
+              ('Арифметические методы с заполнением значений',
+               3,
+               'pandas:functionality:aritm:fill',
+               'pandas:functionality:aritm:fill'),
+              ('Операции между объектами `DataFrame` и `Series`',
+               2,
+               'pandas:functionality:df-s',
+               'pandas:functionality:df-s'),
+              ('Применение функций и отображение',
+               2,
+               'pandas:functionality:fuc',
+               'pandas:functionality:fuc'),
+              ('Сортировка и ранжирование',
+               2,
+               'pandas:functionality:sorting',
+               'pandas:functionality:sorting'),
+              ('Индексация с повторяющимися метками',
+               2,
+               'pandas:functionality:dupl',
+               'pandas:functionality:dupl'),
+              ('Описательная и сводная статистика',
+               1,
+               'pandas:statistics',
+               'pandas:statistics'),
+              ('Чтение и запись данных', 1, 'pandas:rwdata', 'pandas:rwdata'),
+              ('Задания', 1, 'pandas:exer', 'pandas:exer'),
+              ('Быстрый анализ данных', 2, 'pandas:exer:1', 'pandas:exer:1'),
+              ('Жертвы', 2, 'pandas:exer:2', 'pandas:exer:2'),
+              ('Преступления, пол и возраст',
+               2,
+               'pandas:exer:3',
+               'pandas:exer:3'),
+              ('Происхождение', 2, 'pandas:exer:4', 'pandas:exer:4'),
+              ('Место проишествия', 2, 'pandas:exer:5', 'pandas:exer:5')]}
+end of tocinfo -->
+
+<body>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "none"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript" async
+ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+    
+<!-- Bootstrap navigation bar -->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="pandas-readable.html">Введение в библиотеку `pandas`</a>
+  </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+     <!-- navigation toc: --> <li><a href="._pandas-readable000.html#table_of_contents" style="font-size: 80%;"><b>Содержание</b></a></li>
+     <!-- navigation toc: --> <li><a href="#pandas:data-struct" style="font-size: 80%;"><b>Структуры данных в <code>pandas</code></b></a></li>
+     <!-- navigation toc: --> <li><a href="#pandas:data-struct:series" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Класс <code>Series</code></a></li>
+     <!-- navigation toc: --> <li><a href="#pandas:data-struct:df" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Класс <code>DataFrame</code></a></li>
+     <!-- navigation toc: --> <li><a href="#pandas:data-struct:index" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Объекты типа <code>Index</code></a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality" style="font-size: 80%;"><b>Основная функциональность</b></a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:reindex" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Переиндексация</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:drop" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Удаление записей с оси</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:arithm" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Арифметические операции и выравнивание данных</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:aritm:fill" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Арифметические методы с заполнением значений</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:df-s" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Операции между объектами <code>DataFrame</code> и <code>Series</code></a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:fuc" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Применение функций и отображение</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:sorting" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Сортировка и ранжирование</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:dupl" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Индексация с повторяющимися метками</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable003.html#pandas:statistics" style="font-size: 80%;"><b>Описательная и сводная статистика</b></a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable004.html#pandas:rwdata" style="font-size: 80%;"><b>Чтение и запись данных</b></a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable005.html#pandas:exer" style="font-size: 80%;"><b>Задания</b></a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable005.html#pandas:exer:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Быстрый анализ данных</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable005.html#pandas:exer:2" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Жертвы</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable005.html#pandas:exer:3" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Преступления, пол и возраст</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable005.html#pandas:exer:4" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Происхождение</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable005.html#pandas:exer:5" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Место проишествия</a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</div> <!-- end of navigation bar -->
+
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<a name="part0001"></a>
+<!-- !split -->
+
+<h1 id="pandas:data-struct" class="anchor">&#1057;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1099; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1074; <code>pandas</code></h1>
+
+<p>
+&#1063;&#1090;&#1086;&#1073;&#1099; &#1085;&#1072;&#1095;&#1072;&#1090;&#1100; &#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1090;&#1100; &#1089; <code>pandas</code>, &#1088;&#1072;&#1089;&#1089;&#1084;&#1086;&#1090;&#1088;&#1080;&#1084; &#1076;&#1074;&#1077; &#1086;&#1089;&#1085;&#1086;&#1074;&#1085;&#1099;&#1077; &#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1099;:
+<code>Series</code> &#1080; <code>DataFrame</code>. &#1054;&#1085;&#1080; &#1085;&#1077; &#1103;&#1074;&#1083;&#1103;&#1102;&#1090;&#1089;&#1103; &#1091;&#1085;&#1080;&#1074;&#1077;&#1088;&#1089;&#1072;&#1083;&#1100;&#1085;&#1099;&#1084;&#1080; &#1088;&#1077;&#1096;&#1077;&#1085;&#1080;&#1103;&#1084;&#1080; &#1083;&#1102;&#1073;&#1099;&#1093;
+&#1079;&#1072;&#1076;&#1072;&#1095;, &#1086;&#1076;&#1085;&#1072;&#1082;&#1086; &#1101;&#1090;&#1080; &#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1099; &#1087;&#1088;&#1077;&#1076;&#1086;&#1089;&#1090;&#1072;&#1074;&#1083;&#1103;&#1102;&#1090; &#1087;&#1088;&#1086;&#1095;&#1085;&#1099;&#1081; &#1083;&#1077;&#1075;&#1082;&#1080;&#1081; &#1074;
+&#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1080; &#1092;&#1091;&#1085;&#1076;&#1072;&#1084;&#1077;&#1085;&#1090; &#1076;&#1083;&#1103; &#1073;&#1086;&#1083;&#1100;&#1096;&#1080;&#1085;&#1089;&#1090;&#1074;&#1072; &#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1081;.
+
+<h2 id="pandas:data-struct:series" class="anchor">&#1050;&#1083;&#1072;&#1089;&#1089; <code>Series</code></h2>
+
+<p>
+<code>Series</code> (<em>&#1088;&#1103;&#1076;</em>) &#8212; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;, &#1090;&#1080;&#1087;&#1072; &#1086;&#1076;&#1085;&#1086;&#1084;&#1077;&#1088;&#1085;&#1086;&#1075;&#1086; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1072;, &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1097;&#1080;&#1081;
+&#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;&#1089;&#1090;&#1100; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1081; (&#1090;&#1080;&#1087;&#1086;&#1074;, &#1072;&#1085;&#1072;&#1083;&#1086;&#1075;&#1080;&#1095;&#1085;&#1099;&#1093; &#1090;&#1080;&#1087;&#1072;&#1084; NumPy) &#1080;
+&#1089;&#1074;&#1103;&#1079;&#1072;&#1085;&#1085;&#1099;&#1081; &#1089; &#1085;&#1080;&#1084; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074; &#1084;&#1077;&#1090;&#1086;&#1082; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;,
+&#1085;&#1072;&#1079;&#1099;&#1074;&#1072;&#1077;&#1084;&#1099;&#1093; <em>&#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1072;&#1084;&#1080;</em>. &#1057;&#1086;&#1079;&#1076;&#1072;&#1076;&#1080;&#1084; &#1087;&#1088;&#1086;&#1089;&#1090;&#1077;&#1081;&#1096;&#1080;&#1081; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090; &#1090;&#1080;&#1087;&#1072; <code>Series</code>
+&#1090;&#1086;&#1083;&#1100;&#1082;&#1086; &#1080;&#1079; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1072; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;:
+
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [2]: </span>obj <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>Series([<span style="color: #666666">4</span>, <span style="color: #666666">7</span>, <span style="color: #666666">-5</span>, <span style="color: #666666">3</span>])
+
+<span style="color: #000080; font-weight: bold">In [3]: </span>obj
+<span style="color: #000080; font-weight: bold">Out[3]: </span><span style="color: #888888"></span>
+<span style="color: #888888">0    4</span>
+<span style="color: #888888">1    7</span>
+<span style="color: #888888">2   -5</span>
+<span style="color: #888888">3    3</span>
+<span style="color: #888888">dtype: int64</span>
+</pre></div>
+<p>
+&#1057;&#1090;&#1088;&#1086;&#1082;&#1086;&#1074;&#1086;&#1077; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1072; <code>Series</code> &#1074; &#1080;&#1085;&#1090;&#1077;&#1088;&#1072;&#1082;&#1090;&#1080;&#1074;&#1085;&#1086;&#1084; &#1088;&#1077;&#1078;&#1080;&#1084;&#1077;
+&#1086;&#1090;&#1086;&#1073;&#1088;&#1072;&#1078;&#1072;&#1077;&#1090; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1099; &#1089;&#1083;&#1077;&#1074;&#1072;, &#1072; &#1076;&#1072;&#1085;&#1085;&#1099;&#1077; &#1089;&#1087;&#1088;&#1072;&#1074;&#1072;. &#1058;&#1072;&#1082; &#1082;&#1072;&#1082; &#1084;&#1099; &#1085;&#1077; &#1086;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1080;&#1083;&#1080;
+&#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1099;, &#1090;&#1086; &#1087;&#1086; &#1091;&#1084;&#1086;&#1083;&#1095;&#1072;&#1085;&#1080;&#1102; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1099; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1090; &#1094;&#1077;&#1083;&#1099;&#1077; &#1095;&#1080;&#1089;&#1083;&#1072; &#1086;&#1090; <code>0</code> &#1076;&#1086; <code>N-1</code>
+(&#1075;&#1076;&#1077; <code>N</code> &#8212; &#1076;&#1083;&#1080;&#1085;&#1072; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1072; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;). &#1052;&#1086;&#1078;&#1085;&#1086; &#1087;&#1086;&#1083;&#1091;&#1095;&#1080;&#1090;&#1100; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077; &#1074; &#1074;&#1080;&#1076;&#1077;
+&#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1072; &#1080; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1099; &#1088;&#1103;&#1076;&#1072; &#1089; &#1087;&#1086;&#1084;&#1086;&#1097;&#1100;&#1102; &#1072;&#1090;&#1088;&#1080;&#1073;&#1091;&#1090;&#1086;&#1074; <code>values</code> &#1080; <code>index</code>:
+
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [4]: </span>obj<span style="color: #666666">.</span>values
+<span style="color: #000080; font-weight: bold">Out[4]: </span><span style="color: #888888">array([ 4,  7, -5,  3])</span>
+
+<span style="color: #000080; font-weight: bold">In [5]: </span>obj<span style="color: #666666">.</span>index     <span style="color: #408080; font-style: italic"># как range(4)</span>
+<span style="color: #000080; font-weight: bold">Out[5]: </span><span style="color: #888888">RangeIndex(start=0, stop=4, step=1)</span>
+</pre></div>
+<p>
+&#1063;&#1072;&#1089;&#1090;&#1086; &#1078;&#1077;&#1083;&#1072;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086; &#1089;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100; &#1088;&#1103;&#1076; &#1089; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1072;&#1084;&#1080;, &#1080;&#1076;&#1077;&#1085;&#1090;&#1080;&#1092;&#1080;&#1094;&#1080;&#1088;&#1091;&#1102;&#1097;&#1080;&#1084;&#1080; &#1082;&#1072;&#1078;&#1076;&#1091;&#1102;
+&#1090;&#1086;&#1095;&#1082;&#1091; &#1076;&#1072;&#1085;&#1085;&#1099;&#1081; &#1089; &#1084;&#1077;&#1090;&#1082;&#1086;&#1081;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [6]: </span>obj2 <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>Series([<span style="color: #666666">4</span>, <span style="color: #666666">7</span>, <span style="color: #666666">-5</span>, <span style="color: #666666">3</span>], index<span style="color: #666666">=</span>[<span style="color: #BA2121">&#39;d&#39;</span>, <span style="color: #BA2121">&#39;b&#39;</span>, <span style="color: #BA2121">&#39;a&#39;</span>, <span style="color: #BA2121">&#39;c&#39;</span>])
+
+<span style="color: #000080; font-weight: bold">In [7]: </span>obj2
+<span style="color: #000080; font-weight: bold">Out[7]: </span><span style="color: #888888"></span>
+<span style="color: #888888">d    4</span>
+<span style="color: #888888">b    7</span>
+<span style="color: #888888">a   -5</span>
+<span style="color: #888888">c    3</span>
+<span style="color: #888888">dtype: int64</span>
+
+<span style="color: #000080; font-weight: bold">In [8]: </span>obj2<span style="color: #666666">.</span>index
+<span style="color: #000080; font-weight: bold">Out[8]: </span><span style="color: #888888">Index([&#39;d&#39;, &#39;b&#39;, &#39;a&#39;, &#39;c&#39;], dtype=&#39;object&#39;)</span>
+</pre></div>
+<p>
+&#1042; &#1086;&#1090;&#1083;&#1080;&#1095;&#1080;&#1077; &#1086;&#1090; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1086;&#1074; NumPy, &#1084;&#1086;&#1078;&#1085;&#1086; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1100; &#1084;&#1077;&#1090;&#1082;&#1080; &#1087;&#1088;&#1080; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1072;&#1094;&#1080;&#1080;
+&#1087;&#1088;&#1080; &#1074;&#1099;&#1073;&#1086;&#1088;&#1077; &#1086;&#1090;&#1076;&#1077;&#1083;&#1100;&#1085;&#1099;&#1093; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1081; &#1080;&#1083;&#1080; &#1085;&#1072;&#1073;&#1086;&#1088;&#1072; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1081;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [9]: </span>obj2[<span style="color: #BA2121">&#39;a&#39;</span>]
+<span style="color: #000080; font-weight: bold">Out[9]: </span><span style="color: #888888">-5</span>
+
+<span style="color: #000080; font-weight: bold">In [10]: </span>obj2[<span style="color: #BA2121">&#39;d&#39;</span>] <span style="color: #666666">=</span> <span style="color: #666666">6</span>
+
+<span style="color: #000080; font-weight: bold">In [11]: </span>obj2[[<span style="color: #BA2121">&#39;c&#39;</span>, <span style="color: #BA2121">&#39;a&#39;</span>, <span style="color: #BA2121">&#39;d&#39;</span>]]
+<span style="color: #000080; font-weight: bold">Out[11]: </span><span style="color: #888888"></span>
+<span style="color: #888888">c    3</span>
+<span style="color: #888888">a   -5</span>
+<span style="color: #888888">d    6</span>
+<span style="color: #888888">dtype: int64</span>
+</pre></div>
+<p>
+&#1048;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1081; NumPy &#1080;&#1083;&#1080; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1081; &#1087;&#1086;&#1076;&#1086;&#1073;&#1085;&#1099;&#1093; NumPy, &#1090;&#1072;&#1082;&#1080;&#1093; &#1082;&#1072;&#1082;
+&#1092;&#1080;&#1083;&#1100;&#1090;&#1088;&#1072;&#1094;&#1080;&#1103; &#1089; &#1087;&#1086;&#1084;&#1086;&#1097;&#1100;&#1102; &#1073;&#1091;&#1083;&#1077;&#1074;&#1099;&#1093; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1086;&#1074;, &#1091;&#1084;&#1085;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077; &#1085;&#1072; &#1089;&#1082;&#1072;&#1083;&#1103;&#1088; &#1080;&#1083;&#1080;
+&#1074;&#1099;&#1095;&#1080;&#1089;&#1083;&#1077;&#1085;&#1080;&#1077; &#1084;&#1072;&#1090;&#1077;&#1084;&#1072;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1093; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1081;, &#1089;&#1086;&#1093;&#1088;&#1072;&#1085;&#1103;&#1077;&#1090; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1086;&#1074;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [12]: </span>obj2[obj2 <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span>]
+<span style="color: #000080; font-weight: bold">Out[12]: </span><span style="color: #888888"></span>
+<span style="color: #888888">d    6</span>
+<span style="color: #888888">b    7</span>
+<span style="color: #888888">c    3</span>
+<span style="color: #888888">dtype: int64</span>
+
+<span style="color: #000080; font-weight: bold">In [13]: </span>obj2 <span style="color: #666666">*</span> <span style="color: #666666">2</span>
+<span style="color: #000080; font-weight: bold">Out[13]: </span><span style="color: #888888"></span>
+<span style="color: #888888">d    12</span>
+<span style="color: #888888">b    14</span>
+<span style="color: #888888">a   -10</span>
+<span style="color: #888888">c     6</span>
+<span style="color: #888888">dtype: int64</span>
+
+<span style="color: #000080; font-weight: bold">In [14]: </span><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">numpy</span> <span style="color: #008000; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">np</span>
+
+<span style="color: #000080; font-weight: bold">In [15]: </span>np<span style="color: #666666">.</span>exp(obj2)
+<span style="color: #000080; font-weight: bold">Out[15]: </span><span style="color: #888888"></span>
+<span style="color: #888888">d     403.428793</span>
+<span style="color: #888888">b    1096.633158</span>
+<span style="color: #888888">a       0.006738</span>
+<span style="color: #888888">c      20.085537</span>
+<span style="color: #888888">dtype: float64</span>
+</pre></div>
+<p>
+&#1056;&#1103;&#1076;&#1099; &#1084;&#1086;&#1078;&#1085;&#1086; &#1088;&#1072;&#1089;&#1089;&#1084;&#1072;&#1090;&#1088;&#1080;&#1074;&#1072;&#1090;&#1100; &#1082;&#1072;&#1082; &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1080; &#1092;&#1080;&#1082;&#1089;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1085;&#1086;&#1081; &#1076;&#1083;&#1080;&#1085;&#1099;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [16]: </span><span style="color: #BA2121">&#39;b&#39;</span> <span style="color: #AA22FF; font-weight: bold">in</span> obj2
+<span style="color: #000080; font-weight: bold">Out[16]: </span><span style="color: #888888">True</span>
+
+<span style="color: #000080; font-weight: bold">In [17]: </span><span style="color: #BA2121">&#39;e&#39;</span> <span style="color: #AA22FF; font-weight: bold">in</span> obj2
+<span style="color: #000080; font-weight: bold">Out[17]: </span><span style="color: #888888">False</span>
+</pre></div>
+<p>
+&#1045;&#1089;&#1083;&#1080; &#1080;&#1084;&#1077;&#1102;&#1090;&#1089;&#1103; &#1076;&#1072;&#1085;&#1085;&#1099;&#1077;, &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1097;&#1080;&#1077;&#1089;&#1103; &#1074; &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1077;, &#1084;&#1086;&#1078;&#1085;&#1086; &#1089;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100; &#1088;&#1103;&#1076; &#1080;&#1079;
+&#1085;&#1077;&#1075;&#1086;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [18]: </span>sdata <span style="color: #666666">=</span> {<span style="color: #BA2121">&#39;Ohio&#39;</span>: <span style="color: #666666">35000</span>, <span style="color: #BA2121">&#39;Texas&#39;</span>: <span style="color: #666666">71000</span>, <span style="color: #BA2121">&#39;Oregon&#39;</span>: <span style="color: #666666">16000</span>, <span style="color: #BA2121">&#39;Utah&#39;</span>: <span style="color: #666666">5000</span>}
+
+<span style="color: #000080; font-weight: bold">In [19]: </span>obj3 <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>Series(sdata)
+
+<span style="color: #000080; font-weight: bold">In [20]: </span>obj3
+<span style="color: #000080; font-weight: bold">Out[20]: </span><span style="color: #888888"></span>
+<span style="color: #888888">Ohio      35000</span>
+<span style="color: #888888">Texas     71000</span>
+<span style="color: #888888">Oregon    16000</span>
+<span style="color: #888888">Utah       5000</span>
+<span style="color: #888888">dtype: int64</span>
+</pre></div>
+<p>
+&#1045;&#1089;&#1083;&#1080; &#1087;&#1077;&#1088;&#1077;&#1076;&#1072;&#1077;&#1090;&#1089;&#1103; &#1090;&#1086;&#1083;&#1100;&#1082;&#1086; &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1100;, &#1090;&#1086; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1072;&#1084;&#1080; &#1088;&#1103;&#1076;&#1072; &#1073;&#1091;&#1076;&#1091;&#1090; &#1082;&#1083;&#1102;&#1095;&#1080; &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1103;
+&#1074; &#1090;&#1086;&#1084; &#1087;&#1086;&#1088;&#1103;&#1076;&#1082;&#1077;, &#1074; &#1082;&#1086;&#1090;&#1086;&#1088;&#1086;&#1084; &#1073;&#1099;&#1083;&#1080; &#1087;&#1088;&#1080; &#1089;&#1086;&#1079;&#1076;&#1072;&#1085;&#1080;&#1080; &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1103;. &#1052;&#1086;&#1078;&#1085;&#1086; &#1080;&#1079;&#1084;&#1077;&#1085;&#1080;&#1090;&#1100;
+&#1087;&#1086;&#1088;&#1103;&#1076;&#1086;&#1082; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1072; &#1087;&#1077;&#1088;&#1077;&#1076;&#1072;&#1074;&#1072;&#1103; &#1082;&#1083;&#1102;&#1095;&#1080; &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1103; &#1074; &#1087;&#1086;&#1088;&#1103;&#1076;&#1082;&#1077;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1081; &#1085;&#1091;&#1078;&#1077;&#1085;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [21]: </span>states <span style="color: #666666">=</span> [<span style="color: #BA2121">&#39;California&#39;</span>, <span style="color: #BA2121">&#39;Ohio&#39;</span>, <span style="color: #BA2121">&#39;Oregon&#39;</span>, <span style="color: #BA2121">&#39;Texas&#39;</span>]
+
+<span style="color: #000080; font-weight: bold">In [22]: </span>obj4 <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>Series(sdata, index<span style="color: #666666">=</span>states)
+
+<span style="color: #000080; font-weight: bold">In [23]: </span>obj4
+<span style="color: #000080; font-weight: bold">Out[23]: </span><span style="color: #888888"></span>
+<span style="color: #888888">California        NaN</span>
+<span style="color: #888888">Ohio          35000.0</span>
+<span style="color: #888888">Oregon        16000.0</span>
+<span style="color: #888888">Texas         71000.0</span>
+<span style="color: #888888">dtype: float64</span>
+</pre></div>
+<p>
+&#1047;&#1076;&#1077;&#1089;&#1100; &#1090;&#1088;&#1080; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103;, &#1085;&#1072;&#1081;&#1076;&#1077;&#1085;&#1085;&#1099;&#1077; &#1074; <code>sdata</code>, &#1073;&#1099;&#1083;&#1080; &#1088;&#1072;&#1079;&#1084;&#1077;&#1097;&#1077;&#1085;&#1099; &#1074;
+&#1089;&#1086;&#1086;&#1090;&#1074;&#1077;&#1090;&#1089;&#1090;&#1074;&#1091;&#1102;&#1097;&#1080;&#1093; &#1084;&#1077;&#1089;&#1090;&#1072;&#1093;, &#1085;&#1086; &#1090;&#1072;&#1082; &#1082;&#1072;&#1082; &#1085;&#1077; &#1073;&#1099;&#1083;&#1086; &#1085;&#1072;&#1081;&#1076;&#1077;&#1085;&#1086; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1077; &#1076;&#1083;&#1103;
+<code>'California'</code>, &#1086;&#1085;&#1086; &#1086;&#1090;&#1086;&#1073;&#1088;&#1072;&#1078;&#1072;&#1077;&#1090;&#1089;&#1103; &#1082;&#1072;&#1082; <code>NaN</code> (&#1085;&#1077; &#1095;&#1080;&#1089;&#1083;&#1086;), &#1082;&#1086;&#1090;&#1086;&#1088;&#1086;&#1077; &#1074;
+<code>pandas</code> &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1077;&#1090;&#1089;&#1103; &#1076;&#1083;&#1103; &#1086;&#1073;&#1086;&#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1077; &#1087;&#1088;&#1086;&#1087;&#1091;&#1097;&#1077;&#1085;&#1085;&#1099;&#1093; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1081; &#1080;&#1083;&#1080;
+&#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1081; &#171;NA&#187; (<em>not available</em>). &#1055;&#1086;&#1089;&#1082;&#1086;&#1083;&#1100;&#1082;&#1091; <code>'&#1070;&#1090;&#1072;'</code> &#1085;&#1077; &#1073;&#1099;&#1083;&#1072; &#1074;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1072; &#1074; <code>states</code>,
+&#1101;&#1090;&#1086;&#1090; &#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090; &#1080;&#1089;&#1082;&#1083;&#1102;&#1095;&#1072;&#1077;&#1090;&#1089;&#1103; &#1080;&#1079; &#1088;&#1077;&#1079;&#1091;&#1083;&#1100;&#1090;&#1080;&#1088;&#1091;&#1102;&#1097;&#1077;&#1075;&#1086; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1072;. &#1060;&#1091;&#1085;&#1082;&#1094;&#1080;&#1080; <code>isnull</code>
+&#1080; <code>notnull</code> &#1074; <code>pandas</code> &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1102;&#1090;&#1089;&#1103; &#1076;&#1083;&#1103; &#1086;&#1073;&#1085;&#1072;&#1088;&#1091;&#1078;&#1077;&#1085;&#1080;&#1103; &#1086;&#1090;&#1089;&#1091;&#1090;&#1089;&#1090;&#1074;&#1091;&#1102;&#1097;&#1080;&#1093;
+&#1076;&#1072;&#1085;&#1085;&#1099;&#1093;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [24]: </span>pd<span style="color: #666666">.</span>isnull(obj4)
+<span style="color: #000080; font-weight: bold">Out[24]: </span><span style="color: #888888"></span>
+<span style="color: #888888">California     True</span>
+<span style="color: #888888">Ohio          False</span>
+<span style="color: #888888">Oregon        False</span>
+<span style="color: #888888">Texas         False</span>
+<span style="color: #888888">dtype: bool</span>
+
+<span style="color: #000080; font-weight: bold">In [25]: </span>pd<span style="color: #666666">.</span>notnull(obj4)
+<span style="color: #000080; font-weight: bold">Out[25]: </span><span style="color: #888888"></span>
+<span style="color: #888888">California    False</span>
+<span style="color: #888888">Ohio           True</span>
+<span style="color: #888888">Oregon         True</span>
+<span style="color: #888888">Texas          True</span>
+<span style="color: #888888">dtype: bool</span>
+</pre></div>
+<p>
+&#1050;&#1083;&#1072;&#1089;&#1089; <code>Series</code> &#1090;&#1072;&#1082;&#1078;&#1077; &#1080;&#1084;&#1077;&#1077;&#1090; &#1101;&#1090;&#1080; &#1084;&#1077;&#1090;&#1086;&#1076;&#1099;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [26]: </span>obj4<span style="color: #666666">.</span>isnull()
+<span style="color: #000080; font-weight: bold">Out[26]: </span><span style="color: #888888"></span>
+<span style="color: #888888">California     True</span>
+<span style="color: #888888">Ohio          False</span>
+<span style="color: #888888">Oregon        False</span>
+<span style="color: #888888">Texas         False</span>
+<span style="color: #888888">dtype: bool</span>
+</pre></div>
+<p>
+&#1055;&#1086;&#1083;&#1077;&#1079;&#1085;&#1086;&#1077; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1086; <code>Series</code> &#1079;&#1072;&#1082;&#1083;&#1102;&#1095;&#1072;&#1077;&#1090;&#1089;&#1103; &#1074; &#1090;&#1086;&#1084;, &#1095;&#1090;&#1086; &#1086;&#1085;&#1072; &#1072;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;
+&#1087;&#1088;&#1086;&#1080;&#1089;&#1093;&#1086;&#1076;&#1080;&#1090; &#1074;&#1099;&#1088;&#1072;&#1074;&#1085;&#1080;&#1074;&#1072;&#1085;&#1080;&#1077; &#1087;&#1086; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1072;&#1084; &#1074; &#1072;&#1088;&#1080;&#1092;&#1084;&#1077;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1093; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;&#1093;:
+
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [27]: </span>obj3
+<span style="color: #000080; font-weight: bold">Out[27]: </span><span style="color: #888888"></span>
+<span style="color: #888888">Ohio      35000</span>
+<span style="color: #888888">Texas     71000</span>
+<span style="color: #888888">Oregon    16000</span>
+<span style="color: #888888">Utah       5000</span>
+<span style="color: #888888">dtype: int64</span>
+
+<span style="color: #000080; font-weight: bold">In [28]: </span>obj4
+<span style="color: #000080; font-weight: bold">Out[28]: </span><span style="color: #888888"></span>
+<span style="color: #888888">California        NaN</span>
+<span style="color: #888888">Ohio          35000.0</span>
+<span style="color: #888888">Oregon        16000.0</span>
+<span style="color: #888888">Texas         71000.0</span>
+<span style="color: #888888">dtype: float64</span>
+
+<span style="color: #000080; font-weight: bold">In [29]: </span>obj3 <span style="color: #666666">+</span> obj4
+<span style="color: #000080; font-weight: bold">Out[29]: </span><span style="color: #888888"></span>
+<span style="color: #888888">California         NaN</span>
+<span style="color: #888888">Ohio           70000.0</span>
+<span style="color: #888888">Oregon         32000.0</span>
+<span style="color: #888888">Texas         142000.0</span>
+<span style="color: #888888">Utah               NaN</span>
+<span style="color: #888888">dtype: float64</span>
+</pre></div>
+<p>
+&#1050;&#1072;&#1082; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1099; <code>Series</code>, &#1090;&#1072;&#1082; &#1080; &#1080;&#1079; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1099; &#1080;&#1084;&#1077;&#1102;&#1090; &#1072;&#1090;&#1088;&#1080;&#1073;&#1091;&#1090; <code>name</code>:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [30]: </span>obj4<span style="color: #666666">.</span>name <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;population&#39;</span>
+
+<span style="color: #000080; font-weight: bold">In [31]: </span>obj4<span style="color: #666666">.</span>index<span style="color: #666666">.</span>name <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;state&#39;</span>
+
+<span style="color: #000080; font-weight: bold">In [32]: </span>obj4
+<span style="color: #000080; font-weight: bold">Out[32]: </span><span style="color: #888888"></span>
+<span style="color: #888888">state</span>
+<span style="color: #888888">California        NaN</span>
+<span style="color: #888888">Ohio          35000.0</span>
+<span style="color: #888888">Oregon        16000.0</span>
+<span style="color: #888888">Texas         71000.0</span>
+<span style="color: #888888">Name: population, dtype: float64</span>
+</pre></div>
+<p>
+&#1052;&#1086;&#1078;&#1085;&#1086; &#1080;&#1079;&#1084;&#1077;&#1085;&#1103;&#1090;&#1100; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1099; &#1088;&#1103;&#1076;&#1086;&#1074; &#1087;&#1088;&#1080;&#1089;&#1074;&#1072;&#1080;&#1074;&#1072;&#1085;&#1080;&#1077;&#1084;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [33]: </span>obj
+<span style="color: #000080; font-weight: bold">Out[33]: </span><span style="color: #888888"></span>
+<span style="color: #888888">0    4</span>
+<span style="color: #888888">1    7</span>
+<span style="color: #888888">2   -5</span>
+<span style="color: #888888">3    3</span>
+<span style="color: #888888">dtype: int64</span>
+
+<span style="color: #000080; font-weight: bold">In [34]: </span>obj<span style="color: #666666">.</span>index <span style="color: #666666">=</span> [<span style="color: #BA2121">&#39;Bob&#39;</span>, <span style="color: #BA2121">&#39;Steve&#39;</span>, <span style="color: #BA2121">&#39;Jeff&#39;</span>, <span style="color: #BA2121">&#39;Ryan&#39;</span>]
+
+<span style="color: #000080; font-weight: bold">In [35]: </span>obj
+<span style="color: #000080; font-weight: bold">Out[35]: </span><span style="color: #888888"></span>
+<span style="color: #888888">Bob      4</span>
+<span style="color: #888888">Steve    7</span>
+<span style="color: #888888">Jeff    -5</span>
+<span style="color: #888888">Ryan     3</span>
+<span style="color: #888888">dtype: int64</span>
+</pre></div>
+
+<h2 id="pandas:data-struct:df" class="anchor">&#1050;&#1083;&#1072;&#1089;&#1089; <code>DataFrame</code></h2>
+
+<p>
+<code>DataFrame</code> &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1083;&#1103;&#1077;&#1090; &#1089;&#1086;&#1073;&#1086;&#1081; &#1087;&#1088;&#1103;&#1084;&#1086;&#1091;&#1075;&#1086;&#1083;&#1100;&#1085;&#1091;&#1102; &#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1091; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1080; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1090;
+&#1091;&#1087;&#1086;&#1088;&#1103;&#1076;&#1086;&#1095;&#1077;&#1085;&#1085;&#1091;&#1102; &#1082;&#1086;&#1083;&#1083;&#1077;&#1082;&#1094;&#1080;&#1102; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1074;, &#1082;&#1072;&#1078;&#1076;&#1099;&#1081; &#1080;&#1079; &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1093; &#1084;&#1086;&#1078;&#1077;&#1090; &#1080;&#1084;&#1077;&#1090;&#1100;
+&#1088;&#1072;&#1079;&#1083;&#1080;&#1095;&#1085;&#1099;&#1081; &#1090;&#1080;&#1087; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103; (&#1095;&#1080;&#1089;&#1083;&#1086;&#1074;&#1086;&#1081;, &#1089;&#1090;&#1088;&#1086;&#1082;&#1086;&#1074;&#1099;&#1081;, &#1083;&#1086;&#1075;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1081; &#1080;
+&#1090;.&#1076;.). <code>DataFrame</code> &#1080;&#1084;&#1077;&#1077;&#1090; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1099; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1074; &#1080; &#1089;&#1090;&#1088;&#1086;&#1082;.
+
+<p>
+&#1045;&#1089;&#1090;&#1100; &#1084;&#1085;&#1086;&#1075;&#1086; &#1089;&#1087;&#1086;&#1089;&#1086;&#1073;&#1086;&#1074; &#1089;&#1086;&#1079;&#1076;&#1072;&#1085;&#1080;&#1103; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1072; <code>DataFrame</code>, &#1093;&#1086;&#1090;&#1103; &#1086;&#1076;&#1080;&#1085; &#1080;&#1079;
+&#1085;&#1072;&#1080;&#1073;&#1086;&#1083;&#1077;&#1077; &#1088;&#1072;&#1089;&#1087;&#1088;&#1086;&#1089;&#1090;&#1088;&#1072;&#1085;&#1077;&#1085;&#1085;&#1099;&#1093; &#8212; &#1101;&#1090;&#1086; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; &#1089;&#1087;&#1080;&#1089;&#1082;&#1086;&#1074;, &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1077;&#1081; &#1080;&#1083;&#1080;
+&#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1086;&#1074; NumPy:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [36]: </span>data <span style="color: #666666">=</span> {<span style="color: #BA2121">&#39;state&#39;</span>: [<span style="color: #BA2121">&#39;Ohio&#39;</span>, <span style="color: #BA2121">&#39;Ohio&#39;</span>, <span style="color: #BA2121">&#39;Ohio&#39;</span>, <span style="color: #BA2121">&#39;Nevada&#39;</span>, <span style="color: #BA2121">&#39;Nevada&#39;</span>, <span style="color: #BA2121">&#39;Nevada&#39;</span>], 
+<span style="color: #888888">    ...: &#39;year&#39;: [2000, 2001, 2002, 2001, 2002, 2003], </span>
+<span style="color: #888888">    ...: &#39;pop&#39;: [1.5, 1.7, 3.6, 2.4, 2.9, 3.2]}</span>
+
+<span style="color: #000080; font-weight: bold">In [37]: </span>frame <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>DataFrame(data)
+</pre></div>
+<p>
+&#1055;&#1086;&#1083;&#1091;&#1095;&#1077;&#1085;&#1085;&#1099;&#1081; &#1074; &#1088;&#1077;&#1079;&#1091;&#1083;&#1100;&#1090;&#1072;&#1090;&#1077; <code>DataFrame</code> &#1087;&#1086;&#1083;&#1091;&#1095;&#1080;&#1090; &#1072;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1072;&#1094;&#1080;&#1102;
+&#1076;&#1083;&#1103; &#1089;&#1090;&#1088;&#1086;&#1082; (&#1082;&#1072;&#1082; &#1074; <code>Series</code>), &#1072; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1086;&#1084; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1074; &#1073;&#1091;&#1076;&#1091;&#1090; &#1082;&#1083;&#1102;&#1095;&#1080; &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1103;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [38]: </span>frame                                                                                                                                                                                                                                 
+<span style="color: #000080; font-weight: bold">Out[38]: </span><span style="color: #888888"></span>
+<span style="color: #888888">    state  year  pop</span>
+<span style="color: #888888">0    Ohio  2000  1.5</span>
+<span style="color: #888888">1    Ohio  2001  1.7</span>
+<span style="color: #888888">2    Ohio  2002  3.6</span>
+<span style="color: #888888">3  Nevada  2001  2.4</span>
+<span style="color: #888888">4  Nevada  2002  2.9</span>
+<span style="color: #888888">5  Nevada  2003  3.2</span>
+</pre></div>
+<p>
+&#1045;&#1089;&#1083;&#1080; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1077;&#1090;&#1089;&#1103; &#1073;&#1083;&#1086;&#1082;&#1085;&#1086;&#1090; Jupyter, &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1099; <code>DataFrame</code> &#1073;&#1091;&#1076;&#1091;&#1090;
+&#1086;&#1090;&#1086;&#1073;&#1088;&#1072;&#1078;&#1072;&#1090;&#1100;&#1089;&#1103; &#1074; &#1074;&#1080;&#1076;&#1077; &#1073;&#1086;&#1083;&#1077;&#1077; &#1091;&#1076;&#1086;&#1073;&#1085;&#1086;&#1081; &#1076;&#1083;&#1103; &#1087;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;&#1072; HTML-&#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1099;.
+
+<p>
+&#1044;&#1083;&#1103; &#1073;&#1086;&#1083;&#1100;&#1096;&#1080;&#1093; DataFrames &#1084;&#1077;&#1090;&#1086;&#1076; head &#1074;&#1099;&#1073;&#1080;&#1088;&#1072;&#1077;&#1090; &#1090;&#1086;&#1083;&#1100;&#1082;&#1086; &#1087;&#1077;&#1088;&#1074;&#1099;&#1077; &#1087;&#1103;&#1090;&#1100; &#1089;&#1090;&#1088;&#1086;&#1082;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [39]: </span>frame<span style="color: #666666">.</span>head()
+<span style="color: #000080; font-weight: bold">Out[39]: </span><span style="color: #888888"></span>
+<span style="color: #888888">    state  year  pop</span>
+<span style="color: #888888">0    Ohio  2000  1.5</span>
+<span style="color: #888888">1    Ohio  2001  1.7</span>
+<span style="color: #888888">2    Ohio  2002  3.6</span>
+<span style="color: #888888">3  Nevada  2001  2.4</span>
+<span style="color: #888888">4  Nevada  2002  2.9</span>
+</pre></div>
+<p>
+&#1052;&#1086;&#1078;&#1085;&#1086; &#1079;&#1072;&#1076;&#1072;&#1074;&#1072;&#1090;&#1100; &#1076;&#1088;&#1091;&#1075;&#1086;&#1081; &#1087;&#1086;&#1088;&#1103;&#1076;&#1086;&#1082; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1074;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [40]: </span>pd<span style="color: #666666">.</span>DataFrame(data, columns<span style="color: #666666">=</span>[<span style="color: #BA2121">&#39;year&#39;</span>, <span style="color: #BA2121">&#39;state&#39;</span>, <span style="color: #BA2121">&#39;pop&#39;</span>])
+<span style="color: #000080; font-weight: bold">Out[40]: </span><span style="color: #888888"></span>
+<span style="color: #888888">   year   state  pop</span>
+<span style="color: #888888">0  2000    Ohio  1.5</span>
+<span style="color: #888888">1  2001    Ohio  1.7</span>
+<span style="color: #888888">2  2002    Ohio  3.6</span>
+<span style="color: #888888">3  2001  Nevada  2.4</span>
+<span style="color: #888888">4  2002  Nevada  2.9</span>
+<span style="color: #888888">5  2003  Nevada  3.2</span>
+</pre></div>
+<p>
+&#1045;&#1089;&#1083;&#1080; &#1087;&#1077;&#1088;&#1077;&#1076;&#1072;&#1090;&#1100; &#1089;&#1090;&#1086;&#1083;&#1073;&#1077;&#1094;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1081; &#1085;&#1077; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1090;&#1089;&#1103; &#1074; &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1077;, &#1090;&#1086; &#1074;
+&#1088;&#1077;&#1079;&#1091;&#1083;&#1100;&#1090;&#1072;&#1090;&#1077; &#1073;&#1091;&#1076;&#1077;&#1090; &#1089;&#1090;&#1086;&#1083;&#1073;&#1077;&#1094; &#1089; &#1086;&#1090;&#1089;&#1091;&#1090;&#1089;&#1090;&#1074;&#1091;&#1102;&#1097;&#1080;&#1084;&#1080; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103;&#1084;&#1080;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [41]: </span>frame2 <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>DataFrame(data, columns<span style="color: #666666">=</span>[<span style="color: #BA2121">&#39;year&#39;</span>, <span style="color: #BA2121">&#39;state&#39;</span>, <span style="color: #BA2121">&#39;pop&#39;</span>, <span style="color: #BA2121">&#39;debt&#39;</span>], 
+<span style="color: #888888">    ...: index=[&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, &#39;four&#39;, </span>
+<span style="color: #888888">    ...: &#39;five&#39;, &#39;six&#39;])</span>
+
+<span style="color: #000080; font-weight: bold">In [42]: </span>frame2
+<span style="color: #000080; font-weight: bold">Out[42]: </span><span style="color: #888888"></span>
+<span style="color: #888888">       year   state  pop debt</span>
+<span style="color: #888888">one    2000    Ohio  1.5  NaN</span>
+<span style="color: #888888">two    2001    Ohio  1.7  NaN</span>
+<span style="color: #888888">three  2002    Ohio  3.6  NaN</span>
+<span style="color: #888888">four   2001  Nevada  2.4  NaN</span>
+<span style="color: #888888">five   2002  Nevada  2.9  NaN</span>
+<span style="color: #888888">six    2003  Nevada  3.2  NaN</span>
+
+<span style="color: #000080; font-weight: bold">In [43]: </span>frame2<span style="color: #666666">.</span>columns
+<span style="color: #000080; font-weight: bold">Out[43]: </span><span style="color: #888888">Index([&#39;year&#39;, &#39;state&#39;, &#39;pop&#39;, &#39;debt&#39;], dtype=&#39;object&#39;)</span>
+</pre></div>
+<p>
+&#1050; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1091; <code>DataFrame</code> &#1084;&#1086;&#1078;&#1085;&#1086; &#1087;&#1086;&#1083;&#1091;&#1095;&#1080;&#1090;&#1100; &#1076;&#1086;&#1089;&#1090;&#1091;&#1087; &#1082;&#1072;&#1082; &#1082; &#1088;&#1103;&#1076;&#1091; &#1089; &#1087;&#1086;&#1084;&#1086;&#1097;&#1100;&#1102;
+&#1085;&#1086;&#1090;&#1072;&#1094;&#1080;&#1077;&#1081; &#1087;&#1086;&#1076;&#1086;&#1073;&#1085;&#1086;&#1081; &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1102; &#1080;&#1083;&#1080; &#1095;&#1077;&#1088;&#1077;&#1079; &#1072;&#1090;&#1088;&#1080;&#1073;&#1091;&#1090;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [44]: </span>frame2[<span style="color: #BA2121">&#39;state&#39;</span>]
+<span style="color: #000080; font-weight: bold">Out[44]: </span><span style="color: #888888"></span>
+<span style="color: #888888">one        Ohio</span>
+<span style="color: #888888">two        Ohio</span>
+<span style="color: #888888">three      Ohio</span>
+<span style="color: #888888">four     Nevada</span>
+<span style="color: #888888">five     Nevada</span>
+<span style="color: #888888">six      Nevada</span>
+<span style="color: #888888">Name: state, dtype: object</span>
+
+<span style="color: #000080; font-weight: bold">In [45]: </span>frame2<span style="color: #666666">.</span>year
+<span style="color: #000080; font-weight: bold">Out[45]: </span><span style="color: #888888"></span>
+<span style="color: #888888">one      2000</span>
+<span style="color: #888888">two      2001</span>
+<span style="color: #888888">three    2002</span>
+<span style="color: #888888">four     2001</span>
+<span style="color: #888888">five     2002</span>
+<span style="color: #888888">six      2003</span>
+<span style="color: #888888">Name: year, dtype: int64</span>
+</pre></div>
+<p>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+  <h3 class="panel-title">Замечание</h3>
+  </div>
+<div class="panel-body">
+<p> <!-- subsequent paragraphs come in larger fonts, so start with a paragraph -->
+IPython &#1087;&#1088;&#1077;&#1076;&#1086;&#1089;&#1090;&#1072;&#1074;&#1083;&#1077;&#1090; &#1076;&#1086;&#1089;&#1090;&#1091;&#1087; &#1087;&#1086; &#1072;&#1090;&#1088;&#1080;&#1073;&#1091;&#1090;&#1091; (&#1085;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;, <code>frame2.year</code>) 
+&#1087;&#1086; &#1072;&#1074;&#1090;&#1086;&#1076;&#1086;&#1087;&#1086;&#1083;&#1085;&#1077;&#1085;&#1080;&#1102; &#1089; &#1087;&#1086;&#1084;&#1086;&#1097;&#1100;&#1102; &#1082;&#1083;&#1072;&#1074;&#1080;&#1096;&#1080; <TAB>.
+
+<p>
+&#1042;&#1072;&#1088;&#1080;&#1072;&#1085;&#1090; <code>frame2[column]</code> &#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090; &#1076;&#1083;&#1103; &#1083;&#1102;&#1073;&#1099;&#1093; &#1080;&#1084;&#1077;&#1085; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1074;, &#1074; &#1090;&#1086; &#1074;&#1088;&#1077;&#1084;&#1103;
+&#1082;&#1072;&#1082; <code>frame2.column</code> &#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090; &#1090;&#1086;&#1083;&#1100;&#1082;&#1086; &#1077;&#1089;&#1083;&#1080; &#1080;&#1084;&#1103; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1072; &#1103;&#1074;&#1083;&#1103;&#1077;&#1090;&#1089;&#1103;
+&#1076;&#1086;&#1087;&#1091;&#1089;&#1090;&#1080;&#1084;&#1099;&#1084; &#1074; Python &#1080;&#1084;&#1077;&#1085;&#1077;&#1084; &#1087;&#1077;&#1088;&#1077;&#1084;&#1077;&#1085;&#1085;&#1086;&#1081;.
+</div>
+</div>
+
+
+<p>
+&#1050; &#1089;&#1090;&#1088;&#1086;&#1082;&#1072;&#1084; &#1084;&#1086;&#1078;&#1085;&#1086; &#1087;&#1086;&#1083;&#1091;&#1095;&#1080;&#1090;&#1100; &#1076;&#1086;&#1089;&#1090;&#1091;&#1087; &#1087;&#1086; &#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1080; &#1080;&#1083;&#1080; &#1089; &#1087;&#1086;&#1084;&#1086;&#1097;&#1100;&#1102; &#1089;&#1087;&#1077;&#1094;&#1080;&#1072;&#1083;&#1100;&#1085;&#1086;&#1075;&#1086;
+&#1072;&#1090;&#1088;&#1080;&#1073;&#1091;&#1090;&#1072; <code>loc</code>:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [46]: </span>frame2<span style="color: #666666">.</span>loc[<span style="color: #BA2121">&#39;three&#39;</span>]
+<span style="color: #000080; font-weight: bold">Out[46]: </span><span style="color: #888888"></span>
+<span style="color: #888888">year     2002</span>
+<span style="color: #888888">state    Ohio</span>
+<span style="color: #888888">pop       3.6</span>
+<span style="color: #888888">debt      NaN</span>
+<span style="color: #888888">Name: three, dtype: object</span>
+</pre></div>
+<p>
+&#1052;&#1086;&#1078;&#1085;&#1086; &#1084;&#1077;&#1085;&#1103;&#1090;&#1100; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1074;. &#1053;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;, &#1087;&#1091;&#1089;&#1090;&#1086;&#1081; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1091; <code>debt</code> &#1084;&#1086;&#1078;&#1085;&#1086;
+&#1087;&#1088;&#1080;&#1089;&#1074;&#1086;&#1080;&#1090;&#1100; &#1089;&#1082;&#1072;&#1083;&#1103;&#1088;&#1085;&#1086;&#1077; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1077; &#1080;&#1083;&#1080; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [47]: </span>frame2[<span style="color: #BA2121">&#39;debt&#39;</span>] <span style="color: #666666">=</span> <span style="color: #666666">16.5</span>
+
+<span style="color: #000080; font-weight: bold">In [48]: </span>frame2
+<span style="color: #000080; font-weight: bold">Out[48]: </span><span style="color: #888888"></span>
+<span style="color: #888888">       year   state  pop  debt</span>
+<span style="color: #888888">one    2000    Ohio  1.5  16.5</span>
+<span style="color: #888888">two    2001    Ohio  1.7  16.5</span>
+<span style="color: #888888">three  2002    Ohio  3.6  16.5</span>
+<span style="color: #888888">four   2001  Nevada  2.4  16.5</span>
+<span style="color: #888888">five   2002  Nevada  2.9  16.5</span>
+<span style="color: #888888">six    2003  Nevada  3.2  16.5</span>
+
+<span style="color: #000080; font-weight: bold">In [49]: </span>frame2[<span style="color: #BA2121">&#39;debt&#39;</span>] <span style="color: #666666">=</span> np<span style="color: #666666">.</span>arange(<span style="color: #666666">6.</span>)
+
+<span style="color: #000080; font-weight: bold">In [50]: </span>frame2
+<span style="color: #000080; font-weight: bold">Out[50]: </span><span style="color: #888888"></span>
+<span style="color: #888888">       year   state  pop  debt</span>
+<span style="color: #888888">one    2000    Ohio  1.5   0.0</span>
+<span style="color: #888888">two    2001    Ohio  1.7   1.0</span>
+<span style="color: #888888">three  2002    Ohio  3.6   2.0</span>
+<span style="color: #888888">four   2001  Nevada  2.4   3.0</span>
+<span style="color: #888888">five   2002  Nevada  2.9   4.0</span>
+<span style="color: #888888">six    2003  Nevada  3.2   5.0</span>
+</pre></div>
+<p>
+&#1055;&#1088;&#1080; &#1087;&#1088;&#1080;&#1089;&#1074;&#1072;&#1080;&#1074;&#1072;&#1085;&#1080;&#1080; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1091; &#1089;&#1087;&#1080;&#1089;&#1082;&#1072; &#1080;&#1083;&#1080; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1072;, &#1080;&#1093; &#1076;&#1083;&#1080;&#1085;&#1072; &#1076;&#1086;&#1083;&#1078;&#1085;&#1072; &#1073;&#1099;&#1090;&#1100; &#1090;&#1086;&#1081;
+&#1078;&#1077;, &#1095;&#1090;&#1086; &#1080; &#1076;&#1083;&#1080;&#1085;&#1072; <code>DataFrame</code>. &#1045;&#1089;&#1083;&#1080; &#1087;&#1088;&#1080;&#1089;&#1074;&#1072;&#1080;&#1074;&#1072;&#1090;&#1100; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090; <code>Series</code>, &#1090;&#1086; &#1077;&#1075;&#1086;
+&#1084;&#1077;&#1090;&#1082;&#1080; &#1073;&#1091;&#1076;&#1091;&#1090; &#1074;&#1099;&#1088;&#1086;&#1074;&#1085;&#1077;&#1085;&#1099; &#1087;&#1086; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1091; <code>DataFrame</code>, &#1087;&#1088;&#1080; &#1101;&#1090;&#1086;&#1084; &#1073;&#1091;&#1076;&#1091;&#1090;
+&#1074;&#1089;&#1090;&#1072;&#1074;&#1083;&#1103;&#1090;&#1100;&#1089;&#1103; &#1086;&#1090;&#1089;&#1091;&#1090;&#1089;&#1090;&#1074;&#1091;&#1102;&#1097;&#1080;&#1077; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103; &#1076;&#1083;&#1103; &#1083;&#1102;&#1073;&#1099;&#1093; &#171;&#1076;&#1099;&#1088;&#187;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [51]: </span>val <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>Series([<span style="color: #666666">-1.2</span>, <span style="color: #666666">-1.5</span>, <span style="color: #666666">-1.7</span>], index<span style="color: #666666">=</span>[<span style="color: #BA2121">&#39;two&#39;</span>, <span style="color: #BA2121">&#39;four&#39;</span>, <span style="color: #BA2121">&#39;five&#39;</span>])
+
+<span style="color: #000080; font-weight: bold">In [52]: </span>frame2[<span style="color: #BA2121">&#39;debt&#39;</span>] <span style="color: #666666">=</span> val
+
+<span style="color: #000080; font-weight: bold">In [53]: </span>frame2
+<span style="color: #000080; font-weight: bold">Out[53]: </span><span style="color: #888888"></span>
+<span style="color: #888888">       year   state  pop  debt</span>
+<span style="color: #888888">one    2000    Ohio  1.5   NaN</span>
+<span style="color: #888888">two    2001    Ohio  1.7  -1.2</span>
+<span style="color: #888888">three  2002    Ohio  3.6   NaN</span>
+<span style="color: #888888">four   2001  Nevada  2.4  -1.5</span>
+<span style="color: #888888">five   2002  Nevada  2.9  -1.7</span>
+<span style="color: #888888">six    2003  Nevada  3.2   NaN</span>
+</pre></div>
+<p>
+&#1055;&#1088;&#1080; &#1087;&#1088;&#1080;&#1089;&#1074;&#1072;&#1080;&#1074;&#1072;&#1085;&#1080;&#1080; &#1086;&#1090;&#1089;&#1091;&#1090;&#1089;&#1090;&#1074;&#1091;&#1102;&#1097;&#1077;&#1075;&#1086; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1072; &#1074; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1077; <code>DataFrame</code>
+&#1076;&#1086;&#1073;&#1072;&#1074;&#1080;&#1090;&#1089;&#1103; &#1085;&#1086;&#1074;&#1099;&#1081; &#1089;&#1090;&#1086;&#1083;&#1073;&#1077;&#1094;. &#1050;&#1083;&#1102;&#1095;&#1077;&#1074;&#1086;&#1077; &#1089;&#1083;&#1086;&#1074;&#1086; <code>del</code> &#1091;&#1076;&#1072;&#1083;&#1103;&#1077;&#1090; &#1089;&#1090;&#1086;&#1083;&#1073;&#1077;&#1094;, &#1082;&#1072;&#1082; &#1080;
+&#1076;&#1083;&#1103; &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1077;&#1081;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [54]: </span>frame2[<span style="color: #BA2121">&#39;eastern&#39;</span>] <span style="color: #666666">=</span> frame2<span style="color: #666666">.</span>state <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;Ohio&#39;</span>
+
+<span style="color: #000080; font-weight: bold">In [55]: </span>frame2
+<span style="color: #000080; font-weight: bold">Out[55]: </span><span style="color: #888888"></span>
+<span style="color: #888888">       year   state  pop  debt  eastern</span>
+<span style="color: #888888">one    2000    Ohio  1.5   NaN     True</span>
+<span style="color: #888888">two    2001    Ohio  1.7  -1.2     True</span>
+<span style="color: #888888">three  2002    Ohio  3.6   NaN     True</span>
+<span style="color: #888888">four   2001  Nevada  2.4  -1.5    False</span>
+<span style="color: #888888">five   2002  Nevada  2.9  -1.7    False</span>
+<span style="color: #888888">six    2003  Nevada  3.2   NaN    False</span>
+</pre></div>
+<p>
+<div class="panel panel-warning">
+  <div class="panel-heading">
+  <h3 class="panel-title">Предупреждение</h3>
+  </div>
+<div class="panel-body">
+<p> <!-- subsequent paragraphs come in larger fonts, so start with a paragraph -->
+&#1053;&#1086;&#1074;&#1099;&#1081; &#1089;&#1090;&#1086;&#1083;&#1073;&#1077;&#1094; &#1085;&#1077; &#1084;&#1086;&#1078;&#1077;&#1090; &#1073;&#1099;&#1090;&#1100; &#1076;&#1086;&#1073;&#1072;&#1074;&#1083;&#1077;&#1085; &#1089; &#1087;&#1086;&#1084;&#1086;&#1097;&#1100;&#1102; &#1089;&#1080;&#1085;&#1090;&#1072;&#1082;&#1089;&#1080;&#1089;&#1072; <code>frame2.eastern</code>.
+</div>
+</div>
+
+
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [56]: </span><span style="color: #008000; font-weight: bold">del</span> frame2[<span style="color: #BA2121">&#39;eastern&#39;</span>]
+
+<span style="color: #000080; font-weight: bold">In [57]: </span>frame2<span style="color: #666666">.</span>columns
+<span style="color: #000080; font-weight: bold">Out[57]: </span><span style="color: #888888">Index([&#39;year&#39;, &#39;state&#39;, &#39;pop&#39;, &#39;debt&#39;], dtype=&#39;object&#39;)</span>
+</pre></div>
+<p>
+<div class="panel panel-warning">
+  <div class="panel-heading">
+  <h3 class="panel-title">Предупреждение</h3>
+  </div>
+<div class="panel-body">
+<p> <!-- subsequent paragraphs come in larger fonts, so start with a paragraph -->
+&#1057;&#1090;&#1086;&#1083;&#1073;&#1077;&#1094;, &#1074;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1084;&#1099;&#1081; &#1087;&#1088;&#1080; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1072;&#1094;&#1080;&#1080; <code>DataFrame</code>, &#1103;&#1074;&#1083;&#1103;&#1077;&#1090;&#1089;&#1103;
+&#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077;&#1084; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;, &#1072; &#1085;&#1077; &#1082;&#1086;&#1087;&#1080;&#1077;&#1081;. &#1058;&#1072;&#1082;&#1080;&#1084; &#1086;&#1073;&#1088;&#1072;&#1079;&#1086;&#1084;, &#1083;&#1102;&#1073;&#1099;&#1077;
+&#1080;&#1079;&#1084;&#1077;&#1085;&#1077;&#1085;&#1080;&#1103; &#1074; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1077; <code>Series</code> &#1073;&#1091;&#1076;&#1091;&#1090; &#1086;&#1090;&#1088;&#1072;&#1078;&#1077;&#1085;&#1099; &#1074; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1077;
+<code>DataFrame</code>. &#1057;&#1090;&#1086;&#1083;&#1073;&#1077;&#1094; &#1084;&#1086;&#1078;&#1085;&#1086; &#1103;&#1074;&#1085;&#1086; &#1089;&#1082;&#1086;&#1087;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1089; &#1087;&#1086;&#1084;&#1086;&#1097;&#1100;&#1102; &#1084;&#1077;&#1090;&#1086;&#1076;&#1072;
+<code>Series.copy</code>.
+</div>
+</div>
+
+
+<p>
+&#1044;&#1088;&#1091;&#1075;&#1086;&#1081; &#1088;&#1072;&#1089;&#1087;&#1088;&#1086;&#1089;&#1090;&#1088;&#1072;&#1085;&#1077;&#1085;&#1085;&#1086;&#1081; &#1092;&#1086;&#1088;&#1084;&#1086;&#1081; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1103; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1103;&#1074;&#1083;&#1103;&#1077;&#1090;&#1089;&#1103; &#1074;&#1083;&#1086;&#1078;&#1077;&#1085;&#1085;&#1099;&#1081;
+&#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1100; &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1077;&#1081;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [58]: </span>
+</pre></div>
+<p>
+&#1045;&#1089;&#1083;&#1080; &#1074;&#1083;&#1086;&#1078;&#1077;&#1085;&#1085;&#1099;&#1081; &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1100; &#1087;&#1077;&#1088;&#1077;&#1076;&#1072;&#1090;&#1100; &#1074; &#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1086;&#1088; <code>DataFrame</code>, <code>pandas</code>
+&#1080;&#1085;&#1090;&#1077;&#1088;&#1087;&#1088;&#1077;&#1090;&#1080;&#1088;&#1091;&#1077;&#1090; &#1082;&#1083;&#1102;&#1095;&#1080; &#1074;&#1085;&#1077;&#1096;&#1085;&#1077;&#1075;&#1086; &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1103; &#1082;&#1072;&#1082; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1099;, &#1072; &#1074;&#1085;&#1091;&#1090;&#1088;&#1077;&#1085;&#1085;&#1080;&#1077; &#1082;&#1083;&#1102;&#1095;&#1080;
+&#8212; &#1082;&#1072;&#1082; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1099;:
+
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [59]: </span>frame3 <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>DataFrame(pop)
+
+<span style="color: #000080; font-weight: bold">In [60]: </span>frame3
+<span style="color: #000080; font-weight: bold">Out[60]: </span><span style="color: #888888"></span>
+<span style="color: #888888">      Nevada  Ohio</span>
+<span style="color: #888888">2001     2.4   1.7</span>
+<span style="color: #888888">2002     2.9   3.6</span>
+<span style="color: #888888">2000     NaN   1.5</span>
+</pre></div>
+<p>
+&#1052;&#1086;&#1078;&#1085;&#1086; &#1090;&#1088;&#1072;&#1085;&#1089;&#1087;&#1086;&#1085;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; <code>DataFrame</code>:
+
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [61]: </span>frame3<span style="color: #666666">.</span>T
+</pre></div>
+<p>
+&#1052;&#1086;&#1078;&#1085;&#1086; &#1079;&#1072;&#1076;&#1072;&#1090;&#1100; &#1087;&#1086;&#1088;&#1103;&#1076;&#1086;&#1082; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1086;&#1074;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [62]: </span>pd<span style="color: #666666">.</span>DataFrame(pop, index<span style="color: #666666">=</span>[<span style="color: #666666">2001</span>, <span style="color: #666666">2002</span>, <span style="color: #666666">2003</span>])
+<span style="color: #000080; font-weight: bold">Out[62]: </span><span style="color: #888888"></span>
+<span style="color: #888888">      Nevada  Ohio</span>
+<span style="color: #888888">2001     2.4   1.7</span>
+<span style="color: #888888">2002     2.9   3.6</span>
+<span style="color: #888888">2003     NaN   NaN</span>
+</pre></div>
+<p>
+&#1057;&#1083;&#1086;&#1074;&#1072;&#1088;&#1080; &#1088;&#1103;&#1076;&#1086;&#1074; &#1086;&#1073;&#1088;&#1072;&#1073;&#1072;&#1090;&#1099;&#1074;&#1072;&#1102;&#1090;&#1089;&#1103; &#1087;&#1088;&#1072;&#1082;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080; &#1090;&#1072;&#1082;&#1078;&#1077;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [63]: </span>pdata <span style="color: #666666">=</span> {<span style="color: #BA2121">&#39;Ohio&#39;</span>: frame3[<span style="color: #BA2121">&#39;Ohio&#39;</span>][:<span style="color: #666666">-1</span>], <span style="color: #BA2121">&#39;Nevada&#39;</span>: frame3[<span style="color: #BA2121">&#39;Nevada&#39;</span>][:<span style="color: #666666">2</span>]}
+
+<span style="color: #000080; font-weight: bold">In [64]: </span>pd<span style="color: #666666">.</span>DataFrame(pdata)
+<span style="color: #000080; font-weight: bold">Out[64]: </span><span style="color: #888888"></span>
+<span style="color: #888888">      Nevada   Ohio</span>
+<span style="color: #888888">2000   NaN     1.5</span>
+<span style="color: #888888">2001   2.4     1.7</span>
+</pre></div>
+<p>
+&#1055;&#1086;&#1083;&#1085;&#1099;&#1081; &#1089;&#1087;&#1080;&#1089;&#1086;&#1082; &#1087;&#1072;&#1088;&#1072;&#1084;&#1077;&#1090;&#1088;&#1086;&#1074;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1077; &#1084;&#1086;&#1078;&#1085;&#1086; &#1087;&#1077;&#1088;&#1077;&#1076;&#1072;&#1074;&#1072;&#1090;&#1100; &#1074; &#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1086;&#1088;
+<code>DataFrame</code>, &#1084;&#1086;&#1078;&#1085;&#1086; &#1085;&#1072;&#1081;&#1090;&#1080; &#1074; &#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1077; <a href="#pandas:data-struct:tbl:1">pandas:data-struct:tbl:1</a>.
+
+<p>
+&#1045;&#1089;&#1083;&#1080; &#1076;&#1083;&#1103; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1072; &#1080; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1074; DataFrame &#1091;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1083;&#1077;&#1085;&#1099; &#1072;&#1090;&#1088;&#1080;&#1073;&#1091;&#1090;&#1099; <code>name</code>, &#1086;&#1085;&#1080;
+&#1090;&#1072;&#1082;&#1078;&#1077; &#1073;&#1091;&#1076;&#1091;&#1090; &#1086;&#1090;&#1086;&#1073;&#1088;&#1072;&#1078;&#1077;&#1085;&#1099;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [65]: </span>frame3<span style="color: #666666">.</span>index<span style="color: #666666">.</span>name <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;year&#39;</span>; frame3<span style="color: #666666">.</span>columns<span style="color: #666666">.</span>name <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;state&#39;</span>
+
+<span style="color: #000080; font-weight: bold">In [66]: </span>frame3
+<span style="color: #000080; font-weight: bold">Out[66]: </span><span style="color: #888888"></span>
+<span style="color: #888888">state  Nevada  Ohio</span>
+<span style="color: #888888">year               </span>
+<span style="color: #888888">2001      2.4   1.7</span>
+<span style="color: #888888">2002      2.9   3.6</span>
+<span style="color: #888888">2000      NaN   1.5</span>
+</pre></div>
+<p>
+&#1050;&#1072;&#1082; &#1080; &#1074; &#1089;&#1083;&#1091;&#1095;&#1072;&#1077; <code>Series</code>, &#1072;&#1090;&#1088;&#1080;&#1073;&#1091;&#1090; <code>values</code> &#1074;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1090; &#1076;&#1072;&#1085;&#1085;&#1099;&#1077;,
+&#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1097;&#1080;&#1077;&#1089;&#1103; &#1074; <code>DataFrame</code>, &#1074; &#1074;&#1080;&#1076;&#1077; &#1076;&#1074;&#1091;&#1084;&#1077;&#1088;&#1085;&#1086;&#1075;&#1086; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1072;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [67]: </span>frame3<span style="color: #666666">.</span>values
+<span style="color: #000080; font-weight: bold">Out[67]: </span><span style="color: #888888"></span>
+<span style="color: #888888">array([[2.4, 1.7],</span>
+<span style="color: #888888">       [2.9, 3.6],</span>
+<span style="color: #888888">       [nan, 1.5]])</span>
+</pre></div>
+<p>
+<p class='env-table'><em>&#1058;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072; 1. &#1042;&#1086;&#1079;&#1084;&#1086;&#1078;&#1085;&#1099;&#1077; &#1074;&#1093;&#1086;&#1076;&#1085;&#1099;&#1077; &#1076;&#1072;&#1085;&#1085;&#1099;&#1077; &#1076;&#1083;&#1103; &#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1086;&#1088;&#1072; <code>DataFrame</code> <div id="pandas:data-struct:tbl:1"></div></em>
+
+<p>
+
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table table-striped table-hover table-condensed">
+<thead>
+<tr><td align="left"><b>                                                                                                                                    &#1058;&#1080;&#1087;                                                                                                                                    </b></td> <td align="left"><b>                                                                                                                                                                                                                                                                                                                                                                                                                                                          &#1055;&#1088;&#1080;&#1084;&#1077;&#1095;&#1072;&#1085;&#1080;&#1103;                                                                                                                                                                                                                                                                                                                                                                                                                                                         </b></td> </tr>
+</thead>
+<tbody>
+<tr><td align="left">   &#1044;&#1074;&#1091;&#1084;&#1077;&#1088;&#1085;&#1099;&#1081; <code>ndarray</code>                                                                                                                                                                                                             </td> <td align="left">   &#1052;&#1072;&#1090;&#1088;&#1080;&#1094;&#1072; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;, &#1087;&#1077;&#1088;&#1077;&#1076;&#1072;&#1102;&#1097;&#1072;&#1103;&#1089;&#1103; &#1089; &#1085;&#1077;&#1086;&#1073;&#1103;&#1079;&#1072;&#1090;&#1077;&#1083;&#1100;&#1085;&#1099;&#1084;&#1080; &#1084;&#1077;&#1090;&#1082;&#1072;&#1084;&#1080; &#1089;&#1090;&#1088;&#1086;&#1082; &#1080; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1074;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </td> </tr>
+<tr><td align="left">   <code>dict</code> &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1086;&#1074;, <code>list</code>, <code>tuple</code>                                                                                                                                                                                </td> <td align="left">   &#1050;&#1072;&#1078;&#1076;&#1072;&#1103; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;&#1089;&#1090;&#1100; &#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1080;&#1090;&#1089;&#1103; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1084; &#1074; <code>DataFrame</code>. &#1042;&#1089;&#1077; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;&#1089;&#1090;&#1080; &#1076;&#1086;&#1083;&#1078;&#1085;&#1099; &#1073;&#1099;&#1090;&#1100; &#1086;&#1076;&#1080;&#1085;&#1072;&#1082;&#1086;&#1074;&#1086;&#1081; &#1076;&#1083;&#1080;&#1085;&#1099;                                                                                                                                                                                                                                                                                                            </td> </tr>
+<tr><td align="left">   &#1057;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1085;&#1099;&#1081; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074; (&#1080;&#1083;&#1080; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074; &#1079;&#1072;&#1087;&#1080;&#1089;&#1077;&#1081;) NumPy    </td> <td align="left">   &#1054;&#1073;&#1088;&#1072;&#1073;&#1072;&#1090;&#1099;&#1074;&#1072;&#1077;&#1090;&#1089;&#1103; &#1082;&#1072;&#1082; &#1087;&#1088;&#1077;&#1076;&#1099;&#1076;&#1091;&#1097;&#1080;&#1081; &#1089;&#1083;&#1091;&#1095;&#1072;&#1081;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </td> </tr>
+<tr><td align="left">   <code>dict</code> &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1086;&#1074; &#1090;&#1080;&#1087;&#1072; <code>Series</code>                                                                                                                                                                      </td> <td align="left">   &#1050;&#1072;&#1078;&#1076;&#1086;&#1077; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1077; &#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1080;&#1090;&#1089;&#1103; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1084;. &#1048;&#1085;&#1076;&#1077;&#1082;&#1089;&#1099; &#1080;&#1079; &#1082;&#1072;&#1078;&#1076;&#1086;&#1081; &#1089;&#1077;&#1088;&#1080;&#1080; &#1086;&#1073;&#1098;&#1077;&#1076;&#1080;&#1085;&#1103;&#1102;&#1090;&#1089;&#1103; &#1074;&#1084;&#1077;&#1089;&#1090;&#1077;, &#1095;&#1090;&#1086;&#1073;&#1099; &#1089;&#1092;&#1086;&#1088;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089; &#1089;&#1090;&#1088;&#1086;&#1082;&#1080; &#1088;&#1077;&#1079;&#1091;&#1083;&#1100;&#1090;&#1072;&#1090;&#1072;, &#1077;&#1089;&#1083;&#1080; &#1085;&#1077; &#1087;&#1077;&#1088;&#1077;&#1076;&#1072;&#1085; &#1103;&#1074;&#1085;&#1099;&#1081; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;    </td> </tr>
+<tr><td align="left">   <code>dict</code> &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1086;&#1074; &#1090;&#1080;&#1087;&#1072; <code>dict</code>                                                                                                                                                                        </td> <td align="left">   &#1050;&#1072;&#1078;&#1076;&#1099;&#1081; &#1074;&#1085;&#1091;&#1090;&#1088;&#1077;&#1085;&#1085;&#1080;&#1081; &#1089;&#1083;&#1086;&#1074;&#1072;&#1088;&#1100; &#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1080;&#1090;&#1089;&#1103; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1084;. &#1050;&#1083;&#1102;&#1095;&#1080; &#1086;&#1073;&#1098;&#1077;&#1076;&#1080;&#1085;&#1103;&#1102;&#1090;&#1089;&#1103; &#1076;&#1083;&#1103; &#1092;&#1086;&#1088;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1072; &#1089;&#1090;&#1088;&#1086;&#1082;&#1080;, &#1082;&#1072;&#1082; &#1074; &#1087;&#1088;&#1077;&#1076;&#1099;&#1076;&#1091;&#1097;&#1077;&#1084; &#1089;&#1083;&#1091;&#1095;&#1072;&#1077;                                                                                                                                                                                                       </td> </tr>
+<tr><td align="left">   <code>list</code> &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1086;&#1074; <code>dict</code> &#1080;&#1083;&#1080; <code>Series</code>                                                                                                                                                           </td> <td align="left">   &#1050;&#1072;&#1078;&#1076;&#1099;&#1081; &#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090; &#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1080;&#1090;&#1089;&#1103; &#1089;&#1090;&#1088;&#1086;&#1082;&#1086;&#1081; &#1074; <code>DataFrame</code>. &#1054;&#1073;&#1073;&#1098;&#1077;&#1076;&#1080;&#1085;&#1077;&#1085;&#1080;&#1077; &#1082;&#1083;&#1102;&#1095;&#1077;&#1081; <code>dict</code> &#1080;&#1083;&#1080; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1086;&#1074; <code>Series</code> &#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1080;&#1090;&#1089;&#1103; &#1084;&#1077;&#1090;&#1082;&#1072;&#1084;&#1080; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1074; <code>DataFrame</code>                                                                                                                                                                                                                                                                          </td> </tr>
+<tr><td align="left">   <code>list</code> &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1086;&#1074; <code>list</code> &#1080;&#1083;&#1080; <code>tuple</code>                                                                                                                                                            </td> <td align="left">   &#1054;&#1073;&#1088;&#1072;&#1073;&#1072;&#1090;&#1099;&#1074;&#1072;&#1077;&#1090;&#1089;&#1103; &#1082;&#1072;&#1082; &#1089;&#1083;&#1091;&#1095;&#1072;&#1081; &#1076;&#1074;&#1091;&#1084;&#1077;&#1088;&#1085;&#1086;&#1075;&#1086; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1072;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </td> </tr>
+<tr><td align="left">   <code>DataFrame</code>                                                                                                                                                                                                                                                                           </td> <td align="left">   &#1048;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1102;&#1090;&#1089;&#1103; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1099; <code>DataFrame</code> , &#1077;&#1089;&#1083;&#1080; &#1085;&#1077; &#1087;&#1077;&#1088;&#1077;&#1076;&#1072;&#1085;&#1099; &#1076;&#1088;&#1091;&#1075;&#1080;&#1077;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </td> </tr>
+<tr><td align="left">   &#1084;&#1072;&#1089;&#1082;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1085;&#1099;&#1081; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074; NumPy                                                                                                                                                     </td> <td align="left">   &#1050;&#1072;&#1082; &#1089;&#1083;&#1091;&#1095;&#1072;&#1081; &#1076;&#1074;&#1091;&#1084;&#1077;&#1088;&#1085;&#1086;&#1075;&#1086; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1072;, &#1079;&#1072; &#1080;&#1089;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1077;&#1084; &#1090;&#1086;&#1075;&#1086;, &#1095;&#1090;&#1086; &#1084;&#1072;&#1089;&#1082;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1085;&#1099;&#1077; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103; &#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1103;&#1090;&#1089;&#1103; &#1087;&#1088;&#1086;&#1087;&#1091;&#1097;&#1077;&#1085;&#1085;&#1099;&#1084;&#1080; (NA) &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103;&#1084;&#1080; &#1074; &#1080;&#1090;&#1086;&#1075;&#1086;&#1074;&#1086;&#1084; <code>DataFrame</code>                                                                                                                                                             </td> </tr>
+</tbody>
+    </table>
+  </div> <!-- col-xs-12 -->
+</div> <!-- cell row -->
+</p>
+
+<h2 id="pandas:data-struct:index" class="anchor">&#1054;&#1073;&#1098;&#1077;&#1082;&#1090;&#1099; &#1090;&#1080;&#1087;&#1072; <code>Index</code></h2>
+
+<p>
+&#1054;&#1073;&#1098;&#1077;&#1082;&#1090;&#1099; &#1090;&#1080;&#1087;&#1072; <code>Index</code> &#1074; <code>pandas</code> &#1086;&#1090;&#1074;&#1077;&#1095;&#1072;&#1102;&#1090; &#1079;&#1072; &#1093;&#1088;&#1072;&#1085;&#1077;&#1085;&#1080;&#1077; &#1084;&#1077;&#1090;&#1086;&#1082; &#1086;&#1089;&#1077;&#1081; &#1080;
+&#1076;&#1088;&#1091;&#1075;&#1080;&#1093; &#1084;&#1077;&#1090;&#1072;&#1076;&#1072;&#1085;&#1085;&#1099;&#1093; (&#1090;&#1072;&#1082;&#1080;&#1093; &#1082;&#1072;&#1082; &#1080;&#1084;&#1103; &#1080;&#1083;&#1080; &#1080;&#1084;&#1103; &#1086;&#1089;&#1080;).
+
+<p>
+&#1051;&#1102;&#1073;&#1086;&#1081; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074; &#1080;&#1083;&#1080; &#1076;&#1088;&#1091;&#1075;&#1072;&#1103; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;&#1089;&#1090;&#1100; &#1084;&#1077;&#1090;&#1086;&#1082;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1077; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1102;&#1090;&#1089;&#1103;
+&#1087;&#1088;&#1080; &#1089;&#1086;&#1079;&#1076;&#1072;&#1085;&#1080;&#1080; <code>Series</code> &#1080;&#1083;&#1080; <code>DataFrame</code>, &#1087;&#1088;&#1077;&#1086;&#1073;&#1088;&#1072;&#1079;&#1091;&#1077;&#1090;&#1089;&#1103; &#1074; <code>Index</code>:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [68]: </span>obj <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>Series(<span style="color: #008000">range</span>(<span style="color: #666666">3</span>), index<span style="color: #666666">=</span>[<span style="color: #BA2121">&#39;a&#39;</span>, <span style="color: #BA2121">&#39;b&#39;</span>, <span style="color: #BA2121">&#39;c&#39;</span>])
+
+<span style="color: #000080; font-weight: bold">In [69]: </span>index <span style="color: #666666">=</span> obj<span style="color: #666666">.</span>index
+
+<span style="color: #000080; font-weight: bold">In [70]: </span>index
+<span style="color: #000080; font-weight: bold">Out[70]: </span><span style="color: #888888">Index([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;], dtype=&#39;object&#39;)</span>
+
+<span style="color: #000080; font-weight: bold">In [71]: </span>index[<span style="color: #666666">1</span>:]
+<span style="color: #000080; font-weight: bold">Out[71]: </span><span style="color: #888888">Index([&#39;b&#39;, &#39;c&#39;], dtype=&#39;object&#39;)</span>
+</pre></div>
+<p>
+&#1054;&#1073;&#1098;&#1077;&#1082;&#1090;&#1099; <code>Index</code> &#8212; &#1085;&#1077;&#1080;&#1079;&#1084;&#1077;&#1085;&#1103;&#1077;&#1084;&#1099;&#1081; &#1090;&#1080;&#1087; &#1080; &#1085;&#1077; &#1084;&#1086;&#1078;&#1077;&#1090; &#1080;&#1079;&#1084;&#1077;&#1085;&#1103;&#1090;&#1100;&#1089;&#1103;
+&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1077;&#1084;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [72]: </span>index[<span style="color: #666666">1</span>] <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;d&#39;</span>
+<span style="color: #0044DD">---------------------------------------------------------------------------</span>
+<span style="color: #D2413A; font-weight: bold">TypeError</span>                                 Traceback (most recent call last)
+<span style="color: #666666">&lt;</span>ipython<span style="color: #666666">-</span><span style="color: #008000">input</span><span style="color: #666666">-75-</span>a452e55ce13b<span style="color: #666666">&gt;</span> <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #666666">&lt;</span>module<span style="color: #666666">&gt;</span>
+<span style="color: #D2413A; font-weight: bold">----&gt; </span><span style="color: #666666">1</span> index[<span style="color: #666666">1</span>] <span style="color: #666666">=</span> <span style="color: #BA2121">&#39;d&#39;</span>
+
+<span style="color: #0000FF; font-weight: bold">/usr/lib/python3.8/site-packages/pandas/core/indexes/base.py</span> in <span style="color: #999999; font-weight: bold">__setitem__</span><span style="color: #008000; font-weight: bold">(self, key, value)</span>
+   <span style="color: #666666">3907</span> 
+   <span style="color: #666666">3908</span>     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__setitem__</span>(<span style="color: #008000">self</span>, key, value):
+<span style="color: #D2413A; font-weight: bold">-&gt; </span><span style="color: #666666">3909</span>         <span style="color: #008000; font-weight: bold">raise</span> <span style="color: #D2413A; font-weight: bold">TypeError</span>(<span style="color: #BA2121">&quot;Index does not support mutable operations&quot;</span>)
+   <span style="color: #666666">3910</span> 
+   <span style="color: #666666">3911</span>     <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">__getitem__</span>(<span style="color: #008000">self</span>, key):
+
+<span style="color: #D2413A; font-weight: bold">TypeError</span>: Index does not support mutable operations
+</pre></div>
+<p>
+&#1053;&#1077;&#1080;&#1079;&#1084;&#1077;&#1085;&#1103;&#1077;&#1084;&#1086;&#1089;&#1090;&#1100; &#1076;&#1077;&#1083;&#1072;&#1077;&#1090; &#1073;&#1086;&#1083;&#1077;&#1077; &#1073;&#1077;&#1079;&#1086;&#1087;&#1072;&#1089;&#1085;&#1099;&#1084; &#1089;&#1086;&#1074;&#1084;&#1077;&#1089;&#1090;&#1085;&#1086;&#1077; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1086;&#1074;
+<code>Index</code>:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [73]: </span>labels <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>Index(np<span style="color: #666666">.</span>arange(<span style="color: #666666">3</span>))
+
+<span style="color: #000080; font-weight: bold">In [74]: </span>lables
+<span style="color: #000080; font-weight: bold">Out[74]: </span><span style="color: #888888">Int64Index([0, 1, 2], dtype=&#39;int64&#39;)</span>
+
+<span style="color: #000080; font-weight: bold">In [75]: </span>obj2 <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>Series([<span style="color: #666666">1.5</span>, <span style="color: #666666">-2.5</span>, <span style="color: #666666">0</span>], index<span style="color: #666666">=</span>lables)
+
+<span style="color: #000080; font-weight: bold">In [76]: </span>obj2
+<span style="color: #000080; font-weight: bold">Out[76]: </span><span style="color: #888888"></span>
+<span style="color: #888888">0    1.5</span>
+<span style="color: #888888">1   -2.5</span>
+<span style="color: #888888">2    0.0</span>
+<span style="color: #888888">dtype: float64</span>
+
+<span style="color: #000080; font-weight: bold">In [77]: </span>obj2<span style="color: #666666">.</span>index <span style="color: #AA22FF; font-weight: bold">is</span> lables
+<span style="color: #000080; font-weight: bold">Out[77]: </span><span style="color: #888888">True</span>
+</pre></div>
+<p>
+&#1057; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1072;&#1084;&#1080; <code>Index</code> &#1084;&#1086;&#1078;&#1085;&#1086; &#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1090;&#1100; &#1082;&#1072;&#1082; &#1089; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1072;&#1084;&#1080; &#1092;&#1080;&#1082;&#1089;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1085;&#1086;&#1075;&#1086;
+&#1088;&#1072;&#1079;&#1084;&#1077;&#1088;&#1072;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [78]: </span>frame3
+<span style="color: #000080; font-weight: bold">Out[78]: </span><span style="color: #888888"></span>
+<span style="color: #888888">state  Nevada  Ohio</span>
+<span style="color: #888888">year               </span>
+<span style="color: #888888">2001      2.4   1.7</span>
+<span style="color: #888888">2002      2.9   3.6</span>
+<span style="color: #888888">2000      NaN   1.5</span>
+
+<span style="color: #000080; font-weight: bold">In [79]: </span>frame3<span style="color: #666666">.</span>columns
+<span style="color: #000080; font-weight: bold">Out[79]: </span><span style="color: #888888">Index([&#39;Nevada&#39;, &#39;Ohio&#39;], dtype=&#39;object&#39;, name=&#39;state&#39;)</span>
+
+<span style="color: #000080; font-weight: bold">In [80]: </span><span style="color: #BA2121">&#39;Ohio&#39;</span> <span style="color: #AA22FF; font-weight: bold">in</span> frame3<span style="color: #666666">.</span>columns
+<span style="color: #000080; font-weight: bold">Out[80]: </span><span style="color: #888888">True</span>
+
+<span style="color: #000080; font-weight: bold">In [81]: </span><span style="color: #666666">2003</span> <span style="color: #AA22FF; font-weight: bold">in</span> frame3<span style="color: #666666">.</span>index
+<span style="color: #000080; font-weight: bold">Out[81]: </span><span style="color: #888888">False</span>
+</pre></div>
+<p>
+&#1042; &#1086;&#1090;&#1083;&#1080;&#1095;&#1080;&#1077; &#1086;&#1090; &#1084;&#1085;&#1086;&#1078;&#1077;&#1089;&#1090;&#1074; Python &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1099; <code>Index</code> &#1084;&#1086;&#1075;&#1091;&#1090; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1090;&#1100;
+&#1087;&#1086;&#1074;&#1090;&#1086;&#1088;&#1103;&#1102;&#1097;&#1080;&#1077;&#1089;&#1103; &#1084;&#1077;&#1090;&#1082;&#1080;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [82]: </span>dup_labels <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>Index([<span style="color: #BA2121">&#39;foo&#39;</span>, <span style="color: #BA2121">&#39;foo&#39;</span>, <span style="color: #BA2121">&#39;bar&#39;</span>, <span style="color: #BA2121">&#39;bar&#39;</span>])
+
+<span style="color: #000080; font-weight: bold">In [83]: </span>dup_labels
+<span style="color: #000080; font-weight: bold">Out[83]: </span><span style="color: #888888">Index([&#39;foo&#39;, &#39;foo&#39;, &#39;bar&#39;, &#39;bar&#39;], dtype=&#39;object&#39;)</span>
+</pre></div>
+<p>
+&#1050;&#1072;&#1078;&#1076;&#1099;&#1081; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090; <code>Index</code> &#1080;&#1084;&#1077;&#1077;&#1090; &#1088;&#1103;&#1076; &#1084;&#1077;&#1090;&#1086;&#1076;&#1086;&#1074; &#1080; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;. &#1053;&#1077;&#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1077; &#1087;&#1086;&#1083;&#1077;&#1079;&#1085;&#1099;&#1077;
+&#1080;&#1079; &#1085;&#1080;&#1093; &#1087;&#1088;&#1080;&#1074;&#1077;&#1076;&#1077;&#1085;&#1099; &#1074; &#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1077; <a href="#pandas:data-struct:tbl:2">pandas:data-struct:tbl:2</a>.
+
+<p>
+<p class='env-table'><em>&#1058;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072; 2. &#1053;&#1077;&#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1077; &#1084;&#1077;&#1090;&#1086;&#1076;&#1099; &#1080; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1072; <code>Index</code> <div id="pandas:data-struct:tbl:2"></div></em>
+
+<p>
+
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table table-striped table-hover table-condensed">
+<thead>
+<tr><td align="left"><b>&#1052;&#1077;&#1090;&#1086;&#1076;</b></td> <td align="left"><b>                                                                                                                                                                                                                                                                             &#1054;&#1087;&#1080;&#1089;&#1072;&#1085;&#1080;&#1077;                                                                                                                                                                                                                                                                            </b></td> </tr>
+</thead>
+<tbody>
+<tr><td align="left">   <code>append</code>                    </td> <td align="left">   &#1044;&#1086;&#1073;&#1072;&#1074;&#1083;&#1103;&#1077;&#1090; &#1076;&#1086;&#1087;&#1086;&#1083;&#1085;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1099;&#1077; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1099; <code>Index</code>, &#1089;&#1086;&#1079;&#1076;&#1072;&#1074;&#1072;&#1103; &#1085;&#1086;&#1074;&#1099;&#1081; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090; <code>Index</code>                                                                                                                                                                                                                  </td> </tr>
+<tr><td align="left">   <code>difference</code>                </td> <td align="left">   &#1042;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1090; &#1088;&#1072;&#1079;&#1085;&#1086;&#1089;&#1090;&#1100; &#1084;&#1085;&#1086;&#1078;&#1077;&#1089;&#1090;&#1074; &#1082;&#1072;&#1082; <code>Index</code>                                                                                                                                                                                                                                                                                                                                                                                    </td> </tr>
+<tr><td align="left">   <code>intersection</code>              </td> <td align="left">   &#1042;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1090; &#1087;&#1077;&#1088;&#1077;&#1089;&#1077;&#1095;&#1077;&#1085;&#1080;&#1077; &#1084;&#1085;&#1086;&#1078;&#1077;&#1089;&#1090;&#1074;                                                                                                                                                                                                                                                                                                                                                                                                        </td> </tr>
+<tr><td align="left">   <code>union</code>                     </td> <td align="left">   &#1042;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1090; &#1086;&#1073;&#1098;&#1077;&#1076;&#1080;&#1085;&#1077;&#1085;&#1080;&#1077; &#1084;&#1085;&#1086;&#1078;&#1077;&#1089;&#1090;&#1074;                                                                                                                                                                                                                                                                                                                                                                                                        </td> </tr>
+<tr><td align="left">   <code>isin</code>                      </td> <td align="left">   &#1042;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1090; &#1083;&#1086;&#1075;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1081; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;, &#1091;&#1082;&#1072;&#1079;&#1099;&#1074;&#1072;&#1102;&#1097;&#1080;&#1081;, &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1090;&#1089;&#1103; &#1083;&#1080; &#1082;&#1072;&#1078;&#1076;&#1086;&#1077; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1077; &#1074; &#1087;&#1077;&#1088;&#1077;&#1076;&#1072;&#1085;&#1085;&#1086;&#1081; &#1082;&#1086;&#1083;&#1083;&#1077;&#1082;&#1094;&#1080;&#1080;    </td> </tr>
+<tr><td align="left">   <code>delete</code>                    </td> <td align="left">   &#1042;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1090; &#1085;&#1086;&#1074;&#1099;&#1081; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090; <code>Index</code> &#1089; &#1091;&#1076;&#1072;&#1083;&#1077;&#1085;&#1085;&#1099;&#1084; &#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;&#1086;&#1084; &#1087;&#1086; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1091; <code>i</code>                                                                                                                                                                                                                     </td> </tr>
+<tr><td align="left">   <code>drop</code>                      </td> <td align="left">   &#1042;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1090; &#1085;&#1086;&#1074;&#1099;&#1081; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090; <code>Index</code>, &#1091;&#1076;&#1072;&#1083;&#1103;&#1103; &#1087;&#1077;&#1088;&#1077;&#1076;&#1072;&#1085;&#1085;&#1099;&#1077; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103;                                                                                                                                                                                                                                                                 </td> </tr>
+<tr><td align="left">   <code>insert</code>                    </td> <td align="left">   &#1042;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1090; &#1085;&#1086;&#1074;&#1099;&#1081; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090; <code>Index</code>, &#1074;&#1089;&#1090;&#1072;&#1074;&#1083;&#1103;&#1103; &#1087;&#1086; &#1080;&#1085;&#1076;&#1077;&#1082;&#1089;&#1091; <code>i</code> &#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;                                                                                                                                                                                                                                                 </td> </tr>
+<tr><td align="left">   <code>is_monotonic</code>              </td> <td align="left">   &#1042;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1090; <code>True</code>, &#1077;&#1089;&#1083;&#1080; &#1082;&#1072;&#1078;&#1076;&#1099;&#1081; &#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090; &#1073;&#1086;&#1083;&#1100;&#1096;&#1077; &#1083;&#1080;&#1073;&#1086; &#1088;&#1072;&#1074;&#1077;&#1085; &#1087;&#1088;&#1077;&#1076;&#1099;&#1076;&#1091;&#1097;&#1077;&#1075;&#1086;                                                                                                                                                                                                        </td> </tr>
+<tr><td align="left">   <code>is_unique</code>                 </td> <td align="left">   &#1042;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1090; <code>True</code>, &#1077;&#1089;&#1083;&#1080; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090; <code>Index</code> &#1085;&#1077; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1090; &#1076;&#1091;&#1087;&#1083;&#1080;&#1082;&#1072;&#1090;&#1086;&#1074;                                                                                                                                                                                                                                                                                  </td> </tr>
+<tr><td align="left">   <code>unique</code>                    </td> <td align="left">   &#1042;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1090; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074; &#1091;&#1085;&#1080;&#1082;&#1072;&#1083;&#1100;&#1085;&#1099;&#1093; &#1079;&#1072;&#1085;&#1095;&#1077;&#1085;&#1080;&#1081; &#1074; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1077; <code>Index</code>                                                                                                                                                                                                                                                                                       </td> </tr>
+</tbody>
+    </table>
+  </div> <!-- col-xs-12 -->
+</div> <!-- cell row -->
+</p>
+
+<p>
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "pandas" -->
+<!-- doconce-section-nickname: "data-struct" -->
+<!-- End: -->
+
+<p>
+<p>
+<!-- navigation buttons at the bottom of the page -->
+<ul class="pager">
+
+  <li class="previous">
+    <a href="._pandas-readable000.html">&larr; Prev</a>
+  </li>
+
+  <li class="next">
+    <a href="._pandas-readable002.html">Next &rarr;</a>
+  </li>
+</ul>
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+

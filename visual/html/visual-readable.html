@@ -1,0 +1,266 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Графическая визуализация данных">
+
+<title>Графическая визуализация данных</title>
+
+<!-- Bootstrap style: bootswatch_readable -->
+<link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/readable/bootstrap.min.css" rel="stylesheet">
+<!-- not necessary
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:64px;      /* fixed header height for style bootswatch_readable */
+  margin:-64px 0 0; /* negative fixed header height */
+}
+
+body { font-size:20px; }
+</style>
+
+
+
+
+<!-- Tools for embedded Bokeh plots -->
+<link rel=stylesheet 
+      href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
+      type=text/css />
+<script type=text/javascript 
+        src=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js>
+</script>
+<script type=text/javascript>
+  Bokeh.set_log_level("info");
+</script>
+
+<style>
+.bk-embeded {
+    width: 100%;
+    margin: auto;
+    height: 500px;
+    text-align: webkit-left;
+}
+</style>
+
+
+</head>
+
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [('Содержание',
+               1,
+               'table_of_contents',
+               'table_of_contents'),
+              ('Краткий пример использования `matplotlib`',
+               1,
+               'visual:matplotlib',
+               'visual:matplotlib'),
+              ('Рисунки и подграфики',
+               2,
+               'visual:matplotlib:figs_and_subplots',
+               'visual:matplotlib:figs_and_subplots'),
+              ('Цвет, маркеры и стили линий',
+               2,
+               'visual:matplotlib:colors',
+               'visual:matplotlib:colors'),
+              ('Подписи к осям, масштаб и легенда',
+               2,
+               'visual:matplotlib:ticks',
+               'visual:matplotlib:ticks'),
+              ('Сохранение рисунков в файл',
+               2,
+               'visual:matplotlib:saving',
+               'visual:matplotlib:saving'),
+              ('Построение графиков с помощью `pandas` и `seaborn`',
+               1,
+               'visual:plt-with-pandas',
+               'visual:plt-with-pandas'),
+              ('Линейные графики',
+               2,
+               'visual:plt-with-pandas:line',
+               'visual:plt-with-pandas:line'),
+              ('Столбчатые диаграммы',
+               2,
+               'visual:plt-with-pandas:bar',
+               'visual:plt-with-pandas:bar'),
+              ('Гистограммы и графики плотности распределения',
+               2,
+               'visual:plt-with-pandas:hist',
+               'visual:plt-with-pandas:hist'),
+              ('Диаграммы рассеяния или точечные графики',
+               2,
+               'visual:plt-with-pandas:scatter',
+               'visual:plt-with-pandas:scatter'),
+              ('Категориальные данные',
+               2,
+               'visual:plt-with-pandas:facet-grids',
+               'visual:plt-with-pandas:facet-grids')]}
+end of tocinfo -->
+
+<body>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "none"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript" async
+ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+    
+<!-- Bootstrap navigation bar -->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="visual-readable.html">Графическая визуализация данных</a>
+  </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+     <!-- navigation toc: --> <li><a href="#table_of_contents" style="font-size: 80%;"><b>Содержание</b></a></li>
+     <!-- navigation toc: --> <li><a href="._visual-readable001.html#visual:matplotlib" style="font-size: 80%;"><b>Краткий пример использования <code>matplotlib</code></b></a></li>
+     <!-- navigation toc: --> <li><a href="._visual-readable001.html#visual:matplotlib:figs_and_subplots" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Рисунки и подграфики</a></li>
+     <!-- navigation toc: --> <li><a href="._visual-readable001.html#visual:matplotlib:colors" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Цвет, маркеры и стили линий</a></li>
+     <!-- navigation toc: --> <li><a href="._visual-readable001.html#visual:matplotlib:ticks" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Подписи к осям, масштаб и легенда</a></li>
+     <!-- navigation toc: --> <li><a href="._visual-readable001.html#visual:matplotlib:saving" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Сохранение рисунков в файл</a></li>
+     <!-- navigation toc: --> <li><a href="._visual-readable002.html#visual:plt-with-pandas" style="font-size: 80%;"><b>Построение графиков с помощью <code>pandas</code> и <code>seaborn</code></b></a></li>
+     <!-- navigation toc: --> <li><a href="._visual-readable002.html#visual:plt-with-pandas:line" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Линейные графики</a></li>
+     <!-- navigation toc: --> <li><a href="._visual-readable002.html#visual:plt-with-pandas:bar" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Столбчатые диаграммы</a></li>
+     <!-- navigation toc: --> <li><a href="._visual-readable002.html#visual:plt-with-pandas:hist" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Гистограммы и графики плотности распределения</a></li>
+     <!-- navigation toc: --> <li><a href="._visual-readable002.html#visual:plt-with-pandas:scatter" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Диаграммы рассеяния или точечные графики</a></li>
+     <!-- navigation toc: --> <li><a href="._visual-readable002.html#visual:plt-with-pandas:facet-grids" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Категориальные данные</a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</div> <!-- end of navigation bar -->
+
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<a name="part0000"></a>
+<!-- ------------------- main content ---------------------- -->
+
+
+
+<div class="jumbotron">
+<center><h1>&#1043;&#1088;&#1072;&#1092;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103; &#1074;&#1080;&#1079;&#1091;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;</h1></center>  <!-- document title -->
+
+<p>
+<!-- author(s): &#1057;.&#1042;. &#1051;&#1077;&#1084;&#1077;&#1096;&#1077;&#1074;&#1089;&#1082;&#1080;&#1081; -->
+
+<center>
+<b>&#1057;.&#1042;. &#1051;&#1077;&#1084;&#1077;&#1096;&#1077;&#1074;&#1089;&#1082;&#1080;&#1081;</b>  (<tt>sergey.lemeshevsky at gmail.com</tt>)
+</center>
+
+<p>
+<!-- institution -->
+
+<center><b>&#1048;&#1085;&#1089;&#1090;&#1080;&#1090;&#1091;&#1090; &#1084;&#1072;&#1090;&#1077;&#1084;&#1072;&#1090;&#1080;&#1082;&#1080; &#1053;&#1040;&#1053; &#1041;&#1077;&#1083;&#1072;&#1088;&#1091;&#1089;&#1080;</b></center>
+<br>
+<p>
+<center><h4>Apr 1, 2020</h4></center> <!-- date -->
+<br>
+<p>
+&#1054;&#1076;&#1085;&#1086;&#1081; &#1080;&#1079; &#1074;&#1072;&#1078;&#1085;&#1099;&#1093; &#1095;&#1072;&#1089;&#1090;&#1077;&#1081; &#1074; &#1072;&#1085;&#1072;&#1083;&#1080;&#1079;&#1077; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1103;&#1074;&#1083;&#1103;&#1077;&#1090;&#1089;&#1103; &#1075;&#1088;&#1072;&#1092;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1077;
+&#1074;&#1080;&#1079;&#1091;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;. &#1069;&#1090;&#1086; &#1084;&#1086;&#1078;&#1077;&#1090; &#1073;&#1099;&#1090;&#1100; &#1095;&#1072;&#1089;&#1090;&#1100;&#1102; &#1080;&#1089;&#1089;&#1083;&#1077;&#1076;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1100;&#1089;&#1082;&#1086;&#1075;&#1086; &#1087;&#1088;&#1086;&#1094;&#1077;&#1089;&#1089;&#1072; &#8212;
+&#1085;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;, &#1095;&#1090;&#1086;&#1073;&#1099; &#1087;&#1086;&#1084;&#1086;&#1095;&#1100; &#1080;&#1076;&#1077;&#1085;&#1090;&#1080;&#1092;&#1080;&#1094;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1074;&#1099;&#1073;&#1088;&#1086;&#1089;&#1099; &#1080;&#1083;&#1080; &#1085;&#1077;&#1086;&#1073;&#1093;&#1086;&#1076;&#1080;&#1084;&#1099;&#1077;
+&#1087;&#1088;&#1077;&#1086;&#1073;&#1088;&#1072;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;, &#1080;&#1083;&#1080; &#1082;&#1072;&#1082; &#1089;&#1087;&#1086;&#1089;&#1086;&#1073; &#1075;&#1077;&#1085;&#1077;&#1088;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; &#1080;&#1076;&#1077;&#1081; &#1076;&#1083;&#1103;
+&#1084;&#1086;&#1076;&#1077;&#1083;&#1077;&#1081;. &#1042; Python &#1077;&#1089;&#1090;&#1100; &#1084;&#1085;&#1086;&#1075;&#1086; &#1076;&#1086;&#1087;&#1086;&#1083;&#1085;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1099;&#1093; &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082; &#1076;&#1083;&#1103; &#1089;&#1086;&#1079;&#1076;&#1072;&#1085;&#1080;&#1103;
+&#1089;&#1090;&#1072;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1093; &#1080;&#1083;&#1080; &#1076;&#1080;&#1085;&#1072;&#1084;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1093; &#1074;&#1080;&#1079;&#1091;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1081;, &#1085;&#1086; &#1084;&#1099; &#1089;&#1086;&#1089;&#1088;&#1077;&#1076;&#1086;&#1090;&#1086;&#1095;&#1077;&#1084;&#1089;&#1103; &#1074;
+&#1086;&#1089;&#1085;&#1086;&#1074;&#1085;&#1086;&#1084; &#1085;&#1072; <code>matplotlib</code> &#1080; &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082;&#1072;&#1093;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1077; &#1087;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1099; &#1085;&#1072; &#1077;&#1105;
+&#1086;&#1089;&#1085;&#1086;&#1074;&#1077;.
+
+<p>
+&#1057;&#1086; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1077;&#1084; <code>matplotlib</code> &#1087;&#1086;&#1088;&#1086;&#1076;&#1080;&#1083;&#1072; &#1088;&#1103;&#1076; &#1076;&#1086;&#1087;&#1086;&#1083;&#1085;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1099;&#1093; &#1085;&#1072;&#1073;&#1086;&#1088;&#1086;&#1074; &#1080;&#1085;&#1089;&#1090;&#1088;&#1091;&#1084;&#1077;&#1085;&#1090;&#1086;&#1074;
+&#1076;&#1083;&#1103; &#1074;&#1080;&#1079;&#1091;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1077; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1102;&#1090; <code>matplotlib</code> &#1074; &#1082;&#1072;&#1095;&#1077;&#1089;&#1090;&#1074;&#1077;
+&#171;&#1103;&#1076;&#1088;&#1072;&#187;. &#1054;&#1076;&#1085;&#1080;&#1084; &#1080;&#1079; &#1090;&#1072;&#1082;&#1080;&#1093; &#1080;&#1085;&#1089;&#1090;&#1088;&#1091;&#1084;&#1077;&#1085;&#1090;&#1086;&#1074; &#1103;&#1074;&#1083;&#1103;&#1077;&#1090;&#1089;&#1103; <code>seaborn</code>.
+
+<p>
+</div> <!-- end jumbotron -->
+
+<h1 id="table_of_contents">Содержание</h2>
+
+<p>
+<a href="._visual-readable001.html#visual:matplotlib"> &#1050;&#1088;&#1072;&#1090;&#1082;&#1080;&#1081; &#1087;&#1088;&#1080;&#1084;&#1077;&#1088; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; <code>matplotlib</code> </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._visual-readable001.html#visual:matplotlib:figs_and_subplots"> &#1056;&#1080;&#1089;&#1091;&#1085;&#1082;&#1080; &#1080; &#1087;&#1086;&#1076;&#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1080; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._visual-readable001.html#visual:matplotlib:colors"> &#1062;&#1074;&#1077;&#1090;, &#1084;&#1072;&#1088;&#1082;&#1077;&#1088;&#1099; &#1080; &#1089;&#1090;&#1080;&#1083;&#1080; &#1083;&#1080;&#1085;&#1080;&#1081; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._visual-readable001.html#visual:matplotlib:ticks"> &#1055;&#1086;&#1076;&#1087;&#1080;&#1089;&#1080; &#1082; &#1086;&#1089;&#1103;&#1084;, &#1084;&#1072;&#1089;&#1096;&#1090;&#1072;&#1073; &#1080; &#1083;&#1077;&#1075;&#1077;&#1085;&#1076;&#1072; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._visual-readable001.html#visual:matplotlib:saving"> &#1057;&#1086;&#1093;&#1088;&#1072;&#1085;&#1077;&#1085;&#1080;&#1077; &#1088;&#1080;&#1089;&#1091;&#1085;&#1082;&#1086;&#1074; &#1074; &#1092;&#1072;&#1081;&#1083; </a><br>
+<a href="._visual-readable002.html#visual:plt-with-pandas"> &#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1086;&#1074; &#1089; &#1087;&#1086;&#1084;&#1086;&#1097;&#1100;&#1102; <code>pandas</code> &#1080; <code>seaborn</code> </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._visual-readable002.html#visual:plt-with-pandas:line"> &#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1099;&#1077; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1080; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._visual-readable002.html#visual:plt-with-pandas:bar"> &#1057;&#1090;&#1086;&#1083;&#1073;&#1095;&#1072;&#1090;&#1099;&#1077; &#1076;&#1080;&#1072;&#1075;&#1088;&#1072;&#1084;&#1084;&#1099; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._visual-readable002.html#visual:plt-with-pandas:hist"> &#1043;&#1080;&#1089;&#1090;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1099; &#1080; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1080; &#1087;&#1083;&#1086;&#1090;&#1085;&#1086;&#1089;&#1090;&#1080; &#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1103; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._visual-readable002.html#visual:plt-with-pandas:scatter"> &#1044;&#1080;&#1072;&#1075;&#1088;&#1072;&#1084;&#1084;&#1099; &#1088;&#1072;&#1089;&#1089;&#1077;&#1103;&#1085;&#1080;&#1103; &#1080;&#1083;&#1080; &#1090;&#1086;&#1095;&#1077;&#1095;&#1085;&#1099;&#1077; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1080; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._visual-readable002.html#visual:plt-with-pandas:facet-grids"> &#1050;&#1072;&#1090;&#1077;&#1075;&#1086;&#1088;&#1080;&#1072;&#1083;&#1100;&#1085;&#1099;&#1077; &#1076;&#1072;&#1085;&#1085;&#1099;&#1077; </a><br>
+</p>
+<p>
+<!-- Common Mako variable and functions -->
+<!-- -<em>- coding: utf-8 -</em>- -->
+
+<p>
+<p>
+<!-- navigation buttons at the bottom of the page -->
+<ul class="pager">
+
+  <li class="next">
+    <a href="._visual-readable001.html">Next &rarr;</a>
+  </li>
+</ul>
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+

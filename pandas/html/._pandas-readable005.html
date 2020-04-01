@@ -1,0 +1,368 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Введение в библиотеку `pandas`">
+
+<title>Введение в библиотеку `pandas`</title>
+
+<!-- Bootstrap style: bootswatch_readable -->
+<link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/readable/bootstrap.min.css" rel="stylesheet">
+<!-- not necessary
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:64px;      /* fixed header height for style bootswatch_readable */
+  margin:-64px 0 0; /* negative fixed header height */
+}
+
+body { font-size:20px; }
+</style>
+
+
+
+
+<!-- Tools for embedded Bokeh plots -->
+<link rel=stylesheet 
+      href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
+      type=text/css />
+<script type=text/javascript 
+        src=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js>
+</script>
+<script type=text/javascript>
+  Bokeh.set_log_level("info");
+</script>
+
+<style>
+.bk-embeded {
+    width: 100%;
+    margin: auto;
+    height: 500px;
+    text-align: webkit-left;
+}
+</style>
+
+
+</head>
+
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [('Содержание',
+               1,
+               'table_of_contents',
+               'table_of_contents'),
+              ('Структуры данных в `pandas`',
+               1,
+               'pandas:data-struct',
+               'pandas:data-struct'),
+              ('Класс `Series`',
+               2,
+               'pandas:data-struct:series',
+               'pandas:data-struct:series'),
+              ('Класс `DataFrame`',
+               2,
+               'pandas:data-struct:df',
+               'pandas:data-struct:df'),
+              ('Объекты типа `Index`',
+               2,
+               'pandas:data-struct:index',
+               'pandas:data-struct:index'),
+              ('Основная функциональность',
+               1,
+               'pandas:functionality',
+               'pandas:functionality'),
+              ('Переиндексация',
+               2,
+               'pandas:functionality:reindex',
+               'pandas:functionality:reindex'),
+              ('Удаление записей с оси',
+               2,
+               'pandas:functionality:drop',
+               'pandas:functionality:drop'),
+              ('Арифметические операции и выравнивание данных',
+               2,
+               'pandas:functionality:arithm',
+               'pandas:functionality:arithm'),
+              ('Арифметические методы с заполнением значений',
+               3,
+               'pandas:functionality:aritm:fill',
+               'pandas:functionality:aritm:fill'),
+              ('Операции между объектами `DataFrame` и `Series`',
+               2,
+               'pandas:functionality:df-s',
+               'pandas:functionality:df-s'),
+              ('Применение функций и отображение',
+               2,
+               'pandas:functionality:fuc',
+               'pandas:functionality:fuc'),
+              ('Сортировка и ранжирование',
+               2,
+               'pandas:functionality:sorting',
+               'pandas:functionality:sorting'),
+              ('Индексация с повторяющимися метками',
+               2,
+               'pandas:functionality:dupl',
+               'pandas:functionality:dupl'),
+              ('Описательная и сводная статистика',
+               1,
+               'pandas:statistics',
+               'pandas:statistics'),
+              ('Чтение и запись данных', 1, 'pandas:rwdata', 'pandas:rwdata'),
+              ('Задания', 1, 'pandas:exer', 'pandas:exer'),
+              ('Быстрый анализ данных', 2, 'pandas:exer:1', 'pandas:exer:1'),
+              ('Жертвы', 2, 'pandas:exer:2', 'pandas:exer:2'),
+              ('Преступления, пол и возраст',
+               2,
+               'pandas:exer:3',
+               'pandas:exer:3'),
+              ('Происхождение', 2, 'pandas:exer:4', 'pandas:exer:4'),
+              ('Место проишествия', 2, 'pandas:exer:5', 'pandas:exer:5')]}
+end of tocinfo -->
+
+<body>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "none"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript" async
+ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+    
+<!-- Bootstrap navigation bar -->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="pandas-readable.html">Введение в библиотеку `pandas`</a>
+  </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+     <!-- navigation toc: --> <li><a href="._pandas-readable000.html#table_of_contents" style="font-size: 80%;"><b>Содержание</b></a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable001.html#pandas:data-struct" style="font-size: 80%;"><b>Структуры данных в <code>pandas</code></b></a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable001.html#pandas:data-struct:series" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Класс <code>Series</code></a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable001.html#pandas:data-struct:df" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Класс <code>DataFrame</code></a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable001.html#pandas:data-struct:index" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Объекты типа <code>Index</code></a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality" style="font-size: 80%;"><b>Основная функциональность</b></a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:reindex" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Переиндексация</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:drop" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Удаление записей с оси</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:arithm" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Арифметические операции и выравнивание данных</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:aritm:fill" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Арифметические методы с заполнением значений</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:df-s" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Операции между объектами <code>DataFrame</code> и <code>Series</code></a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:fuc" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Применение функций и отображение</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:sorting" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Сортировка и ранжирование</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable002.html#pandas:functionality:dupl" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Индексация с повторяющимися метками</a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable003.html#pandas:statistics" style="font-size: 80%;"><b>Описательная и сводная статистика</b></a></li>
+     <!-- navigation toc: --> <li><a href="._pandas-readable004.html#pandas:rwdata" style="font-size: 80%;"><b>Чтение и запись данных</b></a></li>
+     <!-- navigation toc: --> <li><a href="#pandas:exer" style="font-size: 80%;"><b>Задания</b></a></li>
+     <!-- navigation toc: --> <li><a href="#pandas:exer:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Быстрый анализ данных</a></li>
+     <!-- navigation toc: --> <li><a href="#pandas:exer:2" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Жертвы</a></li>
+     <!-- navigation toc: --> <li><a href="#pandas:exer:3" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Преступления, пол и возраст</a></li>
+     <!-- navigation toc: --> <li><a href="#pandas:exer:4" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Происхождение</a></li>
+     <!-- navigation toc: --> <li><a href="#pandas:exer:5" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Место проишествия</a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</div> <!-- end of navigation bar -->
+
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<a name="part0005"></a>
+<!-- !split -->
+
+<h1 id="pandas:exer" class="anchor">&#1047;&#1072;&#1076;&#1072;&#1085;&#1080;&#1103;</h1>
+
+<p>
+&#1055;&#1088;&#1077;&#1076;&#1083;&#1072;&#1075;&#1072;&#1077;&#1090;&#1089;&#1103; &#1087;&#1086;&#1088;&#1072;&#1073;&#1086;&#1090;&#1072;&#1090;&#1100; &#1089;
+<a href="https://data.lacity.org/A-Safe-City/Crime-Data-from-2010-to-2019/63jg-8b9z" target="_self">&#1085;&#1072;&#1073;&#1086;&#1088;&#1086;&#1084; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;</a>
+&#1086; &#1087;&#1088;&#1077;&#1089;&#1090;&#1091;&#1087;&#1085;&#1086;&#1089;&#1090;&#1080; &#1074; &#1051;&#1086;&#1089;-&#1040;&#1085;&#1076;&#1078;&#1077;&#1083;&#1077;&#1089;&#1077;.
+
+<p>
+&#1056;&#1077;&#1079;&#1091;&#1083;&#1100;&#1090;&#1072;&#1090; &#1088;&#1072;&#1073;&#1086;&#1090;&#1099; &#1076;&#1086;&#1083;&#1078;&#1077;&#1085; &#1073;&#1099;&#1090;&#1100; &#1074; &#1074;&#1080;&#1076;&#1077; &#1073;&#1083;&#1086;&#1082;&#1085;&#1086;&#1090;&#1072; Jupyter. &#1042;&#1089;&#1077; &#1079;&#1072;&#1076;&#1072;&#1095;&#1080; &#1074;
+&#1086;&#1076;&#1085;&#1086;&#1084; &#1073;&#1083;&#1086;&#1082;&#1085;&#1086;&#1090;&#1077;, &#1085;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;, <code>pandas-da-ans.ipynb</code>.
+
+<p>
+&#1044;&#1083;&#1103; &#1087;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1103; &#1075;&#1088;&#1072;&#1092;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1093; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1089;&#1084;&#1086;&#1090;&#1088;&#1080;&#1090;&#1077; &#1075;&#1083;&#1072;&#1074;&#1091;
+<a href="/visual/html/visual-flatly.html" target="_self">&#1043;&#1088;&#1072;&#1092;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103; &#1074;&#1080;&#1079;&#1091;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;</a>
+
+<p>
+<!-- --- begin exercise --- -->
+
+<h2 id="pandas:exer:1" class="anchor">&#1041;&#1099;&#1089;&#1090;&#1088;&#1099;&#1081; &#1072;&#1085;&#1072;&#1083;&#1080;&#1079; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;</h2>
+
+<ul>
+<li> &#1047;&#1072;&#1075;&#1088;&#1091;&#1079;&#1080;&#1090;&#1077; <a href="src-pandas/la-crimes-sample.csv.zip" target="_self">&#1089;&#1083;&#1091;&#1095;&#1072;&#1081;&#1085;&#1091;&#1102; &#1074;&#1099;&#1073;&#1086;&#1088;&#1082;&#1091;</a> &#1080;&#1079; &#1101;&#1090;&#1086;&#1075;&#1086; &#1085;&#1072;&#1073;&#1086;&#1088;&#1072;.</li>
+<li> &#1057;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1089;&#1090;&#1088;&#1086;&#1082; &#1080; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1074; &#1074; &#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1077;?</li>
+<li> &#1050;&#1072;&#1082;&#1086;&#1074;&#1099; &#1085;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1103; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1074;?</li>
+<li> &#1050;&#1072;&#1082;&#1080;&#1077; &#1090;&#1080;&#1087;&#1099; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1091; &#1089;&#1090;&#1086;&#1083;&#1073;&#1094;&#1086;&#1074;?</li>
+<li> &#1057;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1074; &#1082;&#1072;&#1078;&#1076;&#1086;&#1084; &#1080;&#1079; &#1085;&#1080;&#1093; &#1091;&#1085;&#1080;&#1082;&#1072;&#1083;&#1100;&#1085;&#1099;&#1093; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1081;?</li>
+<li> &#1057;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1087;&#1088;&#1086;&#1087;&#1091;&#1097;&#1077;&#1085;&#1085;&#1099;&#1093; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1081;?</li>
+<li> &#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1081;&#1090;&#1077; &#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1103; &#1095;&#1080;&#1089;&#1083;&#1086;&#1074;&#1099;&#1093; &#1087;&#1077;&#1088;&#1077;&#1084;&#1077;&#1085;&#1085;&#1099;&#1093;?</li>
+</ul>
+
+<!-- --- end exercise --- -->
+
+<p>
+<!-- --- begin exercise --- -->
+
+<h2 id="pandas:exer:2" class="anchor">&#1046;&#1077;&#1088;&#1090;&#1074;&#1099;</h2>
+
+<p>
+&#1042; &#1085;&#1072;&#1073;&#1086;&#1088;&#1077; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1080;&#1084;&#1077;&#1077;&#1090;&#1089;&#1103; &#1080;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1103; &#1086; &#1042;&#1086;&#1079;&#1088;&#1072;&#1089;&#1090;&#1077;, &#1055;&#1086;&#1083;&#1077;, &#1080; &#1055;&#1088;&#1086;&#1080;&#1089;&#1093;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1080;
+&#1082;&#1072;&#1078;&#1076;&#1086;&#1081; &#1078;&#1077;&#1088;&#1090;&#1074;&#1099;. &#1045;&#1089;&#1090;&#1100; &#1083;&#1080; &#1089;&#1074;&#1103;&#1079;&#1100; &#1084;&#1077;&#1078;&#1076;&#1091; &#1101;&#1090;&#1080;&#1084;&#1080; &#1087;&#1088;&#1080;&#1079;&#1085;&#1072;&#1082;&#1072;&#1084;&#1080;? 
+
+<ul>
+<li> &#1042;&#1077;&#1088;&#1085;&#1086; &#1083;&#1080;, &#1095;&#1090;&#1086; &#1078;&#1077;&#1085;&#1097;&#1080;&#1085;&#1099; &#1095;&#1072;&#1097;&#1077; &#1086;&#1082;&#1072;&#1079;&#1099;&#1074;&#1072;&#1102;&#1090;&#1089;&#1103; &#1078;&#1077;&#1088;&#1090;&#1074;&#1072;&#1084;&#1080; &#1087;&#1086; &#1089;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1102; &#1089; &#1084;&#1091;&#1078;&#1095;&#1080;&#1085;&#1072;&#1084;&#1080;?</li>
+</ul>
+
+<!-- --- end exercise --- -->
+
+<p>
+<!-- --- begin exercise --- -->
+
+<h2 id="pandas:exer:3" class="anchor">&#1055;&#1088;&#1077;&#1089;&#1090;&#1091;&#1087;&#1083;&#1077;&#1085;&#1080;&#1103;, &#1087;&#1086;&#1083; &#1080; &#1074;&#1086;&#1079;&#1088;&#1072;&#1089;&#1090;</h2>
+
+<ul>
+<li> &#1048;&#1079;&#1091;&#1095;&#1080;&#1090;&#1077; &#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1077; &#1082;&#1086;&#1083;&#1080;&#1095;&#1077;&#1089;&#1090;&#1074;&#1072; &#1087;&#1088;&#1077;&#1089;&#1090;&#1091;&#1087;&#1083;&#1077;&#1085;&#1080;&#1081; &#1087;&#1086; &#1074;&#1086;&#1079;&#1088;&#1072;&#1089;&#1090;&#1091;. &#1050;&#1072;&#1082;&#1086;&#1074;&#1072; &#1090;&#1077;&#1085;&#1076;&#1077;&#1085;&#1094;&#1080;&#1103;? &#1051;&#1102;&#1076;&#1080; &#1082;&#1072;&#1082;&#1086;&#1075;&#1086; &#1074;&#1086;&#1079;&#1088;&#1072;&#1089;&#1090;&#1072; &#1095;&#1072;&#1097;&#1077; &#1074;&#1089;&#1077;&#1075;&#1086; &#1087;&#1086;&#1076;&#1074;&#1077;&#1088;&#1075;&#1072;&#1102;&#1090;&#1089;&#1103; &#1087;&#1088;&#1077;&#1089;&#1090;&#1091;&#1087;&#1083;&#1077;&#1085;&#1080;&#1103;&#1084;? &#1045;&#1089;&#1090;&#1100; &#1083;&#1080; &#1083;&#1086;&#1082;&#1072;&#1083;&#1100;&#1085;&#1099;&#1077; &#1084;&#1080;&#1085;&#1080;&#1084;&#1091;&#1084;&#1099;? &#1048;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1081;&#1090;&#1077; &#1090;&#1080;&#1087;&#1099; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1086;&#1074; <code>hist</code> &#1080; <code>density</code>.</li> 
+<li> &#1050;&#1072;&#1082; &#1088;&#1072;&#1079;&#1083;&#1080;&#1095;&#1072;&#1077;&#1090;&#1089;&#1103; &#1074;&#1077;&#1088;&#1086;&#1103;&#1090;&#1085;&#1086;&#1089;&#1090;&#1100; &#1078;&#1077;&#1085;&#1097;&#1080;&#1085; &#1080; &#1084;&#1091;&#1078;&#1095;&#1080;&#1085; &#1089;&#1090;&#1072;&#1090;&#1100; &#1078;&#1077;&#1088;&#1090;&#1074;&#1086;&#1081; &#1074; &#1079;&#1072;&#1074;&#1080;&#1089;&#1080;&#1084;&#1086;&#1089;&#1090;&#1080; &#1086;&#1090; &#1074;&#1086;&#1079;&#1088;&#1072;&#1089;&#1090;&#1072;? &#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1081;&#1090;&#1077; &#1074;&#1080;&#1079;&#1091;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1102;. &#1042; &#1082;&#1072;&#1082;&#1086;&#1084; &#1074;&#1086;&#1079;&#1088;&#1072;&#1089;&#1090;&#1085;&#1086;&#1084; &#1087;&#1088;&#1086;&#1084;&#1077;&#1078;&#1091;&#1090;&#1082;&#1077; &#1084;&#1091;&#1078;&#1095;&#1080;&#1085;&#1099; &#1095;&#1072;&#1097;&#1077; &#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1103;&#1090;&#1089;&#1103; &#1078;&#1077;&#1090;&#1088;&#1074;&#1072;&#1084;&#1080; &#1087;&#1088;&#1077;&#1089;&#1090;&#1091;&#1087;&#1083;&#1077;&#1085;&#1080;&#1081;?</li>
+<li> &#1054;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1080;&#1090;&#1077; 10 &#1089;&#1072;&#1084;&#1099;&#1093; &#1088;&#1072;&#1089;&#1087;&#1088;&#1086;&#1089;&#1090;&#1088;&#1072;&#1085;&#1077;&#1085;&#1085;&#1099;&#1093; &#1087;&#1088;&#1077;&#1089;&#1090;&#1091;&#1087;&#1083;&#1077;&#1085;&#1080;&#1081; &#1074; &#1051;&#1086;&#1089;-&#1040;&#1085;&#1076;&#1078;&#1077;&#1083;&#1077;&#1089;&#1077;. &#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1081;&#1090;&#1077; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;.</li>
+<li> &#1054;&#1090; &#1082;&#1072;&#1082;&#1080;&#1093; &#1087;&#1088;&#1077;&#1089;&#1090;&#1091;&#1087;&#1083;&#1077;&#1085;&#1080;&#1081; &#1095;&#1072;&#1097;&#1077; &#1089;&#1090;&#1072;&#1088;&#1072;&#1076;&#1102;&#1090; &#1078;&#1077;&#1085;&#1097;&#1080;&#1085;&#1099;, &#1072; &#1086;&#1090; &#1082;&#1072;&#1082;&#1080;&#1093; &#1084;&#1091;&#1078;&#1095;&#1080;&#1085;&#1099;?</li>
+</ul>
+
+<!-- --- end exercise --- -->
+
+<p>
+<!-- --- begin exercise --- -->
+
+<h2 id="pandas:exer:4" class="anchor">&#1055;&#1088;&#1086;&#1080;&#1089;&#1093;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1077;</h2>
+
+<p>
+<p class='env-table'><em>&#1058;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072; 8. </em>
+
+<p>
+
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table table-striped table-hover table-condensed">
+<thead>
+<tr><td align="left"><b>&#1057;&#1080;&#1084;&#1074;&#1086;&#1083;</b></td> <td align="left"><b>&#1055;&#1088;&#1086;&#1080;&#1089;&#1093;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1077;</b></td> </tr>
+</thead>
+<tbody>
+<tr><td align="left">   <code>'A'</code>                              </td> <td align="left">   Other Asian                                                                                    </td> </tr>
+<tr><td align="left">   <code>'B'</code>                              </td> <td align="left">   Black                                                                                          </td> </tr>
+<tr><td align="left">   <code>'C'</code>                              </td> <td align="left">   Chinese                                                                                        </td> </tr>
+<tr><td align="left">   <code>'D'</code>                              </td> <td align="left">   Cambodian                                                                                      </td> </tr>
+<tr><td align="left">   <code>'F'</code>                              </td> <td align="left">   Filipino                                                                                       </td> </tr>
+<tr><td align="left">   <code>'G'</code>                              </td> <td align="left">   Guamanian                                                                                      </td> </tr>
+<tr><td align="left">   <code>'H'</code>                              </td> <td align="left">   Hispanic/Latin/Mexican                                                                         </td> </tr>
+<tr><td align="left">   <code>'I'</code>                              </td> <td align="left">   American Indian/Alaskan Native                                                                 </td> </tr>
+<tr><td align="left">   <code>'J'</code>                              </td> <td align="left">   Japanesea                                                                                      </td> </tr>
+<tr><td align="left">   <code>'K'</code>                              </td> <td align="left">   Korean                                                                                         </td> </tr>
+<tr><td align="left">   <code>'L'</code>                              </td> <td align="left">   Laotian                                                                                        </td> </tr>
+<tr><td align="left">   <code>'O'</code>                              </td> <td align="left">   Other                                                                                          </td> </tr>
+<tr><td align="left">   <code>'P'</code>                              </td> <td align="left">   Pacific Islander                                                                               </td> </tr>
+<tr><td align="left">   <code>'S'</code>                              </td> <td align="left">   Samoan                                                                                         </td> </tr>
+<tr><td align="left">   <code>'U'</code>                              </td> <td align="left">   Hawaiian                                                                                       </td> </tr>
+<tr><td align="left">   <code>'V'</code>                              </td> <td align="left">   Vietnamese                                                                                     </td> </tr>
+<tr><td align="left">   <code>'W'</code>                              </td> <td align="left">   White                                                                                          </td> </tr>
+<tr><td align="left">   <code>'X'</code>                              </td> <td align="left">   Unknown                                                                                        </td> </tr>
+<tr><td align="left">   <code>'Z'</code>                              </td> <td align="left">   Asian Indian                                                                                   </td> </tr>
+</tbody>
+    </table>
+  </div> <!-- col-xs-12 -->
+</div> <!-- cell row -->
+</p>
+
+<ul>
+<li> &#1051;&#1102;&#1076;&#1080; &#1082;&#1072;&#1082;&#1086;&#1075;&#1086; &#1087;&#1088;&#1086;&#1080;&#1089;&#1093;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1103; &#1095;&#1072;&#1097;&#1077; &#1074;&#1089;&#1077;&#1075;&#1086; &#1087;&#1086;&#1076;&#1074;&#1077;&#1088;&#1075;&#1072;&#1102;&#1090;&#1089;&#1103; &#1087;&#1088;&#1077;&#1089;&#1090;&#1091;&#1087;&#1083;&#1077;&#1085;&#1080;&#1103;&#1084;?</li>
+</ul>
+
+<!-- --- end exercise --- -->
+
+<p>
+<!-- --- begin exercise --- -->
+
+<h2 id="pandas:exer:5" class="anchor">&#1052;&#1077;&#1089;&#1090;&#1086; &#1087;&#1088;&#1086;&#1080;&#1096;&#1077;&#1089;&#1090;&#1074;&#1080;&#1103;</h2>
+
+<ul>
+<li> &#1054;&#1090;&#1089;&#1086;&#1088;&#1090;&#1080;&#1088;&#1091;&#1081;&#1090;&#1077; &#1088;&#1072;&#1081;&#1086;&#1085;&#1099;, &#1087;&#1086; &#1082;&#1086;&#1083;&#1080;&#1095;&#1077;&#1089;&#1090;&#1074;&#1091; &#1087;&#1088;&#1077;&#1089;&#1090;&#1091;&#1087;&#1083;&#1077;&#1085;&#1080;&#1081;. &#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1081;&#1090;&#1077; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;, &#1087;&#1086;&#1082;&#1072;&#1079;&#1099;&#1074;&#1072;&#1102;&#1097;&#1080;&#1081; &#1089;&#1072;&#1084;&#1099;&#1077; &#1073;&#1077;&#1079;&#1086;&#1087;&#1072;&#1089;&#1085;&#1099;&#1081; &#1080; &#1086;&#1087;&#1072;&#1089;&#1085;&#1099;&#1081; &#1088;&#1072;&#1081;&#1086;&#1085;&#1099;.</li>
+<li> &#1051;&#1102;&#1076;&#1080; &#1082;&#1072;&#1082;&#1086;&#1075;&#1086; &#1087;&#1088;&#1086;&#1080;&#1089;&#1093;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1103; &#1095;&#1072;&#1097;&#1077; &#1074;&#1089;&#1077;&#1075;&#1086; &#1089;&#1090;&#1088;&#1072;&#1076;&#1072;&#1102;&#1090; &#1086;&#1090; &#1087;&#1088;&#1077;&#1089;&#1090;&#1091;&#1087;&#1083;&#1077;&#1085;&#1080;&#1081; &#1074; &#1082;&#1072;&#1078;&#1076;&#1086;&#1084; &#1080;&#1079; &#1088;&#1072;&#1081;&#1086;&#1085;&#1086;&#1074;? &#1053;&#1077; &#1079;&#1072;&#1073;&#1091;&#1076;&#1100;&#1090;&#1077; &#1085;&#1086;&#1088;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1085;&#1072; &#1086;&#1073;&#1097;&#1077;&#1077; &#1082;&#1086;&#1083;&#1080;&#1095;&#1077;&#1089;&#1090;&#1074;&#1086; &#1078;&#1077;&#1088;&#1090;&#1074;.
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "pandas" -->
+<!-- doconce-section-nickname: "exer" -->
+<!-- End: -->
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "pandas" -->
+<!-- End: --></li>
+</ul>
+
+<!-- --- end exercise --- -->
+
+<p>
+<!-- navigation buttons at the bottom of the page -->
+<ul class="pager">
+
+  <li class="previous">
+    <a href="._pandas-readable004.html">&larr; Prev</a>
+  </li>
+</ul>
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+

@@ -1,0 +1,549 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Графическая визуализация данных">
+
+<title>Графическая визуализация данных</title>
+
+<!-- Bootstrap style: bootswatch_flatly -->
+<link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/flatly/bootstrap.min.css" rel="stylesheet">
+<!-- not necessary
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:60px;      /* fixed header height for style bootswatch_flatly */
+  margin:-60px 0 0; /* negative fixed header height */
+}
+
+body { font-size:20px; }
+</style>
+
+
+
+
+<!-- Tools for embedded Bokeh plots -->
+<link rel=stylesheet 
+      href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
+      type=text/css />
+<script type=text/javascript 
+        src=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js>
+</script>
+<script type=text/javascript>
+  Bokeh.set_log_level("info");
+</script>
+
+<style>
+.bk-embeded {
+    width: 100%;
+    margin: auto;
+    height: 500px;
+    text-align: webkit-left;
+}
+</style>
+
+
+</head>
+
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [('Содержание',
+               1,
+               'table_of_contents',
+               'table_of_contents'),
+              ('Краткий пример использования `matplotlib`',
+               1,
+               'visual:matplotlib',
+               'visual:matplotlib'),
+              ('Рисунки и подграфики',
+               2,
+               'visual:matplotlib:figs_and_subplots',
+               'visual:matplotlib:figs_and_subplots'),
+              ('Цвет, маркеры и стили линий',
+               2,
+               'visual:matplotlib:colors',
+               'visual:matplotlib:colors'),
+              ('Подписи к осям, масштаб и легенда',
+               2,
+               'visual:matplotlib:ticks',
+               'visual:matplotlib:ticks'),
+              ('Сохранение рисунков в файл',
+               2,
+               'visual:matplotlib:saving',
+               'visual:matplotlib:saving'),
+              ('Построение графиков с помощью `pandas` и `seaborn`',
+               1,
+               'visual:plt-with-pandas',
+               'visual:plt-with-pandas'),
+              ('Линейные графики',
+               2,
+               'visual:plt-with-pandas:line',
+               'visual:plt-with-pandas:line'),
+              ('Столбчатые диаграммы',
+               2,
+               'visual:plt-with-pandas:bar',
+               'visual:plt-with-pandas:bar'),
+              ('Гистограммы и графики плотности распределения',
+               2,
+               'visual:plt-with-pandas:hist',
+               'visual:plt-with-pandas:hist'),
+              ('Диаграммы рассеяния или точечные графики',
+               2,
+               'visual:plt-with-pandas:scatter',
+               'visual:plt-with-pandas:scatter'),
+              ('Категориальные данные',
+               2,
+               'visual:plt-with-pandas:facet-grids',
+               'visual:plt-with-pandas:facet-grids')]}
+end of tocinfo -->
+
+<body>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "none"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript" async
+ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+    
+<!-- Bootstrap navigation bar -->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="visual-flatly.html">Графическая визуализация данных</a>
+  </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+     <!-- navigation toc: --> <li><a href="._visual-flatly000.html#table_of_contents" style="font-size: 80%;"><b>Содержание</b></a></li>
+     <!-- navigation toc: --> <li><a href="#visual:matplotlib" style="font-size: 80%;"><b>Краткий пример использования <code>matplotlib</code></b></a></li>
+     <!-- navigation toc: --> <li><a href="#visual:matplotlib:figs_and_subplots" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Рисунки и подграфики</a></li>
+     <!-- navigation toc: --> <li><a href="#visual:matplotlib:colors" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Цвет, маркеры и стили линий</a></li>
+     <!-- navigation toc: --> <li><a href="#visual:matplotlib:ticks" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Подписи к осям, масштаб и легенда</a></li>
+     <!-- navigation toc: --> <li><a href="#visual:matplotlib:saving" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Сохранение рисунков в файл</a></li>
+     <!-- navigation toc: --> <li><a href="._visual-flatly002.html#visual:plt-with-pandas" style="font-size: 80%;"><b>Построение графиков с помощью <code>pandas</code> и <code>seaborn</code></b></a></li>
+     <!-- navigation toc: --> <li><a href="._visual-flatly002.html#visual:plt-with-pandas:line" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Линейные графики</a></li>
+     <!-- navigation toc: --> <li><a href="._visual-flatly002.html#visual:plt-with-pandas:bar" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Столбчатые диаграммы</a></li>
+     <!-- navigation toc: --> <li><a href="._visual-flatly002.html#visual:plt-with-pandas:hist" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Гистограммы и графики плотности распределения</a></li>
+     <!-- navigation toc: --> <li><a href="._visual-flatly002.html#visual:plt-with-pandas:scatter" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Диаграммы рассеяния или точечные графики</a></li>
+     <!-- navigation toc: --> <li><a href="._visual-flatly002.html#visual:plt-with-pandas:facet-grids" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Категориальные данные</a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</div> <!-- end of navigation bar -->
+
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<a name="part0001"></a>
+<!-- !split -->
+
+<h1 id="visual:matplotlib" class="anchor">&#1050;&#1088;&#1072;&#1090;&#1082;&#1080;&#1081; &#1087;&#1088;&#1080;&#1084;&#1077;&#1088; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; <code>matplotlib</code></h1>
+
+<p>
+&#1044;&#1083;&#1103; &#1080;&#1084;&#1087;&#1086;&#1088;&#1090;&#1072; &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082;&#1080; <code>matplotlib</code> &#1073;&#1091;&#1076;&#1077;&#1084; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1100; &#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1077;&#1077;
+&#1089;&#1086;&#1075;&#1083;&#1072;&#1096;&#1077;&#1085;&#1080;&#1077;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [1]: </span><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">matplotlib.pyplot</span> <span style="color: #008000; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">plt</span>
+</pre></div>
+<p>
+&#1053;&#1080;&#1078;&#1077; &#1087;&#1088;&#1080;&#1074;&#1077;&#1076;&#1077;&#1085; &#1087;&#1088;&#1080;&#1084;&#1077;&#1088; &#1087;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1103; &#1087;&#1088;&#1086;&#1089;&#1090;&#1086;&#1081; &#1087;&#1088;&#1103;&#1084;&#1086;&#1081;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [2]: </span><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">numpy</span> <span style="color: #008000; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">np</span>
+
+<span style="color: #000080; font-weight: bold">In [3]: </span>data <span style="color: #666666">=</span> np<span style="color: #666666">.</span>arange(<span style="color: #666666">10</span>)
+
+<span style="color: #000080; font-weight: bold">In [4]: </span>data
+<span style="color: #000080; font-weight: bold">Out[4]: </span><span style="color: #888888">array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])</span>
+
+<span style="color: #000080; font-weight: bold">In [5]: </span>plt<span style="color: #666666">.</span>plot(data)
+</pre></div>
+<p>
+&#1056;&#1077;&#1079;&#1091;&#1083;&#1100;&#1090;&#1072;&#1090; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1083;&#1077;&#1085; &#1085;&#1072; &#1088;&#1080;&#1089;&#1091;&#1085;&#1082;&#1077; <a href="#visual:matplotlib:fig:1">1</a>
+
+<p>
+<center> <!-- figure label: --> <div id="visual:matplotlib:fig:1"></div> <!-- FIGURE -->
+<hr class="figure">
+<center><p class="caption">Рисунок 1:  &#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077; &#1087;&#1088;&#1086;&#1089;&#1090;&#1077;&#1081;&#1096;&#1077;&#1081; &#1087;&#1088;&#1103;&#1084;&#1086;&#1081; &#1083;&#1080;&#1085;&#1080;&#1080;  <!-- caption label: visual:matplotlib:fig:1 --> </p></center>
+<p><img src="fig-visual/matplotlib_1.png" align="bottom" width=800></p>
+</center>
+
+<h2 id="visual:matplotlib:figs_and_subplots" class="anchor">&#1056;&#1080;&#1089;&#1091;&#1085;&#1082;&#1080; &#1080; &#1087;&#1086;&#1076;&#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1080;</h2>
+
+<p>
+&#1043;&#1088;&#1072;&#1092;&#1080;&#1082;&#1080; &#1074; <code>matplotlib</code> &#1085;&#1072;&#1093;&#1086;&#1076;&#1103;&#1090;&#1089;&#1103; &#1074;&#1085;&#1091;&#1090;&#1088;&#1080; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1072; <code>Figure</code>. &#1053;&#1086;&#1074;&#1099;&#1081;
+&#1088;&#1080;&#1089;&#1091;&#1085;&#1086;&#1082; &#1084;&#1086;&#1078;&#1085;&#1086; &#1089;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100; &#1089; &#1087;&#1086;&#1084;&#1086;&#1097;&#1100;&#1102; <code>plt.figure</code>:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [6]: </span>fig <span style="color: #666666">=</span> plt<span style="color: #666666">.</span>figure()
+</pre></div>
+<p>
+&#1042; &#1080;&#1085;&#1090;&#1077;&#1088;&#1087;&#1088;&#1077;&#1090;&#1072;&#1090;&#1086;&#1088;&#1077; IPython &#1073;&#1091;&#1076;&#1077;&#1090; &#1087;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1086; &#1087;&#1091;&#1089;&#1090;&#1086;&#1077; &#1086;&#1082;&#1085;&#1086;, &#1072; &#1074; &#1073;&#1083;&#1086;&#1082;&#1085;&#1086;&#1090;&#1077;
+Jupyter &#1085;&#1080;&#1095;&#1077;&#1075;&#1086; &#1085;&#1077; &#1087;&#1088;&#1086;&#1080;&#1079;&#1086;&#1081;&#1076;&#1077;&#1090;. &#1053;&#1077;&#1083;&#1100;&#1079;&#1103; &#1089;&#1086;&#1079;&#1076;&#1072;&#1074;&#1072;&#1090;&#1100; &#1086;&#1082;&#1085;&#1086; &#1089; &#1087;&#1091;&#1089;&#1090;&#1099;&#1084;
+&#1088;&#1080;&#1089;&#1091;&#1085;&#1082;&#1086;&#1084;. &#1053;&#1091;&#1078;&#1085;&#1086; &#1089;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100; &#1086;&#1076;&#1080;&#1085; &#1080;&#1083;&#1080; &#1085;&#1077;&#1089;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1087;&#1086;&#1076;&#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1086;&#1074; (subplots),
+&#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1103; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1102; <code>add_subplot</code>
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [7]: </span>fig<span style="color: #666666">.</span>add_subplot(<span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">1</span>)
+</pre></div>
+<p>
+&#1069;&#1090;&#1086; &#1086;&#1079;&#1085;&#1072;&#1095;&#1072;&#1077;&#1090;, &#1095;&#1090;&#1086; &#1088;&#1080;&#1089;&#1091;&#1085;&#1086;&#1082; &#1076;&#1086;&#1083;&#1078;&#1077;&#1085; &#1073;&#1099;&#1090;&#1100; &#1088;&#1072;&#1079;&#1084;&#1077;&#1088;&#1086;&#1084; \( 2 \times 2 \)
+(&#1090;.&#1077;. &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1090;&#1100; &#1084;&#1072;&#1082;&#1089;&#1080;&#1084;&#1091;&#1084; 4 &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1072;), &#1080; &#1084;&#1099; &#1074;&#1099;&#1073;&#1088;&#1072;&#1083;&#1080; &#1087;&#1077;&#1088;&#1074;&#1099;&#1081; &#1080;&#1079; &#1095;&#1077;&#1090;&#1099;&#1088;&#1077;&#1093;
+&#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1086;&#1074; (&#1085;&#1091;&#1084;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; &#1085;&#1072;&#1095;&#1080;&#1085;&#1072;&#1077;&#1090;&#1089;&#1103; &#1089; &#1077;&#1076;&#1080;&#1085;&#1080;&#1094;&#1099;). &#1052;&#1086;&#1078;&#1085;&#1086; &#1074;&#1099;&#1073;&#1088;&#1072;&#1090;&#1100; &#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1080;&#1077; 2
+&#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1072;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [8]: </span>ax2 <span style="color: #666666">=</span> fig<span style="color: #666666">.</span>add_subplot(<span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>)
+
+<span style="color: #000080; font-weight: bold">In [9]: </span>ax3 <span style="color: #666666">=</span> fig<span style="color: #666666">.</span>add_subplot(<span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">3</span>)
+</pre></div>
+<p>
+<center> <!-- figure label: --> <div id="visual:matplotlib:fig:2"></div> <!-- FIGURE -->
+<hr class="figure">
+<center><p class="caption">Рисунок 2:  &#1055;&#1091;&#1089;&#1090;&#1086;&#1081; &#1088;&#1080;&#1089;&#1091;&#1085;&#1086;&#1082; <code>matplotlib</code> &#1089; &#1090;&#1088;&#1077;&#1084;&#1103; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1072;&#1084;&#1080;  <!-- caption label: visual:matplotlib:fig:2 --> </p></center>
+<p><img src="fig-visual/matplotlib_2.png" align="bottom" width=800></p>
+</center>
+
+<p>
+&#1045;&#1089;&#1083;&#1080; &#1074;&#1099;&#1087;&#1086;&#1083;&#1085;&#1080;&#1090;&#1100; &#1082;&#1086;&#1084;&#1072;&#1085;&#1076;&#1091; &#1087;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1103; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1072;, &#1085;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;, <code>plt.plot([1.5, 3.5, -2, 1.6])</code>,
+&#1074;&#1099;&#1074;&#1086;&#1076; &#1073;&#1091;&#1076;&#1077;&#1090; &#1086;&#1089;&#1091;&#1097;&#1077;&#1089;&#1090;&#1074;&#1083;&#1103;&#1090;&#1100;&#1089;&#1103; &#1074; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1081; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1085;&#1077;&#1075;&#1086; &#1089;&#1086;&#1079;&#1076;&#1072;&#1085;&#1085;&#1086;&#1075;&#1086;
+&#1088;&#1080;&#1089;&#1091;&#1085;&#1082;&#1072;. &#1053;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;, &#1074;&#1099;&#1087;&#1086;&#1083;&#1085;&#1077;&#1085;&#1080;&#1077; &#1082;&#1086;&#1084;&#1072;&#1085;&#1076;&#1099;
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [10]: </span>plt<span style="color: #666666">.</span>plot(np<span style="color: #666666">.</span>random<span style="color: #666666">.</span>randn(<span style="color: #666666">50</span>)<span style="color: #666666">.</span>cumsum(), <span style="color: #BA2121">&#39;k--&#39;</span>)
+</pre></div>
+<p>
+&#1076;&#1072;&#1089;&#1090; &#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1080;&#1081; &#1088;&#1077;&#1079;&#1091;&#1083;&#1100;&#1090;&#1072;&#1090;:
+
+<p>
+<center> <!-- figure label: --> <div id="visual:matplotlib:fig:3"></div> <!-- FIGURE -->
+<hr class="figure">
+<center><p class="caption">Рисунок 3:  &#1042;&#1080;&#1079;&#1091;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1087;&#1088;&#1086;&#1089;&#1090;&#1077;&#1081;&#1096;&#1077;&#1081; &#1082;&#1086;&#1084;&#1072;&#1085;&#1076;&#1086;&#1081;  <!-- caption label: visual:matplotlib:fig:3 --> </p></center>
+<p><img src="fig-visual/matplotlib_3.png" align="bottom" width=800></p>
+</center>
+
+<p>
+&#1042;&#1099;&#1088;&#1072;&#1078;&#1077;&#1085;&#1080;&#1077; <code>'k--'</code> &#1079;&#1072;&#1076;&#1072;&#1077;&#1090; &#1089;&#1090;&#1080;&#1083;&#1100; &#1083;&#1080;&#1085;&#1080;&#1080;: &#1095;&#1077;&#1088;&#1085;&#1072;&#1103; &#1096;&#1090;&#1088;&#1080;&#1093;&#1086;&#1074;&#1072;&#1103; &#1083;&#1080;&#1085;&#1080;&#1103;. 
+&#1052;&#1077;&#1090;&#1086;&#1076; <code>fig.add_subplot</code> &#1074;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1090; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090; <code>AxesSubplot</code>, &#1074; &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1081;
+&#1084;&#1086;&#1078;&#1085;&#1086; &#1085;&#1072;&#1087;&#1088;&#1103;&#1084;&#1091;&#1102; &#1074;&#1099;&#1074;&#1086;&#1076;&#1080;&#1090;&#1100; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;:
+
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [11]: </span>_ <span style="color: #666666">=</span> ax1<span style="color: #666666">.</span>hist(np<span style="color: #666666">.</span>random<span style="color: #666666">.</span>randn(<span style="color: #666666">100</span>), bins<span style="color: #666666">=20</span>, color<span style="color: #666666">=</span><span style="color: #BA2121">&#39;k&#39;</span>, alpha<span style="color: #666666">=0.3</span>)
+
+<span style="color: #000080; font-weight: bold">In [12]: </span>ax2<span style="color: #666666">.</span>scatter(np<span style="color: #666666">.</span>arange(<span style="color: #666666">30</span>), np<span style="color: #666666">.</span>arange(<span style="color: #666666">30</span>) <span style="color: #666666">+</span> <span style="color: #666666">3</span> <span style="color: #666666">*</span> np<span style="color: #666666">.</span>random<span style="color: #666666">.</span>randn(<span style="color: #666666">30</span>))
+</pre></div>
+<p>
+<center> <!-- figure label: --> <div id="visual:matplotlib:fig:4"></div> <!-- FIGURE -->
+<hr class="figure">
+<center><p class="caption">Рисунок 4:  &#1042;&#1080;&#1079;&#1091;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;  <!-- caption label: visual:matplotlib:fig:4 --> </p></center>
+<p><img src="fig-visual/matplotlib_4.png" align="bottom" width=800></p>
+</center>
+
+<p>
+&#1055;&#1086;&#1083;&#1085;&#1099;&#1081; &#1082;&#1072;&#1090;&#1072;&#1083;&#1086;&#1075; &#1090;&#1080;&#1087;&#1086;&#1074; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1086;&#1074; &#1084;&#1086;&#1078;&#1085;&#1086; &#1085;&#1072;&#1081;&#1090;&#1080; &#1085;&#1072; &#1089;&#1072;&#1081;&#1090;&#1077; <a href="https://matplotlib.org/" target="_self"><tt>https://matplotlib.org/</tt></a>.
+
+<h2 id="visual:matplotlib:colors" class="anchor">&#1062;&#1074;&#1077;&#1090;, &#1084;&#1072;&#1088;&#1082;&#1077;&#1088;&#1099; &#1080; &#1089;&#1090;&#1080;&#1083;&#1080; &#1083;&#1080;&#1085;&#1080;&#1081;</h2>
+
+<p>
+&#1054;&#1089;&#1085;&#1086;&#1074;&#1085;&#1072;&#1103; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103; <code>plot</code> &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082;&#1080; <code>matplotlib</code> &#1087;&#1088;&#1080;&#1085;&#1080;&#1084;&#1072;&#1077;&#1090; &#1084;&#1072;&#1089;&#1089;&#1080;&#1074;&#1099;
+&#1082;&#1086;&#1086;&#1088;&#1076;&#1080;&#1085;&#1072;&#1090; <code>x</code> &#1080; <code>y</code> &#1080; (&#1086;&#1087;&#1094;&#1080;&#1086;&#1085;&#1072;&#1083;&#1100;&#1085;&#1086;) &#1089;&#1090;&#1088;&#1086;&#1082;&#1091;, &#1079;&#1072;&#1076;&#1072;&#1102;&#1097;&#1091;&#1102; &#1094;&#1074;&#1077;&#1090; &#1080; &#1089;&#1090;&#1080;&#1083;&#1100;
+&#1083;&#1080;&#1085;&#1080;&#1080;. &#1053;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;, &#1076;&#1083;&#1103; &#1090;&#1086;&#1075;&#1086; &#1095;&#1090;&#1086;&#1073;&#1099; &#1087;&#1086;&#1089;&#1090;&#1088;&#1086;&#1080;&#1090;&#1100; &#1079;&#1072;&#1074;&#1080;&#1089;&#1080;&#1084;&#1086;&#1089;&#1090;&#1100; <code>y</code> &#1086;&#1090; <code>x</code>
+&#1079;&#1077;&#1083;&#1077;&#1085;&#1099;&#1084;&#1080; &#1096;&#1090;&#1088;&#1080;&#1093;&#1072;&#1084;&#1080;, &#1085;&#1077;&#1086;&#1073;&#1093;&#1086;&#1076;&#1080;&#1084;&#1086; &#1074;&#1099;&#1087;&#1086;&#1083;&#1085;&#1080;&#1090;&#1100;:
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>ax<span style="color: #666666">.</span>plot(x, y, <span style="color: #BA2121">&#39;g--&#39;</span>)
+</pre></div>
+<p>
+&#1058;&#1072;&#1082;&#1080;&#1084; &#1086;&#1073;&#1088;&#1072;&#1079;&#1086;&#1084;, &#1084;&#1099; &#1079;&#1072;&#1076;&#1072;&#1083;&#1080; &#1080; &#1094;&#1074;&#1077;&#1090; &#1080; &#1089;&#1090;&#1080;&#1083;&#1100; &#1083;&#1080;&#1085;&#1080;&#1080; &#1074; &#1074;&#1080;&#1076;&#1077; &#1089;&#1090;&#1088;&#1086;&#1082;&#1080;. &#1053;&#1072;
+&#1087;&#1088;&#1072;&#1082;&#1090;&#1080;&#1082;&#1077; &#1087;&#1088;&#1080; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1085;&#1086;&#1084; &#1089;&#1086;&#1079;&#1076;&#1072;&#1085;&#1080;&#1080; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1086;&#1074; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; &#1089;&#1090;&#1088;&#1086;&#1082; &#1085;&#1077;
+&#1091;&#1076;&#1086;&#1073;&#1085;&#1086;. &#1058;&#1072;&#1082;&#1086;&#1081; &#1078;&#1077; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082; &#1084;&#1086;&#1078;&#1085;&#1086; &#1087;&#1086;&#1089;&#1090;&#1088;&#1086;&#1080;&#1090;&#1100; &#1089; &#1087;&#1086;&#1084;&#1086;&#1097;&#1100;&#1102; &#1082;&#1086;&#1084;&#1072;&#1085;&#1076;&#1099;:
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>ax<span style="color: #666666">.</span>plot(x, y, linestyle<span style="color: #666666">=</span><span style="color: #BA2121">&#39;--&#39;</span>, color<span style="color: #666666">=</span><span style="color: #BA2121">&#39;g&#39;</span>)
+</pre></div>
+<p>
+&#1043;&#1088;&#1072;&#1092;&#1080;&#1082;&#1080; &#1084;&#1086;&#1075;&#1091;&#1090; &#1080;&#1084;&#1077;&#1090;&#1100; &#1090;&#1072;&#1082;&#1078;&#1077; &#1084;&#1072;&#1088;&#1082;&#1077;&#1088;&#1099; &#1076;&#1083;&#1103; &#1074;&#1099;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1103; &#1090;&#1086;&#1095;&#1077;&#1082; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;. &#1058;&#1072;&#1082; &#1082;&#1072;&#1082;
+<code>matplotlib</code> &#1089;&#1086;&#1079;&#1076;&#1072;&#1077;&#1090; &#1085;&#1077;&#1087;&#1088;&#1077;&#1088;&#1099;&#1074;&#1085;&#1099;&#1077; &#1083;&#1080;&#1085;&#1080;&#1080;, &#1080;&#1085;&#1090;&#1077;&#1088;&#1087;&#1086;&#1083;&#1080;&#1088;&#1091;&#1103; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103; &#1084;&#1077;&#1078;&#1076;&#1091;
+&#1079;&#1072;&#1076;&#1072;&#1085;&#1085;&#1099;&#1084;&#1080; &#1090;&#1086;&#1095;&#1082;&#1072;&#1084;&#1080;, &#1084;&#1086;&#1078;&#1077;&#1090; &#1073;&#1099;&#1090;&#1100; &#1085;&#1077; &#1103;&#1089;&#1085;&#1086;, &#1075;&#1076;&#1077; &#1085;&#1072;&#1093;&#1086;&#1076;&#1103;&#1090;&#1089;&#1103; &#1079;&#1072;&#1076;&#1072;&#1085;&#1085;&#1099;&#1077;
+&#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103;. &#1052;&#1072;&#1088;&#1082;&#1077;&#1088;&#1099; &#1084;&#1086;&#1075;&#1091;&#1090; &#1073;&#1099;&#1090;&#1100; &#1095;&#1072;&#1089;&#1090;&#1100;&#1102; &#1089;&#1090;&#1088;&#1086;&#1082;&#1080;, &#1079;&#1072;&#1076;&#1072;&#1102;&#1097;&#1077;&#1081; &#1089;&#1090;&#1080;&#1083;&#1100; &#1083;&#1080;&#1085;&#1080;&#1080;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [13]: </span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">numpy.random</span> <span style="color: #008000; font-weight: bold">import</span> randn
+
+<span style="color: #000080; font-weight: bold">In [14]: </span>plt<span style="color: #666666">.</span>plot(randn(<span style="color: #666666">30</span>)<span style="color: #666666">.</span>cumsum(), <span style="color: #BA2121">&#39;ko--&#39;</span>)
+</pre></div>
+<p>
+<center> <!-- figure label: --> <div id="visual:matplotlib:fig:5"></div> <!-- FIGURE -->
+<hr class="figure">
+<center><p class="caption">Рисунок 5:  &#1043;&#1088;&#1072;&#1092;&#1080;&#1082; &#1089; &#1084;&#1072;&#1088;&#1082;&#1077;&#1088;&#1072;&#1084;&#1080;  <!-- caption label: visual:matplotlib:fig:5 --> </p></center>
+<p><img src="fig-visual/matplotlib_5.png" align="bottom" width=800></p>
+</center>
+
+<p>
+&#1069;&#1090;&#1086; &#1078;&#1077; &#1084;&#1086;&#1078;&#1085;&#1086; &#1073;&#1099;&#1083;&#1086; &#1079;&#1072;&#1087;&#1080;&#1089;&#1072;&#1090;&#1100; &#1073;&#1086;&#1083;&#1077;&#1077; &#1103;&#1074;&#1085;&#1086;:
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>plot(randn(<span style="color: #666666">30</span>)<span style="color: #666666">.</span>cumsum(), color<span style="color: #666666">=</span><span style="color: #BA2121">&#39;k&#39;</span>, linestyle<span style="color: #666666">=</span><span style="color: #BA2121">&#39;dashed&#39;</span>, marker<span style="color: #666666">=</span><span style="color: #BA2121">&#39;o&#39;</span>)
+</pre></div>
+<p>
+&#1050;&#1072;&#1082; &#1074;&#1080;&#1076;&#1085;&#1086;, &#1084;&#1077;&#1078;&#1076;&#1091; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1100;&#1085;&#1099;&#1084;&#1080; &#1090;&#1086;&#1095;&#1082;&#1072;&#1084;&#1080; &#1089;&#1090;&#1088;&#1086;&#1080;&#1090;&#1089;&#1103; &#1083;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;&#1103;
+&#1080;&#1085;&#1090;&#1077;&#1088;&#1087;&#1086;&#1083;&#1103;&#1094;&#1080;&#1103;. &#1069;&#1090;&#1086; &#1087;&#1086;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1077; &#1084;&#1086;&#1078;&#1085;&#1086; &#1080;&#1079;&#1084;&#1077;&#1085;&#1080;&#1090;&#1100; &#1089; &#1087;&#1086;&#1084;&#1086;&#1097;&#1100;&#1102; &#1087;&#1072;&#1088;&#1072;&#1084;&#1077;&#1090;&#1088;&#1072;
+<code>drawstyle</code>:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [15]: </span>data <span style="color: #666666">=</span> np<span style="color: #666666">.</span>random<span style="color: #666666">.</span>randn(<span style="color: #666666">30</span>)<span style="color: #666666">.</span>cumsum()
+
+<span style="color: #000080; font-weight: bold">In [16]: </span>plt<span style="color: #666666">.</span>plot(data, <span style="color: #BA2121">&#39;k--&#39;</span>, label<span style="color: #666666">=</span><span style="color: #BA2121">&#39;Default&#39;</span>)
+<span style="color: #000080; font-weight: bold">Out[16]: </span><span style="color: #888888">[&lt;matplotlib.lines.Line2D at 0x7fb01ad92f70&gt;]</span>
+
+<span style="color: #000080; font-weight: bold">In [18]: </span>plt<span style="color: #666666">.</span>plot(data, <span style="color: #BA2121">&#39;k-&#39;</span>, drawstyle<span style="color: #666666">=</span><span style="color: #BA2121">&#39;steps-post&#39;</span>, label<span style="color: #666666">=</span><span style="color: #BA2121">&#39;steps-post&#39;</span>)
+<span style="color: #000080; font-weight: bold">Out[18]: </span><span style="color: #888888">[&lt;matplotlib.lines.Line2D at 0x7fb01ad15430&gt;]</span>
+
+<span style="color: #000080; font-weight: bold">In [19]: </span>plt<span style="color: #666666">.</span>legend(loc<span style="color: #666666">=</span><span style="color: #BA2121">&#39;best&#39;</span>)
+<span style="color: #000080; font-weight: bold">Out[19]: </span><span style="color: #888888">&lt;matplotlib.legend.Legend at 0x7fb01ad12d00&gt;</span>
+</pre></div>
+<p>
+<center> <!-- figure label: --> <div id="visual:matplotlib:fig:6"></div> <!-- FIGURE -->
+<hr class="figure">
+<center><p class="caption">Рисунок 6:  &#1051;&#1080;&#1085;&#1080;&#1080; &#1089; &#1088;&#1072;&#1079;&#1085;&#1099;&#1084;&#1080; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1103;&#1084;&#1080; <code>drawstyle</code>  <!-- caption label: visual:matplotlib:fig:6 --> </p></center>
+<p><img src="fig-visual/matplotlib_6.png" align="bottom" width=800></p>
+</center>
+
+<h2 id="visual:matplotlib:ticks" class="anchor">&#1055;&#1086;&#1076;&#1087;&#1080;&#1089;&#1080; &#1082; &#1086;&#1089;&#1103;&#1084;, &#1084;&#1072;&#1089;&#1096;&#1090;&#1072;&#1073; &#1080; &#1083;&#1077;&#1075;&#1077;&#1085;&#1076;&#1072;</h2>
+
+<p>
+&#1044;&#1083;&#1103; &#1080;&#1083;&#1083;&#1102;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1080; &#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1080; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1086;&#1074; &#1089;&#1086;&#1079;&#1076;&#1072;&#1076;&#1080;&#1084; &#1087;&#1088;&#1086;&#1089;&#1090;&#1086;&#1081; &#1088;&#1080;&#1089;&#1091;&#1085;&#1086;&#1082; &#1080;
+&#1086;&#1090;&#1086;&#1073;&#1088;&#1072;&#1079;&#1080;&#1084; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082; &#1089;&#1083;&#1091;&#1095;&#1072;&#1081;&#1085;&#1086;&#1075;&#1086; &#1073;&#1083;&#1091;&#1078;&#1076;&#1072;&#1085;&#1080;&#1103;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [20]: </span>fig <span style="color: #666666">=</span> plt<span style="color: #666666">.</span>figure()
+
+<span style="color: #000080; font-weight: bold">In [21]: </span>ax <span style="color: #666666">=</span> fig<span style="color: #666666">.</span>add_subplot(<span style="color: #666666">1</span>, <span style="color: #666666">1</span>, <span style="color: #666666">1</span>)
+
+<span style="color: #000080; font-weight: bold">In [22]: </span>ax<span style="color: #666666">.</span>plot(np<span style="color: #666666">.</span>random<span style="color: #666666">.</span>randn(<span style="color: #666666">1000</span>)<span style="color: #666666">.</span>cumsum())
+<span style="color: #000080; font-weight: bold">Out[22]: </span><span style="color: #888888">[&lt;matplotlib.lines.Line2D at 0x7fb01ad29c10&gt;]</span>
+</pre></div>
+<p>
+<br /><br /><center><p><img src="fig-visual/matplotlib_7.png" align="bottom" width=800></p></center><br /><br />
+
+<p>
+&#1044;&#1083;&#1103; &#1080;&#1079;&#1084;&#1077;&#1085;&#1077;&#1085;&#1080;&#1103; &#1087;&#1086;&#1076;&#1087;&#1080;&#1089;&#1077;&#1081; &#1085;&#1072; &#1086;&#1089;&#1080; \( x \) &#1074;&#1086;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1077;&#1084;&#1089;&#1103; &#1084;&#1077;&#1090;&#1086;&#1076;&#1072;&#1084;&#1080; <code>set_xticks</code>
+&#1080; <code>set_xticklables</code>:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [23]: </span>ticks <span style="color: #666666">=</span> ax<span style="color: #666666">.</span>set_xticks([<span style="color: #666666">0</span>, <span style="color: #666666">250</span>, <span style="color: #666666">500</span>, <span style="color: #666666">750</span>, <span style="color: #666666">1000</span>])
+
+<span style="color: #000080; font-weight: bold">In [24]: </span>labels <span style="color: #666666">=</span> ax<span style="color: #666666">.</span>set_xticklabels([<span style="color: #BA2121">&#39;one&#39;</span>, <span style="color: #BA2121">&#39;two&#39;</span>, <span style="color: #BA2121">&#39;three&#39;</span>, <span style="color: #BA2121">&#39;four&#39;</span>, <span style="color: #BA2121">&#39;five&#39;</span>],
+<span style="color: #888888">    ...:rotation=30, fontsize=&#39;small&#39;)</span>
+</pre></div>
+<p>
+&#1055;&#1072;&#1088;&#1072;&#1084;&#1077;&#1090;&#1088; <code>rotation</code> &#1087;&#1086;&#1074;&#1086;&#1088;&#1072;&#1095;&#1080;&#1074;&#1072;&#1077;&#1090; &#1084;&#1077;&#1090;&#1082;&#1080; &#1085;&#1072;&#1076;&#1087;&#1080;&#1089;&#1077;&#1081; &#1085;&#1072; &#1086;&#1089;&#1080; \( x \) &#1085;&#1072; 30
+&#1075;&#1088;&#1072;&#1076;&#1091;&#1089;&#1086;&#1074;. &#1048;, &#1085;&#1072;&#1082;&#1086;&#1085;&#1077;&#1094;, &#1079;&#1072;&#1076;&#1072;&#1076;&#1080;&#1084; &#1085;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1072; &#1080; &#1084;&#1077;&#1090;&#1082;&#1091; &#1076;&#1083;&#1103; &#1086;&#1089;&#1080; \( x \) &#1089;
+&#1087;&#1086;&#1084;&#1086;&#1097;&#1100;&#1102; &#1084;&#1077;&#1090;&#1086;&#1076;&#1086;&#1074; <code>set_title</code> &#1080; <code>set_xlabel</code>:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [25]: </span>ax<span style="color: #666666">.</span>set_title(<span style="color: #BA2121">&#39;Первый график matplotlib&#39;</span>)
+<span style="color: #000080; font-weight: bold">Out[25]: </span><span style="color: #888888">Text(0.5, 1.0, &#39;Первый график matplotlib&#39;)</span>
+
+<span style="color: #000080; font-weight: bold">In [26]: </span>ax<span style="color: #666666">.</span>set_xlabel(<span style="color: #BA2121">&#39;Шаги&#39;</span>)
+<span style="color: #000080; font-weight: bold">Out[26]: </span><span style="color: #888888">Text(0.5, 10.888891973024519, &#39;Шаги&#39;)</span>
+</pre></div>
+<p>
+<br /><br /><center><p><img src="fig-visual/matplotlib_8.png" align="bottom" width=800></p></center><br /><br />
+
+<p>
+&#1052;&#1086;&#1076;&#1080;&#1092;&#1080;&#1082;&#1072;&#1094;&#1080;&#1103; &#1086;&#1089;&#1080; \( y \) &#1086;&#1089;&#1091;&#1097;&#1077;&#1089;&#1090;&#1074;&#1083;&#1103;&#1077;&#1090;&#1089;&#1103; &#1090;&#1086;&#1095;&#1085;&#1086; &#1090;&#1072;&#1082;&#1078;&#1077;, &#1090;&#1086;&#1083;&#1100;&#1082;&#1086; &#1085;&#1091;&#1078;&#1085;&#1086;  &#1079;&#1072;&#1084;&#1077;&#1085;&#1080;&#1090;&#1100;
+<code>x</code> &#1085;&#1072; <code>y</code> &#1074; &#1087;&#1088;&#1080;&#1074;&#1077;&#1076;&#1077;&#1085;&#1085;&#1086;&#1084; &#1074;&#1099;&#1096;&#1077; &#1082;&#1086;&#1076;&#1077;. &#1059; &#1082;&#1083;&#1072;&#1089;&#1089;&#1072; &#1086;&#1089;&#1077;&#1081; &#1077;&#1089;&#1090;&#1100; &#1084;&#1077;&#1090;&#1086;&#1076; <code>set</code>,
+&#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1081; &#1076;&#1086;&#1087;&#1091;&#1089;&#1082;&#1072;&#1077;&#1090; &#1087;&#1072;&#1082;&#1077;&#1090;&#1085;&#1091;&#1102; &#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1091; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1072;. &#1042; &#1087;&#1088;&#1077;&#1076;&#1099;&#1076;&#1091;&#1097;&#1077;&#1084; 
+&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;&#1077; &#1084;&#1086;&#1078;&#1085;&#1086; &#1073;&#1099;&#1083;&#1086; &#1090;&#1072;&#1082;&#1078;&#1077; &#1085;&#1072;&#1087;&#1080;&#1089;&#1072;&#1090;&#1100;: 
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>props <span style="color: #666666">=</span> {
+    <span style="color: #BA2121">&#39;title&#39;</span>: <span style="color: #BA2121">&#39;Первый график matplotlib&#39;</span>,
+    <span style="color: #BA2121">&#39;xlabel&#39;</span>: <span style="color: #BA2121">&#39;Шаги</span>
+}
+ax<span style="color: #666666">.</span>set(<span style="color: #666666">**</span>props)
+</pre></div>
+<p>
+&#1044;&#1083;&#1103; &#1074;&#1099;&#1074;&#1086;&#1076;&#1072; &#1083;&#1077;&#1075;&#1077;&#1085;&#1076;&#1099; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1072; &#1077;&#1089;&#1090;&#1100; &#1085;&#1077;&#1089;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1089;&#1087;&#1086;&#1089;&#1086;&#1073;&#1086;&#1074;. &#1055;&#1088;&#1086;&#1089;&#1090;&#1077;&#1081;&#1096;&#1080;&#1081;
+&#1079;&#1072;&#1082;&#1083;&#1102;&#1095;&#1072;&#1077;&#1090;&#1089;&#1103; &#1074; &#1087;&#1077;&#1088;&#1077;&#1076;&#1072;&#1095;&#1077; &#1072;&#1088;&#1075;&#1091;&#1084;&#1077;&#1085;&#1090;&#1072; <code>label</code> &#1087;&#1088;&#1080; &#1087;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1080; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1086;&#1074;:
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [27]: </span>fig <span style="color: #666666">=</span> plt<span style="color: #666666">.</span>figure(); ax <span style="color: #666666">=</span> fig<span style="color: #666666">.</span>add_subplot(<span style="color: #666666">1</span>, <span style="color: #666666">1</span>, <span style="color: #666666">1</span>)
+
+<span style="color: #000080; font-weight: bold">In [28]: </span>ax<span style="color: #666666">.</span>plot(randn(<span style="color: #666666">1000</span>)<span style="color: #666666">.</span>cumsum(), <span style="color: #BA2121">&#39;k&#39;</span>, label<span style="color: #666666">=</span><span style="color: #BA2121">&#39;one&#39;</span>)
+<span style="color: #000080; font-weight: bold">Out[28]: </span><span style="color: #888888">[&lt;matplotlib.lines.Line2D at 0x7fb01acbd490&gt;]</span>
+
+<span style="color: #000080; font-weight: bold">In [29]: </span>ax<span style="color: #666666">.</span>plot(randn(<span style="color: #666666">1000</span>)<span style="color: #666666">.</span>cumsum(), <span style="color: #BA2121">&#39;k--&#39;</span>, label<span style="color: #666666">=</span><span style="color: #BA2121">&#39;two&#39;</span>)
+<span style="color: #000080; font-weight: bold">Out[29]: </span><span style="color: #888888">[&lt;matplotlib.lines.Line2D at 0x7fb01a7664c0&gt;]</span>
+
+<span style="color: #000080; font-weight: bold">In [30]: </span>ax<span style="color: #666666">.</span>plot(randn(<span style="color: #666666">1000</span>)<span style="color: #666666">.</span>cumsum(), <span style="color: #BA2121">&#39;k.&#39;</span>, label<span style="color: #666666">=</span><span style="color: #BA2121">&#39;three&#39;</span>)
+<span style="color: #000080; font-weight: bold">Out[30]: </span><span style="color: #888888">[&lt;matplotlib.lines.Line2D at 0x7fb01a7660a0&gt;]</span>
+</pre></div>
+<p>
+&#1055;&#1086;&#1089;&#1083;&#1077; &#1101;&#1090;&#1086;&#1075;&#1086; &#1084;&#1086;&#1078;&#1085;&#1086; &#1074;&#1099;&#1079;&#1074;&#1072;&#1090;&#1100; <code>ax.leend()</code> &#1080;&#1083;&#1080; <code>plt.legend()</code> &#1076;&#1083;&#1103;
+&#1072;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1075;&#1086; &#1089;&#1086;&#1079;&#1076;&#1072;&#1085;&#1080;&#1103; &#1083;&#1077;&#1075;&#1077;&#1085;&#1076;&#1099;:
+
+<p>
+
+<!-- code=ipy (!bc ipy) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #000080; font-weight: bold">In [31]: </span>ax<span style="color: #666666">.</span>legend(loc<span style="color: #666666">=</span><span style="color: #BA2121">&#39;best&#39;</span>)
+</pre></div>
+<p>
+<br /><br /><center><p><img src="fig-visual/matplotlib_9.png" align="bottom" width=800></p></center><br /><br />
+
+<h2 id="visual:matplotlib:saving" class="anchor">&#1057;&#1086;&#1093;&#1088;&#1072;&#1085;&#1077;&#1085;&#1080;&#1077; &#1088;&#1080;&#1089;&#1091;&#1085;&#1082;&#1086;&#1074; &#1074; &#1092;&#1072;&#1081;&#1083;</h2>
+
+<p>
+&#1052;&#1086;&#1078;&#1085;&#1086; &#1089;&#1086;&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; &#1072;&#1082;&#1090;&#1080;&#1074;&#1085;&#1099;&#1081; &#1088;&#1080;&#1089;&#1091;&#1085;&#1086;&#1082; &#1074; &#1092;&#1072;&#1081;&#1083; &#1089; &#1087;&#1086;&#1084;&#1086;&#1097;&#1100;&#1102; &#1084;&#1077;&#1090;&#1086;&#1076;&#1072;
+<code>plt.savefig</code>. &#1053;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;, &#1095;&#1090;&#1086;&#1073;&#1099; &#1089;&#1086;&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; &#1088;&#1080;&#1089;&#1091;&#1085;&#1086;&#1082; &#1074; &#1092;&#1086;&#1088;&#1084;&#1072;&#1090;&#1077; SVG
+&#1076;&#1086;&#1089;&#1090;&#1072;&#1090;&#1086;&#1095;&#1085;&#1086; &#1085;&#1072;&#1073;&#1088;&#1072;&#1090;&#1100;:
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>plt<span style="color: #666666">.</span>savefig(<span style="color: #BA2121">&#39;figpath.svg&#39;</span>)
+</pre></div>
+<p>
+&#1058;&#1080;&#1087; &#1092;&#1072;&#1081;&#1083;&#1072; &#1086;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1103;&#1077;&#1090;&#1089;&#1103; &#1088;&#1072;&#1089;&#1096;&#1080;&#1088;&#1077;&#1085;&#1080;&#1077;&#1084;. &#1045;&#1089;&#1090;&#1100; &#1087;&#1072;&#1088;&#1072; &#1074;&#1072;&#1078;&#1085;&#1099;&#1093; &#1087;&#1072;&#1088;&#1072;&#1084;&#1077;&#1090;&#1088;&#1086;&#1074;:
+<code>dpi</code>, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1081; &#1079;&#1072;&#1076;&#1072;&#1077;&#1090; &#1088;&#1072;&#1079;&#1088;&#1077;&#1096;&#1077;&#1085;&#1080;&#1077; &#1088;&#1080;&#1089;&#1091;&#1085;&#1082;&#1072; (&#1090;&#1086;&#1095;&#1077;&#1082; &#1085;&#1072; &#1076;&#1102;&#1081;&#1084;),
+<code>bbox_inches</code>, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1081; &#1084;&#1086;&#1078;&#1077;&#1090; &#1086;&#1073;&#1088;&#1077;&#1079;&#1072;&#1090;&#1100; &#1087;&#1091;&#1089;&#1090;&#1086;&#1077; &#1087;&#1088;&#1086;&#1089;&#1090;&#1088;&#1072;&#1085;&#1089;&#1090;&#1074;&#1086; &#1074;&#1086;&#1082;&#1088;&#1091;&#1075;
+&#1088;&#1080;&#1089;&#1091;&#1085;&#1082;&#1072;. &#1053;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;, &#1095;&#1090;&#1086;&#1073;&#1099; &#1089;&#1086;&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; &#1090;&#1086;&#1090; &#1078;&#1077; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082; &#1074; &#1092;&#1086;&#1088;&#1084;&#1072;&#1090;&#1077; PNG &#1089;
+&#1088;&#1072;&#1079;&#1088;&#1077;&#1096;&#1077;&#1085;&#1080;&#1077;&#1084; 400 DPI, &#1085;&#1091;&#1076;&#1085;&#1086; &#1074;&#1099;&#1087;&#1086;&#1083;&#1085;&#1080;&#1090;&#1100;:
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>plt<span style="color: #666666">.</span>savefig(<span style="color: #BA2121">&#39;figpath.png&#39;</span>, dpi<span style="color: #666666">=400</span>, bbox_inches<span style="color: #666666">=</span><span style="color: #BA2121">&#39;tight&#39;</span>)
+</pre></div>
+<p>
+&#1060;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103; <code>savefig</code> &#1089;&#1086;&#1093;&#1088;&#1072;&#1085;&#1103;&#1077;&#1090; &#1085;&#1077; &#1090;&#1086;&#1083;&#1100;&#1082;&#1086; &#1085;&#1072; &#1076;&#1080;&#1089;&#1082;. &#1054;&#1085;&#1072; &#1084;&#1086;&#1078;&#1077;&#1090; &#1079;&#1072;&#1087;&#1080;&#1089;&#1099;&#1074;&#1072;&#1090;&#1100;
+&#1075;&#1088;&#1072;&#1092;&#1080;&#1082; &#1074; &#1083;&#1102;&#1073;&#1086;&#1081; &#1092;&#1072;&#1081;&#1083;&#1086;&#1087;&#1086;&#1076;&#1086;&#1073;&#1085;&#1099;&#1081; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;, &#1085;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088; &#1074; <code>BytesIO</code>:
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "default" -->
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">io</span> <span style="color: #008000; font-weight: bold">import</span> BytesIO
+buffer <span style="color: #666666">=</span> BytesIO()
+plt<span style="color: #666666">.</span>savefig(buffer)
+plot_data <span style="color: #666666">=</span> buffer<span style="color: #666666">.</span>getvalue()
+</pre></div>
+<p>
+<p class='env-table'><em>&#1058;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072; 1. &#1052;&#1077;&#1090;&#1086;&#1076; <code>savefig</code>: &#1087;&#1072;&#1088;&#1072;&#1084;&#1077;&#1090;&#1088;&#1099;</em>
+
+<p>
+
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table table-striped table-hover table-condensed">
+<thead>
+<tr><td align="left"><b>&#1055;&#1072;&#1088;&#1072;&#1084;&#1077;&#1090;&#1088;</b></td> <td align="left"><b>                                                                                                                                                                                                                                                                                                      &#1054;&#1087;&#1080;&#1089;&#1072;&#1085;&#1080;&#1077;                                                                                                                                                                                                                                                                                                      </b></td> </tr>
+</thead>
+<tbody>
+<tr><td align="left">   <code>fname</code>                                          </td> <td align="left">   &#1057;&#1090;&#1088;&#1086;&#1082;&#1072;, &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1097;&#1072;&#1103; &#1087;&#1091;&#1090;&#1100; &#1082; &#1092;&#1072;&#1081;&#1083;&#1091; &#1080;&#1083;&#1080; &#1092;&#1072;&#1081;&#1083;&#1086;&#1087;&#1086;&#1076;&#1086;&#1073;&#1085;&#1099;&#1081; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090; Python. &#1060;&#1086;&#1088;&#1084;&#1072;&#1090; &#1088;&#1080;&#1089;&#1091;&#1085;&#1082;&#1072; &#1086;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1103;&#1077;&#1090;&#1089;&#1103; &#1088;&#1072;&#1089;&#1096;&#1080;&#1088;&#1077;&#1085;&#1080;&#1077;&#1084; &#1092;&#1072;&#1081;&#1083;&#1072;    </td> </tr>
+<tr><td align="left">   <code>dpi</code>                                            </td> <td align="left">   &#1056;&#1072;&#1079;&#1088;&#1077;&#1096;&#1077;&#1085;&#1080;&#1077; &#1088;&#1080;&#1089;&#1091;&#1085;&#1082;&#1072; &#1074; &#1090;&#1086;&#1095;&#1082;&#1072;&#1093; &#1085;&#1072; &#1076;&#1102;&#1081;&#1084;. &#1055;&#1086; &#1091;&#1084;&#1086;&#1083;&#1095;&#1072;&#1085;&#1080;&#1102; 100                                                                                                                                                                                                                                                                                                                                                             </td> </tr>
+<tr><td align="left">   <code>facecolor</code>, <code>edgecolor</code>              </td> <td align="left">   &#1062;&#1074;&#1077;&#1090; &#1092;&#1086;&#1085;&#1072; &#1088;&#1080;&#1089;&#1091;&#1085;&#1082;&#1072; &#1074;&#1085;&#1077; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1072;. &#1055;&#1086; &#1091;&#1084;&#1086;&#1083;&#1095;&#1072;&#1085;&#1080;&#1102; <code>w</code> (&#1073;&#1077;&#1083;&#1099;&#1081;)                                                                                                                                                                                                                                                                                                                                                </td> </tr>
+<tr><td align="left">   <code>format</code>                                         </td> <td align="left">   &#1071;&#1074;&#1085;&#1086;&#1077; &#1079;&#1072;&#1076;&#1072;&#1085;&#1080;&#1077; &#1092;&#1086;&#1088;&#1084;&#1072;&#1090;&#1072; &#1092;&#1072;&#1081;&#1083;&#1072;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </td> </tr>
+<tr><td align="left">   <code>bbox_inches</code>                                    </td> <td align="left">   &#1063;&#1072;&#1089;&#1090;&#1100; &#1088;&#1080;&#1089;&#1091;&#1085;&#1082;&#1072; &#1076;&#1083;&#1103; &#1089;&#1086;&#1093;&#1088;&#1072;&#1085;&#1077;&#1085;&#1080;&#1103;. &#1045;&#1089;&#1083;&#1080; &#1079;&#1072;&#1076;&#1072;&#1085;&#1086; <code>'tight'</code>, 2&#1073;&#1091;&#1076;&#1077;&#1090; &#1087;&#1086;&#1087;&#1099;&#1090;&#1082;&#1072; &#1086;&#1073;&#1088;&#1077;&#1079;&#1072;&#1090;&#1100; &#1087;&#1091;&#1089;&#1090;&#1086;&#1077; &#1087;&#1088;&#1086;&#1089;&#1090;&#1088;&#1072;&#1085;&#1089;&#1090;&#1074;&#1086; &#1074;&#1086;&#1082;&#1088;&#1091;&#1075;                                                            </td> </tr>
+</tbody>
+    </table>
+  </div> <!-- col-xs-12 -->
+</div> <!-- cell row -->
+</p>
+
+<p>
+<!-- Local Variables: -->
+<!-- doconce-chapter-nickname: "visual" -->
+<!-- doconce-section-nickname: "matplotlib" -->
+<!-- End: -->
+
+<p>
+<p>
+<!-- navigation buttons at the bottom of the page -->
+<ul class="pager">
+
+  <li class="previous">
+    <a href="._visual-flatly000.html">&larr; Prev</a>
+  </li>
+
+  <li class="next">
+    <a href="._visual-flatly002.html">Next &rarr;</a>
+  </li>
+</ul>
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+
