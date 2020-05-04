@@ -1,0 +1,284 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/hplgit/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Машинное обучиение с использованием библиотек Python">
+
+<title>Машинное обучиение с использованием библиотек Python</title>
+
+<!-- Bootstrap style: bootswatch_flatly -->
+<link href="https://netdna.bootstrapcdn.com/bootswatch/3.1.1/flatly/bootstrap.min.css" rel="stylesheet">
+<!-- not necessary
+<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+-->
+
+<style type="text/css">
+
+/* Add scrollbar to dropdown menus in bootstrap navigation bar */
+.dropdown-menu {
+   height: auto;
+   max-height: 400px;
+   overflow-x: hidden;
+}
+
+/* Adds an invisible element before each target to offset for the navigation
+   bar */
+.anchor::before {
+  content:"";
+  display:block;
+  height:60px;      /* fixed header height for style bootswatch_flatly */
+  margin:-60px 0 0; /* negative fixed header height */
+}
+
+body { font-size:20px; }
+</style>
+
+
+
+
+<!-- Tools for embedded Bokeh plots -->
+<link rel=stylesheet 
+      href=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css 
+      type=text/css />
+<script type=text/javascript 
+        src=https://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js>
+</script>
+<script type=text/javascript>
+  Bokeh.set_log_level("info");
+</script>
+
+<style>
+.bk-embeded {
+    width: 100%;
+    margin: auto;
+    height: 500px;
+    text-align: webkit-left;
+}
+</style>
+
+
+</head>
+
+
+<!-- tocinfo
+{'highest level': 1,
+ 'sections': [('Содержание',
+               1,
+               'table_of_contents',
+               'table_of_contents'),
+              ('Основные определения и постановки задач машинного обучения',
+               1,
+               'ml:intro',
+               'ml:intro'),
+              ('Примеры задач машинного обучения',
+               2,
+               'ml:intro:examples',
+               'ml:intro:examples'),
+              ('Линейная регрессия',
+               2,
+               'ml:linear-regression',
+               'ml:linear-regression'),
+              ('Загрузка данных',
+               2,
+               'ml:linear-regression:load',
+               'ml:linear-regression:load'),
+              ('Первая модель',
+               2,
+               'ml:linear-regression:1st',
+               'ml:linear-regression:1st'),
+              ('Работа с категориальными признаками',
+               2,
+               'ml:linear-regression:categ',
+               'ml:linear-regression:categ'),
+              ('Предобработка данных', 1, 'ml:features', 'ml:features'),
+              ('Работа с текстовыми данными',
+               2,
+               'ml:features:text-work',
+               'ml:features:text-work'),
+              ('Bag-of-words',
+               3,
+               'ml:features:bag-of-words',
+               'ml:features:bag-of-words'),
+              ('TF-IDF', 3, 'ml:features:tf-idf', 'ml:features:tf-idf'),
+              ('Стемминг', 3, 'ml:features:stemming', 'ml:features:stemming'),
+              ('Лематизация', 3, 'ml:features:lemma', 'ml:features:lemma'),
+              ('Трансформация признаков и целевой переменной',
+               2,
+               'ml:features:trans',
+               'ml:features:trans'),
+              ('Логарифмирование', 3, 'ml:features:log', 'ml:features:log'),
+              ('Бинаризация',
+               2,
+               'ml:features:binarize',
+               'ml:features:binarize'),
+              ('Транзакционные данные',
+               2,
+               'ml:features:transactions',
+               'ml:features:transactions'),
+              ('Простые модели классификации', 1, 'ml:class', 'ml:class'),
+              ('Матрица ошибок', 2, 'ml:class:conf-matr', 'ml:class:conf-matr'),
+              ('Линейная классификация',
+               2,
+               'ml:class:linear-class',
+               'ml:class:linear-class'),
+              ('Логистическая регрессия',
+               3,
+               'ml:class:linear-class:logistic',
+               'ml:class:linear-class:logistic'),
+              ('Задание', 1, 'ml:task', 'ml:task'),
+              ('Задание по базе wine', 2, 'ml:task:1', 'ml:task:1')]}
+end of tocinfo -->
+
+<body>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "none"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript" async
+ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+    
+<!-- Bootstrap navigation bar -->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="ml-flatly.html">Машинное обучиение с использованием библиотек Python</a>
+  </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contents <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+     <!-- navigation toc: --> <li><a href="#table_of_contents" style="font-size: 80%;"><b>Содержание</b></a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly001.html#ml:intro" style="font-size: 80%;"><b>Основные определения и постановки задач машинного обучения</b></a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly001.html#ml:intro:examples" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Примеры задач машинного обучения</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly002.html#ml:linear-regression" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Линейная регрессия</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly002.html#ml:linear-regression:load" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Загрузка данных</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly002.html#ml:linear-regression:1st" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Первая модель</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly002.html#ml:linear-regression:categ" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Работа с категориальными признаками</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly003.html#ml:features" style="font-size: 80%;"><b>Предобработка данных</b></a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly003.html#ml:features:text-work" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Работа с текстовыми данными</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly003.html#ml:features:bag-of-words" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bag-of-words</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly003.html#ml:features:tf-idf" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TF-IDF</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly003.html#ml:features:stemming" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Стемминг</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly003.html#ml:features:lemma" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Лематизация</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly003.html#ml:features:trans" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Трансформация признаков и целевой переменной</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly003.html#ml:features:log" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Логарифмирование</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly003.html#ml:features:binarize" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Бинаризация</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly003.html#ml:features:transactions" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Транзакционные данные</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly004.html#ml:class" style="font-size: 80%;"><b>Простые модели классификации</b></a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly004.html#ml:class:conf-matr" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Матрица ошибок</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly004.html#ml:class:linear-class" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Линейная классификация</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly004.html#ml:class:linear-class:logistic" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Логистическая регрессия</a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly005.html#ml:task" style="font-size: 80%;"><b>Задание</b></a></li>
+     <!-- navigation toc: --> <li><a href="._ml-flatly005.html#ml:task:1" style="font-size: 80%;">&nbsp;&nbsp;&nbsp;Задание по базе wine</a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</div> <!-- end of navigation bar -->
+
+<div class="container">
+
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p> <!-- add vertical space -->
+
+<a name="part0000"></a>
+<!-- ------------------- main content ---------------------- -->
+
+
+
+<div class="jumbotron">
+<center><h1>&#1052;&#1072;&#1096;&#1080;&#1085;&#1085;&#1086;&#1077; &#1086;&#1073;&#1091;&#1095;&#1080;&#1077;&#1085;&#1080;&#1077; &#1089; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;&#1084; &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082; Python</h1></center>  <!-- document title -->
+
+<p>
+<!-- author(s): &#1057;.&#1042;. &#1051;&#1077;&#1084;&#1077;&#1096;&#1077;&#1074;&#1089;&#1082;&#1080;&#1081; -->
+
+<center>
+<b>&#1057;.&#1042;. &#1051;&#1077;&#1084;&#1077;&#1096;&#1077;&#1074;&#1089;&#1082;&#1080;&#1081;</b>  (<tt>sergey.lemeshevsky at gmail.com</tt>)
+</center>
+
+<p>
+<!-- institution -->
+
+<center><b>&#1048;&#1085;&#1089;&#1090;&#1080;&#1090;&#1091;&#1090; &#1084;&#1072;&#1090;&#1077;&#1084;&#1072;&#1090;&#1080;&#1082;&#1080; &#1053;&#1040;&#1053; &#1041;&#1077;&#1083;&#1072;&#1088;&#1091;&#1089;&#1080;</b></center>
+<br>
+<p>
+<center><h4>May 4, 2020</h4></center> <!-- date -->
+<br>
+<p>
+</div> <!-- end jumbotron -->
+
+<h1 id="table_of_contents">Содержание</h2>
+
+<p>
+<a href="._ml-flatly001.html#ml:intro"> &#1054;&#1089;&#1085;&#1086;&#1074;&#1085;&#1099;&#1077; &#1086;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1103; &#1080; &#1087;&#1086;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1080; &#1079;&#1072;&#1076;&#1072;&#1095; &#1084;&#1072;&#1096;&#1080;&#1085;&#1085;&#1086;&#1075;&#1086; &#1086;&#1073;&#1091;&#1095;&#1077;&#1085;&#1080;&#1103; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._ml-flatly001.html#ml:intro:examples"> &#1055;&#1088;&#1080;&#1084;&#1077;&#1088;&#1099; &#1079;&#1072;&#1076;&#1072;&#1095; &#1084;&#1072;&#1096;&#1080;&#1085;&#1085;&#1086;&#1075;&#1086; &#1086;&#1073;&#1091;&#1095;&#1077;&#1085;&#1080;&#1103; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._ml-flatly002.html#ml:linear-regression"> &#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;&#1103; &#1088;&#1077;&#1075;&#1088;&#1077;&#1089;&#1089;&#1080;&#1103; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._ml-flatly002.html#ml:linear-regression:load"> &#1047;&#1072;&#1075;&#1088;&#1091;&#1079;&#1082;&#1072; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._ml-flatly002.html#ml:linear-regression:1st"> &#1055;&#1077;&#1088;&#1074;&#1072;&#1103; &#1084;&#1086;&#1076;&#1077;&#1083;&#1100; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._ml-flatly002.html#ml:linear-regression:categ"> &#1056;&#1072;&#1073;&#1086;&#1090;&#1072; &#1089; &#1082;&#1072;&#1090;&#1077;&#1075;&#1086;&#1088;&#1080;&#1072;&#1083;&#1100;&#1085;&#1099;&#1084;&#1080; &#1087;&#1088;&#1080;&#1079;&#1085;&#1072;&#1082;&#1072;&#1084;&#1080; </a><br>
+<a href="._ml-flatly003.html#ml:features"> &#1055;&#1088;&#1077;&#1076;&#1086;&#1073;&#1088;&#1072;&#1073;&#1086;&#1090;&#1082;&#1072; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._ml-flatly003.html#ml:features:text-work"> &#1056;&#1072;&#1073;&#1086;&#1090;&#1072; &#1089; &#1090;&#1077;&#1082;&#1089;&#1090;&#1086;&#1074;&#1099;&#1084;&#1080; &#1076;&#1072;&#1085;&#1085;&#1099;&#1084;&#1080; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._ml-flatly003.html#ml:features:trans"> &#1058;&#1088;&#1072;&#1085;&#1089;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1103; &#1087;&#1088;&#1080;&#1079;&#1085;&#1072;&#1082;&#1086;&#1074; &#1080; &#1094;&#1077;&#1083;&#1077;&#1074;&#1086;&#1081; &#1087;&#1077;&#1088;&#1077;&#1084;&#1077;&#1085;&#1085;&#1086;&#1081; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._ml-flatly003.html#ml:features:binarize"> &#1041;&#1080;&#1085;&#1072;&#1088;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._ml-flatly003.html#ml:features:transactions"> &#1058;&#1088;&#1072;&#1085;&#1079;&#1072;&#1082;&#1094;&#1080;&#1086;&#1085;&#1085;&#1099;&#1077; &#1076;&#1072;&#1085;&#1085;&#1099;&#1077; </a><br>
+<a href="._ml-flatly004.html#ml:class"> &#1055;&#1088;&#1086;&#1089;&#1090;&#1099;&#1077; &#1084;&#1086;&#1076;&#1077;&#1083;&#1080; &#1082;&#1083;&#1072;&#1089;&#1089;&#1080;&#1092;&#1080;&#1082;&#1072;&#1094;&#1080;&#1080; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._ml-flatly004.html#ml:class:conf-matr"> &#1052;&#1072;&#1090;&#1088;&#1080;&#1094;&#1072; &#1086;&#1096;&#1080;&#1073;&#1086;&#1082; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._ml-flatly004.html#ml:class:linear-class"> &#1051;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;&#1103; &#1082;&#1083;&#1072;&#1089;&#1089;&#1080;&#1092;&#1080;&#1082;&#1072;&#1094;&#1080;&#1103; </a><br>
+<a href="._ml-flatly005.html#ml:task"> &#1047;&#1072;&#1076;&#1072;&#1085;&#1080;&#1077; </a><br>
+&nbsp; &nbsp; &nbsp; <a href="._ml-flatly005.html#ml:task:1"> &#1047;&#1072;&#1076;&#1072;&#1085;&#1080;&#1077; &#1087;&#1086; &#1073;&#1072;&#1079;&#1077; wine </a><br>
+</p>
+<p>
+<!-- Common Mako variable and functions -->
+<!-- -<em>- coding: utf-8 -</em>- -->
+
+<p>
+<p>
+<!-- navigation buttons at the bottom of the page -->
+<ul class="pager">
+
+  <li class="next">
+    <a href="._ml-flatly001.html">Next &rarr;</a>
+  </li>
+</ul>
+<!-- ------------------- end of main content --------------- -->
+
+</div>  <!-- end container -->
+<!-- include javascript, jQuery *first* -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap footer
+<footer>
+<a href="http://..."><img width="250" align=right src="http://..."></a>
+</footer>
+-->
+
+
+</body>
+</html>
+    
+
