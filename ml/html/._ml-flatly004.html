@@ -1,12 +1,11 @@
 <!--
 Automatically generated HTML file from DocOnce source
-(https://github.com/hplgit/doconce/)
+(https://github.com/doconce/doconce/)
 -->
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="generator" content="DocOnce: https://github.com/doconce/doconce/" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="Машинное обучение с использованием библиотек Python">
 
@@ -323,7 +322,7 @@ precision &#1080; \( F \)-&#1084;&#1077;&#1088;&#1091; &#1076;&#1083;&#1103; &#1
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.metrics</span> <span style="color: #008000; font-weight: bold">import</span> classification_report
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.metrics</span> <span style="color: #008000; font-weight: bold">import</span> classification_report
 y_true <span style="color: #666666">=</span> [<span style="color: #666666">0</span>, <span style="color: #666666">1</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>]
 y_pred <span style="color: #666666">=</span> [<span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">1</span>]
 target_names <span style="color: #666666">=</span> [<span style="color: #BA2121">&#39;class 0&#39;</span>, <span style="color: #BA2121">&#39;class 1&#39;</span>, <span style="color: #BA2121">&#39;class 2&#39;</span>]
@@ -357,38 +356,38 @@ target_names <span style="color: #666666">=</span> [<span style="color: #BA2121"
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>iris <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>read_csv(<span style="color: #BA2121">&quot;https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv&quot;</span>)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>iris <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>read_csv(<span style="color: #BA2121">&quot;https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv&quot;</span>)
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>iris<span style="color: #666666">.</span>describe()
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>iris<span style="color: #666666">.</span>describe()
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>sns<span style="color: #666666">.</span>pairplot(iris, hue<span style="color: #666666">=</span><span style="color: #BA2121">&quot;species&quot;</span>)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>sns<span style="color: #666666">.</span>pairplot(iris, hue<span style="color: #666666">=</span><span style="color: #BA2121">&quot;species&quot;</span>)
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>sns<span style="color: #666666">.</span>lmplot(x<span style="color: #666666">=</span><span style="color: #BA2121">&quot;petal_length&quot;</span>, y<span style="color: #666666">=</span><span style="color: #BA2121">&quot;petal_width&quot;</span>, data<span style="color: #666666">=</span>iris)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>sns<span style="color: #666666">.</span>lmplot(x<span style="color: #666666">=</span><span style="color: #BA2121">&quot;petal_length&quot;</span>, y<span style="color: #666666">=</span><span style="color: #BA2121">&quot;petal_width&quot;</span>, data<span style="color: #666666">=</span>iris)
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>X <span style="color: #666666">=</span> iris<span style="color: #666666">.</span>iloc[:, <span style="color: #666666">2</span>:<span style="color: #666666">4</span>]<span style="color: #666666">.</span>values
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>X <span style="color: #666666">=</span> iris<span style="color: #666666">.</span>iloc[:, <span style="color: #666666">2</span>:<span style="color: #666666">4</span>]<span style="color: #666666">.</span>values
 y <span style="color: #666666">=</span> iris[<span style="color: #BA2121">&#39;species&#39;</span>]<span style="color: #666666">.</span>values
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>y[:<span style="color: #666666">5</span>]
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>y[:<span style="color: #666666">5</span>]
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.preprocessing</span> <span style="color: #008000; font-weight: bold">import</span> LabelEncoder
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.preprocessing</span> <span style="color: #008000; font-weight: bold">import</span> LabelEncoder
 
 le <span style="color: #666666">=</span> LabelEncoder()
 le<span style="color: #666666">.</span>fit(y)
@@ -398,13 +397,13 @@ y[:<span style="color: #666666">5</span>]
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>iris_pred_names <span style="color: #666666">=</span> le<span style="color: #666666">.</span>classes_
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>iris_pred_names <span style="color: #666666">=</span> le<span style="color: #666666">.</span>classes_
 iris_pred_names
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.model_selection</span> <span style="color: #008000; font-weight: bold">import</span> train_test_split
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.model_selection</span> <span style="color: #008000; font-weight: bold">import</span> train_test_split
 
 X_train, X_test, y_train, y_test <span style="color: #666666">=</span> train_test_split(
     X, y, test_size<span style="color: #666666">=0.3</span>, random_state<span style="color: #666666">=0</span>)
@@ -412,7 +411,7 @@ X_train, X_test, y_train, y_test <span style="color: #666666">=</span> train_tes
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.preprocessing</span> <span style="color: #008000; font-weight: bold">import</span> StandardScaler
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.preprocessing</span> <span style="color: #008000; font-weight: bold">import</span> StandardScaler
 
 sc <span style="color: #666666">=</span> StandardScaler()
 sc<span style="color: #666666">.</span>fit(X_train)
@@ -422,12 +421,12 @@ X_test_std <span style="color: #666666">=</span> sc<span style="color: #666666">
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>X_train[:<span style="color: #666666">5</span>], X_train_std[:<span style="color: #666666">5</span>]
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>X_train[:<span style="color: #666666">5</span>], X_train_std[:<span style="color: #666666">5</span>]
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.linear_model</span> <span style="color: #008000; font-weight: bold">import</span> LogisticRegression
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.linear_model</span> <span style="color: #008000; font-weight: bold">import</span> LogisticRegression
 
 lr <span style="color: #666666">=</span> LogisticRegression(C<span style="color: #666666">=100.0</span>, random_state<span style="color: #666666">=1</span>)
 lr<span style="color: #666666">.</span>fit(X_train_std, y_train)
@@ -435,56 +434,56 @@ lr<span style="color: #666666">.</span>fit(X_train_std, y_train)
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>lr<span style="color: #666666">.</span>predict_proba(X_test_std[:<span style="color: #666666">3</span>, :])
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>lr<span style="color: #666666">.</span>predict_proba(X_test_std[:<span style="color: #666666">3</span>, :])
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>lr<span style="color: #666666">.</span>predict_proba(X_test_std[:<span style="color: #666666">3</span>, :])<span style="color: #666666">.</span>sum(axis<span style="color: #666666">=1</span>)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>lr<span style="color: #666666">.</span>predict_proba(X_test_std[:<span style="color: #666666">3</span>, :])<span style="color: #666666">.</span>sum(axis<span style="color: #666666">=1</span>)
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>y_test[:<span style="color: #666666">3</span>]
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>y_test[:<span style="color: #666666">3</span>]
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>lr<span style="color: #666666">.</span>predict_proba(X_test_std[:<span style="color: #666666">3</span>, :])<span style="color: #666666">.</span>argmax(axis<span style="color: #666666">=1</span>)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>lr<span style="color: #666666">.</span>predict_proba(X_test_std[:<span style="color: #666666">3</span>, :])<span style="color: #666666">.</span>argmax(axis<span style="color: #666666">=1</span>)
 </pre></div>
 <p>
 &#1055;&#1088;&#1077;&#1076;&#1089;&#1082;&#1072;&#1079;&#1099;&#1074;&#1072;&#1077;&#1084; &#1082;&#1083;&#1072;&#1089;&#1089; &#1087;&#1077;&#1088;&#1074;&#1086;&#1075;&#1086; &#1085;&#1072;&#1073;&#1083;&#1102;&#1076;&#1077;&#1085;&#1080;&#1103;
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>lr<span style="color: #666666">.</span>predict(X_test_std[<span style="color: #666666">0</span>, :]<span style="color: #666666">.</span>reshape(<span style="color: #666666">1</span>, <span style="color: #666666">-1</span>))
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>lr<span style="color: #666666">.</span>predict(X_test_std[<span style="color: #666666">0</span>, :]<span style="color: #666666">.</span>reshape(<span style="color: #666666">1</span>, <span style="color: #666666">-1</span>))
 </pre></div>
 <p>
 &#1053;&#1072; &#1086;&#1089;&#1085;&#1086;&#1074;&#1077; &#1077;&#1075;&#1086; &#1082;&#1086;&#1101;&#1092;&#1092;&#1080;&#1094;&#1080;&#1077;&#1085;&#1090;&#1086;&#1074;:
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>X_test_std[<span style="color: #666666">0</span>, :]
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>X_test_std[<span style="color: #666666">0</span>, :]
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>X_test_std[<span style="color: #666666">0</span>, :]<span style="color: #666666">.</span>reshape(<span style="color: #666666">1</span>, <span style="color: #666666">-1</span>)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>X_test_std[<span style="color: #666666">0</span>, :]<span style="color: #666666">.</span>reshape(<span style="color: #666666">1</span>, <span style="color: #666666">-1</span>)
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>y_pred <span style="color: #666666">=</span> lr<span style="color: #666666">.</span>predict(X_test_std)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>y_pred <span style="color: #666666">=</span> lr<span style="color: #666666">.</span>predict(X_test_std)
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000">len</span>(iris_pred_names)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000">len</span>(iris_pred_names)
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000">print</span>(classification_report(y_test, y_pred, target_names<span style="color: #666666">=</span>iris_pred_names))
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000">print</span>(classification_report(y_test, y_pred, target_names<span style="color: #666666">=</span>iris_pred_names))
 </pre></div>
 <p>
 <!-- Local Variables: -->

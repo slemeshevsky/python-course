@@ -1,12 +1,11 @@
 <!--
 Automatically generated HTML file from DocOnce source
-(https://github.com/hplgit/doconce/)
+(https://github.com/doconce/doconce/)
 -->
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="DocOnce: https://github.com/hplgit/doconce/" />
+<meta name="generator" content="DocOnce: https://github.com/doconce/doconce/" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="Машинное обучение с использованием библиотек Python">
 
@@ -215,7 +214,7 @@ MathJax.Hub.Config({
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">matplotlib.pyplot</span> <span style="color: #008000; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">plt</span>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">matplotlib.pyplot</span> <span style="color: #008000; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">plt</span>
 <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">seaborn</span> <span style="color: #008000; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">sns</span>
 <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">pandas</span> <span style="color: #008000; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">pd</span>
 <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">numpy</span> <span style="color: #008000; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">np</span>
@@ -260,7 +259,7 @@ $$
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>np<span style="color: #666666">.</span>random<span style="color: #666666">.</span>seed(<span style="color: #666666">36</span>)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>np<span style="color: #666666">.</span>random<span style="color: #666666">.</span>seed(<span style="color: #666666">36</span>)
 x <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace(<span style="color: #666666">0</span>, <span style="color: #666666">1</span>, <span style="color: #666666">100</span>)
 y <span style="color: #666666">=</span> np<span style="color: #666666">.</span>cos(<span style="color: #666666">1.5</span> <span style="color: #666666">*</span> np<span style="color: #666666">.</span>pi <span style="color: #666666">*</span> x)
 
@@ -274,7 +273,7 @@ y_objects <span style="color: #666666">=</span> np<span style="color: #666666">.
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.linear_model</span> <span style="color: #008000; font-weight: bold">import</span> LinearRegression
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.linear_model</span> <span style="color: #008000; font-weight: bold">import</span> LinearRegression
 <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.preprocessing</span> <span style="color: #008000; font-weight: bold">import</span> PolynomialFeatures
 
 
@@ -322,7 +321,7 @@ $$
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>data <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>read_csv(<span style="color: #BA2121">&quot;train.csv&quot;</span>)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>data <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>read_csv(<span style="color: #BA2121">&quot;train.csv&quot;</span>)
 data<span style="color: #666666">.</span>head()
 </pre></div>
 <p>
@@ -333,7 +332,7 @@ data<span style="color: #666666">.</span>head()
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>data <span style="color: #666666">=</span> data<span style="color: #666666">.</span>drop(columns<span style="color: #666666">=</span>[<span style="color: #BA2121">&quot;Id&quot;</span>])
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>data <span style="color: #666666">=</span> data<span style="color: #666666">.</span>drop(columns<span style="color: #666666">=</span>[<span style="color: #BA2121">&quot;Id&quot;</span>])
 </pre></div>
 <p>
 &#1056;&#1072;&#1079;&#1076;&#1077;&#1083;&#1080;&#1084; &#1076;&#1072;&#1085;&#1085;&#1099;&#1077; &#1085;&#1072; &#1086;&#1073;&#1091;&#1095;&#1072;&#1102;&#1097;&#1091;&#1102; &#1080; &#1090;&#1077;&#1089;&#1090;&#1086;&#1074;&#1091;&#1102; &#1074;&#1099;&#1073;&#1086;&#1088;&#1082;&#1080;. &#1044;&#1083;&#1103; &#1087;&#1088;&#1086;&#1089;&#1090;&#1086;&#1090;&#1099; &#1085;&#1077; &#1073;&#1091;&#1076;&#1077;&#1084;
@@ -346,7 +345,7 @@ data<span style="color: #666666">.</span>head()
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.model_selection</span> <span style="color: #008000; font-weight: bold">import</span> train_test_split
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.model_selection</span> <span style="color: #008000; font-weight: bold">import</span> train_test_split
 
 y <span style="color: #666666">=</span> data[<span style="color: #BA2121">&quot;SalePrice&quot;</span>]
 X <span style="color: #666666">=</span> data<span style="color: #666666">.</span>drop(columns<span style="color: #666666">=</span>[<span style="color: #BA2121">&quot;SalePrice&quot;</span>])
@@ -359,7 +358,7 @@ X_train, X_test, y_train, y_test <span style="color: #666666">=</span> train_tes
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>sns<span style="color: #666666">.</span>distplot(y_train)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>sns<span style="color: #666666">.</span>distplot(y_train)
 </pre></div>
 <p>
 &#1057;&#1091;&#1076;&#1103; &#1087;&#1086; &#1075;&#1080;&#1089;&#1090;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1077;, &#1091; &#1085;&#1072;&#1089; &#1077;&#1089;&#1090;&#1100; &#1087;&#1088;&#1080;&#1084;&#1077;&#1088;&#1099; &#1089; &#1085;&#1077;&#1090;&#1080;&#1087;&#1080;&#1095;&#1085;&#1086; &#1073;&#1086;&#1083;&#1100;&#1096;&#1086;&#1081;
@@ -408,7 +407,7 @@ $$
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>numeric_data <span style="color: #666666">=</span> X_train<span style="color: #666666">.</span>select_dtypes([np<span style="color: #666666">.</span>number])
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>numeric_data <span style="color: #666666">=</span> X_train<span style="color: #666666">.</span>select_dtypes([np<span style="color: #666666">.</span>number])
 numeric_data_mean <span style="color: #666666">=</span> numeric_data<span style="color: #666666">.</span>mean()
 numeric_features <span style="color: #666666">=</span> numeric_data<span style="color: #666666">.</span>columns
 
@@ -435,7 +434,7 @@ plot<span style="color: #666666">.</span>figure<span style="color: #666666">.</s
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>fig, axs <span style="color: #666666">=</span> plt<span style="color: #666666">.</span>subplots(figsize<span style="color: #666666">=</span>(<span style="color: #666666">16</span>, <span style="color: #666666">5</span>), ncols<span style="color: #666666">=3</span>)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>fig, axs <span style="color: #666666">=</span> plt<span style="color: #666666">.</span>subplots(figsize<span style="color: #666666">=</span>(<span style="color: #666666">16</span>, <span style="color: #666666">5</span>), ncols<span style="color: #666666">=3</span>)
 <span style="color: #008000; font-weight: bold">for</span> i, feature <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">enumerate</span>([<span style="color: #BA2121">&quot;GrLivArea&quot;</span>, <span style="color: #BA2121">&quot;GarageArea&quot;</span>, <span style="color: #BA2121">&quot;TotalBsmtSF&quot;</span>]):
     axs[i]<span style="color: #666666">.</span>scatter(X_train[feature], y_train, alpha<span style="color: #666666">=0.2</span>)
     axs[i]<span style="color: #666666">.</span>set_xlabel(feature)
@@ -479,7 +478,7 @@ plt<span style="color: #666666">.</span>tight_layout()
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.linear_model</span> <span style="color: #008000; font-weight: bold">import</span> Ridge
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.linear_model</span> <span style="color: #008000; font-weight: bold">import</span> Ridge
 <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.metrics</span> <span style="color: #008000; font-weight: bold">import</span> mean_squared_error
 
 model <span style="color: #666666">=</span> Ridge()
@@ -512,7 +511,7 @@ y_train_pred <span style="color: #666666">=</span> model<span style="color: #666
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.model_selection</span> <span style="color: #008000; font-weight: bold">import</span> cross_val_score
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.model_selection</span> <span style="color: #008000; font-weight: bold">import</span> cross_val_score
 
 cv_scores <span style="color: #666666">=</span> cross_val_score(model, X_train[numeric_features], y_train, cv<span style="color: #666666">=10</span>, scoring<span style="color: #666666">=</span><span style="color: #BA2121">&quot;neg_mean_squared_error&quot;</span>)
 <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Cross validation scores:</span><span style="color: #BB6622; font-weight: bold">\n\t</span><span style="color: #BA2121">&quot;</span>, <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n\t</span><span style="color: #BA2121">&quot;</span><span style="color: #666666">.</span>join(<span style="color: #BA2121">&quot;</span><span style="color: #BB6688; font-weight: bold">%.4f</span><span style="color: #BA2121">&quot;</span> <span style="color: #666666">%</span> x <span style="color: #008000; font-weight: bold">for</span> x <span style="color: #AA22FF; font-weight: bold">in</span> cv_scores))
@@ -542,7 +541,7 @@ RMSE &#1074; &#1095;&#1080;&#1089;&#1090;&#1086;&#1084; &#1074;&#1080;&#1076;&#1
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.metrics</span> <span style="color: #008000; font-weight: bold">import</span> make_scorer
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.metrics</span> <span style="color: #008000; font-weight: bold">import</span> make_scorer
 
 <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">rmse</span>(y_true, y_pred):
     error <span style="color: #666666">=</span> (y_true <span style="color: #666666">-</span> y_pred) <span style="color: #666666">**</span> <span style="color: #666666">2</span>
@@ -556,7 +555,7 @@ rmse_scorer <span style="color: #666666">=</span> make_scorer(
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.linear_model</span> <span style="color: #008000; font-weight: bold">import</span> Ridge
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.linear_model</span> <span style="color: #008000; font-weight: bold">import</span> Ridge
 
 model <span style="color: #666666">=</span> Ridge()
 model<span style="color: #666666">.</span>fit(X_train[numeric_features], y_train)
@@ -569,7 +568,7 @@ y_train_pred <span style="color: #666666">=</span> model<span style="color: #666
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.model_selection</span> <span style="color: #008000; font-weight: bold">import</span> cross_val_score
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.model_selection</span> <span style="color: #008000; font-weight: bold">import</span> cross_val_score
 
 cv_scores <span style="color: #666666">=</span> cross_val_score(model, X_train[numeric_features], y_train, cv<span style="color: #666666">=10</span>, scoring<span style="color: #666666">=</span>rmse_scorer)
 <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Cross validation scores:</span><span style="color: #BB6622; font-weight: bold">\n\t</span><span style="color: #BA2121">&quot;</span>, <span style="color: #BA2121">&quot;</span><span style="color: #BB6622; font-weight: bold">\n\t</span><span style="color: #BA2121">&quot;</span><span style="color: #666666">.</span>join(<span style="color: #BA2121">&quot;</span><span style="color: #BB6688; font-weight: bold">%.4f</span><span style="color: #BA2121">&quot;</span> <span style="color: #666666">%</span> x <span style="color: #008000; font-weight: bold">for</span> x <span style="color: #AA22FF; font-weight: bold">in</span> cv_scores))
@@ -582,7 +581,7 @@ cv_scores <span style="color: #666666">=</span> cross_val_score(model, X_train[n
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>best_constant <span style="color: #666666">=</span> y_train<span style="color: #666666">.</span>mean()
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>best_constant <span style="color: #666666">=</span> y_train<span style="color: #666666">.</span>mean()
 <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Test RMSE with best constant = </span><span style="color: #BB6688; font-weight: bold">%.4f</span><span style="color: #BA2121">&quot;</span> <span style="color: #666666">%</span> rmse(y_test, best_constant))
 <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Train RMSE with best constant = </span><span style="color: #BB6688; font-weight: bold">%.4f</span><span style="color: #BA2121">&quot;</span> <span style="color: #666666">%</span> rmse(y_train, best_constant))
 </pre></div>
@@ -594,7 +593,7 @@ cv_scores <span style="color: #666666">=</span> cross_val_score(model, X_train[n
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">show_weights</span>(features, weights, scales):
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">show_weights</span>(features, weights, scales):
     fig, axs <span style="color: #666666">=</span> plt<span style="color: #666666">.</span>subplots(figsize<span style="color: #666666">=</span>(<span style="color: #666666">14</span>, <span style="color: #666666">10</span>), ncols<span style="color: #666666">=2</span>)
     sorted_weights <span style="color: #666666">=</span> <span style="color: #008000">sorted</span>(<span style="color: #008000">zip</span>(weights, features, scales), reverse<span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">True</span>)
     weights <span style="color: #666666">=</span> [x[<span style="color: #666666">0</span>] <span style="color: #008000; font-weight: bold">for</span> x <span style="color: #AA22FF; font-weight: bold">in</span> sorted_weights]
@@ -609,7 +608,7 @@ cv_scores <span style="color: #666666">=</span> cross_val_score(model, X_train[n
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>show_weights(numeric_features, model<span style="color: #666666">.</span>coef_, X_train[numeric_features]<span style="color: #666666">.</span>std())
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>show_weights(numeric_features, model<span style="color: #666666">.</span>coef_, X_train[numeric_features]<span style="color: #666666">.</span>std())
 </pre></div>
 <p>
 &#1041;&#1091;&#1076;&#1077;&#1084; &#1084;&#1072;&#1089;&#1096;&#1090;&#1072;&#1073;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1085;&#1072;&#1096;&#1080; &#1087;&#1088;&#1080;&#1079;&#1085;&#1072;&#1082;&#1080; &#1087;&#1077;&#1088;&#1077;&#1076; &#1086;&#1073;&#1091;&#1095;&#1077;&#1085;&#1080;&#1077;&#1084; &#1084;&#1086;&#1076;&#1077;&#1083;&#1080;. &#1069;&#1090;&#1086;, &#1089;&#1088;&#1077;&#1076;&#1080;,
@@ -629,7 +628,7 @@ cv_scores <span style="color: #666666">=</span> cross_val_score(model, X_train[n
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.preprocessing</span> <span style="color: #008000; font-weight: bold">import</span> StandardScaler
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.preprocessing</span> <span style="color: #008000; font-weight: bold">import</span> StandardScaler
 
 scaler <span style="color: #666666">=</span> StandardScaler()
 X_train_scaled <span style="color: #666666">=</span> scaler<span style="color: #666666">.</span>fit_transform(X_train[numeric_features])
@@ -646,7 +645,7 @@ y_train_pred <span style="color: #666666">=</span> model<span style="color: #666
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>scales <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>Series(data<span style="color: #666666">=</span>X_train_scaled<span style="color: #666666">.</span>std(axis<span style="color: #666666">=0</span>), index<span style="color: #666666">=</span>numeric_features)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>scales <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>Series(data<span style="color: #666666">=</span>X_train_scaled<span style="color: #666666">.</span>std(axis<span style="color: #666666">=0</span>), index<span style="color: #666666">=</span>numeric_features)
 show_weights(numeric_features, model<span style="color: #666666">.</span>coef_, scales)
 </pre></div>
 <p>
@@ -661,7 +660,7 @@ show_weights(numeric_features, model<span style="color: #666666">.</span>coef_, 
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.model_selection</span> <span style="color: #008000; font-weight: bold">import</span> GridSearchCV
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.model_selection</span> <span style="color: #008000; font-weight: bold">import</span> GridSearchCV
 
 alphas <span style="color: #666666">=</span> np<span style="color: #666666">.</span>logspace(<span style="color: #666666">-2</span>, <span style="color: #666666">3</span>, <span style="color: #666666">20</span>)
 searcher <span style="color: #666666">=</span> GridSearchCV(Ridge(), [{<span style="color: #BA2121">&quot;alpha&quot;</span>: alphas}], scoring<span style="color: #666666">=</span>rmse_scorer, cv<span style="color: #666666">=10</span>)
@@ -691,7 +690,7 @@ plt<span style="color: #666666">.</span>ylabel(<span style="color: #BA2121">&quo
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.pipeline</span> <span style="color: #008000; font-weight: bold">import</span> Pipeline
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.pipeline</span> <span style="color: #008000; font-weight: bold">import</span> Pipeline
 
 simple_pipeline <span style="color: #666666">=</span> Pipeline([
     (<span style="color: #BA2121">&#39;scaling&#39;</span>, StandardScaler()),
@@ -717,14 +716,14 @@ y_pred <span style="color: #666666">=</span> model<span style="color: #666666">.
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>categorical <span style="color: #666666">=</span> <span style="color: #008000">list</span>(X_train<span style="color: #666666">.</span>dtypes[X_train<span style="color: #666666">.</span>dtypes <span style="color: #666666">==</span> <span style="color: #BA2121">&quot;object&quot;</span>]<span style="color: #666666">.</span>index)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>categorical <span style="color: #666666">=</span> <span style="color: #008000">list</span>(X_train<span style="color: #666666">.</span>dtypes[X_train<span style="color: #666666">.</span>dtypes <span style="color: #666666">==</span> <span style="color: #BA2121">&quot;object&quot;</span>]<span style="color: #666666">.</span>index)
 X_train[categorical] <span style="color: #666666">=</span> X_train[categorical]<span style="color: #666666">.</span>fillna(<span style="color: #BA2121">&quot;NotGiven&quot;</span>)
 X_test[categorical] <span style="color: #666666">=</span> X_test[categorical]<span style="color: #666666">.</span>fillna(<span style="color: #BA2121">&quot;NotGiven&quot;</span>)
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>X_train[categorical]<span style="color: #666666">.</span>sample(<span style="color: #666666">5</span>)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>X_train[categorical]<span style="color: #666666">.</span>sample(<span style="color: #666666">5</span>)
 </pre></div>
 <p>
 &#1057;&#1077;&#1081;&#1095;&#1072;&#1089; &#1085;&#1072;&#1084; &#1085;&#1091;&#1078;&#1085;&#1086; &#1082;&#1072;&#1082;-&#1090;&#1086; &#1079;&#1072;&#1082;&#1086;&#1076;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1101;&#1090;&#1080; &#1082;&#1072;&#1090;&#1077;&#1075;&#1086;&#1088;&#1080;&#1072;&#1083;&#1100;&#1085;&#1099;&#1077; &#1087;&#1088;&#1080;&#1079;&#1085;&#1072;&#1082;&#1080;
@@ -740,7 +739,7 @@ X_test[categorical] <span style="color: #666666">=</span> X_test[categorical]<sp
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.preprocessing</span> <span style="color: #008000; font-weight: bold">import</span> OneHotEncoder
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.preprocessing</span> <span style="color: #008000; font-weight: bold">import</span> OneHotEncoder
 <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.compose</span> <span style="color: #008000; font-weight: bold">import</span> ColumnTransformer
 
 column_transformer <span style="color: #666666">=</span> ColumnTransformer([
@@ -762,7 +761,7 @@ y_pred <span style="color: #666666">=</span> model<span style="color: #666666">.
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Size before OneHot:&quot;</span>, X_train<span style="color: #666666">.</span>shape)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Size before OneHot:&quot;</span>, X_train<span style="color: #666666">.</span>shape)
 <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Size after OneHot:&quot;</span>, column_transformer<span style="color: #666666">.</span>transform(X_train)<span style="color: #666666">.</span>shape)
 </pre></div>
 <p>
@@ -778,7 +777,7 @@ y_pred <span style="color: #666666">=</span> model<span style="color: #666666">.
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.linear_model</span> <span style="color: #008000; font-weight: bold">import</span> Lasso
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">sklearn.linear_model</span> <span style="color: #008000; font-weight: bold">import</span> Lasso
 
 column_transformer <span style="color: #666666">=</span> ColumnTransformer([
     (<span style="color: #BA2121">&#39;ohe&#39;</span>, OneHotEncoder(handle_unknown<span style="color: #666666">=</span><span style="color: #BA2121">&quot;ignore&quot;</span>), categorical),
@@ -797,7 +796,7 @@ y_pred <span style="color: #666666">=</span> model<span style="color: #666666">.
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>ridge_zeros <span style="color: #666666">=</span> np<span style="color: #666666">.</span>sum(pipeline<span style="color: #666666">.</span>steps[<span style="color: #666666">-1</span>][<span style="color: #666666">-1</span>]<span style="color: #666666">.</span>coef_ <span style="color: #666666">==</span> <span style="color: #666666">0</span>)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>ridge_zeros <span style="color: #666666">=</span> np<span style="color: #666666">.</span>sum(pipeline<span style="color: #666666">.</span>steps[<span style="color: #666666">-1</span>][<span style="color: #666666">-1</span>]<span style="color: #666666">.</span>coef_ <span style="color: #666666">==</span> <span style="color: #666666">0</span>)
 lasso_zeros <span style="color: #666666">=</span> np<span style="color: #666666">.</span>sum(lasso_pipeline<span style="color: #666666">.</span>steps[<span style="color: #666666">-1</span>][<span style="color: #666666">-1</span>]<span style="color: #666666">.</span>coef_ <span style="color: #666666">==</span> <span style="color: #666666">0</span>)
 <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Zero weights in Ridge:&quot;</span>, ridge_zeros)
 <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Zero weights in Lasso:&quot;</span>, lasso_zeros)
@@ -810,7 +809,7 @@ lasso_zeros <span style="color: #666666">=</span> np<span style="color: #666666"
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>alphas <span style="color: #666666">=</span> np<span style="color: #666666">.</span>logspace(<span style="color: #666666">-2</span>, <span style="color: #666666">4</span>, <span style="color: #666666">20</span>)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>alphas <span style="color: #666666">=</span> np<span style="color: #666666">.</span>logspace(<span style="color: #666666">-2</span>, <span style="color: #666666">4</span>, <span style="color: #666666">20</span>)
 searcher <span style="color: #666666">=</span> GridSearchCV(lasso_pipeline, [{<span style="color: #BA2121">&quot;regression__alpha&quot;</span>: alphas}], scoring<span style="color: #666666">=</span>rmse_scorer, cv<span style="color: #666666">=10</span>)
 searcher<span style="color: #666666">.</span>fit(X_train, y_train)
 
@@ -825,7 +824,7 @@ plt<span style="color: #666666">.</span>ylabel(<span style="color: #BA2121">&quo
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>column_transformer <span style="color: #666666">=</span> ColumnTransformer([
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>column_transformer <span style="color: #666666">=</span> ColumnTransformer([
     (<span style="color: #BA2121">&#39;ohe&#39;</span>, OneHotEncoder(handle_unknown<span style="color: #666666">=</span><span style="color: #BA2121">&quot;ignore&quot;</span>), categorical),
     (<span style="color: #BA2121">&#39;scaling&#39;</span>, StandardScaler(), numeric_features)
 ])
@@ -842,7 +841,7 @@ y_pred <span style="color: #666666">=</span> model<span style="color: #666666">.
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>lasso_zeros <span style="color: #666666">=</span> np<span style="color: #666666">.</span>sum(pipeline<span style="color: #666666">.</span>steps[<span style="color: #666666">-1</span>][<span style="color: #666666">-1</span>]<span style="color: #666666">.</span>coef_ <span style="color: #666666">==</span> <span style="color: #666666">0</span>)
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>lasso_zeros <span style="color: #666666">=</span> np<span style="color: #666666">.</span>sum(pipeline<span style="color: #666666">.</span>steps[<span style="color: #666666">-1</span>][<span style="color: #666666">-1</span>]<span style="color: #666666">.</span>coef_ <span style="color: #666666">==</span> <span style="color: #666666">0</span>)
 <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Zero weights in Lasso:&quot;</span>, lasso_zeros)
 </pre></div>
 <p>
@@ -851,7 +850,7 @@ y_pred <span style="color: #666666">=</span> model<span style="color: #666666">.
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>error <span style="color: #666666">=</span> (y_train <span style="color: #666666">-</span> model<span style="color: #666666">.</span>predict(X_train)) <span style="color: #666666">**</span> <span style="color: #666666">2</span>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>error <span style="color: #666666">=</span> (y_train <span style="color: #666666">-</span> model<span style="color: #666666">.</span>predict(X_train)) <span style="color: #666666">**</span> <span style="color: #666666">2</span>
 sns<span style="color: #666666">.</span>distplot(error)
 </pre></div>
 <p>
@@ -862,12 +861,12 @@ sns<span style="color: #666666">.</span>distplot(error)
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>mask <span style="color: #666666">=</span> (error <span style="color: #666666">&lt;</span> np<span style="color: #666666">.</span>quantile(error, <span style="color: #666666">0.95</span>))
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>mask <span style="color: #666666">=</span> (error <span style="color: #666666">&lt;</span> np<span style="color: #666666">.</span>quantile(error, <span style="color: #666666">0.95</span>))
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>column_transformer <span style="color: #666666">=</span> ColumnTransformer([
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>column_transformer <span style="color: #666666">=</span> ColumnTransformer([
     (<span style="color: #BA2121">&#39;ohe&#39;</span>, OneHotEncoder(handle_unknown<span style="color: #666666">=</span><span style="color: #BA2121">&quot;ignore&quot;</span>), categorical),
     (<span style="color: #BA2121">&#39;scaling&#39;</span>, StandardScaler(), numeric_features)
 ])
@@ -884,13 +883,13 @@ y_pred <span style="color: #666666">=</span> model<span style="color: #666666">.
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>X_train <span style="color: #666666">=</span> X_train[mask]
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>X_train <span style="color: #666666">=</span> X_train[mask]
 y_train <span style="color: #666666">=</span> y_train[mask]
 </pre></div>
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "default" -->
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>error <span style="color: #666666">=</span> (y_train <span style="color: #666666">-</span> model<span style="color: #666666">.</span>predict(X_train)) <span style="color: #666666">**</span> <span style="color: #666666">2</span>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>error <span style="color: #666666">=</span> (y_train <span style="color: #666666">-</span> model<span style="color: #666666">.</span>predict(X_train)) <span style="color: #666666">**</span> <span style="color: #666666">2</span>
 sns<span style="color: #666666">.</span>distplot(error)
 </pre></div>
 <p>
